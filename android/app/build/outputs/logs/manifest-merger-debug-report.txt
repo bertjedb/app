@@ -1,374 +1,376 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-MERGED from [:react-native-keep-awake] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-keep-awake/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-orientation] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-orientation/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-linear-gradient] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-linear-gradient/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-vector-icons] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-47:12
-MERGED from [:react-native-video] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-video/android-exoplayer/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-28:12
-MERGED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-23:12
-MERGED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-18:12
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:2:1-15:12
-MERGED from [com.github.yalantis:ucrop:2.2.2-native] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/ucrop-2.2.2-native.aar/8557e71cc483c9f237f16a903a8c3ec6/AndroidManifest.xml:2:1-11:12
-MERGED from [com.android.support:appcompat-v7:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/8c621e3212dd49078ef4c78c916cdefd/AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.android.exoplayer:exoplayer:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-2.7.3.aar/b8e518e3d61a0b2b7cf679cd2450374f/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.exoplayer:extension-okhttp:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/extension-okhttp-2.7.3.aar/b749e5359eed860b38889ca8bcb9057d/AndroidManifest.xml:17:1-24:12
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-okhttp3-1.10.0.aar/c696bdd388ec931718f39a2108d7244a/AndroidManifest.xml:2:1-9:12
-MERGED from [id.zelory:compressor:2.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/compressor-2.1.0.aar/ff721b19f40d1b57a398ee481dbc9d3e/AndroidManifest.xml:2:1-12:12
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f64e33f57efce3e643612d4bdb2cc77f/AndroidManifest.xml:2:1-9:12
-MERGED from [com.android.support:exifinterface:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exifinterface-27.1.1.aar/b8718f83e79374c58608d681484966c6/AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.android.exoplayer:exoplayer-dash:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-dash-2.7.3.aar/316770b53551b7411fb63f1039481acd/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.exoplayer:exoplayer-hls:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-hls-2.7.3.aar/311d782839e4affa38f90dd18eaaf684/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-smoothstreaming-2.7.3.aar/d948cdbecfe8d2f7e8ecadd9f1c56755/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.exoplayer:exoplayer-ui:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-2.7.3.aar/df156205cf5c980d6d468499449acbdf/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.exoplayer:exoplayer-core:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-core-2.7.3.aar/e4ff40215ff996eb80b91719586e2d98/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/1fca16a90da30c0487e6a4e350e6dbb0/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:17:1-29:12
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/6716824cb0c438c161421da80f754379/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:17:1-28:12
-MERGED from [com.android.support:support-v4:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/15795284fb429f89c2908a9bdebf6017/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/df56d447fd6df7f46cd5bff75bbbf76c/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/af6a6e342a5d7a999a3cd1e18a67661d/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/73d672825c9e52bb54ef602ab29c4283/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/d7554fb6de83fc2c893cc788d25bd101/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/1999f7c35f7caae3039fce526a82b95b/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/29e200c8942366b34cd025d5d5012e94/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/b0bbe3014cecf4df8002a0a0c2e994a1/AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.fresco:fresco:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/fresco-1.10.0.aar/a5454c5939ce6303421514185246f502/AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:drawee:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/drawee-1.10.0.aar/163a6b2aa04a97257bfd2354cf7350d0/AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:imagepipeline:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-1.10.0.aar/d3844758947a1a492dcb062d9a3cf7b3/AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:imagepipeline-base:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-base-1.10.0.aar/ee4c2fa747e3f1fc5ba6cdacd1d77016/AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.soloader:soloader:0.5.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/soloader-0.5.1.aar/3f0842ff7f2eacc45c7a0dbd67203dd2/AndroidManifest.xml:2:1-13:12
-MERGED from [org.webkit:android-jsc:r174650] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/f22d17f973aab6c4fb5b2d8ffb5a4bf9/AndroidManifest.xml:1:1-3:12
-MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-license-12.0.1.aar/2e8b953ada1042d94b703a902c09406e/AndroidManifest.xml:17:1-24:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/a00f2f8e48ba52e722c0bf97b3231151/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/a09ab0c139e73bcebd0035e4bb8af7f4/AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.fresco:fbcore:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/fbcore-1.10.0.aar/9757e25a2d63a077dc1e3918c76ffa31/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/b05fd52fbabe7688f23092a085bd50c1/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/3ae43babd0067b045dfe740d6c8eb468/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-license-12.0.1.aar/5db12852ba31748d63c310965dcb6165/AndroidManifest.xml:17:1-24:12
-MERGED from [android.arch.lifecycle:runtime:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/e006fbe8460b33cd0684b8ae12f324ae/AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-12.0.1.aar/a86b330607c8ca71a75543b81d443ed7/AndroidManifest.xml:17:1-24:12
-MERGED from [android.arch.core:runtime:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/0aee2c3782f811498ef9c14b866d5736/AndroidManifest.xml:17:1-22:12
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+MERGED from [:react-native-keep-awake] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-keep-awake\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-orientation] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-orientation\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-linear-gradient] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-linear-gradient\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-vector-icons] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-vector-icons\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-47:12
+MERGED from [:react-native-video] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-video\android-exoplayer\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-28:12
+MERGED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-23:12
+MERGED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-18:12
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:2:1-15:12
+MERGED from [com.github.yalantis:ucrop:2.2.2-native] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\ucrop-2.2.2-native.aar\c61ae00e8507f1a933f4581fcf99480b\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\f72d54cfcdc571d4d5790479170c7d34\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.exoplayer:exoplayer:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-2.7.3.aar\d79a4407f3cfb5c90d5d4f3e80c2471d\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:extension-okhttp:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\extension-okhttp-2.7.3.aar\eaeb8696e66f6467a3cee6cc506ab9d6\AndroidManifest.xml:17:1-24:12
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-okhttp3-1.10.0.aar\d58b1f5056a9ffec1d9b894836a55d33\AndroidManifest.xml:2:1-9:12
+MERGED from [id.zelory:compressor:2.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\compressor-2.1.0.aar\b981f2f9a4adc619268c219e2584e827\AndroidManifest.xml:2:1-12:12
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-12.0.1.aar\0fbb9c585cde73c08fa1c2ae15340cc7\AndroidManifest.xml:2:1-9:12
+MERGED from [com.android.support:exifinterface:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exifinterface-27.1.1.aar\125772f851f01e663fc168dc098899d2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.exoplayer:exoplayer-dash:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-dash-2.7.3.aar\2a86e0085dd8c1fff355ef0a80489735\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-hls:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-hls-2.7.3.aar\ae78f25c897b2c37a871eb22face5b0e\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-smoothstreaming-2.7.3.aar\d06e3ed07c225a3c5bcf94168f68e579\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-ui-2.7.3.aar\2719f090415e3080e2c5e239afa51118\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-core-2.7.3.aar\0797dd8496557538d98bc2365fe5364d\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-12.0.1.aar\ded79c247fec498c68ff30aed31cc128\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-12.0.1.aar\6053a47f10c30e30e2bc68e83484685d\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\babf63bd073353cf532801ce4b2a58a1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\9b809b66128f8749e06c6583de306b07\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\30113f15c8277e9e099a048465c4f569\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\6fd554c2c3ab8ed4c7bc71c39db664e8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\c4c698e7d2226825b1409f3bab76ad03\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\8a2081934cc433daf131cae5b9d63f9b\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\645d74e22badfc2cdfc25a1655f8305c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\77e619963ed79aa3ad8e14999d777ac1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.fresco:fresco:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\fresco-1.10.0.aar\c527c2f2fcf177e7ac8721f50d0272f3\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:drawee:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\drawee-1.10.0.aar\d6752e719d4c756caeb2fc1dd16b6fb5\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-1.10.0.aar\6bb098b58eca695cec8d57cfd6a4b084\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline-base:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-base-1.10.0.aar\b643523f15fe22c404a2536e976748b9\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.soloader:soloader:0.5.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\soloader-0.5.1.aar\6e1a9cb8ccfa6b390a2c3a0c03acf5ac\AndroidManifest.xml:2:1-13:12
+MERGED from [org.webkit:android-jsc:r174650] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\android-jsc-r174650.aar\69d329a3116ac3760caed88663b146f2\AndroidManifest.xml:1:1-3:12
+MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-license-12.0.1.aar\9d4d68f01a0071fe7ca4b5bcdf4afdac\AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\a7f9dafbfb12905677bac435774203a2\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\21842d0d13bab38b2195a73dc898bfcc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.fresco:fbcore:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\fbcore-1.10.0.aar\a9247c6b072cde1ed02d4ff71deeca8a\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-license-12.0.1.aar\6bb0dda69ac3eaaf66cdc5cf9091b7dc\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-12.0.1.aar\75ea6d54dac4e97b7f6e68b51692be6e\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-license-12.0.1.aar\d5f95daa661bc2028bfdff6640af270c\AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\a8f5da708b897a0ba85778ebc533e040\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-12.0.1.aar\9d948a33b78191becacf0d4a87119f32\AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9ca047e3daa39570b088c7c2c15fa8ec\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
 	package
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:2:5-31
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:2:5-31
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:11-69
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:4:5-67
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:15:5-67
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:15:5-67
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:4:5-67
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:15:5-67
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:15:5-67
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:4:22-64
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:4:22-64
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:5:5-77
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:11:5-78
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:11:5-78
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:5:5-77
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:11:5-78
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:11:5-78
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:5:22-75
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:5:22-75
 uses-permission#android.permission.CAMERA
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:7:5-65
-MERGED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:9:5-65
-MERGED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:9:5-65
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:7:5-65
+MERGED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:9:5-65
+MERGED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:9:5-65
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:7:22-62
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:7:22-62
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:8:5-70
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:8:5-70
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:8:22-68
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:8:22-68
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:9:5-80
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:9:5-80
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:9:22-77
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:9:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:10:5-81
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:33:5-81
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:33:5-81
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:10:5-81
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:10:5-81
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:10:5-81
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:33:5-81
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:33:5-81
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:10:5-81
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:10:5-81
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:10:22-78
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:10:22-78
 uses-permission#android.permission.VIBRATE
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:12:5-65
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:12:5-65
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:12:22-63
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:12:22-63
 application
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:16:5-33:19
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:35:5-45:19
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:35:5-45:19
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:5-26:19
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:5-26:19
-MERGED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-21:19
-MERGED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-21:19
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:13:5-20
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:13:5-20
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f64e33f57efce3e643612d4bdb2cc77f/AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f64e33f57efce3e643612d4bdb2cc77f/AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/1fca16a90da30c0487e6a4e350e6dbb0/AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/1fca16a90da30c0487e6a4e350e6dbb0/AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/6716824cb0c438c161421da80f754379/AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/6716824cb0c438c161421da80f754379/AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:22:5-26:19
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:22:5-26:19
-MERGED from [com.facebook.soloader:soloader:0.5.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/soloader-0.5.1.aar/3f0842ff7f2eacc45c7a0dbd67203dd2/AndroidManifest.xml:11:5-20
-MERGED from [com.facebook.soloader:soloader:0.5.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/soloader-0.5.1.aar/3f0842ff7f2eacc45c7a0dbd67203dd2/AndroidManifest.xml:11:5-20
-MERGED from [org.webkit:android-jsc:r174650] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/f22d17f973aab6c4fb5b2d8ffb5a4bf9/AndroidManifest.xml:2:3-17
-MERGED from [org.webkit:android-jsc:r174650] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/f22d17f973aab6c4fb5b2d8ffb5a4bf9/AndroidManifest.xml:2:3-17
-MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-license-12.0.1.aar/2e8b953ada1042d94b703a902c09406e/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-license-12.0.1.aar/2e8b953ada1042d94b703a902c09406e/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/b05fd52fbabe7688f23092a085bd50c1/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/b05fd52fbabe7688f23092a085bd50c1/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/3ae43babd0067b045dfe740d6c8eb468/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/3ae43babd0067b045dfe740d6c8eb468/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-license-12.0.1.aar/5db12852ba31748d63c310965dcb6165/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-license-12.0.1.aar/5db12852ba31748d63c310965dcb6165/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-12.0.1.aar/a86b330607c8ca71a75543b81d443ed7/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-12.0.1.aar/a86b330607c8ca71a75543b81d443ed7/AndroidManifest.xml:22:5-20
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:16:5-34:19
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:35:5-45:19
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:35:5-45:19
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:5-26:19
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:5-26:19
+MERGED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-21:19
+MERGED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-21:19
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:13:5-20
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:13:5-20
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-12.0.1.aar\0fbb9c585cde73c08fa1c2ae15340cc7\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-12.0.1.aar\0fbb9c585cde73c08fa1c2ae15340cc7\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-12.0.1.aar\ded79c247fec498c68ff30aed31cc128\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-12.0.1.aar\ded79c247fec498c68ff30aed31cc128\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-12.0.1.aar\6053a47f10c30e30e2bc68e83484685d\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-12.0.1.aar\6053a47f10c30e30e2bc68e83484685d\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:22:5-26:19
+MERGED from [com.facebook.soloader:soloader:0.5.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\soloader-0.5.1.aar\6e1a9cb8ccfa6b390a2c3a0c03acf5ac\AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.soloader:soloader:0.5.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\soloader-0.5.1.aar\6e1a9cb8ccfa6b390a2c3a0c03acf5ac\AndroidManifest.xml:11:5-20
+MERGED from [org.webkit:android-jsc:r174650] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\android-jsc-r174650.aar\69d329a3116ac3760caed88663b146f2\AndroidManifest.xml:2:3-17
+MERGED from [org.webkit:android-jsc:r174650] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\android-jsc-r174650.aar\69d329a3116ac3760caed88663b146f2\AndroidManifest.xml:2:3-17
+MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-license-12.0.1.aar\9d4d68f01a0071fe7ca4b5bcdf4afdac\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-license-12.0.1.aar\9d4d68f01a0071fe7ca4b5bcdf4afdac\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-license-12.0.1.aar\6bb0dda69ac3eaaf66cdc5cf9091b7dc\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-license-12.0.1.aar\6bb0dda69ac3eaaf66cdc5cf9091b7dc\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-12.0.1.aar\75ea6d54dac4e97b7f6e68b51692be6e\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-12.0.1.aar\75ea6d54dac4e97b7f6e68b51692be6e\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-license-12.0.1.aar\d5f95daa661bc2028bfdff6640af270c\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-license-12.0.1.aar\d5f95daa661bc2028bfdff6640af270c\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-12.0.1.aar\9d948a33b78191becacf0d4a87119f32\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-12.0.1.aar\9d948a33b78191becacf0d4a87119f32\AndroidManifest.xml:22:5-20
 	android:label
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:18:7-39
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:18:7-39
 	android:icon
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:19:7-41
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:19:7-41
 	android:allowBackup
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:20:7-34
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:20:7-34
 	android:theme
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:21:7-38
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:21:7-38
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:17:7-38
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:17:7-38
 activity#com.bslim_upload.MainActivity
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:22:7-31:18
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:22:7-32:18
+	android:screenOrientation
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:26:9-45
 	android:label
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:24:9-41
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:24:9-41
 	android:windowSoftInputMode
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:26:9-51
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:27:9-51
 	android:configChanges
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:25:9-79
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:25:9-67
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:23:9-37
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:23:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:27:9-30:25
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:28:9-31:25
 action#android.intent.action.MAIN
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:28:13-65
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:29:13-65
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:28:21-62
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:29:21-62
 category#android.intent.category.LAUNCHER
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:29:13-73
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:30:13-73
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:29:23-70
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:30:23-70
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:32:7-84
+ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:33:7-84
 	android:name
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:32:17-81
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:33:17-81
 uses-sdk
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-MERGED from [:react-native-keep-awake] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-keep-awake/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-keep-awake] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-keep-awake/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-orientation] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-orientation/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-orientation] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-orientation/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-linear-gradient] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-linear-gradient/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-linear-gradient] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-linear-gradient/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-vector-icons] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-vector-icons] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-video] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-video/android-exoplayer/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-video] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-video/android-exoplayer/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:6:5-8:41
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:6:5-8:41
-MERGED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.react:react-native:0.57.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/1a028d329cf26058de4aed2d50307de2/AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.yalantis:ucrop:2.2.2-native] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/ucrop-2.2.2-native.aar/8557e71cc483c9f237f16a903a8c3ec6/AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.yalantis:ucrop:2.2.2-native] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/ucrop-2.2.2-native.aar/8557e71cc483c9f237f16a903a8c3ec6/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/8c621e3212dd49078ef4c78c916cdefd/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/8c621e3212dd49078ef4c78c916cdefd/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.exoplayer:exoplayer:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-2.7.3.aar/b8e518e3d61a0b2b7cf679cd2450374f/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-2.7.3.aar/b8e518e3d61a0b2b7cf679cd2450374f/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:extension-okhttp:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/extension-okhttp-2.7.3.aar/b749e5359eed860b38889ca8bcb9057d/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:extension-okhttp:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/extension-okhttp-2.7.3.aar/b749e5359eed860b38889ca8bcb9057d/AndroidManifest.xml:20:5-22:41
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-okhttp3-1.10.0.aar/c696bdd388ec931718f39a2108d7244a/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-okhttp3-1.10.0.aar/c696bdd388ec931718f39a2108d7244a/AndroidManifest.xml:5:5-7:41
-MERGED from [id.zelory:compressor:2.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/compressor-2.1.0.aar/ff721b19f40d1b57a398ee481dbc9d3e/AndroidManifest.xml:8:5-10:41
-MERGED from [id.zelory:compressor:2.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/compressor-2.1.0.aar/ff721b19f40d1b57a398ee481dbc9d3e/AndroidManifest.xml:8:5-10:41
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f64e33f57efce3e643612d4bdb2cc77f/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f64e33f57efce3e643612d4bdb2cc77f/AndroidManifest.xml:5:5-44
-MERGED from [com.android.support:exifinterface:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exifinterface-27.1.1.aar/b8718f83e79374c58608d681484966c6/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:exifinterface:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exifinterface-27.1.1.aar/b8718f83e79374c58608d681484966c6/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.exoplayer:exoplayer-dash:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-dash-2.7.3.aar/316770b53551b7411fb63f1039481acd/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-dash:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-dash-2.7.3.aar/316770b53551b7411fb63f1039481acd/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-hls:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-hls-2.7.3.aar/311d782839e4affa38f90dd18eaaf684/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-hls:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-hls-2.7.3.aar/311d782839e4affa38f90dd18eaaf684/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-smoothstreaming-2.7.3.aar/d948cdbecfe8d2f7e8ecadd9f1c56755/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-smoothstreaming-2.7.3.aar/d948cdbecfe8d2f7e8ecadd9f1c56755/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-ui:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-2.7.3.aar/df156205cf5c980d6d468499449acbdf/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-ui:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-2.7.3.aar/df156205cf5c980d6d468499449acbdf/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-core:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-core-2.7.3.aar/e4ff40215ff996eb80b91719586e2d98/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.exoplayer:exoplayer-core:2.7.3] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-core-2.7.3.aar/e4ff40215ff996eb80b91719586e2d98/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/1fca16a90da30c0487e6a4e350e6dbb0/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/1fca16a90da30c0487e6a4e350e6dbb0/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/6716824cb0c438c161421da80f754379/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/6716824cb0c438c161421da80f754379/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/15795284fb429f89c2908a9bdebf6017/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/15795284fb429f89c2908a9bdebf6017/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/df56d447fd6df7f46cd5bff75bbbf76c/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/df56d447fd6df7f46cd5bff75bbbf76c/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/af6a6e342a5d7a999a3cd1e18a67661d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/af6a6e342a5d7a999a3cd1e18a67661d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/73d672825c9e52bb54ef602ab29c4283/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/73d672825c9e52bb54ef602ab29c4283/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/d7554fb6de83fc2c893cc788d25bd101/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/d7554fb6de83fc2c893cc788d25bd101/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/1999f7c35f7caae3039fce526a82b95b/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/1999f7c35f7caae3039fce526a82b95b/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/29e200c8942366b34cd025d5d5012e94/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/29e200c8942366b34cd025d5d5012e94/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/b0bbe3014cecf4df8002a0a0c2e994a1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:27.1.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/b0bbe3014cecf4df8002a0a0c2e994a1/AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.fresco:fresco:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/fresco-1.10.0.aar/a5454c5939ce6303421514185246f502/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:fresco:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/fresco-1.10.0.aar/a5454c5939ce6303421514185246f502/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:drawee:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/drawee-1.10.0.aar/163a6b2aa04a97257bfd2354cf7350d0/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:drawee:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/drawee-1.10.0.aar/163a6b2aa04a97257bfd2354cf7350d0/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-1.10.0.aar/d3844758947a1a492dcb062d9a3cf7b3/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-1.10.0.aar/d3844758947a1a492dcb062d9a3cf7b3/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-base:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-base-1.10.0.aar/ee4c2fa747e3f1fc5ba6cdacd1d77016/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-base:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/imagepipeline-base-1.10.0.aar/ee4c2fa747e3f1fc5ba6cdacd1d77016/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.soloader:soloader:0.5.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/soloader-0.5.1.aar/3f0842ff7f2eacc45c7a0dbd67203dd2/AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.soloader:soloader:0.5.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/soloader-0.5.1.aar/3f0842ff7f2eacc45c7a0dbd67203dd2/AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-license-12.0.1.aar/2e8b953ada1042d94b703a902c09406e/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-license-12.0.1.aar/2e8b953ada1042d94b703a902c09406e/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/a00f2f8e48ba52e722c0bf97b3231151/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/a00f2f8e48ba52e722c0bf97b3231151/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/a09ab0c139e73bcebd0035e4bb8af7f4/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/a09ab0c139e73bcebd0035e4bb8af7f4/AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.fresco:fbcore:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/fbcore-1.10.0.aar/9757e25a2d63a077dc1e3918c76ffa31/AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:fbcore:1.10.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/fbcore-1.10.0.aar/9757e25a2d63a077dc1e3918c76ffa31/AndroidManifest.xml:5:5-7:41
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/b05fd52fbabe7688f23092a085bd50c1/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/b05fd52fbabe7688f23092a085bd50c1/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/3ae43babd0067b045dfe740d6c8eb468/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/3ae43babd0067b045dfe740d6c8eb468/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-license-12.0.1.aar/5db12852ba31748d63c310965dcb6165/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-license-12.0.1.aar/5db12852ba31748d63c310965dcb6165/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/e006fbe8460b33cd0684b8ae12f324ae/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/e006fbe8460b33cd0684b8ae12f324ae/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-12.0.1.aar/a86b330607c8ca71a75543b81d443ed7/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-12.0.1.aar/a86b330607c8ca71a75543b81d443ed7/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/0aee2c3782f811498ef9c14b866d5736/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.0] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/0aee2c3782f811498ef9c14b866d5736/AndroidManifest.xml:20:5-44
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+MERGED from [:react-native-keep-awake] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-keep-awake\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-keep-awake] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-keep-awake\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-orientation] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-orientation\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-orientation] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-orientation\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-linear-gradient] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-linear-gradient\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-linear-gradient] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-linear-gradient\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-vector-icons] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-vector-icons\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-vector-icons] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-vector-icons\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-video] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-video\android-exoplayer\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-video] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-video\android-exoplayer\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.57.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\react-native-0.57.0.aar\2f642555ac6d4e9f9dbc5a1baaa39511\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.yalantis:ucrop:2.2.2-native] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\ucrop-2.2.2-native.aar\c61ae00e8507f1a933f4581fcf99480b\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.yalantis:ucrop:2.2.2-native] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\ucrop-2.2.2-native.aar\c61ae00e8507f1a933f4581fcf99480b\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\f72d54cfcdc571d4d5790479170c7d34\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\f72d54cfcdc571d4d5790479170c7d34\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.exoplayer:exoplayer:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-2.7.3.aar\d79a4407f3cfb5c90d5d4f3e80c2471d\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-2.7.3.aar\d79a4407f3cfb5c90d5d4f3e80c2471d\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:extension-okhttp:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\extension-okhttp-2.7.3.aar\eaeb8696e66f6467a3cee6cc506ab9d6\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:extension-okhttp:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\extension-okhttp-2.7.3.aar\eaeb8696e66f6467a3cee6cc506ab9d6\AndroidManifest.xml:20:5-22:41
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-okhttp3-1.10.0.aar\d58b1f5056a9ffec1d9b894836a55d33\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-okhttp3-1.10.0.aar\d58b1f5056a9ffec1d9b894836a55d33\AndroidManifest.xml:5:5-7:41
+MERGED from [id.zelory:compressor:2.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\compressor-2.1.0.aar\b981f2f9a4adc619268c219e2584e827\AndroidManifest.xml:8:5-10:41
+MERGED from [id.zelory:compressor:2.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\compressor-2.1.0.aar\b981f2f9a4adc619268c219e2584e827\AndroidManifest.xml:8:5-10:41
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-12.0.1.aar\0fbb9c585cde73c08fa1c2ae15340cc7\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-12.0.1.aar\0fbb9c585cde73c08fa1c2ae15340cc7\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:exifinterface:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exifinterface-27.1.1.aar\125772f851f01e663fc168dc098899d2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exifinterface-27.1.1.aar\125772f851f01e663fc168dc098899d2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.exoplayer:exoplayer-dash:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-dash-2.7.3.aar\2a86e0085dd8c1fff355ef0a80489735\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-dash:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-dash-2.7.3.aar\2a86e0085dd8c1fff355ef0a80489735\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-hls:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-hls-2.7.3.aar\ae78f25c897b2c37a871eb22face5b0e\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-hls:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-hls-2.7.3.aar\ae78f25c897b2c37a871eb22face5b0e\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-smoothstreaming-2.7.3.aar\d06e3ed07c225a3c5bcf94168f68e579\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-smoothstreaming-2.7.3.aar\d06e3ed07c225a3c5bcf94168f68e579\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-ui-2.7.3.aar\2719f090415e3080e2c5e239afa51118\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-ui-2.7.3.aar\2719f090415e3080e2c5e239afa51118\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-core-2.7.3.aar\0797dd8496557538d98bc2365fe5364d\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.7.3] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\exoplayer-core-2.7.3.aar\0797dd8496557538d98bc2365fe5364d\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-12.0.1.aar\ded79c247fec498c68ff30aed31cc128\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-12.0.1.aar\ded79c247fec498c68ff30aed31cc128\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-12.0.1.aar\6053a47f10c30e30e2bc68e83484685d\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-12.0.1.aar\6053a47f10c30e30e2bc68e83484685d\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\babf63bd073353cf532801ce4b2a58a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\babf63bd073353cf532801ce4b2a58a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\9b809b66128f8749e06c6583de306b07\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\9b809b66128f8749e06c6583de306b07\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\30113f15c8277e9e099a048465c4f569\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\30113f15c8277e9e099a048465c4f569\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\6fd554c2c3ab8ed4c7bc71c39db664e8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\6fd554c2c3ab8ed4c7bc71c39db664e8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\c4c698e7d2226825b1409f3bab76ad03\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\c4c698e7d2226825b1409f3bab76ad03\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\8a2081934cc433daf131cae5b9d63f9b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\8a2081934cc433daf131cae5b9d63f9b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\645d74e22badfc2cdfc25a1655f8305c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\645d74e22badfc2cdfc25a1655f8305c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\77e619963ed79aa3ad8e14999d777ac1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\77e619963ed79aa3ad8e14999d777ac1\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.fresco:fresco:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\fresco-1.10.0.aar\c527c2f2fcf177e7ac8721f50d0272f3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fresco:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\fresco-1.10.0.aar\c527c2f2fcf177e7ac8721f50d0272f3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\drawee-1.10.0.aar\d6752e719d4c756caeb2fc1dd16b6fb5\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\drawee-1.10.0.aar\d6752e719d4c756caeb2fc1dd16b6fb5\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-1.10.0.aar\6bb098b58eca695cec8d57cfd6a4b084\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-1.10.0.aar\6bb098b58eca695cec8d57cfd6a4b084\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-base-1.10.0.aar\b643523f15fe22c404a2536e976748b9\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\imagepipeline-base-1.10.0.aar\b643523f15fe22c404a2536e976748b9\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.soloader:soloader:0.5.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\soloader-0.5.1.aar\6e1a9cb8ccfa6b390a2c3a0c03acf5ac\AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.soloader:soloader:0.5.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\soloader-0.5.1.aar\6e1a9cb8ccfa6b390a2c3a0c03acf5ac\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-license-12.0.1.aar\9d4d68f01a0071fe7ca4b5bcdf4afdac\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-vision-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-license-12.0.1.aar\9d4d68f01a0071fe7ca4b5bcdf4afdac\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\a7f9dafbfb12905677bac435774203a2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\a7f9dafbfb12905677bac435774203a2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\21842d0d13bab38b2195a73dc898bfcc\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\21842d0d13bab38b2195a73dc898bfcc\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.fresco:fbcore:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\fbcore-1.10.0.aar\a9247c6b072cde1ed02d4ff71deeca8a\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:1.10.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\fbcore-1.10.0.aar\a9247c6b072cde1ed02d4ff71deeca8a\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-license-12.0.1.aar\6bb0dda69ac3eaaf66cdc5cf9091b7dc\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-license-12.0.1.aar\6bb0dda69ac3eaaf66cdc5cf9091b7dc\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-12.0.1.aar\75ea6d54dac4e97b7f6e68b51692be6e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-license-12.0.1.aar\75ea6d54dac4e97b7f6e68b51692be6e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-license-12.0.1.aar\d5f95daa661bc2028bfdff6640af270c\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-vision-common-license-12.0.1.aar\d5f95daa661bc2028bfdff6640af270c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\a8f5da708b897a0ba85778ebc533e040\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\a8f5da708b897a0ba85778ebc533e040\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-12.0.1.aar\9d948a33b78191becacf0d4a87119f32\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks-license:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-tasks-license-12.0.1.aar\9d948a33b78191becacf0d4a87119f32\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9ca047e3daa39570b088c7c2c15fa8ec\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9ca047e3daa39570b088c7c2c15fa8ec\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
-		INJECTED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml
 uses-permission#com.android.vending.CHECK_LICENSE
-ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:5-73
+ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:5-73
 	android:name
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:22-70
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:22-70
 uses-permission#android.permission.WAKE_LOCK
-ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:21:5-68
+ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:21:5-68
 	android:name
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:21:22-65
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:21:22-65
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:27:5-79
+ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:27:5-79
 	android:name
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:27:22-76
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:27:22-76
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:30:5-76
+ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:30:5-76
 	android:name
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:30:22-73
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:30:22-73
 provider#android.support.v4.content.FileProvider
-ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:36:9-44:20
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:13:9-21:20
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:13:9-21:20
+ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:36:9-44:20
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:13:9-21:20
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:13:9-21:20
 	android:grantUriPermissions
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:40:13-47
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:40:13-47
 	android:authorities
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:38:13-60
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:38:13-60
 	android:exported
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:39:13-37
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:39:13-37
 	android:name
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:37:13-67
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:37:13-67
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:41:13-43:58
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:18:13-20:58
-MERGED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:18:13-20:58
+ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:41:13-43:58
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:18:13-20:58
+MERGED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:18:13-20:58
 	android:resource
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:43:17-55
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:43:17-55
 	android:name
-		ADDED from [:rn-fetch-blob] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/rn-fetch-blob/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:42:17-67
+		ADDED from [:rn-fetch-blob] C:\Users\Jelmer\Documents\School\app\node_modules\rn-fetch-blob\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:42:17-67
 activity#com.yalantis.ucrop.UCropActivity
-ADDED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:23:9-25:72
+ADDED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:23:9-25:72
 	android:theme
-		ADDED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:25:13-69
+		ADDED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:25:13-69
 	android:name
-		ADDED from [:react-native-image-crop-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-crop-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:24:13-60
+		ADDED from [:react-native-image-crop-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-crop-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:24:13-60
 provider#com.imagepicker.FileProvider
-ADDED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:9-20:20
+ADDED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:9-20:20
 	android:grantUriPermissions
-		ADDED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:16:13-47
+		ADDED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:16:13-47
 	android:authorities
-		ADDED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:14:13-60
+		ADDED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:14:13-60
 	android:exported
-		ADDED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:15:13-37
+		ADDED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:15:13-37
 	android:name
-		ADDED from [:react-native-image-picker] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-image-picker/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:13:13-56
+		ADDED from [:react-native-image-picker] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-image-picker\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:13:13-56
 uses-feature#android.hardware.camera
-ADDED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-13:36
+ADDED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-13:36
 	android:required
-		ADDED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:13:9-33
+		ADDED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:13:9-33
 	android:name
-		ADDED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:9-47
+		ADDED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:9-47
 uses-feature#android.hardware.camera.autofocus
-ADDED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:14:5-16:36
+ADDED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:14:5-16:36
 	android:required
-		ADDED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:16:9-33
+		ADDED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:16:9-33
 	android:name
-		ADDED from [:react-native-camera] /home/gaauwe/IdeaProjects/bslim_upload/node_modules/react-native-camera/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:15:9-57
+		ADDED from [:react-native-camera] C:\Users\Jelmer\Documents\School\app\node_modules\react-native-camera\android\build\intermediates\manifests\full\debug\AndroidManifest.xml:15:9-57
 activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:23:9-26:75
+ADDED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:23:9-26:75
 	android:exported
-		ADDED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:25:13-37
+		ADDED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:25:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:26:13-72
+		ADDED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:26:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-base:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/AndroidManifest.xml:24:13-79
+		ADDED from [com.google.android.gms:play-services-base:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-base-12.0.1.aar\8c183018c18301c29fe53875567d51c2\AndroidManifest.xml:24:13-79
 meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:23:9-25:69
+ADDED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:23:9-25:69
 	android:value
-		ADDED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:25:13-66
+		ADDED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:25:13-66
 	android:name
-		ADDED from [com.google.android.gms:play-services-basement:12.0.1] /home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/AndroidManifest.xml:24:13-58
+		ADDED from [com.google.android.gms:play-services-basement:12.0.1] C:\Users\Jelmer\.gradle\caches\transforms-1\files-1.1\play-services-basement-12.0.1.aar\7a41aa0441dfa35b81e5210515abab3e\AndroidManifest.xml:24:13-58
 uses-permission#android.permission.READ_PHONE_STATE
-IMPLIED from /home/gaauwe/IdeaProjects/bslim_upload/android/app/src/main/AndroidManifest.xml:1:1-35:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4
+IMPLIED from C:\Users\Jelmer\Documents\School\app\android\app\src\main\AndroidManifest.xml:1:1-36:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4

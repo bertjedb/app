@@ -25,6 +25,7 @@
     "react-native-paper": "^2.0.1",
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-qrcode-scanner": "^1.1.0",
+    "react-native-slider": "^0.11.0",
     "react-native-tabs": "^1.0.9",
     "react-native-thumbnail-video": "^0.1.1",
     "react-native-vector-icons": "^5.0.0",

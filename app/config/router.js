@@ -7,6 +7,7 @@ import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
 import Upload from '../screens/Upload';
 import DrawerContent from '../screens/Sidebar';
+import PointCard from '../screens/PointCard';
 
 export const FeedStack = StackNavigator({
   Feed: {
@@ -41,6 +42,9 @@ export const Drawer = DrawerNavigator({
   },
   ScannerQR: {
     screen: ScannerQR,
+  },
+  PointCard: {
+    screen: PointCard,
   },
 }, {
   contentComponent: DrawerContent,
