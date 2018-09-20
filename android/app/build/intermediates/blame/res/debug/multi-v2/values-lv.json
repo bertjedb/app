@@ -1,27 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "/home/gaauwe/IdeaProjects/bslim_upload/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lv/values-lv.xml",
+            "outputFile": "C:\\Users\\Jelmer\\Documents\\School\\app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lv\\values-lv.xml",
             "map": [
                 {
-                    "source": "/home/gaauwe/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-2.7.3.aar/df156205cf5c980d6d468499449acbdf/res/values-lv/values-lv.xml",
+                    "source": "C:\\Users\\Jelmer\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\77e619963ed79aa3ad8e14999d777ac1\\res\\values-lv\\values-lv.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,168,274,370,467,582,690,803,911,1015,1129",
-                        "endColumns": "112,105,95,96,114,107,112,107,103,113,94",
-                        "endOffsets": "163,269,365,462,577,685,798,906,1010,1124,1219"
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "37,38,39,40,41,42,43,44,45,46,47",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4714,4827,4933,5029,5126,5241,5349,5462,5570,5674,5788",
-                        "endColumns": "112,105,95,96,114,107,112,107,103,113,94",
-                        "endOffsets": "4822,4928,5024,5121,5236,5344,5457,5565,5669,5783,5878"
+                        "startLines": "49",
+                        "startColumns": "4",
+                        "startOffsets": "5965",
+                        "endColumns": "100",
+                        "endOffsets": "6061"
                     }
                 },
                 {
-                    "source": "/home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/d9f071ca3659546284dc7818062b7c38/res/values-lv/values.xml",
+                    "source": "C:\\Users\\Jelmer\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-12.0.1.aar\\7a41aa0441dfa35b81e5210515abab3e\\res\\values-lv\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "/home/gaauwe/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/29e32277a344ec4a49d65069a71a24f6/res/values-lv/values.xml",
+                    "source": "C:\\Users\\Jelmer\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-12.0.1.aar\\8c183018c18301c29fe53875567d51c2\\res\\values-lv\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -55,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "/home/gaauwe/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/8c621e3212dd49078ef4c78c916cdefd/res/values-lv/values-lv.xml",
+                    "source": "C:\\Users\\Jelmer\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\f72d54cfcdc571d4d5790479170c7d34\\res\\values-lv\\values-lv.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -72,20 +72,20 @@
                     }
                 },
                 {
-                    "source": "/home/gaauwe/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/b0bbe3014cecf4df8002a0a0c2e994a1/res/values-lv/values-lv.xml",
+                    "source": "C:\\Users\\Jelmer\\.gradle\\caches\\transforms-1\\files-1.1\\exoplayer-ui-2.7.3.aar\\2719f090415e3080e2c5e239afa51118\\res\\values-lv\\values-lv.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,168,274,370,467,582,690,803,911,1015,1129",
+                        "endColumns": "112,105,95,96,114,107,112,107,103,113,94",
+                        "endOffsets": "163,269,365,462,577,685,798,906,1010,1124,1219"
                     },
                     "to": {
-                        "startLines": "49",
-                        "startColumns": "4",
-                        "startOffsets": "5965",
-                        "endColumns": "100",
-                        "endOffsets": "6061"
+                        "startLines": "37,38,39,40,41,42,43,44,45,46,47",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4714,4827,4933,5029,5126,5241,5349,5462,5570,5674,5788",
+                        "endColumns": "112,105,95,96,114,107,112,107,103,113,94",
+                        "endOffsets": "4822,4928,5024,5121,5236,5344,5457,5565,5669,5783,5878"
                     }
                 }
             ]

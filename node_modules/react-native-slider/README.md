@@ -32,44 +32,48 @@ npm i --save react-native-slider
 ## Usage
 
 ```jsx
-import React from "react";
-import Slider from "react-native-slider";
-import { AppRegistry, StyleSheet, View, Text } from "react-native";
+'use strict';
 
-class SliderExample extends React.Component {
-  state = {
-    value: 0.2
-  };
+var React = require('react');
+var Slider = require('react-native-slider');
+var {
+  AppRegistry,
+  StyleSheet,
+  View,
+  Text,
+} = require('react-native');
+
+var SliderExample = React.createClass({
+  getInitialState() {
+    return {
+      value: 0.2,
+    };
+  },
 
   render() {
     return (
       <View style={styles.container}>
         <Slider
           value={this.state.value}
-          onValueChange={value => this.setState({ value })}
-        />
-        <Text>
-          Value: {this.state.value}
-        </Text>
+          onValueChange={(value) => this.setState({value})} />
+        <Text>Value: {this.state.value}</Text>
       </View>
     );
   }
-}
+});
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: 10,
     marginRight: 10,
-    alignItems: "stretch",
-    justifyContent: "center"
-  }
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
 });
 
-AppRegistry.registerComponent("SliderExample", () => SliderExample);
+AppRegistry.registerComponent('SliderExample', () => SliderExample);
 ```
-
-Try this example [live on Expo Snack](https://snack.expo.io/HkbAqpbwb).
 
 ## Props
 

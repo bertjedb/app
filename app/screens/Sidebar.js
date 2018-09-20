@@ -52,8 +52,19 @@ class DrawerContent extends Component {
           <Drawer.Section
               title="Personal"
               items={[
-                  { icon: 'info', value: 'Info' },
-                  { icon: 'power-settings-new', value: 'Settings' },
+                  { 
+                    icon: 'info',
+                    value: 'Info',
+                  },
+                  { 
+                    icon: 'power-settings-new',
+                    value: 'Settings',
+                  },
+                  {
+                    icon: 'assignment',
+                    value: 'Stempelkaart',
+                    onPress: () => this.props.navigation.navigate('PointCard'),
+                  }
               ]}
           />
         </Drawer></View>
