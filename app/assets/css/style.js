@@ -11,6 +11,9 @@ import {
 export default StyleSheet.create({
     pointCard: {
         backgroundColor: 'white',
+        height: Dimensions.get('window').height - 120,
+        width: Dimensions.get('window').width - 20,
+        alignSelf: 'center'
     },
 
     pointCardRow: {
@@ -23,9 +26,21 @@ export default StyleSheet.create({
         flexDirection: 'column',
     },
 
-    pointBlock: {
-        backgroundColor: 'blue',
-        padding: 20,
-        margin: 30,
+    stampFilled: {
+        margin: 14,
+        height: 100,
+        width: 100,
+    },
+
+    stampUnFilled: {
+        margin: 14,
+        height: 100,
+        width: 100,
+        opacity: 0.3
+    },
+
+    refreshBtn: {
+        margin: 5,
+        borderRadius: 10,
     }
 });
