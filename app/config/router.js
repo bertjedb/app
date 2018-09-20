@@ -7,6 +7,7 @@ import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
 import Upload from '../screens/Upload';
 import DrawerContent from '../screens/Sidebar';
+import LoginScreen from '../screens/LoginScreen';
 
 export const FeedStack = StackNavigator({
   Feed: {
@@ -42,6 +43,9 @@ export const Drawer = DrawerNavigator({
   ScannerQR: {
     screen: ScannerQR,
   },
+  LoginScreen: {
+    screen: LoginScreen,
+  }
 }, {
   contentComponent: DrawerContent,
   drawerPosition: 'left',
