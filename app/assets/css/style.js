@@ -45,9 +45,19 @@ export default StyleSheet.create({
         backgroundColor: '#FF6700'
     },
 
+    rgstBtn: {
+        margin: 5,
+        borderRadius: 10,
+        backgroundColor: '#FF6700',
+        width: 260,
+        height: 40
+    },
+
     RegistrateBackground: {
-        backgroundColor: '#3BB222',
+        flex: 1,
+        backgroundColor: '#FFFFFF',
         height: Dimensions.get('window').height,
+        alignItems: 'center',
     },
 
     inputField: {
@@ -61,6 +71,15 @@ export default StyleSheet.create({
     inputContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'flex-start',
-    },
+        alignItems: 'center',
+        backgroundColor: '#3BB222',
+        margin: 50,
+        },
+
+    rgstTitle: {
+        fontSize: 30,
+        color: 'black',
+        fontWeight: "bold",
+        marginBottom: 30
+    }
 });
