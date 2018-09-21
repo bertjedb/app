@@ -49,7 +49,7 @@ local.properties
 
 
 # Node
-node_modules
+/node_modules/
 *.log
 .nvm
 /bots/node_modules/

@@ -47,18 +47,30 @@ export const Drawer = DrawerNavigator({
   drawerPosition: 'left',
 });
 
-/*
 export const Tabs = createMaterialBottomTabNavigator({
-  Feed: {
-    screen: FeedStack
+  {
+    Feed: FeedStack,
+    Upload: Upload,
   },
-  Feed: {
-    screen: FeedStack
-  },
-}, {
-  initialRouteName: 'Feed',
-  activeTintColor: '#f0edf6',
-  inactiveTintColor: '#3e2465',
-  barStyle: { backgroundColor: '#694fad' },
-});
-*/
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Home') {
+          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Settings') {
+          iconName = `ios-options${focused ? '' : '-outline'}`;
+        }
+
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Icon name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    },
+  }
+);
