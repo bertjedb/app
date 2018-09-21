@@ -47,9 +47,20 @@ export default StyleSheet.create({
 
     RegistrateBackground: {
         backgroundColor: '#3BB222',
+        height: Dimensions.get('window').height,
     },
 
     inputField: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        margin: 10,
+        borderRadius: 5,
+        width: 300,
+        height: 40
+    },
+
+    inputContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
     },
 });
