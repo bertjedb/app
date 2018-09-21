@@ -8,7 +8,8 @@ import ScannerQR from '../screens/ScannerQR';
 import Upload from '../screens/Upload';
 import DrawerContent from '../screens/Sidebar';
 import LoginScreen from '../screens/LoginScreen';
-
+import PointCard from '../screens/PointCard';
+import Registration from '../screens/Registration';
 
 // export const Drawer = DrawerNavigator({
 //   Feed: {
@@ -22,7 +23,13 @@ import LoginScreen from '../screens/LoginScreen';
 //   },
 //   LoginScreen: {
 //     screen: LoginScreen,
-//   }
+//   },
+//    PointCard: {
+//      screen: PointCard,
+//    },
+//    Registration: {
+//      screen: Registration,
+//    },
 // }, {
 //   contentComponent: DrawerContent,
 //   drawerPosition: 'left',
@@ -48,7 +55,7 @@ export const Tabs = TabNavigator({
           )
         }
       },
-      ScannerQR: {
+   ScannerQR: {
             screen: ScannerQR,
             navigationOptions: {
               tabBarLabel: 'ScannerQR',
