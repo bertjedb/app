@@ -78,7 +78,6 @@ class ScannerQR extends Component {
     this.setState({
       scannerReactivate: false,
     });
-		
     fetch('http://gromdroid.nl/ide/workspace/hanze/api.php')
         .then((response) => response.json())
         .then((responseJson) => {

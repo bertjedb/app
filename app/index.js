@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Drawer, Tabs } from './config/router';
+import { Drawer } from './config/router';
 
 class App extends Component {
   render() {
-    return <Tabs/>;
+    return <Drawer/>;
   }
 }
 
