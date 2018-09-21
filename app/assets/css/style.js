@@ -39,8 +39,17 @@ export default StyleSheet.create({
         opacity: 0.3
     },
 
-    refreshBtn: {
+    defaultBtn: {
         margin: 5,
         borderRadius: 10,
-    }
+        backgroundColor: '#FF6700'
+    },
+
+    RegistrateBackground: {
+        backgroundColor: '#3BB222',
+    },
+
+    inputField: {
+        backgroundColor: 'white'
+    },
 });
