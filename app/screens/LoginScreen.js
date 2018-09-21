@@ -8,8 +8,13 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
+    Divider,
 } from 'react-native';
 import { DrawerActions } from 'react-navigation';
+import UserInput from './UserInput';
+import usernameImg from '../assets/Username.png';
+import passwordImg from '../assets/Password.png';
+
 import {
     COLOR,
     ThemeContext,
@@ -46,36 +51,25 @@ class LoginScreen extends Component {
              onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
              centerElement={"Bslim"}
         />
-      <View style={styles.container}>
-          <Image
-          source={require('../assets/logo.png')}
-          style={styles.logo}>
-          </Image>
-          <TextInput
-            label="E-mail address"
-            placeholder="Email"
-            style={ styles.logInEmail }>
-          </TextInput>
-
-
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={styles.inputStyle}
-              autoCorrect={false}
-              secureTextEntry
-              placeholder="Password"
-            />
-            <Image
-              source={require('../assets/Username.png')}
-              style={styles.ImageStyle}
-            />
-          </View>
-
-          <TouchableOpacity
-            style={ styles.loginButton }>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
-      </View>
+        <UserInput
+          source={usernameImg}
+          placeholder="Username"
+          autoCapitalize={'none'}
+          returnKeyType={'done'}
+          autoCorrect={false}
+        />
+        <UserInput
+          source={passwordImg}
+          secureTextEntry
+          placeholder="Password"
+          autoCapitalize={'done'}
+          returnKeyType={'none'}
+          autoCorrect={false}
+        />
+        <TouchableOpacity
+          style={ styles.loginButton }>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
       </ThemeContext.Provider>
 
     );
@@ -87,49 +81,12 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3bb222',
-    height: null,
-    width: null,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
     height: 250,
     width: 300,
     resizeMode: 'contain',
-  },
-  ImageStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    resizeMode : 'stretch',
-    alignItems: 'center'
-  },
-  logInEmail: {
-    width: 300,
-    margin: 30,
-    padding: 15,
-    fontSize: 25,
-    borderWidth: 1,
-    borderColor: '#efefef',
-    backgroundColor: '#fff',
-    letterSpacing: -1
-  },
-  logInPw: {
-    width: 300,
-    padding: 15,
-    fontSize: 25,
-    borderWidth: 1,
-    borderColor: '#efefef',
-    backgroundColor: '#fff',
-    letterSpacing: -1
   },
   loginButton: {
     margin: 30,
