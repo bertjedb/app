@@ -1,64 +1,72 @@
 import React from 'react';
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
-import { Icon } from 'react-native-elements';
+import { Icon } from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
 import Upload from '../screens/Upload';
 import DrawerContent from '../screens/Sidebar';
+import LoginScreen from '../screens/LoginScreen';
+import PointCard from '../screens/PointCard';
+import Registration from '../screens/Registration';
 
-export const FeedStack = StackNavigator({
+// export const Drawer = DrawerNavigator({
+//   Feed: {
+//     screen: FeedStack,
+//   },
+//   Upload: {
+//     screen: Upload,
+//   },
+//   ScannerQR: {
+//     screen: ScannerQR,
+//   },
+//   LoginScreen: {
+//     screen: LoginScreen,
+//   },
+//    PointCard: {
+//      screen: PointCard,
+//    },
+//    Registration: {
+//      screen: Registration,
+//    },
+// }, {
+//   contentComponent: DrawerContent,
+//   drawerPosition: 'left',
+// });
+
+
+export const Tabs = TabNavigator({
   Feed: {
-    screen: Feed,
-    navigationOptions: {
-      title: 'Feed',
-      header: null ,
-    },
-  },
+        screen: Feed,
+        navigationOptions: {
+          tabBarLabel: 'Feed',
+          tabBarIcon: ({ tintColor, focused }) => (
+            <Icon size={25} name={ 'md-contact' } style={{ color: tintColor }} />
+          )
+        }
+      },
   Upload: {
-    screen: Upload,
-    navigationOptions: {
-      title: 'Uploaden',
-      header: null ,
-    },
-  },
-  ScannerQR: {
-    screen: ScannerQR,
-    navigationOptions: {
-      title: 'Scan',
-      header: null ,
-    },
-  },
-});
-
-export const Drawer = DrawerNavigator({
-  Feed: {
-    screen: FeedStack,
-  },
-  Upload: {
-    screen: Upload,
-  },
-  ScannerQR: {
-    screen: ScannerQR,
-  },
+        screen: Upload,
+        navigationOptions: {
+          tabBarLabel: 'Upload',
+          tabBarIcon: ({ tintColor, focused }) => (
+            <Icon size={25} name={ 'md-contact' } style={{ color: tintColor }} />
+          )
+        }
+      },
+   ScannerQR: {
+            screen: ScannerQR,
+            navigationOptions: {
+              tabBarLabel: 'ScannerQR',
+              tabBarIcon: ({ tintColor, focused }) => (
+                <Icon size={25} name={ 'md-contact' } style={{ color: tintColor }} />
+              )
+            }
+          },
 }, {
-  contentComponent: DrawerContent,
-  drawerPosition: 'left',
+    tabBarPosition: 'bottom',
+    initialRouteName: 'Feed',
+    activeTintColor: 'orange',
+    inactiveTintColor: 'white',
 });
-
-/*
-export const Tabs = createMaterialBottomTabNavigator({
-  Feed: {
-    screen: FeedStack
-  },
-  Feed: {
-    screen: FeedStack
-  },
-}, {
-  initialRouteName: 'Feed',
-  activeTintColor: '#f0edf6',
-  inactiveTintColor: '#3e2465',
-  barStyle: { backgroundColor: '#694fad' },
-});
-*/

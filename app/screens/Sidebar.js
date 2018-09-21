@@ -45,15 +45,27 @@ class DrawerContent extends Component {
               divider
               items={[
                   { icon: 'bookmark-border', value: 'Feed', active: true },
-                  { icon: 'today', value: 'Events' },
+                  { icon: 'today', value: 'Events', onPress: () => this.props.navigation.navigate('LoginScreen') },
                   { icon: 'assignment', value: 'Points' },
               ]}
           />
           <Drawer.Section
               title="Personal"
               items={[
-                  { icon: 'info', value: 'Info' },
-                  { icon: 'power-settings-new', value: 'Settings' },
+                  { 
+                    icon: 'info',
+                    value: 'Info',
+                  },
+                  { 
+                    icon: 'power-settings-new',
+                    value: 'Settings',
+                    onPress: () => this.props.navigation.navigate('Registration'),
+                  },
+                  {
+                    icon: 'assignment',
+                    value: 'Stempelkaart',
+                    onPress: () => this.props.navigation.navigate('PointCard'),
+                  }
               ]}
           />
         </Drawer></View>
