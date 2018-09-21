@@ -45,7 +45,7 @@ class DrawerContent extends Component {
               divider
               items={[
                   { icon: 'bookmark-border', value: 'Feed', active: true },
-                  { icon: 'today', value: 'Events' },
+                  { icon: 'today', value: 'Events', onPress: () => this.props.navigation.navigate('LoginScreen') },
                   { icon: 'assignment', value: 'Points' },
               ]}
           />
