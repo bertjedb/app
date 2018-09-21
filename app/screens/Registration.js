@@ -17,7 +17,7 @@ import {
     getTheme,
     Toolbar,
     Card,
-    Button,
+    Button
 } from 'react-native-material-ui';
 
 const uiTheme = {
@@ -31,13 +31,14 @@ const uiTheme = {
     },
 };
 
-class Registration extends Component {
+export default class Registration extends Component {
 
   constructor() {
       super();
       this.state = {
         email: '',
-        password: '',
+        firstPassword: '',
+        secondPassword: '',
         firstName: '',
         lastName: '',
       };
@@ -60,31 +61,45 @@ class Registration extends Component {
                  rightElement="crop-free"
                  onRightElementPress={() => this.props.navigation.navigate('ScannerQR')}
             />
-            <View>
-                <TextInput  label="E-mail address"
-                            placeholder="iemand@voorbeeld.com"
-                            value={ this.state.email }
-                            onChangeText={ email => this.setState({email}) }>
-                </TextInput>
-                <TextInput  label="First name"
-                            placeholder="Je voornaam"
+            <View style= {styles.RegistrateBackground}>
+                <TextInput  style= {styles.inputField}
+                            label="First name"
+                            placeholder="Voornaam"
                             value={ this.state.firstName }
                             onChangeText={ email => this.setState({firstName}) }>
                 </TextInput>
-                <TextInput  label="Last name"
-                            placeholder="Je achternaam"
+                <TextInput  style= {styles.inputField}
+                            label="Last name"
+                            placeholder="Ahternaam"
                             value={ this.state.lastName }
                             onChangeText={ email => this.setState({lastName}) }>
                 </TextInput>
-                <TextInput  label="Password"
+                <TextInput  style= {styles.inputField}
+                            label="E-mail address"
+                            placeholder="E-mailadres"
+                            value={ this.state.email }
+                            onChangeText={ email => this.setState({email}) }>
+                </TextInput>
+                <TextInput  style= {styles.inputField}
+                            label="Password"
                             value={ this.state.password }
-                            onChangeText={ password => this.setState({password}) }}
+                            placeholder="Wachtwoord"
+                            onChangeText={ password => this.setState({firstPassword}) }
+                            secureTextEntry={true}>
+                </TextInput>
+                <TextInput  style= {styles.inputField}
+                            label="Password"
+                            value={ this.state.password }
+                            placeholder="Herhaal wachtwoord"
+                            onChangeText={ password => this.setState({firstPassword}) }
                             secureTextEntry={true}
                             onSubmitEditing= { () => {
                                 this.registrate();
                             }}>
                 </TextInput>
-                <Button 
+                <Button
+                    style={{container: styles.defaultBtn}}
+                    raised text="Doorgaan"
                     onPress={() => {
                         this.registrate();
                     }}>
@@ -94,7 +109,3 @@ class Registration extends Component {
     );
   }
 }
-
-
-
-export default Registration;

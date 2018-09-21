@@ -143,8 +143,9 @@ class PointCard extends Component {
                         contentContainerStyle={styles.pointCard}>
                 {this.state.card}
             </ScrollView>
-            <Button style={{container: styles.refreshBtn}}
-                    raised accent text="Nieuwe kaart"
+            <Button 
+                    style={{container: styles.defaultBtn}}
+                    raised text="Nieuwe kaart"
                     onPress={() => alert("Je moet nu een nieuwe stempelkaart krijgen")} />
         </ThemeContext.Provider>
     );
