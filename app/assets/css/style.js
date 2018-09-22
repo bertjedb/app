@@ -9,9 +9,14 @@ import {
 } from 'react-native-material-ui';
 
 export default StyleSheet.create({
+		actionButtonIcon: {
+				fontSize: 20,
+				height: 22,
+				color: 'white',
+		},
     pointCard: {
         backgroundColor: 'white',
-        height: Dimensions.get('window').height - 190,
+        height: Dimensions.get('window').height - 140,
         width: Dimensions.get('window').width - 0,
         alignSelf: 'center'
     },

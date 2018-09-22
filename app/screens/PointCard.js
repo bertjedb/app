@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DrawerActions } from 'react-navigation';
+import ActionButton from 'react-native-action-button';
 
 import styles from '../assets/css/style.js';
 
@@ -136,11 +137,15 @@ class PointCard extends Component {
                         contentContainerStyle={styles.pointCard}>
                 {this.state.card}
             </ScrollView>
-            <Button
-                    style={{container: styles.defaultBtn, text: {color: 'white'}}}
-                    raised text="Nieuwe kaart"
-                    onPress={() => alert("Je moet nu een nieuwe stempelkaart krijgen")} />
-										</View>
+						<ActionButton icon={<Icon name="dots-vertical" style={styles.actionButtonIcon} />} buttonColor="rgba(231,76,60,1)">
+		          <ActionButton.Item buttonColor='#9c27b0' title="Code scannen" onPress={() => this.props.navigation.navigate('ScannerQR')}>
+		            <Icon name="camera" style={styles.actionButtonIcon} />
+		          </ActionButton.Item>
+		          <ActionButton.Item buttonColor='#3f51b5' title="Kaart inleveren" onPress={() => this.chooseContent('existing', 'image')}>
+		            <Icon name="playlist-check" style={styles.actionButtonIcon} />
+		          </ActionButton.Item>
+		        </ActionButton>
+			</View>
     );
   }
 }

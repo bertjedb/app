@@ -11,6 +11,8 @@ import DrawerContent from '../screens/Sidebar';
 import LoginScreen from '../screens/LoginScreen';
 import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
+import News from '../screens/News';
+import More from '../screens/More';
 
 // export const Drawer = DrawerNavigator({
 //   Feed: {
@@ -35,18 +37,52 @@ import Registration from '../screens/Registration';
 //   contentComponent: DrawerContent,
 //   drawerPosition: 'left',
 // });
+export const MoreStack = StackNavigator({
+	More: {
+		screen: More,
+		navigationOptions: {
+			tabBarLabel: 'Meer',
+			tabBarIcon: () => (
+			<Icon name="format-list-bulleted" size={24} color='white' />
+		)
+		}
+	},
+	LoginScreen: {
+		screen: LoginScreen,
+	}
+},
+	{headerMode: 'none' }
+);
+
+export const PointStack = StackNavigator({
+	PointCard: {
+    screen: PointCard,
+    navigationOptions: {
+      tabBarLabel: 'Stempelkaart',
+			tabBarIcon: () => (
+      <Icon name="cards-outline" size={24} color='white' />
+    )
+    }
+  },
+	ScannerQR: {
+		screen: ScannerQR,
+	}
+},
+	{headerMode: 'none' }
+);
+
 export const MyApp = TabNavigator({
-	Feed: {
-        screen: Feed,
+	News: {
+        screen: News,
         navigationOptions: {
-          tabBarLabel: 'Feed',
+          tabBarLabel: 'Evenementen',
 					tabBarIcon: () => (
-          <Icon name="newspaper" size={24} color='white' />
+          <Icon name="calendar" size={24} color='white' />
         )
         }
       },
 	PointCard: {
-        screen: PointCard,
+        screen: PointStack,
         navigationOptions: {
           tabBarLabel: 'Stempelkaart',
 					tabBarIcon: () => (
@@ -54,12 +90,12 @@ export const MyApp = TabNavigator({
         )
         }
       },
-	LoginScreen: {
-				screen: LoginScreen,
+	More: {
+				screen: MoreStack,
 				navigationOptions: {
-					tabBarLabel: 'Login',
+					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
-					<Icon name="login-variant" size={24} color='white' />
+					<Icon name="format-list-bulleted" size={24} color='white' />
 				)
 				}
 			},
@@ -71,13 +107,13 @@ export const MyApp = TabNavigator({
       labelColor: 'white',
       rippleColor: 'white',
       tabs: {
-        Feed: {
+        News: {
           barBackgroundColor: '#37474F',
         },
         PointCard: {
           barBackgroundColor: '#00796B',
         },
-				LoginScreen: {
+				More: {
           barBackgroundColor: '#3E2723',
         },
       }

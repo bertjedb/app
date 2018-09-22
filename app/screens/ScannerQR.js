@@ -97,18 +97,6 @@ class ScannerQR extends Component {
 
   render() {
     return(
-      <ThemeContext.Provider value={getTheme(uiTheme)}>
-        <Toolbar
-        leftElement="arrow-back"
-        onLeftElementPress={() => this.props.navigation.goBack()}
-          centerElement="QR code"
-          rightElement={{
-            menu: {
-                icon: "more-vert",
-                labels: ["item 1", "item 2"]
-            }
-          }}
-        />
         <View style={{flex: 1}}>
           <Card>
           <Text style={styles.textViewTitle} >Scan the QR code to get a point.</Text>
@@ -121,7 +109,6 @@ class ScannerQR extends Component {
             onRead={(response) => this.checkQR(response)}
           />
         </View>
-      </ThemeContext.Provider>
     );
   }
 }
