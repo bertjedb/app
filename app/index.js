@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Tabs } from './config/router';
+import { MyApp } from './config/router';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 class App extends Component {
   render() {
-    return <Tabs/>;
+    return <MyApp/>;
   }
 }
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
-import { Icon } from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
 import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
@@ -34,6 +35,55 @@ import Registration from '../screens/Registration';
 //   contentComponent: DrawerContent,
 //   drawerPosition: 'left',
 // });
+export const MyApp = TabNavigator({
+	Feed: {
+        screen: Feed,
+        navigationOptions: {
+          tabBarLabel: 'Feed',
+					tabBarIcon: () => (
+          <Icon name="newspaper" size={24} color='white' />
+        )
+        }
+      },
+	PointCard: {
+        screen: PointCard,
+        navigationOptions: {
+          tabBarLabel: 'Stempelkaart',
+					tabBarIcon: () => (
+          <Icon name="cards-outline" size={24} color='white' />
+        )
+        }
+      },
+	LoginScreen: {
+				screen: LoginScreen,
+				navigationOptions: {
+					tabBarLabel: 'Feed',
+					tabBarIcon: () => (
+					<Icon name="qrcode" size={24} color='white' />
+				)
+				}
+			},
+}, {
+  tabBarComponent: NavigationComponent,
+  tabBarPosition: 'bottom',
+  tabBarOptions: {
+    bottomNavigationOptions: {
+      labelColor: 'white',
+      rippleColor: 'white',
+      tabs: {
+        Feed: {
+          barBackgroundColor: '#37474F',
+        },
+        PointCard: {
+          barBackgroundColor: '#00796B',
+        },
+				LoginScreen: {
+          barBackgroundColor: '#3E2723',
+        },
+      }
+    }
+  }
+})
 
 
 export const Tabs = TabNavigator({
