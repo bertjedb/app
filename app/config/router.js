@@ -57,9 +57,9 @@ export const MyApp = TabNavigator({
 	LoginScreen: {
 				screen: LoginScreen,
 				navigationOptions: {
-					tabBarLabel: 'Feed',
+					tabBarLabel: 'Login',
 					tabBarIcon: () => (
-					<Icon name="qrcode" size={24} color='white' />
+					<Icon name="login-variant" size={24} color='white' />
 				)
 				}
 			},

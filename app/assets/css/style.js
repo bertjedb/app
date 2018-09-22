@@ -11,8 +11,8 @@ import {
 export default StyleSheet.create({
     pointCard: {
         backgroundColor: 'white',
-        height: Dimensions.get('window').height - 120,
-        width: Dimensions.get('window').width - 20,
+        height: Dimensions.get('window').height - 190,
+        width: Dimensions.get('window').width - 0,
         alignSelf: 'center'
     },
 
@@ -40,7 +40,7 @@ export default StyleSheet.create({
     },
 
     defaultBtn: {
-        margin: 5,
+			marginTop: 30,
         borderRadius: 10,
         backgroundColor: '#FF6700'
     },

@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DrawerActions } from 'react-navigation';
 
@@ -27,7 +28,7 @@ import {
 
 const uiTheme = {
     palette: {
-        primaryColor: COLOR.green500,
+        primaryColor: '#3bb222',
     },
     toolbar: {
         container: {
@@ -43,7 +44,7 @@ class PointCard extends Component {
       this.state = {
         card: this.fillCard()
       };
-    
+
   }
 
   fillCard() {
@@ -59,18 +60,18 @@ class PointCard extends Component {
     } else {
         unfilledRows = 5 - (filledRows + 1);
     }
-    
+
     for(let count =0; count < filledRows; count++) {
         holderArray.push(
                 <View key = {count} style= {styles.pointCardColumn }>
                     <View style={ styles.pointCardRow}>
-                        <Image  style = { styles.stampFilled} 
+                        <Image  style = { styles.stampFilled}
                                 source = {require('../assets/stempel_1.jpeg')}
                                 />
-                        <Image  style = { styles.stampFilled } 
+                        <Image  style = { styles.stampFilled }
                                 source = {require('../assets/stempel_1.jpeg')}
                         />
-                        <Image  style = { styles.stampFilled } 
+                        <Image  style = { styles.stampFilled }
                                 source = {require('../assets/stempel_1.jpeg')}
                         />
                     </View>
@@ -83,7 +84,7 @@ class PointCard extends Component {
         for(let count = 0; count < extra; count++) {
             extraStamps.push(
                     <Image  key = {count}
-                            style = { styles.stampFilled } 
+                            style = { styles.stampFilled }
                             source = {require('../assets/stempel_1.jpeg')}
                     />
                 );
@@ -91,7 +92,7 @@ class PointCard extends Component {
         for(let count = 0; count < 3 - extra; count++) {
             extraStamps.push(
                     <Image  key = {3 - count}
-                            style = { styles.stampUnFilled } 
+                            style = { styles.stampUnFilled }
                             source = {require('../assets/stempel_1.jpeg')}
                     />
                 );
@@ -109,13 +110,13 @@ class PointCard extends Component {
         holderArray.push(
                 <View key = {5 - count} style= {styles.pointCardColumn }>
                     <View style={ styles.pointCardRow}>
-                        <Image  style = { styles.stampUnFilled} 
+                        <Image  style = { styles.stampUnFilled}
                                 source = {require('../assets/stempel_1.jpeg')}
                                 />
-                        <Image  style = { styles.stampUnFilled } 
+                        <Image  style = { styles.stampUnFilled }
                                 source = {require('../assets/stempel_1.jpeg')}
                         />
-                        <Image  style = { styles.stampUnFilled } 
+                        <Image  style = { styles.stampUnFilled }
                                 source = {require('../assets/stempel_1.jpeg')}
                         />
                     </View>
@@ -129,25 +130,17 @@ class PointCard extends Component {
 
   render() {
     return(
-        <ThemeContext.Provider value={getTheme(uiTheme)}>
-            <Toolbar
-               elevation={5}
-               styles={styles.toolbar}
-                 leftElement="menu"
-                 onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-                 centerElement={"Bslim"}
-                 rightElement="crop-free"
-                 onRightElementPress={() => this.props.navigation.navigate('ScannerQR')}
-            />
+			<View style={{flex: 1}}>
+
             <ScrollView scrollEnabled = {false}
                         contentContainerStyle={styles.pointCard}>
                 {this.state.card}
             </ScrollView>
-            <Button 
-                    style={{container: styles.defaultBtn}}
+            <Button
+                    style={{container: styles.defaultBtn, text: {color: 'white'}}}
                     raised text="Nieuwe kaart"
                     onPress={() => alert("Je moet nu een nieuwe stempelkaart krijgen")} />
-        </ThemeContext.Provider>
+										</View>
     );
   }
 }

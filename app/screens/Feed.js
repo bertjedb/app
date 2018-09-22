@@ -41,7 +41,7 @@ import {
 
 const uiTheme = {
     palette: {
-        primaryColor: COLOR.green500,
+        primaryColor: '#3bb222',
     },
     toolbar: {
         container: {
@@ -180,16 +180,7 @@ class Feed extends Component {
 
   render() {
     return(
-      <ThemeContext.Provider value={getTheme(uiTheme)}>
-         <Toolbar
-           elevation={5}
-           styles={styles.toolbar}
-             leftElement="menu"
-             onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-             centerElement={"Bslim"}
-             rightElement="crop-free"
-             onRightElementPress={() => this.props.navigation.navigate('ScannerQR')}
-        />
+
        <View style={{flex: 1}}>
 
         {
@@ -241,7 +232,6 @@ class Feed extends Component {
           </ActionButton.Item>
         </ActionButton>
         </View>
-      </ThemeContext.Provider>
     );
   }
 }
