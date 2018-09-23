@@ -37,41 +37,18 @@ import More from '../screens/More';
 //   contentComponent: DrawerContent,
 //   drawerPosition: 'left',
 // });
-export const MoreStack = StackNavigator({
-	More: {
-		screen: More,
-		navigationOptions: {
-			tabBarLabel: 'Meer',
-			tabBarIcon: () => (
-			<Icon name="format-list-bulleted" size={24} color='white' />
-		)
-		}
-	},
+
+//StackNavigator for login related screens like login, register and password reset.
+export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
-	}
-},
-	{headerMode: 'none' }
-);
+	},
+},{
+	headerMode: 'none'
+})
 
-export const PointStack = StackNavigator({
-	PointCard: {
-    screen: PointCard,
-    navigationOptions: {
-      tabBarLabel: 'Stempelkaart',
-			tabBarIcon: () => (
-      <Icon name="cards-outline" size={24} color='white' />
-    )
-    }
-  },
-	ScannerQR: {
-		screen: ScannerQR,
-	}
-},
-	{headerMode: 'none' }
-);
-
-export const MyApp = TabNavigator({
+//TabNavigator for the main layout of the app
+export const MyTab = TabNavigator({
 	News: {
         screen: News,
         navigationOptions: {
@@ -82,7 +59,7 @@ export const MyApp = TabNavigator({
         }
       },
 	PointCard: {
-        screen: PointStack,
+        screen: PointCard,
         navigationOptions: {
           tabBarLabel: 'Stempelkaart',
 					tabBarIcon: () => (
@@ -91,7 +68,7 @@ export const MyApp = TabNavigator({
         }
       },
 	More: {
-				screen: MoreStack,
+				screen: More,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
@@ -122,37 +99,35 @@ export const MyApp = TabNavigator({
 })
 
 
-export const Tabs = TabNavigator({
-  Feed: {
-        screen: Feed,
-        navigationOptions: {
-          tabBarLabel: 'Feed',
-          tabBarIcon: ({ tintColor, focused }) => (
-            <Icon size={25} name={ 'md-contact' } style={{ color: tintColor }} />
-          )
-        }
-      },
-  Upload: {
-        screen: Upload,
-        navigationOptions: {
-          tabBarLabel: 'Upload',
-          tabBarIcon: ({ tintColor, focused }) => (
-            <Icon size={25} name={ 'md-contact' } style={{ color: tintColor }} />
-          )
-        }
-      },
-   ScannerQR: {
-            screen: ScannerQR,
-            navigationOptions: {
-              tabBarLabel: 'ScannerQR',
-              tabBarIcon: ({ tintColor, focused }) => (
-                <Icon size={25} name={ 'md-contact' } style={{ color: tintColor }} />
-              )
-            }
-          },
-}, {
-    tabBarPosition: 'bottom',
-    initialRouteName: 'Feed',
-    activeTintColor: 'orange',
-    inactiveTintColor: 'white',
-});
+//Root navigator with tabs and loginStack to navigate outside the tabs when going to login
+export const MyApp = StackNavigator({
+	MyTab: {
+		screen: MyTab,
+		navigationOptions: {
+			title: 'Bslim',
+			headerStyle: {
+	      backgroundColor: '#3bb222',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
+		}
+
+	},
+	LoginStack: {
+		screen: LoginStack,
+		navigationOptions: {
+			title: 'Login',
+			headerStyle: {
+	      backgroundColor: '#3bb222',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
+		}
+	},
+},{
+
+})
