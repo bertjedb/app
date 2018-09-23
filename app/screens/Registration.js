@@ -9,9 +9,6 @@ import {
     Image,
     TextInput
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
-import styles from '../assets/css/style.js';
-
 import {
     COLOR,
     ThemeContext,
@@ -20,6 +17,10 @@ import {
     Card,
     Button
 } from 'react-native-material-ui';
+import { DrawerActions } from 'react-navigation';
+import styles from '../assets/css/style.js';
+import Api from '../config/api.js';
+
 
 const uiTheme = {
     palette: {
@@ -47,7 +48,22 @@ export default class Registration extends Component {
   }
 
   registrate() {
-    alert("registrating")
+    if(this.state.firstPassword == this.state.secondPassword) {
+        let api = Api.getInstance();
+        let userData = {
+            email: this.state.email,
+            password: this.state.firstPassword,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+        }
+        api.callApi('/register', 'POST', userData, response => {
+            console.log(response);
+        });
+        alert("registrating");
+    } else {
+        alert('De ingevulde wachtwoorden zijn niet gelijk.')
+    }
+    
   }
 
   render() {
