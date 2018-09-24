@@ -1,6 +1,7 @@
 import React, {
     Component
 } from 'react';
+
 import {
     View,
     Text,
@@ -85,19 +86,23 @@ class LoginScreen extends Component {
 							textColor='green'
 							tintColor='green'
 							baseColor='green'
-			        label='Password'
+			        label='Wachtwoord'
 							secureTextEntry={true}
 			        value={this.state.password}
 			        onChangeText={ (password) => this.setState({ password }) }
 			      />
 						<Button
-                    style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
-                    raised text="Doorgaan"
-                    onPress={() => alert("Login succesfull")} />
-						</View>
+              style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
+              raised text="Doorgaan"
+              onPress={() => alert("Login succesfull")}
+            />
+            <Text style={{marginTop: 15}}>
+              Wachtwoord vergeten
+            </Text>
 					</View>
 				</View>
-				</ImageBackground>
+			</View>
+		</ImageBackground>
 
     );
   }
