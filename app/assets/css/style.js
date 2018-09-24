@@ -14,9 +14,68 @@ export default StyleSheet.create({
 				height: 22,
 				color: 'white',
 		},
+
+		container: {
+			flex: 1,
+			justifyContent: 'center',
+		},
+
+		card: {
+			backgroundColor: '#FFFFFF',
+			height: 390,
+			margin: 10,
+			borderRadius: 10,
+			shadowOffset: {width: 0, height: 13},
+	    shadowOpacity: 0.3,
+	    shadowRadius: 6,
+
+	    // android (Android +5.0)
+	    elevation: 3,
+		},
+
+	  SectionStyleTop: {
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    backgroundColor: '#fff',
+	    borderWidth: .5,
+	    borderColor: '#000',
+	    height: 40,
+			borderTopLeftRadius: 5 ,
+			borderTopRightRadius: 5 ,
+		},
+
+		SectionStyleBottom: {
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    backgroundColor: '#fff',
+	    borderWidth: .5,
+	    borderColor: '#000',
+	    height: 40,
+	    borderRadius: 5 ,
+			borderBottomRightRadius: 5 ,
+		},
+
+		SectionStyle: {
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    backgroundColor: '#fff',
+	    borderWidth: .5,
+	    borderColor: '#000',
+	    height: 40,
+	    borderRadius: 5 ,
+		},
+
+		ImageStyle: {
+		    margin: 5,
+		    alignItems: 'center'
+		},
+
     pointCard: {
         backgroundColor: 'white',
-        height: Dimensions.get('window').height - 140,
+        height: Dimensions.get('window').height - 135,
         width: Dimensions.get('window').width - 0,
         alignSelf: 'center'
     },
@@ -51,10 +110,9 @@ export default StyleSheet.create({
     },
 
     rgstBtn: {
-        margin: 5,
+        margin: 10,
         borderRadius: 10,
         backgroundColor: '#FF6700',
-        width: 260,
         height: 40
     },
 
