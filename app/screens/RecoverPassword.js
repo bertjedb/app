@@ -12,13 +12,9 @@ import {
     Image,
     Divider,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
-import UserInput from './UserInput';
-import usernameImg from '../assets/Username.png';
-import passwordImg from '../assets/Password.png';
+import { NavigationActions } from 'react-navigation';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 
 import {
@@ -51,7 +47,14 @@ export default class RecoverPassword extends Component {
       api.callApi('/changePassword', 'POST', userData, response => {
           console.log(response);
       });
-      alert("Er is een email met het nieuwe wachtwoord verzonden naar: " + this.state.email);
+      alert(
+        'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
+       );
+      this.props.navigation.dispatch(NavigationActions.navigate({
+                                                      routeName: 'LoginStack',
+                                                      action: NavigationActions.navigate({ routeName: 'ChangePassword' })
+                                                    })
+                                                  );
   }
 
   render() {

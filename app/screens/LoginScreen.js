@@ -12,13 +12,8 @@ import {
     Image,
     Divider,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
-import UserInput from './UserInput';
-import usernameImg from '../assets/Username.png';
-import passwordImg from '../assets/Password.png';
-import { FormInput } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 
 import {
@@ -96,7 +91,11 @@ class LoginScreen extends Component {
               raised text="Doorgaan"
               onPress={() => alert("Login succesfull")}
             />
-            <Text style={{marginTop: 15}}>
+            <Text style={{marginTop: 15}} onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
+                                                            routeName: 'LoginStack',
+                                                            action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+                                                          })
+                                                        )} >
               Wachtwoord vergeten
             </Text>
 					</View>
