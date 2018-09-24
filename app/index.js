@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Tabs } from './config/router';
+import { MyApp } from './config/router';
+
 
 class App extends Component {
+	constructor(){
+		super()
+		console.disableYellowBox = true;
+	}
   render() {
-    return <Tabs/>;
+    return (<MyApp/>)
   }
 }
 

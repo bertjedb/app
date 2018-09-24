@@ -1,9 +1,9 @@
 # Xcode
-!*/.xcodeproj
-!*/.pbxproj
-!*/.xcworkspacedata
-!*/.xcsettings
-!*/.xcscheme
+!**/*.xcodeproj
+!**/*.pbxproj
+!**/*.xcworkspacedata
+!**/*.xcsettings
+!**/*.xcscheme
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -49,7 +49,7 @@ local.properties
 
 
 # Node
-node_modules
+/node_modules/
 *.log
 .nvm
 /bots/node_modules/
@@ -69,7 +69,5 @@ package-lock.json
 /*.xcodeproj
 
 # ReactCommon subdir shouldn't have Xcode project
-/ReactCommon/*/.xcodeproj
-
+/ReactCommon/**/*.xcodeproj
 RNTester/build
-
