@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Drawer } from './config/router';
+import { MyApp } from './config/router';
+
 
 class App extends Component {
+	constructor(){
+		super()
+		console.disableYellowBox = true;
+	}
   render() {
-    return <Drawer/>;
+    return (<MyApp/>)
   }
 }
 

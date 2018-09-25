@@ -24,6 +24,7 @@ class DrawerContent extends Component {
     }
 
   render () {
+		const { navigate } = this.props.navigation;
       return (
         <View style={{flex: 1 ,paddingTop: 30, backgroundColor: '#4CAF50'}}>
 
@@ -45,18 +46,18 @@ class DrawerContent extends Component {
               divider
               items={[
                   { icon: 'bookmark-border', value: 'Feed', active: true },
-                  { icon: 'today', value: 'Events' },
+                  { icon: 'today', value: 'Events', onPress: () => navigate('LoginScreen') },
                   { icon: 'assignment', value: 'Points' },
               ]}
           />
           <Drawer.Section
               title="Personal"
               items={[
-                  { 
+                  {
                     icon: 'info',
                     value: 'Info',
                   },
-                  { 
+                  {
                     icon: 'power-settings-new',
                     value: 'Settings',
                     onPress: () => this.props.navigation.navigate('Registration'),
