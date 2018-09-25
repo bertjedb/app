@@ -9,10 +9,74 @@ import {
 } from 'react-native-material-ui';
 
 export default StyleSheet.create({
+		actionButtonIcon: {
+				fontSize: 20,
+				height: 22,
+				color: 'white',
+		},
+
+		container: {
+			flex: 1,
+			justifyContent: 'center',
+		},
+
+		card: {
+			backgroundColor: '#FFFFFF',
+			height: 390,
+			margin: 10,
+			borderRadius: 10,
+			shadowOffset: {width: 0, height: 13},
+	    shadowOpacity: 0.3,
+	    shadowRadius: 6,
+
+	    // android (Android +5.0)
+	    elevation: 3,
+		},
+
+	  SectionStyleTop: {
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    backgroundColor: '#fff',
+	    borderWidth: .5,
+	    borderColor: '#000',
+	    height: 40,
+			borderTopLeftRadius: 5 ,
+			borderTopRightRadius: 5 ,
+		},
+
+		SectionStyleBottom: {
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    backgroundColor: '#fff',
+	    borderWidth: .5,
+	    borderColor: '#000',
+	    height: 40,
+	    borderRadius: 5 ,
+			borderBottomRightRadius: 5 ,
+		},
+
+		SectionStyle: {
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    backgroundColor: '#fff',
+	    borderWidth: .5,
+	    borderColor: '#000',
+	    height: 40,
+	    borderRadius: 5 ,
+		},
+
+		ImageStyle: {
+		    margin: 5,
+		    alignItems: 'center'
+		},
+
     pointCard: {
         backgroundColor: 'white',
-        height: Dimensions.get('window').height - 120,
-        width: Dimensions.get('window').width - 20,
+        height: Dimensions.get('window').height - 135,
+        width: Dimensions.get('window').width - 0,
         alignSelf: 'center'
     },
 
@@ -39,8 +103,46 @@ export default StyleSheet.create({
         opacity: 0.3
     },
 
-    refreshBtn: {
-        margin: 5,
+    defaultBtn: {
+			marginTop: 30,
         borderRadius: 10,
+        backgroundColor: '#FF6700'
+    },
+
+    rgstBtn: {
+        margin: 10,
+        borderRadius: 10,
+        backgroundColor: '#FF6700',
+        height: 40
+    },
+
+    RegistrateBackground: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        height: Dimensions.get('window').height,
+        alignItems: 'center',
+    },
+
+    inputField: {
+        backgroundColor: 'white',
+        margin: 10,
+        borderRadius: 5,
+        width: 300,
+        height: 40
+    },
+
+    inputContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#3BB222',
+        margin: 50,
+        },
+
+    rgstTitle: {
+        fontSize: 30,
+        color: 'black',
+        fontWeight: "bold",
+        marginBottom: 30
     }
 });

@@ -9,12 +9,15 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DrawerActions } from 'react-navigation';
+import ActionButton from 'react-native-action-button';
 
 import styles from '../assets/css/style.js';
 
 
+import ConfettiView from 'react-native-confetti-view';
 
 import {
     COLOR,
@@ -27,13 +30,31 @@ import {
 
 const uiTheme = {
     palette: {
-        primaryColor: COLOR.green500,
+        primaryColor: '#3bb222',
     },
     toolbar: {
         container: {
             height: 60,
         },
     },
+};
+
+const images = {
+    image1: require('../assets/points/1.png'),
+		image2: require('../assets/points/2.png'),
+		image3: require('../assets/points/3.png'),
+		image4: require('../assets/points/4.png'),
+		image5: require('../assets/points/5.png'),
+		image6: require('../assets/points/6.png'),
+		image7: require('../assets/points/7.png'),
+		image8: require('../assets/points/8.png'),
+		image9: require('../assets/points/9.png'),
+		image10: require('../assets/points/10.png'),
+		image11: require('../assets/points/11.png'),
+		image12: require('../assets/points/12.png'),
+		image13: require('../assets/points/13.png'),
+		image14: require('../assets/points/14.png'),
+		image15: require('../assets/points/15.png'),
 };
 
 class PointCard extends Component {
@@ -43,84 +64,101 @@ class PointCard extends Component {
       this.state = {
         card: this.fillCard()
       };
-    
+
   }
+
+	componentDidMount() {
+    if(this._confettiView) {
+       this._confettiView.startConfetti();
+    }
+  }
+
+  componentWillUnmount ()
+  {
+      if (this._confettiView)
+      {
+          this._confettiView.stopConfetti();
+      }
+  }
+
+	getFile(id, total){
+		if(id <= total){
+			return require('../assets/points/check.png');
+		}
+
+		switch(id) {
+    case 1:
+        return require('../assets/points/1.png');
+        break;
+		case 2:
+        return require('../assets/points/2.png');
+        break;
+		case 3:
+        return require('../assets/points/3.png');
+        break;
+		case 4:
+        return require('../assets/points/4.png');
+        break;
+		case 5:
+        return require('../assets/points/5.png');
+        break;
+		case 6:
+        return require('../assets/points/6.png');
+        break;
+		case 7:
+        return require('../assets/points/7.png');
+        break;
+    case 8:
+        return require('../assets/points/8.png');
+        break;
+		case 9:
+        return require('../assets/points/9.png');
+        break;
+		case 10:
+        return require('../assets/points/10.png');
+        break;
+		case 11:
+        return require('../assets/points/11.png');
+        break;
+		case 12:
+        return require('../assets/points/12.png');
+        break;
+		case 13:
+        return require('../assets/points/13.png');
+        break;
+		case 14:
+      	return require('../assets/points/14.png');
+        break;
+		case 15:
+        return require('../assets/points/15.png');
+        break;
+    default:
+        return require('../assets/points/1.png');
+}
+	}
 
   fillCard() {
     let holderArray = [];
-    let numOfStamps = 2;
+    let numOfStamps = 15;
+		let count = 1;
 
-    let filledRows = Math.floor(numOfStamps/3);
-    let extra = numOfStamps%3
-    let unfilledRows = 0;
-
-    if(extra == 0) {
-        unfilledRows = 5 - filledRows;
-    } else {
-        unfilledRows = 5 - (filledRows + 1);
-    }
-    
-    for(let count =0; count < filledRows; count++) {
-        holderArray.push(
-                <View key = {count} style= {styles.pointCardColumn }>
-                    <View style={ styles.pointCardRow}>
-                        <Image  style = { styles.stampFilled} 
-                                source = {require('../assets/stempel_1.jpeg')}
-                                />
-                        <Image  style = { styles.stampFilled } 
-                                source = {require('../assets/stempel_1.jpeg')}
-                        />
-                        <Image  style = { styles.stampFilled } 
-                                source = {require('../assets/stempel_1.jpeg')}
-                        />
-                    </View>
-                </View>
-            );
-    }
-
-    if(extra > 0) {
-        let extraStamps = [];
-        for(let count = 0; count < extra; count++) {
-            extraStamps.push(
-                    <Image  key = {count}
-                            style = { styles.stampFilled } 
-                            source = {require('../assets/stempel_1.jpeg')}
-                    />
-                );
-        }
-        for(let count = 0; count < 3 - extra; count++) {
-            extraStamps.push(
-                    <Image  key = {3 - count}
-                            style = { styles.stampUnFilled } 
-                            source = {require('../assets/stempel_1.jpeg')}
-                    />
-                );
-        }
-        holderArray.push(
-                <View key = {filledRows+1} style= {styles.pointCardColumn }>
-                    <View style={ styles.pointCardRow}>
-                        {extraStamps}
-                    </View>
-                </View>
-            );
-    }
-
-    for(let count = 0; count < unfilledRows; count++) {
-        holderArray.push(
-                <View key = {5 - count} style= {styles.pointCardColumn }>
-                    <View style={ styles.pointCardRow}>
-                        <Image  style = { styles.stampUnFilled} 
-                                source = {require('../assets/stempel_1.jpeg')}
-                                />
-                        <Image  style = { styles.stampUnFilled } 
-                                source = {require('../assets/stempel_1.jpeg')}
-                        />
-                        <Image  style = { styles.stampUnFilled } 
-                                source = {require('../assets/stempel_1.jpeg')}
-                        />
-                    </View>
-                </View>
-            );
+    for(let row = 0; row < 5; row++) {
+				holderArray.push(
+								<View key = {5 - count} style= {styles.pointCardColumn }>
+										<View style={ styles.pointCardRow}>
+												<Image  style = { styles.stampFilled}
+																source = {this.getFile(count, numOfStamps)}
+																/>
+												<Image  style = { styles.stampFilled }
+																source = {this.getFile(count+1, numOfStamps)}
+												/>
+												<Image  style = { styles.stampFilled }
+																source = {this.getFile(count+2, numOfStamps)}
+												/>
+										</View>
+								</View>
+						);
+					count = count + 3;
     }
 
     console.log(holderArray);
@@ -129,24 +167,16 @@ class PointCard extends Component {
 
   render() {
     return(
-        <ThemeContext.Provider value={getTheme(uiTheme)}>
-            <Toolbar
-               elevation={5}
-               styles={styles.toolbar}
-                 leftElement="menu"
-                 onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-                 centerElement={"Bslim"}
-                 rightElement="crop-free"
-                 onRightElementPress={() => this.props.navigation.navigate('ScannerQR')}
-            />
+			<View style={{flex: 1}}>
+
             <ScrollView scrollEnabled = {false}
                         contentContainerStyle={styles.pointCard}>
+												<ConfettiView>
                 {this.state.card}
+								</ConfettiView>
             </ScrollView>
-            <Button style={{container: styles.refreshBtn}}
-                    raised accent text="Nieuwe kaart"
-                    onPress={() => alert("Je moet nu een nieuwe stempelkaart krijgen")} />
-        </ThemeContext.Provider>
+
+			</View>
     );
   }
 }
