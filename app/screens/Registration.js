@@ -7,7 +7,8 @@ import {
     ScrollView,
     TouchableOpacity,
     Image,
-    TextInput
+    TextInput,
+    ImageBackground
 } from 'react-native';
 import {
     COLOR,
@@ -38,11 +39,11 @@ export default class Registration extends Component {
   constructor() {
       super();
       this.state = {
-        email: '',
-        firstPassword: '',
-        secondPassword: '',
-        firstName: '',
-        lastName: '',
+        email: 'iemand@mail.com',
+        firstPassword: '1234',
+        secondPassword: '1234',
+        firstName: 'ab',
+        lastName: 'ab',
       };
     
   }
@@ -56,7 +57,7 @@ export default class Registration extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
         }
-        api.callApi('/register', 'POST', userData, response => {
+        api.callApi('register', 'POST', userData, response => {
             console.log(response);
         });
         alert("registrating");
@@ -78,7 +79,7 @@ export default class Registration extends Component {
                  rightElement="crop-free"
                  onRightElementPress={() => this.props.navigation.navigate('ScannerQR')}
             />
-            <View style= {styles.RegistrateBackground}>
+            <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%', flex:1, alignItems: 'center'}}>
                 <View style={styles.inputContainer}>
                     <Text style={styles.rgstTitle}>
                         Registreren
@@ -88,14 +89,14 @@ export default class Registration extends Component {
                                 label="First name"
                                 placeholder="   Voornaam"
                                 value={ this.state.firstName }
-                                onChangeText={ email => this.setState({firstName}) }>
+                                onChangeText={ firstName => this.setState({firstName}) }>
                     </TextInput>
                     <TextInput  style= {styles.inputField}
                                 fontStyle = {'italic'}
                                 label="Last name"
                                 placeholder="   Achternaam"
                                 value={ this.state.lastName }
-                                onChangeText={ email => this.setState({lastName}) }>
+                                onChangeText={ lastName => this.setState({lastName}) }>
                     </TextInput>
                     <TextInput  style= {styles.inputField}
                                 fontStyle = {'italic'}
@@ -107,7 +108,7 @@ export default class Registration extends Component {
                     <TextInput  style= {styles.inputField}
                                 fontStyle = {'italic'}
                                 label="Password"
-                                value={ this.state.password }
+                                value={ this.state.firstPassword }
                                 placeholder="   Wachtwoord"
                                 onChangeText={ password => this.setState({firstPassword}) }
                                 secureTextEntry={true}>
@@ -115,9 +116,9 @@ export default class Registration extends Component {
                     <TextInput  style= {styles.inputField}
                                 fontStyle = {'italic'}
                                 label="Password"
-                                value={ this.state.password }
+                                value={ this.state.secondPassword }
                                 placeholder="   Herhaal wachtwoord"
-                                onChangeText={ password => this.setState({firstPassword}) }
+                                onChangeText={ password => this.setState({secondPassword}) }
                                 secureTextEntry={true}
                                 onSubmitEditing= { () => {
                                     this.registrate();
@@ -131,7 +132,7 @@ export default class Registration extends Component {
                         }}>
                     </Button>
                 </View>
-            </View>
+            </ImageBackground>
         </ThemeContext.Provider>
     );
   }

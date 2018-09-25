@@ -53,13 +53,6 @@ export default StyleSheet.create({
         height: 40
     },
 
-    RegistrateBackground: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        height: Dimensions.get('window').height,
-        alignItems: 'center',
-    },
-
     inputField: {
         backgroundColor: 'white',
         margin: 10,

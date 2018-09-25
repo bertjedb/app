@@ -14,7 +14,7 @@ export default class Api {
 	}
 
 	callApi(action, method, data, callBack = response => console.log(response)) {
-		fetch(this.url + '/api' + action, {
+		fetch(this.url + action, {
 			method: method,
 			headers: {
 				Accept: 'application/json',
