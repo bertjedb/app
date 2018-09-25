@@ -39,15 +39,15 @@ export default class ChangePassword extends Component {
       super();
       this.state = {
         email: '',
-        newPassword: '',
-        firstOldPassword: '',
-        secondOldPassword: '',
+        oldPassword: '',
+        firstNewPassword: '',
+        secondNewPassword: '',
       };
 
   }
 
   changePassword() {
-    if(this.state.firstOldPassword == this.state.secondOldPassword) {
+    if(this.state.firstNewPassword == this.state.secondNewPassword) {
         let api = Api.getInstance();
         let userData = {
             email: this.state.email,
@@ -56,7 +56,6 @@ export default class ChangePassword extends Component {
         api.callApi('/changePassword', 'POST', userData, response => {
             console.log(response);
         });
-        alert("Changing password");
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
@@ -80,27 +79,27 @@ export default class ChangePassword extends Component {
             textColor='green'
             tintColor='green'
             baseColor='green'
-            label='Nieuw wachtwoord'
-            value={this.state.newPassword}
-            onChangeText={ (newPassword) => this.setState({ newPassword }) }
-          />
-          <TextField
-            textColor='green'
-            tintColor='green'
-            baseColor='green'
             label='Oud wachtwoord'
-            secureTextEntry={true}
-            value={this.state.firstOldPassword}
-            onChangeText={ (firstOldPassword) => this.setState({ firstOldPassword }) }
+            value={this.state.oldPassword}
+            onChangeText={ (oldPassword) => this.setState({ oldPassword }) }
           />
           <TextField
             textColor='green'
             tintColor='green'
             baseColor='green'
-            label='Herhaal oud wachtwoord'
+            label='Nieuw wachtwoord'
             secureTextEntry={true}
-            value={this.state.secondOldPasswordt}
-            onChangeText={ (secondOldPasswordt) => this.setState({ secondOldPasswordt }) }
+            value={this.state.firstNewPassword}
+            onChangeText={ (firstNewPassword) => this.setState({ firstNewPassword }) }
+          />
+          <TextField
+            textColor='green'
+            tintColor='green'
+            baseColor='green'
+            label='Herhaal nieuw wachtwoord'
+            secureTextEntry={true}
+            value={this.state.secondNewPasswordt}
+            onChangeText={ (secondNewPasswordt) => this.setState({ secondNewPasswordt }) }
           />
           <Button
             style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}

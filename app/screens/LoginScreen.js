@@ -49,13 +49,13 @@ class LoginScreen extends Component {
   }
 
 	login(){
-		fetch('http://gaauwe.nl/login')
-        .then((response) => response.json())
-        .then((responseJson) => {
-
-        })
-        .catch((error) => {
-            console.error(error);
+		let api = Api.getInstance();
+        let userData = {
+            email: this.state.email,
+            password: this.state.password,
+        }
+        api.callApi('register', 'POST', userData, response => {
+            console.log(response);
         });
 	}
 
