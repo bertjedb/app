@@ -78,44 +78,25 @@ class ScannerQR extends Component {
     this.setState({
       scannerReactivate: false,
     });
-
-    if(response.data == '701F78DF4861A122BAB19BDEFCF9A02F30160067'){
-      this.setState({
-        pointCount: this.state.pointCount + 1,
-        scannerReactivate: false,
-      });
-      Alert.alert(
-  'Succes',
-  'Point added to your account',
-  [
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
-  ],
-  { cancelable: false });
-    } else {
-      Alert.alert(
-  'Error',
-  'Wrong code, try again in a few seconds',
-  [
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
-  ],
-  { cancelable: false });
-    }
+    fetch('http://gromdroid.nl/ide/workspace/hanze/api.php')
+        .then((response) => response.json())
+        .then((responseJson) => {
+          Alert.alert(
+            responseJson.verified ? 'Succes' : 'Error',
+            '',
+            [
+              {text: 'OK', onPress: () => this.props.navigation.goBack()},
+            ],
+            { cancelable: false }
+          );
+        })
+        .catch((error) => {
+            console.error(error);
+        });
   }
 
   render() {
     return(
-      <ThemeContext.Provider value={getTheme(uiTheme)}>
-        <Toolbar
-        leftElement="arrow-back"
-        onLeftElementPress={() => this.props.navigation.goBack()}
-          centerElement="QR code"
-          rightElement={{
-            menu: {
-                icon: "more-vert",
-                labels: ["item 1", "item 2"]
-            }
-          }}
-        />
         <View style={{flex: 1}}>
           <Card>
           <Text style={styles.textViewTitle} >Scan the QR code to get a point.</Text>
@@ -128,7 +109,6 @@ class ScannerQR extends Component {
             onRead={(response) => this.checkQR(response)}
           />
         </View>
-      </ThemeContext.Provider>
     );
   }
 }

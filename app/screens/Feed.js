@@ -18,37 +18,13 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-import { DrawerActions } from 'react-navigation';
-
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob'
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
-import {TextField} from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
-import QRCodeScanner from 'react-native-qrcode-scanner';
-
-import {
-    COLOR,
-    ThemeContext,
-    getTheme,
-    Toolbar,
-    Card,
-    Button,
-} from 'react-native-material-ui';
-
-const uiTheme = {
-    palette: {
-        primaryColor: COLOR.green500,
-    },
-    toolbar: {
-        container: {
-            height: 60,
-        },
-    },
-};
 
 class Feed extends Component {
 
@@ -180,16 +156,7 @@ class Feed extends Component {
 
   render() {
     return(
-      <ThemeContext.Provider value={getTheme(uiTheme)}>
-         <Toolbar
-           elevation={5}
-           styles={styles.toolbar}
-             leftElement="menu"
-             onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-             centerElement={"Bslim"}
-             rightElement="crop-free"
-             onRightElementPress={() => this.props.navigation.navigate('ScannerQR')}
-        />
+
        <View style={{flex: 1}}>
 
         {
@@ -241,7 +208,6 @@ class Feed extends Component {
           </ActionButton.Item>
         </ActionButton>
         </View>
-      </ThemeContext.Provider>
     );
   }
 }
