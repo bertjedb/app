@@ -34,15 +34,32 @@ class More extends Component {
               divider
               items={[
                   { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-										value: 'Login',
+										value: 'Inloggen',
 										onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
 																																	  routeName: 'LoginStack',
 																																	  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
 																																	})
 																																)
-																															},
-                  { icon: 'today', value: 'Lorem ipsum'},
-                  { icon: 'assignment', value: 'Lorem ipsum' },
+									},
+                  {
+                    icon: 'today',
+                    value: 'Wachtwoord veranderen',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+																																	  routeName: 'LoginStack',
+																																	  action: NavigationActions.navigate({ routeName: 'ChangePassword' })
+																																	})
+																																)
+                   },
+                  {
+                    icon: 'today',
+                    value: 'Wachtwoord herstellen',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+																																	  routeName: 'LoginStack',
+																																	  action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+																																	})
+																																)
+                   },
+
               ]}
           />
           <Drawer.Section
@@ -50,11 +67,11 @@ class More extends Component {
               items={[
                   {
                     icon: 'info',
-                    value: 'Lorem ipsum',
+                    value: 'Info',
                   },
                   {
                     icon: 'power-settings-new',
-                    value: 'Lorem ipsum',
+                    value: 'Registratie',
                     onPress: () => this.props.navigation.navigate('Registration'),
                   },
               ]}
