@@ -11,6 +11,8 @@ import DrawerContent from '../screens/Sidebar';
 import LoginScreen from '../screens/LoginScreen';
 import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
+import ChangePassword from '../screens/ChangePassword';
+import RecoverPassword from '../screens/RecoverPassword';
 import News from '../screens/News';
 import More from '../screens/More';
 
@@ -43,6 +45,12 @@ export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
 	},
+  ChangePassword: {
+    screen: ChangePassword,
+  },
+  RecoverPassword: {
+    screen: RecoverPassword,
+  }
 },{
 	headerMode: 'none'
 })

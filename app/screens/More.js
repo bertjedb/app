@@ -29,64 +29,37 @@ class More extends Component {
   render () {
       return (
 				<View style={{flex: 1}}>
-				<ImageBackground blurRadius={10} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: 240}}>
-					<View style={styles.card} elevation={5}>
-					<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: '#3bb222'}}>
-					Inloggen
-					</Text>
-					<View style={{backgroundColor: '#3bb222', height: 170, paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-						<View style={{paddingLeft: 10, paddingRight: 10, paddingTop: 20}}>
-			        <View style={styles.SectionStyleTop}>
-				        <Icon name="at" size={24} color='grey' style={styles.ImageStyle}/>
-			          <TextInput
-			              style={{flex:1}}
-			              placeholder="Email"
-			              underlineColorAndroid="transparent"
-			          />
-			        </View>
-		      	</View>
-						<View style={{paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
-			        <View style={styles.SectionStyleBottom}>
-				        <Icon name="lock" size={24} color='grey' style={styles.ImageStyle}/>
-			          <TextInput
-			              style={{flex:1}}
-										secureTextEntry={true}
-			              placeholder="Password"
-			              underlineColorAndroid="transparent"
-			          />
-			        </View>
-		      	</View>
-						<Button
-										style={{
-											container: {
-												margin: 10,
-									        borderRadius: 10,
-									        backgroundColor: '#FF6700'
-									    },
-											text: {
-												color: 'white'
-											}
-										}}
-										raised text="Doorgaan"
-										onPress={() => alert("Login succesfull")} />
-					</View>
-					</View>
-				</ImageBackground>
-
         <Drawer>
           <Drawer.Section
               divider
               items={[
                   { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-										value: 'Login',
+										value: 'Inloggen',
 										onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
 																																	  routeName: 'LoginStack',
 																																	  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
 																																	})
 																																)
-																															},
-                  { icon: 'today', value: 'Lorem ipsum'},
-                  { icon: 'assignment', value: 'Lorem ipsum' },
+									},
+                  {
+                    icon: 'today',
+                    value: 'Wachtwoord veranderen',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+																																	  routeName: 'LoginStack',
+																																	  action: NavigationActions.navigate({ routeName: 'ChangePassword' })
+																																	})
+																																)
+                   },
+                  {
+                    icon: 'today',
+                    value: 'Wachtwoord herstellen',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+																																	  routeName: 'LoginStack',
+																																	  action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+																																	})
+																																)
+                   },
+
               ]}
           />
           <Drawer.Section
@@ -94,11 +67,11 @@ class More extends Component {
               items={[
                   {
                     icon: 'info',
-                    value: 'Lorem ipsum',
+                    value: 'Info',
                   },
                   {
                     icon: 'power-settings-new',
-                    value: 'Lorem ipsum',
+                    value: 'Registratie',
                     onPress: () => this.props.navigation.navigate('Registration'),
                   },
               ]}
