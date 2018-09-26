@@ -68,7 +68,7 @@ export const MyTab = TabNavigator({
         navigationOptions: {
           tabBarLabel: 'Evenementen',
 					tabBarIcon: () => (
-          <Image source={require('../assets/calender.svg')}/>
+          <Icon name="calendar" size={24} color='grey' />
         )
         }
       },
