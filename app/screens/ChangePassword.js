@@ -12,7 +12,7 @@ import {
     Image,
     Divider,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
@@ -52,25 +52,23 @@ export default class ChangePassword extends Component {
     if(this.state.firstOldPassword == this.state.secondOldPassword) {
         let localStorage = LocalStorage.getInstance();
         let api = Api.getInstance();
-
 				localStorage.retrieveItem('userId').then((id) => {
-	              this.setState({
-									userId: id,
-								})
-                let userData = {
-                     id: id,
-                     oldPassword: this.state.oldPassword,
-                     newPassword: this.state.firstNewPassword
-                }
-                 api.callApi('api/changePassword', 'POST', userData, response => {
-                     console.log(response);
-                 });
+                    let userData = {
+                        id: id,
+                        oldPassword: this.state.oldPassword,
+                        newPassword: this.state.firstNewPassword
+                    }
+                    console.log(userData);
+                    api.callApi('api/changePassword', 'POST', userData, response => {
+                        if(response['responseCode'] == 200){
+                            console.log(response['responseCode'])
+                            this.props.navigation.dispatch(NavigationActions.back());
+                        }
+                    });
 	              }).catch((error) => {
 	              //this callback is executed when your Promise is rejected
 	              console.log('Promise is rejected with error: ' + error);
 	              });
-        
-        
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
@@ -95,6 +93,7 @@ export default class ChangePassword extends Component {
             tintColor='green'
             baseColor='green'
             label='Oud wachtwoord'
+            secureTextEntry={true}
             value={this.state.oldPassword}
             onChangeText={ (oldPassword) => this.setState({ oldPassword }) }
           />
