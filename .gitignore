@@ -69,5 +69,9 @@ package-lock.json
 /*.xcodeproj
 
 # ReactCommon subdir shouldn't have Xcode project
-/ReactCommon/**/*.xcodeproj
+
+/ReactCommon/*/.xcodeproj
 RNTester/build
+
+/WebstormProjects/slimApp/new folder
+
