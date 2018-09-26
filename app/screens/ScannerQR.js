@@ -88,14 +88,10 @@ class ScannerQR extends Component {
             if(response.responseCode == "200") {
                 let localStorage = LocalStorage.getInstance();
                 localStorage.retrieveItem('userId').then((id) => {
-                    console.log("EventId: " + response.eventId);
-                    console.log("UserId: " + id);
                     sendData = {
                         eventId: response.eventId,
                         personId: id
                     }
-                    console.log("Here");
-                    console.log(sendData);
                     api.callApi('api/qrEvent', 'POST', sendData, response => {
                         console.log(response);
                     });

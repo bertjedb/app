@@ -56,8 +56,9 @@ class PointCard extends Component {
   constructor() {
       super();
       this.state = {
-        card: this.fillCard(),
-        cameraActive: false
+        card: null,
+        cameraActive: false,
+        userId: null
       };
 
   }
@@ -66,6 +67,27 @@ class PointCard extends Component {
     if(this._confettiView) {
        this._confettiView.startConfetti();
     }
+    this.refreshCard();
+  }
+
+  refreshCard() {
+    let api = Api.getInstance();
+    let localStorage = LocalStorage.getInstance();
+        localStorage.retrieveItem('userId').then((id) => {
+            userData = {
+                id: id
+            }
+            api.callApi('api/checkPoints', 'POST', userData, response => {
+                    this.setState({card: this.fillCard(response['points'][0]) });
+                    localStorage.storeItem('points', response['points'][0]));
+                });
+          }).catch((error) => {
+          //this callback is executed when your Promise is rejected
+          localStorage.retrieveItem('points').then((points) => {
+            this.setState({card: this.fillCard(response['points'][0])})
+          });
+          console.log('Promise is rejected with error: ' + error);
+          });
   }
 
   componentWillUnmount ()
@@ -77,99 +99,89 @@ class PointCard extends Component {
   }
 
 	getFile(id, total){
-		if(id <= total){
-			return require('../assets/points/check.png');
-		}
-
-		switch(id) {
-    case 1:
-        return require('../assets/points/1.png');
-        break;
-		case 2:
-        return require('../assets/points/2.png');
-        break;
-		case 3:
-        return require('../assets/points/3.png');
-        break;
-		case 4:
-        return require('../assets/points/4.png');
-        break;
-		case 5:
-        return require('../assets/points/5.png');
-        break;
-		case 6:
-        return require('../assets/points/6.png');
-        break;
-		case 7:
-        return require('../assets/points/7.png');
-        break;
-    case 8:
-        return require('../assets/points/8.png');
-        break;
-		case 9:
-        return require('../assets/points/9.png');
-        break;
-		case 10:
-        return require('../assets/points/10.png');
-        break;
-		case 11:
-        return require('../assets/points/11.png');
-        break;
-		case 12:
-        return require('../assets/points/12.png');
-        break;
-		case 13:
-        return require('../assets/points/13.png');
-        break;
-		case 14:
-      	return require('../assets/points/14.png');
-        break;
-		case 15:
-        return require('../assets/points/15.png');
-        break;
-    default:
-        return require('../assets/points/1.png');
-}
-	}
-
-  fillCard() {
-    let holderArray = [];
-    let api = Api.getInstance();
-    let localStorage = LocalStorage.getInstance();
-    localStorage.retrieveItem('userId').then((id) => {
-        userData = {
-            id: id
+        if(id <= total){
+            return require('../assets/points/check.png');
         }
-        api.callApi('api/checkPoints', 'POST', userData, response => {
-            let numOfStamps = response['points'][0];
-            let count = 1;
 
-            for(let row = 0; row < 5; row++) {
-                holderArray.push(
-                    <View key = {15 - count} style= {stylesCss.pointCardColumn }>
-                        <View style={ stylesCss.pointCardRow}>
-                            <Image  style = { stylesCss.stampFilled}
-                                            source = {this.getFile(count, numOfStamps)}
-                                            />
-                            <Image  style = { stylesCss.stampFilled }
-                                            source = {this.getFile(count+1, numOfStamps)}
-                            />
-                            <Image  style = { stylesCss.stampFilled }
-                                            source = {this.getFile(count+2, numOfStamps)}
-                            />
-                        </View>
-                    </View>
-                );
-                count = count + 3;
-            }
-                });
-    });
-    
+        switch(id) {
+        case 1:
+            return require('../assets/points/1.png');
+            break;
+        case 2:
+            return require('../assets/points/2.png');
+            break;
+        case 3:
+            return require('../assets/points/3.png');
+            break;
+        case 4:
+            return require('../assets/points/4.png');
+            break;
+        case 5:
+            return require('../assets/points/5.png');
+            break;
+        case 6:
+            return require('../assets/points/6.png');
+            break;
+        case 7:
+            return require('../assets/points/7.png');
+            break;
+        case 8:
+            return require('../assets/points/8.png');
+            break;
+        case 9:
+            return require('../assets/points/9.png');
+            break;
+        case 10:
+            return require('../assets/points/10.png');
+            break;
+        case 11:
+            return require('../assets/points/11.png');
+            break;
+        case 12:
+            return require('../assets/points/12.png');
+            break;
+        case 13:
+            return require('../assets/points/13.png');
+            break;
+        case 14:
+            return require('../assets/points/14.png');
+            break;
+        case 15:
+            return require('../assets/points/15.png');
+            break;
+        default:
+            return require('../assets/points/1.png');
+        };
+    }
+
+  fillCard(numOfStamps) {
+    let holderArray = [];
+        let count = 1;
+
+    for(let row = 0; row < 5; row++) {
+        holderArray.push(
+            <View key = {15 - count} style= {stylesCss.pointCardColumn }>
+                <View style={ stylesCss.pointCardRow}>
+                    <Image  style = { stylesCss.stampFilled}
+                                    source = {this.getFile(count, numOfStamps)}
+                                    />
+                    <Image  style = { stylesCss.stampFilled }
+                                    source = {this.getFile(count+1, numOfStamps)}
+                    />
+                    <Image  style = { stylesCss.stampFilled }
+                                    source = {this.getFile(count+2, numOfStamps)}
+                    />
+                </View>
+            </View>
+        );
+            count = count + 3;
+    }
     return holderArray;
   }
 //			<ConfettiView>
 
   render() {
+    this.refreshCard();
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 		<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
