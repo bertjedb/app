@@ -50,8 +50,8 @@ class LoginScreen extends Component {
   constructor() {
       super();
 		this.state = {
-         	email: 'b@b.nl',
-			password: 'bert123',
+         	email: '',
+			password: '',
 			succesfull: false,
       };
   }

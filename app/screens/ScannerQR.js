@@ -93,7 +93,9 @@ class ScannerQR extends Component {
                         personId: id
                     }
                     api.callApi('api/qrEvent', 'POST', sendData, response => {
-                        
+                        if(response['responseCode'] == "200") {
+                            alert("Je hebt een stempel gekregen!");
+                        }
                     });
                   }).catch((error) => {
                   //this callback is executed when your Promise is rejected

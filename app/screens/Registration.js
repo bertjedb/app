@@ -71,26 +71,30 @@ export default class Registration extends Component {
   registrate() {
   	//first checks wether or not the 2 password fields contain the same password
     if(this.state.firstPassword == this.state.secondPassword) {
-        let api = Api.getInstance();
-        //hash password here
-        let userData = {
-            email: this.state.email,
-            password: this.state.firstPassword,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
+    	if(this.state.firstPassword.length >= 5) {
+        	let api = Api.getInstance();
+        	//hash password here
+        	let userData = {
+        	    email: this.state.email,
+        	    password: this.state.firstPassword,
+        	    firstName: this.state.firstName,
+        	    lastName: this.state.lastName,
+        	}
+        	api.callApi('register', 'POST', userData, response => {
+        	    if(response['responseCode'] == 200){
+								this.setState({
+									succesfull: true,
+								})
+								this.props.navigation.dispatch(NavigationActions.back());
+				} else {
+					alert("Probeer opnieuw aub")
+				}
+        	});
+        } else {
+        	alert('Je wachtwoord moet minimaal 5 karakters lang zijn');
         }
-        api.callApi('register', 'POST', userData, response => {
-            if(response['responseCode'] == 200){
-							this.setState({
-								succesfull: true,
-							})
-							this.props.navigation.dispatch(NavigationActions.back());
-			} else {
-				alert("Probeer opnieuw aub")
-			}
-        });
     } else {
-        alert('De ingevulde wachtwoorden zijn niet gelijk.')
+        alert('De ingevulde wachtwoorden zijn niet gelijk.');
     }
 
   }

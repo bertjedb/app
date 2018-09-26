@@ -52,10 +52,9 @@ export default class ChangePassword extends Component {
     if(this.state.firstOldPassword == this.state.secondOldPassword) {
         let localStorage = LocalStorage.getInstance();
         let api = Api.getInstance();
-
-				localStorage.retrieveItem('userId').then((goals) => {
+				localStorage.retrieveItem('userId').then((id) => {
                     let userData = {
-                        id: goals,
+                        id: id,
                         oldPassword: this.state.oldPassword,
                         newPassword: this.state.firstNewPassword
                     }
@@ -66,13 +65,10 @@ export default class ChangePassword extends Component {
                             this.props.navigation.dispatch(NavigationActions.back());
                         }
                     });
-
 	              }).catch((error) => {
 	              //this callback is executed when your Promise is rejected
 	              console.log('Promise is rejected with error: ' + error);
 	              });
-
-
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
@@ -139,7 +135,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
   },
 	card: {
-		backgroundColor: '#3bb222',
+		backgroundColor: '#93D500',
 		margin: 10,
 		borderRadius: 10,
 		shadowOffset: {width: 0, height: 13},
