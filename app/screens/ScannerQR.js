@@ -98,15 +98,13 @@ class ScannerQR extends Component {
   render() {
     return(
         <View style={{flex: 1}}>
-          <Card>
-          <Text style={styles.textViewTitle} >Scan the QR code to get a point.</Text>
-          <Text style={styles.textViewTitle} >You have now { this.state.pointCount } points!</Text>
-          </Card>
           <QRCodeScanner
           reactivate={this.state.scannerReactivate}
           reactivateTimeout={3000}
           showMarker={true}
             onRead={(response) => this.checkQR(response)}
+						cameraStyle={{height: Dimensions.get('window').height -410,
+						width: Dimensions.get('window').width -40, marginLeft: 20, marginTop: 20}}
           />
         </View>
     );

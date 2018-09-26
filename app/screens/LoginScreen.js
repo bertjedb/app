@@ -10,6 +10,7 @@ import {
 		ImageBackground,
     Image,
     Divider,
+		AsyncStorage,
 } from 'react-native';
 import { DrawerActions } from 'react-navigation';
 import UserInput from './UserInput';
@@ -32,6 +33,7 @@ import {
 } from 'react-native-material-ui';
 
 import stylesCss from '../assets/css/style.js';
+import LocalStorage from '../config/localStorage.js';
 
 const uiTheme = {
     palette: {
@@ -49,21 +51,59 @@ class LoginScreen extends Component {
   constructor() {
       super();
 			this.state = {
-          firstName: '',
-					password: ''
+          firstName: 'ha@ha.nl',
+					password: '123456',
+					succesfull: false,
       };
   }
+
+	componentWillUnmount() {
+		if(true){
+			Snackbar.show({
+			  title: 'Login succesvol!',
+			  duration: Snackbar.LENGTH_LONG,
+			  action: {
+			    title: 'OK',
+			    color: 'green',
+			    onPress: () => { /* Do something. */ },
+			  },
+			});
+		}
+	}
+
+	setUser(value, id){
+		let localStorage = LocalStorage.getInstance();
+		localStorage.storeItem('succesfull', true);
+		alert(id);
+		this.props.navigation.dispatch(NavigationActions.back())
+
+		localStorage.storeItem('userId', id);
+   }
+
+	 async storeItem(key, item) {
+		 try {
+				 //we want to wait for the Promise returned by AsyncStorage.setItem()
+				 //to be resolved to the actual value before returning the value
+				 var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+				 return jsonOfItem;
+		 } catch (error) {
+			 console.log(error.message);
+		 }
+ 	}
 
 	login() {
         let api = Api.getInstance();
         let userData = {
-            firstName: this.state.firstName,
+            email: this.state.firstName,
             password: this.state.password,
         }
-        api.callApi('register', 'POST', userData, response => {
-            if(response == "200"){
-							this.props.navigation.goBack();
+
+        api.callApi('login', 'POST', userData, response => {
+					console.log(response);
+            if(response['value'] == true){
+							this.setUser(response['value'], response['userId']);
 						} else {
+							alert("ERROR " + response['value'])
 							//alert("Please try again..")
 						}
         });
