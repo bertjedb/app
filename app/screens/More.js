@@ -64,23 +64,23 @@ export default class More extends Component {
               divider
               items={[
                   { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-                    value: 'Inloggen',
-                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-                          routeName: 'LoginStack',
-                          action: NavigationActions.navigate({ routeName: 'LoginScreen' })
-                        })
-                    )
-                   },
-                   { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-                    value: 'Registreren',
-                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-                          routeName: 'LoginStack',
-                          action: NavigationActions.navigate({ routeName: 'Registration' })
-                        })
-                    )
-                   },
+					value: 'Inloggen',
+					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+        				  routeName: 'LoginStack',
+        				  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
+        				})
+        			)
+				   },
+                   { icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
+ 					value: 'Registreren',
+ 					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+         				  routeName: 'LoginStack',
+         				  action: NavigationActions.navigate({ routeName: 'Registration' })
+         				})
+         			)
+ 				   },
                   {
-                    icon: 'today',
+                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                     value: 'Wachtwoord vergeten',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                           routeName: 'LoginStack',
