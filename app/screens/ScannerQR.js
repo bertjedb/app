@@ -27,6 +27,8 @@ import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 
 import {
     COLOR,
@@ -78,35 +80,43 @@ class ScannerQR extends Component {
     this.setState({
       scannerReactivate: false,
     });
-    fetch('http://gromdroid.nl/ide/workspace/hanze/api.php')
-        .then((response) => response.json())
-        .then((responseJson) => {
-          Alert.alert(
-            responseJson.verified ? 'Succes' : 'Error',
-            '',
-            [
-              {text: 'OK', onPress: () => this.props.navigation.goBack()},
-            ],
-            { cancelable: false }
-          );
-        })
-        .catch((error) => {
-            console.error(error);
+    userData = {
+      qrCode: response.data
+    }
+    let api = Api.getInstance();
+    api.callApi('api/eventByCode', 'POST', userData, response => {
+            if(response.responseCode == "200") {
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    sendData = {
+                        eventId: response.eventId,
+                        personId: id
+                    }
+                    api.callApi('api/qrEvent', 'POST', sendData, response => {
+                        if(response['responseCode'] == "200") {
+                            alert("Je hebt een stempel gekregen!");
+                        }
+                    });
+                  }).catch((error) => {
+                  //this callback is executed when your Promise is rejected
+                  console.log('Promise is rejected with error: ' + error);
+                  });
+            } else {
+                alert("Could not find qr code")
+            }
         });
   }
 
   render() {
     return(
         <View style={{flex: 1}}>
-          <Card>
-          <Text style={styles.textViewTitle} >Scan the QR code to get a point.</Text>
-          <Text style={styles.textViewTitle} >You have now { this.state.pointCount } points!</Text>
-          </Card>
           <QRCodeScanner
           reactivate={this.state.scannerReactivate}
           reactivateTimeout={3000}
           showMarker={true}
-            onRead={(response) => this.checkQR(response)}
+          onRead={(response) => this.checkQR(response)}
+		  cameraStyle={{height: Dimensions.get('window').height -410,
+		  width: Dimensions.get('window').width -40, marginLeft: 20, marginTop: 20}}
           />
         </View>
     );

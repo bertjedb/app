@@ -12,7 +12,7 @@ import {
     Image,
     Divider,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
@@ -32,31 +32,43 @@ import {
 
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 
 export default class ChangePassword extends Component {
 
   constructor() {
       super();
       this.state = {
+        userId: null,
         email: '',
-        newPassword: '',
-        firstOldPassword: '',
-        secondOldPassword: '',
+        oldPassword: '',
+        firstNewPassword: '',
+        secondNewPassword: '',
       };
 
   }
 
   changePassword() {
     if(this.state.firstOldPassword == this.state.secondOldPassword) {
+        let localStorage = LocalStorage.getInstance();
         let api = Api.getInstance();
-        let userData = {
-            email: this.state.email,
-            newPassword: this.state.newPassword
-        }
-        api.callApi('/changePassword', 'POST', userData, response => {
-            console.log(response);
-        });
-        alert("Changing password");
+				localStorage.retrieveItem('userId').then((id) => {
+                    let userData = {
+                        id: id,
+                        oldPassword: this.state.oldPassword,
+                        newPassword: this.state.firstNewPassword
+                    }
+                    console.log(userData);
+                    api.callApi('api/changePassword', 'POST', userData, response => {
+                        if(response['responseCode'] == 200){
+                            console.log(response['responseCode'])
+                            this.props.navigation.dispatch(NavigationActions.back());
+                        }
+                    });
+	              }).catch((error) => {
+	              //this callback is executed when your Promise is rejected
+	              console.log('Promise is rejected with error: ' + error);
+	              });
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
@@ -80,27 +92,28 @@ export default class ChangePassword extends Component {
             textColor='green'
             tintColor='green'
             baseColor='green'
-            label='Nieuw wachtwoord'
-            value={this.state.newPassword}
-            onChangeText={ (newPassword) => this.setState({ newPassword }) }
-          />
-          <TextField
-            textColor='green'
-            tintColor='green'
-            baseColor='green'
             label='Oud wachtwoord'
             secureTextEntry={true}
-            value={this.state.firstOldPassword}
-            onChangeText={ (firstOldPassword) => this.setState({ firstOldPassword }) }
+            value={this.state.oldPassword}
+            onChangeText={ (oldPassword) => this.setState({ oldPassword }) }
           />
           <TextField
             textColor='green'
             tintColor='green'
             baseColor='green'
-            label='Herhaal oud wachtwoord'
+            label='Nieuw wachtwoord'
             secureTextEntry={true}
-            value={this.state.secondOldPasswordt}
-            onChangeText={ (secondOldPasswordt) => this.setState({ secondOldPasswordt }) }
+            value={this.state.firstNewPassword}
+            onChangeText={ (firstNewPassword) => this.setState({ firstNewPassword }) }
+          />
+          <TextField
+            textColor='green'
+            tintColor='green'
+            baseColor='green'
+            label='Herhaal nieuw wachtwoord'
+            secureTextEntry={true}
+            value={this.state.secondNewPassword}
+            onChangeText={ (secondNewPassword) => this.setState({ secondNewPassword }) }
           />
           <Button
             style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
@@ -122,7 +135,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
   },
 	card: {
-		backgroundColor: '#3bb222',
+		backgroundColor: '#93D500',
 		margin: 10,
 		borderRadius: 10,
 		shadowOffset: {width: 0, height: 13},

@@ -10,9 +10,9 @@ import {
 		ImageBackground,
     Image,
     Divider,
+		AsyncStorage,
 } from 'react-native';
 import { DrawerActions } from 'react-navigation';
-import UserInput from './UserInput';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -32,6 +32,7 @@ import {
 } from 'react-native-material-ui';
 
 import stylesCss from '../assets/css/style.js';
+import LocalStorage from '../config/localStorage.js';
 
 const uiTheme = {
     palette: {
@@ -48,24 +49,60 @@ class LoginScreen extends Component {
 
   constructor() {
       super();
-			this.state = {
-          firstName: '',
-					password: ''
+		this.state = {
+         	email: '',
+			password: '',
+			succesfull: false,
       };
   }
+
+	componentWillUnmount() {
+		if(true){
+			Snackbar.show({
+			  title: 'Login succesvol!',
+			  duration: Snackbar.LENGTH_LONG,
+			  action: {
+			    title: 'OK',
+			    color: 'green',
+			    onPress: () => { /* Do something. */ },
+			  },
+			});
+		}
+	}
+
+	setUser(value, id){
+		let localStorage = LocalStorage.getInstance();
+		localStorage.storeItem('succesfull', true);
+		this.props.navigation.dispatch(NavigationActions.back());
+		localStorage.storeItem('userId', id);
+   }
+
+	 async storeItem(key, item) {
+		 try {
+				 //we want to wait for the Promise returned by AsyncStorage.setItem()
+				 //to be resolved to the actual value before returning the value
+				 var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+				 return jsonOfItem;
+		 } catch (error) {
+			 console.log(error.message);
+		 }
+ 	}
 
 	login() {
         let api = Api.getInstance();
         let userData = {
-            firstName: this.state.firstName,
+            email: this.state.email,
             password: this.state.password,
         }
-        api.callApi('register', 'POST', userData, response => {
-            if(response == "200"){
-							this.props.navigation.goBack();
-						} else {
-							//alert("Please try again..")
-						}
+
+        api.callApi('login', 'POST', userData, response => {
+					console.log(response);
+            if(response['value'] == true){
+				this.setUser(response['value'], response['userId']);
+			} else {
+				alert("ERROR " + response['value'])
+				//alert("Please try again..")
+			}
         });
         //alert("registrating");
 
@@ -73,74 +110,73 @@ class LoginScreen extends Component {
 
   render() {
     return(
+		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 
-				<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-
-				<View style={styles.container}>
+			<View style={styles.container}>
 				<View style={styles.card} elevation={5}>
-				<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: '#3bb222'}}>
+				<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: '#93D500'}}>
 				Inloggen
 				</Text>
-				<View style={{backgroundColor: '#3bb222', height: 220, paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-					<View style={{paddingLeft: 10, paddingRight: 10, paddingTop: 20}}>
-						<View style={styles.SectionStyleTop}>
-							<Icon name="at" size={24} color='grey' style={styles.ImageStyle}/>
-							<TextInput
-									style={{flex:1}}
-									placeholder="Email"
-									underlineColorAndroid="transparent"
-									value={ this.state.firstName }
-									onChangeText={ firstName => this.setState({firstName}) }
-							/>
+					<View style={{backgroundColor: '#93D500', height: 220, paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
+						<View style={{paddingLeft: 10, paddingRight: 10, paddingTop: 20}}>
+							<View style={styles.SectionStyleTop}>
+								<Icon name="at" size={24} color='grey' style={styles.ImageStyle}/>
+								<TextInput
+										style={{flex:1}}
+										placeholder="Email"
+										underlineColorAndroid="transparent"
+										value={ this.state.email }
+										onChangeText={ email => this.setState({email}) }
+								/>
+							</View>
 						</View>
-					</View>
-					<View style={{paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
-						<View style={styles.SectionStyleBottom}>
-							<Icon name="lock" size={24} color='grey' style={styles.ImageStyle}/>
-							<TextInput
-									style={{flex:1}}
-									secureTextEntry={true}
-									placeholder="Password"
-									underlineColorAndroid="transparent"
-									value={ this.state.password }
-									onChangeText={ password => this.setState({password}) }
-							/>
+						<View style={{paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
+							<View style={styles.SectionStyleBottom}>
+								<Icon name="lock" size={24} color='grey' style={styles.ImageStyle}/>
+								<TextInput
+										style={{flex:1}}
+										secureTextEntry={true}
+										placeholder="Password"
+										underlineColorAndroid="transparent"
+										value={ this.state.password }
+										onChangeText={ password => this.setState({password}) }
+								/>
+							</View>
 						</View>
+						<Button
+							style={{
+								container: {
+									margin: 10,
+										borderRadius: 10,
+										backgroundColor: '#FF6700'
+								},
+								text: {
+									color: 'white'
+								}
+							}}
+							raised text="Doorgaan"
+							onPress={() => this.login()} />
+						<Button
+							style={{
+								container: {
+									margin: 10,
+										borderRadius: 10,
+										backgroundColor: '#FF6700'
+								},
+								text: {
+									color: 'white'
+								}
+							}}
+							raised text="Registreren"
+							onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
+								routeName: 'LoginStack',
+								action: NavigationActions.navigate({ routeName: 'Registration' })
+								})
+							)} />
 					</View>
-					<Button
-									style={{
-										container: {
-											margin: 10,
-												borderRadius: 10,
-												backgroundColor: '#FF6700'
-										},
-										text: {
-											color: 'white'
-										}
-									}}
-									raised text="Doorgaan"
-									onPress={() => this.login()} />
-					<Button
-									style={{
-										container: {
-											margin: 10,
-												borderRadius: 10,
-												backgroundColor: '#FF6700'
-										},
-										text: {
-											color: 'white'
-										}
-									}}
-									raised text="Registreren"
-									onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
-																																	  routeName: 'LoginStack',
-																																	  action: NavigationActions.navigate({ routeName: 'Registration' })
-																																	})
-																																)} />
 				</View>
-				</View>
-				</View>
-				</ImageBackground>
+			</View>
+		</ImageBackground>
 
     );
   }
