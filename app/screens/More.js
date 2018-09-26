@@ -71,7 +71,7 @@ class More extends Component {
         				})
         			)
 				   },
-                   { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
+                   { icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
  					value: 'Registreren',
  					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
          				  routeName: 'LoginStack',
@@ -80,7 +80,7 @@ class More extends Component {
          			)
  				   },
                   {
-                    icon: 'today',
+                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                     value: 'Wachtwoord vergeten',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
 						  routeName: 'LoginStack',
