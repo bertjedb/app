@@ -19,8 +19,13 @@ import ActionButton from 'react-native-action-button';
 
 import stylesCss from '../assets/css/style.js';
 
+import QRCodeScanner from 'react-native-qrcode-scanner';
+
+import ScannerQR from './ScannerQR.js';
 
 import ConfettiView from 'react-native-confetti-view';
+
+import CardFlip from 'react-native-card-flip';
 
 import {
     COLOR,
@@ -155,53 +160,125 @@ class PointCard extends Component {
     return(
 			<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 
-			<View style={styles.container}>
-			<View style={styles.card} elevation={5}>
-			<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
-			Inloggen
-			</Text>
-			<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
-			Scan een QR-code voor een stempel
-			</Text>
-			<View style={{
-				backgroundColor: 'white',
-				height: Dimensions.get('window').height -320,
-				width: Dimensions.get('window').width -40,
-				borderRadius: 10,
-				alignItems: 'center',}}>
+			<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
+          <TouchableOpacity activeOpacity={1} style={styles.container}  >
+							<View style={styles.card} elevation={5}>
+								<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
+								Stempelkaart
+								</Text>
+								<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
+								Scan een QR-code voor een stempel
+								</Text>
+								<View style={{
+									backgroundColor: 'white',
+									height: Dimensions.get('window').height -320,
+									width: Dimensions.get('window').width -40,
+									borderRadius: 10,
+									alignItems: 'center',}}>
 
 
-				{this.state.card}
-			</View>
-			<TouchableOpacity
-				onPress={this._onPressButton}
-				style = {{ marginBottom: 10,
-													marginTop: 10,
-													height: 65,
-													width: 65,
-												 	backgroundColor: '#3bb222',
-													borderRadius: 50,
-													shadowOffset: {width: 0, height: 13},
-											    shadowOpacity: 0.3,
-											    shadowRadius: 6,
+									{this.state.card}
+								</View>
+								<TouchableOpacity
+									onPress={() => this.card.flip()}
+									style = {{ marginBottom: 10,
+																		marginTop: 10,
+																		height: 65,
+																		width: 65,
+																		backgroundColor: '#3bb222',
+																		borderRadius: 50,
+																		shadowOffset: {width: 0, height: 13},
+																		shadowOpacity: 0.3,
+																		shadowRadius: 6,
 
-											    // android (Android +5.0)
-											    elevation: 5,}}>
-				<Icon name="camera" style={{margin:15,}} size={35} color='white' />
-			</TouchableOpacity>
-			</View>
-			</View>
+																		// android (Android +5.0)
+																		elevation: 5,}}>
+									<Icon onPress={() => this.card.flip()} name="camera" style={{margin:15,}} size={35} color='white' />
+								</TouchableOpacity>
+							</View>
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={1} style={styles.container}>
+							<View style={styles.card} elevation={5}>
+								<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
+								Scanner
+								</Text>
+								<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
+								Scan een QR-code voor een stempel
+								</Text>
+								<View style={{
+									backgroundColor: 'white',
+									height: Dimensions.get('window').height -320,
+									width: Dimensions.get('window').width -40,
+									borderRadius: 10,
+									alignItems: 'center',}}>
+
+
+									<ScannerQR/>
+								</View>
+								<TouchableOpacity
+									onPress={() => this.card.flip()}
+									style = {{ marginBottom: 10,
+																		marginTop: 10,
+																		height: 65,
+																		width: 65,
+																		backgroundColor: '#FF6700',
+																		borderRadius: 50,
+																		shadowOffset: {width: 0, height: 13},
+																		shadowOpacity: 0.3,
+																		shadowRadius: 6,
+
+																		// android (Android +5.0)
+																		elevation: 5,}}>
+									<Icon onPress={() => this.card.flip()} name="close" style={{margin:15,}} size={35} color='white' />
+								</TouchableOpacity>
+							</View>
+          </TouchableOpacity>
+        </CardFlip>
+
+
 			</ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
+
+  cardContainer:{
+		height: Dimensions.get('window').height,
+		width: Dimensions.get('window').width,
+  },
+  cardUM:{
+    width: 320,
+    height: 470,
+    backgroundColor: '#FE474C',
+    borderRadius: 5,
+    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity:0.5,
+  },
+  card1: {
+    backgroundColor: '#FE474C',
+  },
+  card2: {
+    backgroundColor: '#FEB12C',
+  },
+  label: {
+    lineHeight: 470,
+    textAlign: 'center',
+    fontSize: 55,
+    fontFamily: 'System',
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+  },
+
   container: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		paddingBottom: 56,
+		paddingBottom: 135,
   },
 	card: {
 		alignItems: 'center',
