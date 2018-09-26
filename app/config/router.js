@@ -18,30 +18,6 @@ import RecoverPassword from '../screens/RecoverPassword';
 import News from '../screens/News';
 import More from '../screens/More';
 
-// export const Drawer = DrawerNavigator({
-//   Feed: {
-//     screen: FeedStack,
-//   },
-//   Upload: {
-//     screen: Upload,
-//   },
-//   ScannerQR: {
-//     screen: ScannerQR,
-//   },
-//   LoginScreen: {
-//     screen: LoginScreen,
-//   },
-//    PointCard: {
-//      screen: PointCard,
-//    },
-//    Registration: {
-//      screen: Registration,
-//    },
-// }, {
-//   contentComponent: DrawerContent,
-//   drawerPosition: 'left',
-// });
-
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
@@ -132,7 +108,7 @@ export const MyApp = StackNavigator({
 		navigationOptions: {
 			title: 'Bslim',
 			headerStyle: {
-	      backgroundColor: '#3bb222',
+	      backgroundColor: '#93D500',
 	    },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
@@ -146,7 +122,7 @@ export const MyApp = StackNavigator({
 		navigationOptions: {
 			title: 'Account',
 			headerStyle: {
-	      backgroundColor: '#3bb222',
+	      backgroundColor: '#93D500',
 	    },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
