@@ -25,101 +25,99 @@ class More extends Component {
 	constructor() {
       super();
       this.state = {
-				succesfull: false,
-				userId: null,
+			succesfull: false,
+			userId: null,
+            didMount: false
       };
 
-  }
-
-  navigateToScreen = (route) => () => {
-      const navigate = NavigationActions.navigate({
-        routeName: route
-      });
-      this.props.navigation.dispatch(navigate);
     }
 
-
-
-
-
+    navigateToScreen = (route) => () => {
+        const navigate = NavigationActions.navigate({
+          routeName: route
+        });
+        this.props.navigation.dispatch(navigate);
+    }
+    componentDidUnmount() {
+        this.setState({didMount: true})
+    }
   render () {
 		let api = Api.getInstance();
 		let localStorage = LocalStorage.getInstance();
-
-				localStorage.retrieveItem('userId').then((goals) => {
-	              this.setState({
-									userId: goals,
-								})
-	              }).catch((error) => {
-	              //this callback is executed when your Promise is rejected
-	              console.log('Promise is rejected with error: ' + error);
-	              });
-
+		localStorage.retrieveItem('userId').then((goals) => {
+            if(this.state.didMount) {
+                this.setState({
+                    userId: goals,
+                });
+              }
+            }).catch((error) => {
+                //this callback is executed when your Promise is rejected
+                console.log('Promise is rejected with error: ' + error);
+                });
+            }
 
       return (
-				<View style={{flex: 1}}>
-        <Drawer>
-				{this.state.userId == null &&
-          <Drawer.Section
-              divider
-              items={[
-                  { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-										value: 'Inloggen',
-										onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-																																	  routeName: 'LoginStack',
-																																	  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
-																																	})
-																																)
+			<View style={{flex: 1}}>
+                <Drawer>
+				    {this.state.userId == null &&
+                <Drawer.Section
+                divider
+                items={[    { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
+							  value: 'Inloggen',
+							  onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+											  routeName: 'LoginStack',
+											  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
+												});
+											);
 									},
                   {
                     icon: 'today',
                     value: 'Wachtwoord veranderen',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-																																	  routeName: 'LoginStack',
-																																	  action: NavigationActions.navigate({ routeName: 'ChangePassword' })
-																																	})
-																																)
+							     	  routeName: 'LoginStack',
+							     	  action: NavigationActions.navigate({ routeName: 'ChangePassword' })
+							     	});
+							 );
                    },
                   {
                     icon: 'today',
                     value: 'Wachtwoord herstellen',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-																																	  routeName: 'LoginStack',
-																																	  action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
-																																	})
-																																)
-                   },
-
-              ]}
-          />
+									  routeName: 'LoginStack',
+									  action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+									});
+								);
+                         },
+        
+                    ]}
+                />
 					}
-          <Drawer.Section
-              title="Lorem ipsum"
-              items={[
-                  {
-                    icon: 'info',
-                    value: 'Info',
-                  },
-                  {
-                    icon: 'power-settings-new',
-                    value: 'Uitloggen',
-                    onPress: () =>
-												api.callApi('logout', 'POST', {
-													id: this.state.userId,
-												}, response => {
-													console.log(response)
-						            if(response['value'] == true){
-													localStorage.storeItem('userId', null);
-
-												} else {
-													//alert("Please try again..")
-												}
-						        }),
-                  },
-              ]}
-          />
-        </Drawer>
-				</View>
+                <Drawer.Section
+                    title="Lorem ipsum"
+                    items={[
+                        {
+                          icon: 'info',
+                          value: 'Info',
+                        },
+                        {
+                          icon: 'power-settings-new',
+                          value: 'Uitloggen',
+                          onPress: () =>
+			     			api.callApi('logout', 'POST', {
+			     				id: this.state.userId,
+			     			}, response => {
+			     				console.log(response)
+                              if(response['value'] == true){
+			     				localStorage.storeItem('userId', null);
+			     			} else {
+			     				//alert("Please try again..")
+			     			}
+                              }),
+                        },
+                    ]}
+                />
+                </Drawer>
+			</View>
       );
     }
 }

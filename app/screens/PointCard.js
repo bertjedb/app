@@ -27,6 +27,10 @@ import ConfettiView from 'react-native-confetti-view';
 
 import CardFlip from 'react-native-card-flip';
 
+import Api from '../config/api.js';
+
+import LocalStorage from '../config/localStorage.js';
+
 import {
     COLOR,
     ThemeContext,
@@ -130,27 +134,37 @@ class PointCard extends Component {
 
   fillCard() {
     let holderArray = [];
-    let numOfStamps = 7;
-		let count = 1;
+    let api = Api.getInstance();
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem('userId').then((id) => {
+        userData = {
+            id: id
+        }
+        api.callApi('api/checkPoints', 'POST', userData, response => {
+            let numOfStamps = response['points'][0];
+            let count = 1;
 
-    for(let row = 0; row < 5; row++) {
-		holderArray.push(
-			<View key = {15 - count} style= {stylesCss.pointCardColumn }>
-				<View style={ stylesCss.pointCardRow}>
-					<Image  style = { stylesCss.stampFilled}
-									source = {this.getFile(count, numOfStamps)}
-									/>
-					<Image  style = { stylesCss.stampFilled }
-									source = {this.getFile(count+1, numOfStamps)}
-					/>
-					<Image  style = { stylesCss.stampFilled }
-									source = {this.getFile(count+2, numOfStamps)}
-					/>
-				</View>
-			</View>
-		);
-		count = count + 3;
-    }
+            for(let row = 0; row < 5; row++) {
+                holderArray.push(
+                    <View key = {15 - count} style= {stylesCss.pointCardColumn }>
+                        <View style={ stylesCss.pointCardRow}>
+                            <Image  style = { stylesCss.stampFilled}
+                                            source = {this.getFile(count, numOfStamps)}
+                                            />
+                            <Image  style = { stylesCss.stampFilled }
+                                            source = {this.getFile(count+1, numOfStamps)}
+                            />
+                            <Image  style = { stylesCss.stampFilled }
+                                            source = {this.getFile(count+2, numOfStamps)}
+                            />
+                        </View>
+                    </View>
+                );
+                count = count + 3;
+            }
+                });
+    });
+    
     return holderArray;
   }
 //			<ConfettiView>
