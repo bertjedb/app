@@ -57,67 +57,75 @@ class More extends Component {
             }
 
       return (
-			<View style={{flex: 1}}>
-                <Drawer>
-				    {this.state.userId == null &&
-                <Drawer.Section
-                divider
-                items={[    { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-							  value: 'Inloggen',
-							  onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-											  routeName: 'LoginStack',
-											  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
-												});
-											);
-									},
+				<View style={{flex: 1}}>
+        <Drawer>
+				{this.state.userId == null &&
+          <Drawer.Section
+              divider
+              items={[
+                  { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
+					value: 'Inloggen',
+					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+        				  routeName: 'LoginStack',
+        				  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
+        				})
+        			)
+				   },
+                   { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
+ 					value: 'Registreren',
+ 					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+         				  routeName: 'LoginStack',
+         				  action: NavigationActions.navigate({ routeName: 'Registration' })
+         				})
+         			)
+ 				   },
+                  {
+                    icon: 'today',
+                    value: 'Wachtwoord vergeten',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+						  routeName: 'LoginStack',
+						  action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+						})
+					)
+                   },
+
+              ]}
+          />
+					}
+                    {this.state.userId != null &&
+          <Drawer.Section
+              items={[
                   {
                     icon: 'today',
                     value: 'Wachtwoord veranderen',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-							     	  routeName: 'LoginStack',
-							     	  action: NavigationActions.navigate({ routeName: 'ChangePassword' })
-							     	});
-							 );
+						  routeName: 'LoginStack',
+						  action: NavigationActions.navigate({ routeName: 'ChangePassword' })
+						})
+					)
                    },
                   {
-                    icon: 'today',
-                    value: 'Wachtwoord herstellen',
-                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-									  routeName: 'LoginStack',
-									  action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
-									});
-								);
-                         },
-        
-                    ]}
-                />
-					}
-                <Drawer.Section
-                    title="Lorem ipsum"
-                    items={[
-                        {
-                          icon: 'info',
-                          value: 'Info',
-                        },
-                        {
-                          icon: 'power-settings-new',
-                          value: 'Uitloggen',
-                          onPress: () =>
-			     			api.callApi('logout', 'POST', {
-			     				id: this.state.userId,
-			     			}, response => {
-			     				console.log(response)
-                              if(response['value'] == true){
-			     				localStorage.storeItem('userId', null);
-			     			} else {
-			     				//alert("Please try again..")
-			     			}
-                              }),
-                        },
-                    ]}
-                />
-                </Drawer>
-			</View>
+                    icon: 'power-settings-new',
+                    value: 'Uitloggen',
+                    onPress: () =>
+    							api.callApi('logout', 'POST', {
+    								id: this.state.userId,
+    							}, response => {
+    								console.log(response)
+    	            if(response['value'] == true){
+    								localStorage.storeItem('userId', null);
+
+    							} else {
+    								//alert("Please try again..")
+    							}
+    	        }),
+                },
+              ]}
+
+          />
+      }
+        </Drawer>
+				</View>
       );
     }
 }

@@ -42,19 +42,16 @@ export default class RecoverPassword extends Component {
   recover() {
       let api = Api.getInstance();
       let userData = {
-          email: this.state.email,
+          'email': this.state.email,
       }
-      api.callApi('/changePassword', 'POST', userData, response => {
+      api.callApi('reset-password', 'POST', userData, response => {
           console.log(response);
       });
       alert(
         'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
        );
-      this.props.navigation.dispatch(NavigationActions.navigate({
-                                                      routeName: 'LoginStack',
-                                                      action: NavigationActions.navigate({ routeName: 'ChangePassword' })
-                                                    })
-                                                  );
+       this.props.navigation.dispatch(NavigationActions.back())
+
   }
 
   render() {
