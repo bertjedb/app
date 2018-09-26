@@ -79,10 +79,11 @@ class PointCard extends Component {
             }
             api.callApi('api/checkPoints', 'POST', userData, response => {
                     this.setState({card: this.fillCard(response['points'][0]) });
-                    localStorage.storeItem('points', response['points'][0]));
+                    localStorage.storeItem('points', response['points'][0]);
                 });
           }).catch((error) => {
           //this callback is executed when your Promise is rejected
+          console.log("ERROR retrieving points");
           localStorage.retrieveItem('points').then((points) => {
             this.setState({card: this.fillCard(response['points'][0])})
           });
@@ -181,7 +182,6 @@ class PointCard extends Component {
 //			<ConfettiView>
 
   render() {
-    this.refreshCard();
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 		<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
@@ -203,7 +203,7 @@ class PointCard extends Component {
 					</View>
 					<TouchableOpacity
 						onPress={() => {  this.card.flip();
-                                          this.setState({cameraActive: true})
+                                          this.setState({cameraActive: true});
                                        }
                                 }
 						style = {{ marginBottom: 10,
@@ -217,7 +217,10 @@ class PointCard extends Component {
 							shadowRadius: 6,
 							// android (Android +5.0)
 							elevation: 5,}}>
-						<Icon onPress={() => {this.card.flip(); this.setState({cameraActive: false})}} name="camera" style={{margin:15,}} size={35} color='white' />
+						<Icon onPress={() => {this.card.flip();
+                                              this.setState({cameraActive: false});
+                                              this.refreshCard();
+                                          }} name="camera" style={{margin:15,}} size={35} color='white' />
 					</TouchableOpacity>
 				</View>
           </TouchableOpacity>

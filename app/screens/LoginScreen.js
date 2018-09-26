@@ -73,9 +73,7 @@ class LoginScreen extends Component {
 	setUser(value, id){
 		let localStorage = LocalStorage.getInstance();
 		localStorage.storeItem('succesfull', true);
-		alert(id);
-		this.props.navigation.dispatch(NavigationActions.back())
-
+		this.props.navigation.dispatch(NavigationActions.back());
 		localStorage.storeItem('userId', id);
    }
 

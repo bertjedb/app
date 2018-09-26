@@ -18,7 +18,7 @@ import {
     Card,
     Button
 } from 'react-native-material-ui';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationActions } from 'react-navigation';
 import styles from '../assets/css/style.js';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -80,11 +80,11 @@ export default class Registration extends Component {
             lastName: this.state.lastName,
         }
         api.callApi('register', 'POST', userData, response => {
-            if(response == "200"){
+            if(response['responseCode'] == 200){
 							this.setState({
 								succesfull: true,
 							})
-							this.props.navigation.goBack();
+							this.props.navigation.dispatch(NavigationActions.back());
 			} else {
 				alert("Probeer opnieuw aub")
 			}
