@@ -52,7 +52,8 @@ class PointCard extends Component {
   constructor() {
       super();
       this.state = {
-        card: this.fillCard()
+        card: this.fillCard(),
+        cameraActive: false
       };
 
   }
@@ -133,110 +134,102 @@ class PointCard extends Component {
 		let count = 1;
 
     for(let row = 0; row < 5; row++) {
-				holderArray.push(
-								<View key = {15 - count} style= {stylesCss.pointCardColumn }>
-										<View style={ stylesCss.pointCardRow}>
-												<Image  style = { stylesCss.stampFilled}
-																source = {this.getFile(count, numOfStamps)}
-																/>
-												<Image  style = { stylesCss.stampFilled }
-																source = {this.getFile(count+1, numOfStamps)}
-												/>
-												<Image  style = { stylesCss.stampFilled }
-																source = {this.getFile(count+2, numOfStamps)}
-												/>
-										</View>
-								</View>
-						);
-					count = count + 3;
+		holderArray.push(
+			<View key = {15 - count} style= {stylesCss.pointCardColumn }>
+				<View style={ stylesCss.pointCardRow}>
+					<Image  style = { stylesCss.stampFilled}
+									source = {this.getFile(count, numOfStamps)}
+									/>
+					<Image  style = { stylesCss.stampFilled }
+									source = {this.getFile(count+1, numOfStamps)}
+					/>
+					<Image  style = { stylesCss.stampFilled }
+									source = {this.getFile(count+2, numOfStamps)}
+					/>
+				</View>
+			</View>
+		);
+		count = count + 3;
     }
-
-    console.log(holderArray);
     return holderArray;
   }
 //			<ConfettiView>
 
   render() {
     return(
-			<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-
-			<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
+		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+		<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
           <TouchableOpacity activeOpacity={1} style={styles.container}  >
-							<View style={styles.card} elevation={5}>
-								<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
-								Stempelkaart
-								</Text>
-								<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
-								Scan een QR-code voor een stempel
-								</Text>
-								<View style={{
-									backgroundColor: 'white',
-									height: Dimensions.get('window').height -320,
-									width: Dimensions.get('window').width -40,
-									borderRadius: 10,
-									alignItems: 'center',}}>
-
-
-									{this.state.card}
-								</View>
-								<TouchableOpacity
-									onPress={() => this.card.flip()}
-									style = {{ marginBottom: 10,
-																		marginTop: 10,
-																		height: 65,
-																		width: 65,
-																		backgroundColor: '#3bb222',
-																		borderRadius: 50,
-																		shadowOffset: {width: 0, height: 13},
-																		shadowOpacity: 0.3,
-																		shadowRadius: 6,
-
-																		// android (Android +5.0)
-																		elevation: 5,}}>
-									<Icon onPress={() => this.card.flip()} name="camera" style={{margin:15,}} size={35} color='white' />
-								</TouchableOpacity>
-							</View>
+				<View style={styles.card} elevation={5}>
+					<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
+					Stempelkaart
+					</Text>
+					<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
+					Scan een QR-code voor een stempel
+					</Text>
+					<View style={{
+						backgroundColor: 'white',
+						height: Dimensions.get('window').height -320,
+						width: Dimensions.get('window').width -40,
+						borderRadius: 10,
+						alignItems: 'center',}}>
+						{this.state.card}
+					</View>
+					<TouchableOpacity
+						onPress={() => {  this.card.flip();
+                                          this.setState({cameraActive: true})
+                                       }
+                                }
+						style = {{ marginBottom: 10,
+							marginTop: 10,
+							height: 65,
+							width: 65,
+							backgroundColor: '#3bb222',
+							borderRadius: 50,
+							shadowOffset: {width: 0, height: 13},
+							shadowOpacity: 0.3,
+							shadowRadius: 6,
+							// android (Android +5.0)
+							elevation: 5,}}>
+						<Icon onPress={() => {this.card.flip(); this.setState({cameraActive: false})}} name="camera" style={{margin:15,}} size={35} color='white' />
+					</TouchableOpacity>
+				</View>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={1} style={styles.container}>
-							<View style={styles.card} elevation={5}>
-								<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
-								Scanner
-								</Text>
-								<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
-								Scan een QR-code voor een stempel
-								</Text>
-								<View style={{
-									backgroundColor: 'white',
-									height: Dimensions.get('window').height -320,
-									width: Dimensions.get('window').width -40,
-									borderRadius: 10,
-									alignItems: 'center',}}>
-
-
-									<ScannerQR/>
-								</View>
-								<TouchableOpacity
-									onPress={() => this.card.flip()}
-									style = {{ marginBottom: 10,
-																		marginTop: 10,
-																		height: 65,
-																		width: 65,
-																		backgroundColor: '#FF6700',
-																		borderRadius: 50,
-																		shadowOffset: {width: 0, height: 13},
-																		shadowOpacity: 0.3,
-																		shadowRadius: 6,
-
-																		// android (Android +5.0)
-																		elevation: 5,}}>
-									<Icon onPress={() => this.card.flip()} name="close" style={{margin:15,}} size={35} color='white' />
-								</TouchableOpacity>
-							</View>
+				<View style={styles.card} elevation={5}>
+					<Text style={{marginTop: 15, fontWeight: 'bold', fontSize: 20, color: '#3bb222'}}>
+					Scanner
+					</Text>
+					<Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 14, color: '#3bb222'}}>
+					Scan een QR-code voor een stempel
+					</Text>
+					   <View style={{
+						     backgroundColor: 'white',
+						     height: Dimensions.get('window').height -320,
+						     width: Dimensions.get('window').width -40,
+						     borderRadius: 10,
+						     alignItems: 'center',}}>
+					       <ScannerQR/>
+					   </View>
+					<TouchableOpacity
+						onPress={() => this.card.flip()}
+						style = {{ marginBottom: 10,
+							marginTop: 10,
+							height: 65,
+							width: 65,
+							backgroundColor: '#FF6700',
+							borderRadius: 50,
+							shadowOffset: {width: 0, height: 13},
+							shadowOpacity: 0.3,
+							shadowRadius: 6,
+							// android (Android +5.0)
+							elevation: 5,}}>
+						<Icon onPress={() => this.card.flip()} name="close" style={{margin:15,}} size={35} color='white' />
+					</TouchableOpacity>
+				</View>
           </TouchableOpacity>
         </CardFlip>
-
-
-			</ImageBackground>
+		</ImageBackground>
     );
   }
 }

@@ -49,15 +49,10 @@ class LoginScreen extends Component {
 
   constructor() {
       super();
-			this.state = {
-<<<<<<< HEAD
-          		email: '',
-				password: ''
-=======
-          firstName: 'ha@ha.nl',
-					password: '123456',
-					succesfull: false,
->>>>>>> upstream/master
+		this.state = {
+         	email: 'b@b.nl',
+			password: 'bert123',
+			succesfull: false,
       };
   }
 

@@ -27,6 +27,8 @@ import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 
 import {
     COLOR,
@@ -78,20 +80,32 @@ class ScannerQR extends Component {
     this.setState({
       scannerReactivate: false,
     });
-    fetch('http://gromdroid.nl/ide/workspace/hanze/api.php')
-        .then((response) => response.json())
-        .then((responseJson) => {
-          Alert.alert(
-            responseJson.verified ? 'Succes' : 'Error',
-            '',
-            [
-              {text: 'OK', onPress: () => this.props.navigation.goBack()},
-            ],
-            { cancelable: false }
-          );
-        })
-        .catch((error) => {
-            console.error(error);
+    userData = {
+      qrCode: response.data
+    }
+    let api = Api.getInstance();
+    api.callApi('api/eventByCode', 'POST', userData, response => {
+            if(response.responseCode == "200") {
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    console.log("EventId: " + response.eventId);
+                    console.log("UserId: " + id);
+                    sendData = {
+                        eventId: response.eventId,
+                        personId: id
+                    }
+                    console.log("Here");
+                    console.log(sendData);
+                    api.callApi('api/qrEvent', 'POST', sendData, response => {
+                        console.log(response);
+                    });
+                  }).catch((error) => {
+                  //this callback is executed when your Promise is rejected
+                  console.log('Promise is rejected with error: ' + error);
+                  });
+            } else {
+                alert("Could not find qr code")
+            }
         });
   }
 
