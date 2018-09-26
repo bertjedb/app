@@ -4,6 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
+import {Image} from 'react-native';
+
 import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
 import Upload from '../screens/Upload';

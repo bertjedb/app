@@ -32,12 +32,14 @@ import {
 
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 
 export default class ChangePassword extends Component {
 
   constructor() {
       super();
       this.state = {
+        userId: null,
         email: '',
         newPassword: '',
         firstOldPassword: '',
@@ -48,12 +50,23 @@ export default class ChangePassword extends Component {
 
   changePassword() {
     if(this.state.firstOldPassword == this.state.secondOldPassword) {
+        let localStorage = LocalStorage.getInstance();
+
+				localStorage.retrieveItem('userId').then((goals) => {
+	              this.setState({
+									userId: goals,
+								})
+	              }).catch((error) => {
+	              //this callback is executed when your Promise is rejected
+	              console.log('Promise is rejected with error: ' + error);
+	              });
         let api = Api.getInstance();
         let userData = {
-            email: this.state.email,
+            id: this.state.userId,
+            oldPassword: this.state.newPassword,
             newPassword: this.state.newPassword
         }
-        api.callApi('/changePassword', 'POST', userData, response => {
+        api.callApi('api/changePassword', 'POST', userData, response => {
             console.log(response);
         });
         alert("Changing password");
@@ -99,8 +112,8 @@ export default class ChangePassword extends Component {
             baseColor='green'
             label='Herhaal oud wachtwoord'
             secureTextEntry={true}
-            value={this.state.secondOldPasswordt}
-            onChangeText={ (secondOldPasswordt) => this.setState({ secondOldPasswordt }) }
+            value={this.state.secondOldPassword}
+            onChangeText={ (secondOldPassword) => this.setState({ secondOldPassword }) }
           />
           <Button
             style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
