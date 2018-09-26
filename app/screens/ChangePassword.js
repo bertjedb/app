@@ -51,24 +51,26 @@ export default class ChangePassword extends Component {
   changePassword() {
     if(this.state.firstOldPassword == this.state.secondOldPassword) {
         let localStorage = LocalStorage.getInstance();
+        let api = Api.getInstance();
 
-				localStorage.retrieveItem('userId').then((goals) => {
+				localStorage.retrieveItem('userId').then((id) => {
 	              this.setState({
-									userId: goals,
+									userId: id,
 								})
+                let userData = {
+                     id: id,
+                     oldPassword: this.state.oldPassword,
+                     newPassword: this.state.firstNewPassword
+                }
+                 api.callApi('api/changePassword', 'POST', userData, response => {
+                     console.log(response);
+                 });
 	              }).catch((error) => {
 	              //this callback is executed when your Promise is rejected
 	              console.log('Promise is rejected with error: ' + error);
 	              });
-        let api = Api.getInstance();
-        let userData = {
-            id: this.state.userId,
-            oldPassword: this.state.newPassword,
-            newPassword: this.state.newPassword
-        }
-        api.callApi('api/changePassword', 'POST', userData, response => {
-            console.log(response);
-        });
+        
+        
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
