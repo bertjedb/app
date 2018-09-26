@@ -204,6 +204,7 @@ class PointCard extends Component {
 					<TouchableOpacity
 						onPress={() => {  this.card.flip();
                                           this.setState({cameraActive: true});
+                                          this.refreshCard();
                                        }
                                 }
 						style = {{ marginBottom: 10,
@@ -218,7 +219,7 @@ class PointCard extends Component {
 							// android (Android +5.0)
 							elevation: 5,}}>
 						<Icon onPress={() => {this.card.flip();
-                                              this.setState({cameraActive: false});
+                                              this.setState({cameraActive: true});
                                               this.refreshCard();
                                           }} name="camera" style={{margin:15,}} size={35} color='white' />
 					</TouchableOpacity>
@@ -238,10 +239,13 @@ class PointCard extends Component {
 						     width: Dimensions.get('window').width -40,
 						     borderRadius: 10,
 						     alignItems: 'center',}}>
-					       <ScannerQR/>
+					       {this.state.cameraActive && <ScannerQR/>}
 					   </View>
 					<TouchableOpacity
-						onPress={() => this.card.flip()}
+						onPress={() => { this.card.flip();
+                                         this.setState({cameraActive: false});
+                                         this.refreshCard();
+                                        }}
 						style = {{ marginBottom: 10,
 							marginTop: 10,
 							height: 65,
@@ -253,7 +257,10 @@ class PointCard extends Component {
 							shadowRadius: 6,
 							// android (Android +5.0)
 							elevation: 5,}}>
-						<Icon onPress={() => this.card.flip()} name="close" style={{margin:15,}} size={35} color='white' />
+						<Icon onPress={() => { this.card.flip();
+                                               this.setState({cameraActive: false});
+                                               this.refreshCard();
+                                        }} name="close" style={{margin:15,}} size={35} color='white' />
 					</TouchableOpacity>
 				</View>
           </TouchableOpacity>
