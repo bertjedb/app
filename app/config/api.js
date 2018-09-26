@@ -17,14 +17,13 @@ export default class Api {
 		fetch(this.url + action, {
 			method: method,
 			headers: {
-				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(data)
 		}).then((response) => response.json())
 		.then(responseJson => callBack(responseJson))
 		.catch((error) => {
-			console.log(error);
+			callBack("Error");
 		})
 	}
 }

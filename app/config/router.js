@@ -44,6 +44,10 @@ import More from '../screens/More';
 export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
+		navigationOptions: {
+		}
+	},Registration: {
+		screen: Registration,
 	},
   ChangePassword: {
     screen: ChangePassword,
@@ -126,7 +130,7 @@ export const MyApp = StackNavigator({
 	LoginStack: {
 		screen: LoginStack,
 		navigationOptions: {
-			title: 'Login',
+			title: 'Account',
 			headerStyle: {
 	      backgroundColor: '#3bb222',
 	    },
