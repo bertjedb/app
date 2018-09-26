@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-		ImageBackground
+    ImageBackground
 } from 'react-native';
 import {
     COLOR,
@@ -18,7 +18,7 @@ import {
     Card,
     Button
 } from 'react-native-material-ui';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationActions } from 'react-navigation';
 import styles from '../assets/css/style.js';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -40,13 +40,16 @@ export default class Registration extends Component {
 
   constructor() {
       super();
+      //sets the state for the registration screen, there are 2 passwords fields because we want
+      // the user to type their password twice to avoid typing errors
+      //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
         email: '',
         firstPassword: '',
         secondPassword: '',
         firstName: '',
         lastName: '',
-				succesfull: false,
+		succesfull: false,
       };
 
   }
@@ -66,8 +69,10 @@ export default class Registration extends Component {
 	}
 
   registrate() {
+  	//first checks wether or not the 2 password fields contain the same password
     if(this.state.firstPassword == this.state.secondPassword) {
         let api = Api.getInstance();
+        //hash password here
         let userData = {
             email: this.state.email,
             password: this.state.firstPassword,
@@ -75,17 +80,15 @@ export default class Registration extends Component {
             lastName: this.state.lastName,
         }
         api.callApi('register', 'POST', userData, response => {
-            if(response == "200"){
+            if(response['responseCode'] == 200){
 							this.setState({
 								succesfull: true,
 							})
-							this.props.navigation.goBack();
-
-						} else {
-							//alert("Please try again..")
-						}
+							this.props.navigation.dispatch(NavigationActions.back());
+			} else {
+				alert("Probeer opnieuw aub")
+			}
         });
-        //alert("registrating");
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
@@ -97,10 +100,10 @@ export default class Registration extends Component {
 			<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 				<View style={styles.container}>
 					<View style={styles.card} elevation={5}>
-						<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: '#3bb222'}}>
+						<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: '#93D500'}}>
 						Registreren
 						</Text>
-						<View style={{backgroundColor: '#3bb222', height: 340, paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
+						<View style={{backgroundColor: '#93D500', height: 340, paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
 							<View style={{paddingLeft: 10, paddingRight: 10, paddingTop: 20, paddingBottom: 10}}>
 								<View style={styles.SectionStyle}>
 									<Icon name="account-box-outline" size={24} color='grey' style={styles.ImageStyle}/>
@@ -167,12 +170,12 @@ export default class Registration extends Component {
 								</View>
 							</View>
 							<Button
-                        style={{container: styles.rgstBtn, text:{color: 'white'}}}
-                        raised text="Doorgaan"
-                        onPress={() => {
-                            this.registrate();
-                        }}>
-                    </Button>
+                style={{container: styles.rgstBtn, text:{color: 'white'}}}
+                raised text="Doorgaan"
+                onPress={() => {
+                    this.registrate();
+                }}>
+              </Button>
 						</View>
 					</View>
 				</View>

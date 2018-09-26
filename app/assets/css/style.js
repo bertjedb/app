@@ -9,18 +9,18 @@ import {
 } from 'react-native-material-ui';
 
 export default StyleSheet.create({
-		actionButtonIcon: {
+	actionButtonIcon: {
 				fontSize: 20,
 				height: 22,
 				color: 'white',
 		},
 
-		container: {
+	container: {
 			flex: 1,
 			justifyContent: 'center',
 		},
 
-		card: {
+	card: {
 			backgroundColor: '#FFFFFF',
 			height: 390,
 			margin: 10,
@@ -45,7 +45,7 @@ export default StyleSheet.create({
 			borderTopRightRadius: 5 ,
 		},
 
-		SectionStyleBottom: {
+	SectionStyleBottom: {
 	    flexDirection: 'row',
 	    justifyContent: 'center',
 	    alignItems: 'center',
@@ -57,7 +57,7 @@ export default StyleSheet.create({
 			borderBottomRightRadius: 5 ,
 		},
 
-		SectionStyle: {
+	SectionStyle: {
 	    flexDirection: 'row',
 	    justifyContent: 'center',
 	    alignItems: 'center',
@@ -117,13 +117,6 @@ export default StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#FF6700',
         height: 40
-    },
-
-    RegistrateBackground: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        height: Dimensions.get('window').height,
-        alignItems: 'center',
     },
 
     inputField: {
