@@ -66,7 +66,7 @@ export const MyTab = TabNavigator({
         navigationOptions: {
           tabBarLabel: 'Evenementen',
 					tabBarIcon: () => (
-          <Icon name="calendar" size={24} color='white' />
+          <Icon name="calendar" size={24} color='grey' />
         )
         }
       },
@@ -75,7 +75,7 @@ export const MyTab = TabNavigator({
         navigationOptions: {
           tabBarLabel: 'Stempelkaart',
 					tabBarIcon: () => (
-          <Icon name="cards-outline" size={24} color='white' />
+          <Icon name="cards-outline" size={24} color='grey' />
         )
         }
       },
@@ -84,26 +84,38 @@ export const MyTab = TabNavigator({
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
-					<Icon name="format-list-bulleted" size={24} color='white' />
+					<Icon name="format-list-bulleted" size={24} color='grey' />
 				)
 				}
 			},
 }, {
   tabBarComponent: NavigationComponent,
   tabBarPosition: 'bottom',
+	initialRouteName: 'PointCard',
   tabBarOptions: {
     bottomNavigationOptions: {
-      labelColor: 'white',
-      rippleColor: 'white',
+			style: {
+				backgroundColor: 'white', elevation: 8,
+				position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+			borderTopLeftRadius: 10,
+			borderTopRightRadius: 10
+			},
+      labelColor: 'grey',
+			activeLabelColor: '#3bb222',
+      rippleColor: '#3bb222',
+			shifting: true,
       tabs: {
         News: {
-          barBackgroundColor: '#37474F',
+					activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
         },
         PointCard: {
-          barBackgroundColor: '#00796B',
+					activeIcon:	<Icon name="cards-outline" size={24} color='#3bb222' />
         },
 				More: {
-          barBackgroundColor: '#3E2723',
+					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
         },
       }
     }

@@ -91,9 +91,12 @@ export default StyleSheet.create({
     },
 
     stampFilled: {
-        margin: 14,
-        height: 100,
-        width: 100,
+        marginTop: 0,
+				marginBottom: 5,
+				marginLeft: 5,
+				marginRight: 5,
+        height: 90,
+        width: 90,
     },
 
     stampUnFilled: {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
-import { ScrollView, Text, View, StyleSheet, ImageBackground, TextInput } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, ImageBackground, TextInput, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -15,9 +15,21 @@ import {
     Avatar,
 } from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
+import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
+
 
 
 class More extends Component {
+
+	constructor() {
+      super();
+      this.state = {
+				succesfull: false,
+				userId: null,
+      };
+
+  }
 
   navigateToScreen = (route) => () => {
       const navigate = NavigationActions.navigate({
@@ -26,10 +38,28 @@ class More extends Component {
       this.props.navigation.dispatch(navigate);
     }
 
+
+
+
+
   render () {
+		let api = Api.getInstance();
+		let localStorage = LocalStorage.getInstance();
+
+				localStorage.retrieveItem('userId').then((goals) => {
+	              this.setState({
+									userId: goals,
+								})
+	              }).catch((error) => {
+	              //this callback is executed when your Promise is rejected
+	              console.log('Promise is rejected with error: ' + error);
+	              });
+
+
       return (
 				<View style={{flex: 1}}>
         <Drawer>
+				{this.state.userId == null &&
           <Drawer.Section
               divider
               items={[
@@ -62,6 +92,7 @@ class More extends Component {
 
               ]}
           />
+					}
           <Drawer.Section
               title="Lorem ipsum"
               items={[
@@ -71,8 +102,19 @@ class More extends Component {
                   },
                   {
                     icon: 'power-settings-new',
-                    value: 'Registratie',
-                    onPress: () => this.props.navigation.navigate('Registration'),
+                    value: 'Uitloggen',
+                    onPress: () =>
+												api.callApi('logout', 'POST', {
+													id: this.state.userId,
+												}, response => {
+													console.log(response)
+						            if(response['value'] == true){
+													localStorage.storeItem('userId', null);
+
+												} else {
+													//alert("Please try again..")
+												}
+						        }),
                   },
               ]}
           />

@@ -57,7 +57,7 @@ export default class Registration extends Component {
 	componentWillUnmount() {
 		if(this.state.succesfull){
 			Snackbar.show({
-			  title: 'Login succesvol!',
+			  title: 'Registratie succesvol!',
 			  duration: Snackbar.LENGTH_LONG,
 			  action: {
 			    title: 'OK',
