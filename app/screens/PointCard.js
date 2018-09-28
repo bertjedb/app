@@ -58,12 +58,12 @@ class PointCard extends Component {
       this.state = {
         card: null,
         cameraActive: false,
-        userId: null
+        loggedIn: false,
+        points: null
       };
-
   }
 
-	componentDidMount() {
+  componentDidMount() {
     if(this._confettiView) {
        this._confettiView.startConfetti();
     }
@@ -71,24 +71,15 @@ class PointCard extends Component {
   }
 
   refreshCard() {
-    let api = Api.getInstance();
+    console.log("update")
     let localStorage = LocalStorage.getInstance();
-        localStorage.retrieveItem('userId').then((id) => {
-            userData = {
-                id: id
+    let points = localStorage.retrieveItem('points').then((points) => {
+        if(points != null) {
+                this.setState({card: this.fillCard(points),
+                               loggedIn: true});
             }
-            api.callApi('api/checkPoints', 'POST', userData, response => {
-                    this.setState({card: this.fillCard(response['points'][0]) });
-                    localStorage.storeItem('points', response['points'][0]);
-                });
-          }).catch((error) => {
-          //this callback is executed when your Promise is rejected
-          console.log("ERROR retrieving points");
-          localStorage.retrieveItem('points').then((points) => {
-            this.setState({card: this.fillCard(response['points'][0])})
-          });
-          console.log('Promise is rejected with error: ' + error);
-          });
+        }
+    })
   }
 
   componentWillUnmount ()

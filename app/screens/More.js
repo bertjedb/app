@@ -111,10 +111,11 @@ export default class More extends Component {
                                 api.callApi('logout', 'POST', {
                                     id: this.state.userId,
                                 }, response => {
-                                    console.log(response)
-                    if(response['value'] == true){
+                                    console.log(response);
+                                if(response['value'] == true){
                                     localStorage.storeItem('userId', null);
-
+                                    localStorage.storeItem('points', null);
+                                    api.getPoints();
                                 } else {
                                     //alert("Please try again..")
                                 }
