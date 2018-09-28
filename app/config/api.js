@@ -1,9 +1,10 @@
 import React from 'react';
+import LocalStorage from './localStorage.js';
 
 export default class Api {
 
 	static instance = null;
-	url = "http://145.37.154.154:5000/";
+	url = "http://145.37.145.126:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {
@@ -38,5 +39,45 @@ export default class Api {
 				callBack(error);
 			})
 		}
+	}
+
+	getPoints() {
+		let localStorage = LocalStorage.getInstance();
+		localStorage.retrieveItem('userId').then((id) => {
+			userData = {
+				id: id
+			}
+			this.callApi('api/checkPoints', 'POST', userData, response => {
+				console.log("new points are " + response['points'][0])
+				localStorage.storeItem('points', response['points'][0])
+			});
+		});
+		
+	}
+
+	updatePoints(userData) {
+		this.callApi('api/eventByCode', 'POST', userData, response => {
+            if(response.responseCode == "200") {
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    sendData = {
+                        eventId: response.eventId,
+                        personId: id
+                    }
+                    this.callApi('api/qrEvent', 'POST', sendData, response => {
+                        if(response['responseCode'] == "200") {
+                            return true
+                        }
+                    });
+                  }).catch((error) => {
+                  //this callback is executed when your Promise is rejected
+                  console.log('Promise is rejected with error: ' + error);
+                  return false
+                  });
+            } else {
+            	console.log("Could not find qr code")
+            	return false
+            }
+        });
 	}
 }
