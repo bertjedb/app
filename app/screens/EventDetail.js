@@ -47,15 +47,21 @@ class EventDetail extends Component {
 
 constructor() {
   super();
+  this.state = {
+	  map: true
+  }
 }
 
 render() {
   return(
-	  <ImageBackground source={require('../assets/maps.jpeg')} style={{width: '100%', height: '100%'}}>
-		<View style={styles.cardContainer} >
+	  <ImageBackground source={require('../assets/maps.jpeg')} style={{width: '100%', height: '100%'}} >
+		<TouchableOpacity style={styles.cardContainer} onPress={() => this.setState({map: !this.state.map})}>
+{this.state.map == true &&
 		<View style={{marginBottom: 150, flexDirection: 'row'}}>
-		<Image source={require('../assets/sport_kids_bslim.jpg')} style={{width: 75, height: 50, borderRadius: 10, borderWidth: 2, borderColor: 'white', backgroundColor:'black', elevation: 5}} resizeMode="cover"/>
-		<TouchableOpacity style={{width: 50, height: 50, borderRadius: 50, marginLeft: 235,backgroundColor: 'white', shadowOffset: {width: 0, height: 13},
+		<ImageBackground blurRadius={2} source={require('../assets/sport_kids_bslim.jpg')} style={{width: 100, height: 75, elevation: 5}} resizeMode="cover">
+			<Icon name="image-filter" size={30} style={{marginLeft:35, marginTop: 20, marginBottom: 20, marginRight: 35}} color='white' />
+		</ImageBackground>
+		<TouchableOpacity style={{width: 50, height: 50, borderRadius: 50, marginLeft: 210,backgroundColor: 'white', shadowOffset: {width: 0, height: 13},
         shadowOpacity: 0.3,
         shadowRadius: 6,
 
@@ -64,6 +70,8 @@ render() {
 		<Icon name="google-maps" size={30} style={{margin:10}} color='#FF6700' />
 		</TouchableOpacity>
 		</View>
+	}
+	{this.state.map == true &&
 			<View style={styles.card} elevation={5}>
 			<View style={styles.cardTitle} elevation={5}>
 				<Image source={require('../assets/bslim_profile.png')} style={{width: 40, height: 40, margin: 10, borderRadius: 55}} resizeMode="cover"/>
@@ -94,13 +102,16 @@ render() {
 			</View>
 
 			</View>
+		}
+		{this.state.map == true &&
 			<Triangle
 			  width={80}
 			  height={40}
 			  color={'white'}
 			  direction={'down'}
 			/>
-		</View>
+		}
+		</TouchableOpacity>
 	  </ImageBackground>
   );
 }
