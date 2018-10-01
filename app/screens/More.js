@@ -45,7 +45,6 @@ export default class More extends Component {
   render () {
         let api = Api.getInstance();
         let localStorage = LocalStorage.getInstance();
-
                 localStorage.retrieveItem('userId').then((goals) => {
                   this.setState({
                                     userId: goals,

@@ -98,7 +98,6 @@ class LoginScreen extends Component {
         }
 
         api.callApi('login', 'POST', userData, response => {
-					console.log(response);
             if(response['value'] == true){
 				this.setUser(response['value'], response['userId']);
 			} else {
