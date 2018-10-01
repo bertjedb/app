@@ -29,6 +29,7 @@ import Video from 'react-native-af-video-player'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
+import { NavigationActions } from 'react-navigation';
 
 import {
     COLOR,
@@ -92,10 +93,10 @@ class ScannerQR extends Component {
                         eventId: response.eventId,
                         personId: id
                     }
-                    console.log(sendData);
                     api.callApi('api/qrEvent', 'POST', sendData, response => {
                         if(response['responseCode'] == "200") {
                             alert("Je hebt een stempel erbij gekregen!");
+                            api.getPoints();
                         } else {
                             alert("Deze code heb je al gescannend");
                         }

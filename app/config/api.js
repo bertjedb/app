@@ -44,13 +44,14 @@ export default class Api {
 	getPoints() {
 		let localStorage = LocalStorage.getInstance();
 		localStorage.retrieveItem('userId').then((id) => {
-			userData = {
-				id: id
+			if(id != null) {
+				userData = {
+					id: id
+				}
+				this.callApi('api/checkPoints', 'POST', userData, response => {
+					localStorage.storeItem('points', response['points'][0])
+				});
 			}
-			this.callApi('api/checkPoints', 'POST', userData, response => {
-				console.log("new points are " + response['points'][0])
-				localStorage.storeItem('points', response['points'][0])
-			});
 		});
 
 	}
