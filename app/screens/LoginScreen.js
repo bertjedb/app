@@ -21,6 +21,8 @@ import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import Api from '../config/api.js';
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 import {
     COLOR,
@@ -70,6 +72,14 @@ class LoginScreen extends Component {
 		}
 	}
 
+  errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 2500,
+      });
+  }
+
 	setUser(value, id){
 		let localStorage = LocalStorage.getInstance();
 		localStorage.storeItem('succesfull', true);
@@ -88,24 +98,32 @@ class LoginScreen extends Component {
 		 }
  	}
 
+
+
 	login() {
-        let api = Api.getInstance();
-        let userData = {
-            email: this.state.email,
-            password: this.state.password,
-        }
 
-        api.callApi('login', 'POST', userData, response => {
-					console.log(response);
-            if(response['value'] == "true"){
-    				   this.setUser(response['value'], response['userId']);
-    			} else {
-    				   alert(response['msg'])
-				//alert("Please try again..")
-			}
-        });
-        //alert("registrating");
+    if(this.state.email == "" || this.state.password == ""){
+      this.errorMessage("Vul alstublieft alle velden in!")
+    }
+    else if(/\S+@\S+\.\S+/.test(this.state.email) == false){
+      this.errorMessage("Het ingevoerde email adres is geen een valide email!");
+    }
+    else {
+      let api = Api.getInstance();
+      let userData = {
+          email: this.state.email,
+          password: this.state.password,
+      }
 
+      api.callApi('login', 'POST', userData, response => {
+				console.log(response);
+          if(response['boolean'] == "true"){
+  				   this.setUser(response['value'], response['userId']);
+  			} else {
+  				   this.errorMessage(response['msg'])
+		    }
+      });
+    }
   }
 
   render() {
@@ -176,6 +194,7 @@ class LoginScreen extends Component {
 					</View>
 				</View>
 			</View>
+      <FlashMessage position="top" />
 		</ImageBackground>
 
     );

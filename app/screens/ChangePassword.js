@@ -33,6 +33,8 @@ import {
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 export default class ChangePassword extends Component {
 
@@ -46,6 +48,22 @@ export default class ChangePassword extends Component {
         secondNewPassword: '',
       };
 
+  }
+
+  errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 2500,
+      });
+  }
+
+  successMessage(msg){
+    showMessage({
+        message: msg,
+        type: "success",
+        duration: 4000,
+      });
   }
 
   changePassword() {
@@ -63,6 +81,7 @@ export default class ChangePassword extends Component {
                     api.callApi('api/changePassword', 'POST', userData, response => {
                         if(response['responseCode'] == 200){
                             console.log(response['responseCode'])
+                            this.successMessage("Wachtwoord is succesvol veranderd")
                             this.props.navigation.dispatch(NavigationActions.back());
                         }
                     });
@@ -74,7 +93,7 @@ export default class ChangePassword extends Component {
 
 
     } else {
-        alert('De ingevulde wachtwoorden zijn niet gelijk.')
+        this.errorMessage('De ingevulde wachtwoorden zijn niet gelijk.')
     }
 
   }
@@ -127,6 +146,7 @@ export default class ChangePassword extends Component {
         </View>
       </View>
     </View>
+    <FlashMessage position="top" />
   </ImageBackground>
 
     );
