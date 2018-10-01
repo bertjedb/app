@@ -75,6 +75,8 @@ class LoginScreen extends Component {
 		localStorage.storeItem('succesfull', true);
 		this.props.navigation.dispatch(NavigationActions.back());
 		localStorage.storeItem('userId', id);
+		let api = Api.getInstance();
+		api.getPoints();
    }
 
 	 async storeItem(key, item) {
