@@ -86,13 +86,12 @@ export default class Registration extends Component {
 							})
 							this.props.navigation.dispatch(NavigationActions.back());
 			} else {
-				alert("Probeer opnieuw aub")
+				alert(response['responseCode']['message'])
 			}
         });
     } else {
         alert('De ingevulde wachtwoorden zijn niet gelijk.')
     }
-
   }
 
   render() {
