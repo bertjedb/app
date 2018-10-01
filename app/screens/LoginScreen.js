@@ -116,7 +116,6 @@ class LoginScreen extends Component {
           email: this.state.email,
           password: this.state.password,
       }
-
       api.callApi('login', 'POST', userData, response => {
 				console.log(response);
           if(response['boolean'] == "true"){
