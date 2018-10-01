@@ -84,7 +84,8 @@ class ScannerQR extends Component {
       qrCode: response.data
     }
     let api = Api.getInstance();
-    if(api.updatePoints(userData)) {
+    if(!api.updatePoints(userData)) {
+        console.log("HEEEY")
         api.getPoints();
         alert("Je hebt een stempel gekregen");
     } else {

@@ -78,7 +78,7 @@ class PointCard extends Component {
                 this.setState({card: this.fillCard(points),
                                loggedIn: true});
             }
-        }
+
     })
   }
 

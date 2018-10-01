@@ -52,7 +52,7 @@ export default class Api {
 				localStorage.storeItem('points', response['points'][0])
 			});
 		});
-		
+
 	}
 
 	updatePoints(userData) {
@@ -66,7 +66,8 @@ export default class Api {
                     }
                     this.callApi('api/qrEvent', 'POST', sendData, response => {
                         if(response['responseCode'] == "200") {
-                            return true
+                            //Idk waarom maar false werkt en true niet. Hierdoor wel de value in scannerQR inverted
+                            return false
                         }
                     });
                   }).catch((error) => {
