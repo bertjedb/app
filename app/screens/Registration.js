@@ -23,7 +23,8 @@ import styles from '../assets/css/style.js';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
-
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 const uiTheme = {
     palette: {
@@ -68,36 +69,70 @@ export default class Registration extends Component {
 		}
 	}
 
-  registrate() {
-  	//first checks wether or not the 2 password fields contain the same password
-    if(this.state.firstPassword == this.state.secondPassword) {
-    	if(this.state.firstPassword.length >= 5) {
-        	let api = Api.getInstance();
-        	//hash password here
-        	let userData = {
-        	    email: this.state.email,
-        	    password: this.state.firstPassword,
-        	    firstName: this.state.firstName,
-        	    lastName: this.state.lastName,
-        	}
-        	api.callApi('register', 'POST', userData, response => {
-        	    if(response['responseCode'] == 200){
-								this.setState({
-									succesfull: true,
-								})
-								this.props.navigation.dispatch(NavigationActions.back());
-				} else {
-					alert("Probeer opnieuw aub")
-				}
-        	});
-        } else {
-        	alert('Je wachtwoord moet minimaal 5 karakters lang zijn');
-        }
-    } else {
-        alert('De ingevulde wachtwoorden zijn niet gelijk.');
+  errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 2500,
+      });
+  }
+
+  checkRegistration() {
+
+    // empty check
+    if(this.state.firstName == "" ||
+       this.state.lastName == "" ||
+       this.state.email == "" ||
+       this.state.firstPassword == "" ||
+       this.state.secondPassword == ""){
+         this.errorMessage("Vul alstublieft alle velden in!");
+       }
+
+    // special chars check
+    else if(/^[a-zA-Z0-9]*$/.test(this.state.firstName) == false){
+      this.errorMessage("Gebruik alstublieft geen speciale karakters in uw naam!");
+    }
+    else if(/^[a-zA-Z0-9]*$/.test(this.state.lastName) == false){
+      this.errorMessage("Gebruik alstublieft geen speciale karakters in uw naam!");
+    }
+    else if(/\S+@\S+\.\S+/.test(this.state.email) == false){
+      this.errorMessage("Gebruik alstublieft een valide email!");
     }
 
+    // check password
+    else if(this.state.firstPassword.length <= 5){
+      this.errorMessage("Uw wachtwoord moet langer dan 5 karakters zijn!");
+    }
+    else if(this.state.firstPassword.length >= 64){
+      this.errorMessage("Uw wachtwoord mag niet langer dan 64 karakters zijn!");
+    }
+    else if(this.state.firstPassword != this.state.secondPassword){
+      this.errorMessage("De ingevulde wachtwoorden zijn niet gelijk!");
+    }
+
+    // if registration is succesfull
+    else {
+      let api = Api.getInstance();
+      //hash password here
+      let userData = {
+          email: this.state.email,
+          password: this.state.firstPassword,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+      }
+      api.callApi('register', 'POST', userData, response => {
+      }
+          if(response['responseCode'] == 200){
+            this.setState({
+              succesfull: true,
+            })
+            this.props.navigation.dispatch(NavigationActions.back());
+          } else {
+            alert(response['responseCode']['message'])
+          }
+      })
   }
+
 
   render() {
     return(
@@ -168,7 +203,7 @@ export default class Registration extends Component {
                       onChangeText={ secondPassword => this.setState({secondPassword}) }
                       secureTextEntry={true}
                       onSubmitEditing= { () => {
-                          this.registrate();
+                          this.checkRegistration();
                       }}
 									/>
 								</View>
@@ -177,12 +212,13 @@ export default class Registration extends Component {
                 style={{container: styles.rgstBtn, text:{color: 'white'}}}
                 raised text="Doorgaan"
                 onPress={() => {
-                    this.registrate();
+                    this.checkRegistration();
                 }}>
               </Button>
 						</View>
 					</View>
 				</View>
+        <FlashMessage position="top" />
 			</ImageBackground>
     );
   }
