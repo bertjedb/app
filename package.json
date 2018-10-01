@@ -17,7 +17,11 @@
     "react-native-confetti": "^0.1.0",
     "react-native-confetti-view": "^1.0.0",
     "react-native-elements": "^0.19.1",
+<<<<<<< HEAD
     "react-native-google-static-map": "^0.1.12",
+=======
+    "react-native-flash-message": "^0.1.10",
+>>>>>>> upstream/master
     "react-native-image-crop-picker": "^0.21.1",
     "react-native-image-picker": "^0.26.10",
     "react-native-keep-awake": "^3.1.0",

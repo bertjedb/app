@@ -4,7 +4,9 @@ import LocalStorage from './localStorage.js';
 export default class Api {
 
 	static instance = null;
-	url = "http://145.37.145.126:5000/";
+	//url = "http://145.37.154.154:5000/";
+	url= "http://10.0.2.2:5000/"
+  //url = "http://145.37.145.238:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {
@@ -44,16 +46,18 @@ export default class Api {
 	getPoints() {
 		let localStorage = LocalStorage.getInstance();
 		localStorage.retrieveItem('userId').then((id) => {
-			userData = {
-				id: id
+			if(id != null) {
+				userData = {
+					id: id
+				}
+				this.callApi('api/checkPoints', 'POST', userData, response => {
+					localStorage.storeItem('points', response['points'][0])
+				});
 			}
-			this.callApi('api/checkPoints', 'POST', userData, response => {
-				console.log("new points are " + response['points'][0])
-				localStorage.storeItem('points', response['points'][0])
-			});
 		});
 
 	}
+<<<<<<< HEAD
 
 	updatePoints(userData) {
 		this.callApi('api/eventByCode', 'POST', userData, response => {
@@ -81,4 +85,6 @@ export default class Api {
             }
         });
 	}
+=======
+>>>>>>> upstream/master
 }

@@ -29,6 +29,7 @@ import Video from 'react-native-af-video-player'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
+import { NavigationActions } from 'react-navigation';
 
 import {
     COLOR,
@@ -84,13 +85,30 @@ class ScannerQR extends Component {
       qrCode: response.data
     }
     let api = Api.getInstance();
-    if(!api.updatePoints(userData)) {
-        console.log("HEEEY")
-        api.getPoints();
-        alert("Je hebt een stempel gekregen");
-    } else {
-        alert("Er is iets fout gegaan");
-    }
+    api.callApi('api/eventByCode', 'POST', userData, response => {
+            if(response.responseCode == "200") {
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    sendData = {
+                        eventId: response.eventId,
+                        personId: id
+                    }
+                    api.callApi('api/qrEvent', 'POST', sendData, response => {
+                        if(response['responseCode'] == "200") {
+                            alert("Je hebt een stempel erbij gekregen!");
+                            api.getPoints();
+                        } else {
+                            alert("Deze code heb je al gescannend");
+                        }
+                    });
+                  }).catch((error) => {
+                  //this callback is executed when your Promise is rejected
+                  console.log('Promise is rejected with error: ' + error);
+                  });
+            } else {
+              alert("Deze stempel is niet geldig");
+            }
+        });
   }
 
   render() {
