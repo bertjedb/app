@@ -8,14 +8,14 @@ class App extends Component {
 	constructor(){
 		super()
 		this.state = {
-			loggedIn: false,
+			loggedIn: false
 		}
 		console.disableYellowBox = true;
 	}
   render() {
       let localStorage = LocalStorage.getInstance();
-      localStorage.retrieveItem('userId').then((goals) => {
-          if(goals != null){
+      localStorage.retrieveItem('userId').then((id) => {
+          if(id != null){
               this.setState({
                                 loggedIn: true,
                             })

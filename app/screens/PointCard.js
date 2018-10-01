@@ -58,25 +58,32 @@ class PointCard extends Component {
       this.state = {
         card: null,
         cameraActive: false,
-        loggedIn: false,
         points: null
       };
+      this.refreshCard();
   }
 
   componentDidMount() {
     if(this._confettiView) {
        this._confettiView.startConfetti();
     }
+    this.onLoad();
+    this.props.navigation.addListener('willFocus', this.onLoad)
+  }
+
+  onLoad = () => {
     this.refreshCard();
   }
 
   refreshCard() {
-    console.log("update")
+    console.log("update");
     let localStorage = LocalStorage.getInstance();
+    let api = Api.getInstance();
+    api.getPoints();
     let points = localStorage.retrieveItem('points').then((points) => {
+        console.log(points);
         if(points != null) {
-                this.setState({card: this.fillCard(points),
-                               loggedIn: true});
+                this.setState({card: this.fillCard(points)});
             }
 
     })
@@ -170,7 +177,6 @@ class PointCard extends Component {
     }
     return holderArray;
   }
-//			<ConfettiView>
 
   render() {
     return(
