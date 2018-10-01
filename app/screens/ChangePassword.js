@@ -20,6 +20,7 @@ import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
+import { sha256 } from 'react-native-sha256';
 
 import {
     COLOR,
@@ -70,24 +71,27 @@ export default class ChangePassword extends Component {
     if(this.state.firstOldPassword == this.state.secondOldPassword) {
         let localStorage = LocalStorage.getInstance();
         let api = Api.getInstance();
-				localStorage.retrieveItem('userId').then((id) => {
-                    let userData = {
-                        id: id,
-                        oldPassword: this.state.oldPassword,
-                        newPassword: this.state.firstNewPassword
+			localStorage.retrieveItem('userId').then((id) => {
+            sha256(this.state.oldPassword).then( oldHash => {
+                sha256(this.state.firstNewPassword).then( newHash => {
+                let userData = {
+                    id: id,
+                    oldPassword: oldHash,
+                    newPassword: newHash
+                }
+                console.log(userData);
+                api.callApi('api/changePassword', 'POST', userData, response => {
+                    if(response['responseCode'] == 200){
+                        this.successMessage("Wachtwoord is succesvol veranderd")
+                        this.props.navigation.dispatch(NavigationActions.back());
                     }
-                    console.log(userData);
-                    api.callApi('api/changePassword', 'POST', userData, response => {
-                        if(response['responseCode'] == 200){
-                            console.log(response['responseCode'])
-                            this.successMessage("Wachtwoord is succesvol veranderd")
-                            this.props.navigation.dispatch(NavigationActions.back());
-                        }
-                    });
-	              }).catch((error) => {
-	              //this callback is executed when your Promise is rejected
-	              console.log('Promise is rejected with error: ' + error);
-	              });
+                });
+                });
+            });
+            }).catch((error) => {
+            //this callback is executed when your Promise is rejected
+            console.log('Promise is rejected with error: ' + error);
+            });
     } else {
         this.errorMessage('De ingevulde wachtwoorden zijn niet gelijk.')
     }

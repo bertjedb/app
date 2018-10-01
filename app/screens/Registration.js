@@ -25,6 +25,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { sha256 } from 'react-native-sha256';
 
 const uiTheme = {
     palette: {
@@ -45,12 +46,12 @@ export default class Registration extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
-        email: '',
-        firstPassword: '',
-        secondPassword: '',
-        firstName: '',
-        lastName: '',
-		succesfull: false,
+        email: 't@t.nl',
+        firstPassword: '123456',
+        secondPassword: '123456',
+        firstName: 't',
+        lastName: 't',
+		    succesfull: false,
       };
 
   }
@@ -78,7 +79,7 @@ export default class Registration extends Component {
   }
 
   checkRegistration() {
-
+    console.log(this.state);
     // empty check
     if(this.state.firstName == "" ||
        this.state.lastName == "" ||
@@ -113,15 +114,15 @@ export default class Registration extends Component {
     // if registration is succesfull
     else {
       let api = Api.getInstance();
-      //hash password here
-      let userData = {
+      sha256(this.state.firstPassword).then( hash => {
+        let userData = {
           email: this.state.email,
-          password: this.state.firstPassword,
+          password: hash,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
-      }
-      api.callApi('register', 'POST', userData, response => {
-      }
+        }
+        console.log(userData);
+        api.callApi('register', 'POST', userData, response => {
           if(response['responseCode'] == 200){
             this.setState({
               succesfull: true,
@@ -130,7 +131,11 @@ export default class Registration extends Component {
           } else {
             alert(response['responseCode']['message'])
           }
+        })
       })
+      
+      
+    }
   }
 
 
@@ -185,7 +190,7 @@ export default class Registration extends Component {
 									<TextInput
 											style={{flex:1}}
 											label="Password"
-                      value={ this.state.password }
+                      value={ this.state.firstPassword }
                       placeholder="Wachtwoord (min. 6 characters)"
 											secureTextEntry={true}
                       onChangeText={ firstPassword => this.setState({firstPassword}) }
@@ -198,7 +203,7 @@ export default class Registration extends Component {
 									<TextInput
 											style={{flex:1}}
 											label="Password"
-                      value={ this.state.password }
+                      value={ this.state.secondPassword }
                       placeholder="Herhaal wachtwoord"
                       onChangeText={ secondPassword => this.setState({secondPassword}) }
                       secureTextEntry={true}
