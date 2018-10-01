@@ -84,12 +84,30 @@ class ScannerQR extends Component {
       qrCode: response.data
     }
     let api = Api.getInstance();
-    if(api.updatePoints(userData)) {
-        api.getPoints();
-        alert("Je hebt een stempel gekregen");
-    } else {
-        alert("Er is iets fout gegaan");
-    }
+    api.callApi('api/eventByCode', 'POST', userData, response => {
+            if(response.responseCode == "200") {
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    sendData = {
+                        eventId: response.eventId,
+                        personId: id
+                    }
+                    console.log(sendData);
+                    api.callApi('api/qrEvent', 'POST', sendData, response => {
+                        if(response['responseCode'] == "200") {
+                            alert("Je hebt een stempel erbij gekregen!");
+                        } else {
+                            alert("Deze code heb je al gescannend");
+                        }
+                    });
+                  }).catch((error) => {
+                  //this callback is executed when your Promise is rejected
+                  console.log('Promise is rejected with error: ' + error);
+                  });
+            } else {
+              alert("Deze stempel is niet geldig");
+            }
+        });
   }
 
   render() {
