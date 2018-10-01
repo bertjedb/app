@@ -121,7 +121,6 @@ export default class Registration extends Component {
           lastName: this.state.lastName,
       }
       api.callApi('register', 'POST', userData, response => {
-      }
           if(response['responseCode'] == 200){
             this.setState({
               succesfull: true,
@@ -131,6 +130,7 @@ export default class Registration extends Component {
             alert(response['responseCode']['message'])
           }
       })
+    }
   }
 
 
