@@ -57,34 +57,4 @@ export default class Api {
 		});
 
 	}
-<<<<<<< HEAD
-
-	updatePoints(userData) {
-		this.callApi('api/eventByCode', 'POST', userData, response => {
-            if(response.responseCode == "200") {
-                let localStorage = LocalStorage.getInstance();
-                localStorage.retrieveItem('userId').then((id) => {
-                    sendData = {
-                        eventId: response.eventId,
-                        personId: id
-                    }
-                    this.callApi('api/qrEvent', 'POST', sendData, response => {
-                        if(response['responseCode'] == "200") {
-                            //Idk waarom maar false werkt en true niet. Hierdoor wel de value in scannerQR inverted
-                            return true
-                        }
-                    });
-                  }).catch((error) => {
-                  //this callback is executed when your Promise is rejected
-                  console.log('Promise is rejected with error: ' + error);
-                  return false
-                  });
-            } else {
-            	console.log("Could not find qr code")
-            	return false
-            }
-        });
-	}
-=======
->>>>>>> upstream/master
 }
