@@ -36,7 +36,7 @@ export const LoginStack = StackNavigator({
   RecoverPassword: {
     screen: RecoverPassword,
   }
-},{mode: 'modal'
+},{headerMode: 'none'
 })
 
 export const EventStack = StackNavigator({
@@ -48,7 +48,7 @@ export const EventStack = StackNavigator({
     EventDetail: {
 		screen: EventDetail,
 	},
-},{mode: 'modal'
+},{headerMode: 'none'
 })
 
 //TabNavigator for the main layout of the app
