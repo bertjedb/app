@@ -67,7 +67,7 @@ export default class Api {
                     this.callApi('api/qrEvent', 'POST', sendData, response => {
                         if(response['responseCode'] == "200") {
                             //Idk waarom maar false werkt en true niet. Hierdoor wel de value in scannerQR inverted
-                            return false
+                            return true
                         }
                     });
                   }).catch((error) => {

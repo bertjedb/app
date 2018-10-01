@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image} from 'react-native';
+import {Image, Button} from 'react-native';
 
 import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
@@ -15,6 +15,7 @@ import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
+import EventDetail from '../screens/EventDetail';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
@@ -35,15 +36,27 @@ export const LoginStack = StackNavigator({
   RecoverPassword: {
     screen: RecoverPassword,
   }
-},{
-	headerMode: 'none'
+},{mode: 'modal'
+})
+
+export const EventStack = StackNavigator({
+	News: {
+		screen: News,
+		navigationOptions: {
+		}
+	},
+    EventDetail: {
+		screen: EventDetail,
+	},
+},{mode: 'modal'
 })
 
 //TabNavigator for the main layout of the app
 export const MyTabLoggedIn = TabNavigator({
-			News: {
-		        screen: News,
+			EventStack: {
+		        screen: EventStack,
 		        navigationOptions: {
+                    header: null,
 		          tabBarLabel: 'Evenementen',
 							tabBarIcon: () => (
 		          <Icon name="calendar" size={24} color='grey' />
@@ -80,7 +93,7 @@ export const MyTabLoggedIn = TabNavigator({
 		  				jumpToIndex(scene.index);
 		  			}
 		  		}),
-				initialRouteName: 'PointCard',
+				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
@@ -95,9 +108,8 @@ export const MyTabLoggedIn = TabNavigator({
 		      	labelColor: 'grey',
 				activeLabelColor: '#3bb222',
 		      	rippleColor: '#3bb222',
-				shifting: true,
 		      	tabs: {
-		        News: {
+		        EventStack: {
 							activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
 		        },
 		        PointCard: {
@@ -112,8 +124,8 @@ export const MyTabLoggedIn = TabNavigator({
 		})
 
 export const MyTabNotLoggedIn = TabNavigator({
-			News: {
-		        screen: News,
+			EventStack: {
+		        screen: EventStack,
 		        navigationOptions: {
 		          tabBarLabel: 'Evenementen',
 							tabBarIcon: () => (
@@ -138,7 +150,7 @@ export const MyTabNotLoggedIn = TabNavigator({
 		  				jumpToIndex(scene.index);
 		  			}
 		  		}),
-				initialRouteName: 'News',
+				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
@@ -153,9 +165,8 @@ export const MyTabNotLoggedIn = TabNavigator({
 		      	labelColor: 'grey',
 				activeLabelColor: '#3bb222',
 		      	rippleColor: '#3bb222',
-				shifting: true,
 		      	tabs: {
-		        News: {
+		        EventStack: {
 					activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
 		        },
 				More: {
@@ -173,6 +184,7 @@ export const MyAppNotLoggedIn = StackNavigator({
 	MyTab: {
 		screen: MyTabNotLoggedIn,
 		navigationOptions: {
+            header: null,
 			title: 'Bslim',
 			headerStyle: {
 	      backgroundColor: '#93D500',
@@ -187,6 +199,8 @@ export const MyAppNotLoggedIn = StackNavigator({
 	LoginStack: {
 		screen: LoginStack,
 		navigationOptions: {
+            header: null,
+
 			title: 'Account',
 			headerStyle: {
 	      backgroundColor: '#93D500',
@@ -198,6 +212,7 @@ export const MyAppNotLoggedIn = StackNavigator({
 		}
 	},
 },{
+    header: null,
 
 })
 
@@ -232,5 +247,3 @@ export const MyAppLoggedIn = StackNavigator({
 },{
 
 })
-
-
