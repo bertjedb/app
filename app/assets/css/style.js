@@ -140,5 +140,13 @@ export default StyleSheet.create({
         color: 'black',
         fontWeight: "bold",
         marginBottom: 30
+    },
+
+    noCardContainer: {
+        backgroundColor: 'white',
+        height: Dimensions.get('window').height -320,
+        width: Dimensions.get('window').width -40,
+        borderRadius: 10,
+        alignItems: 'center',
     }
 });

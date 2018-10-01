@@ -24,7 +24,7 @@ import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
 import FlashMessage from "react-native-flash-message";
-import { showMessage } from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 const uiTheme = {
     palette: {
@@ -121,16 +121,16 @@ export default class Registration extends Component {
           lastName: this.state.lastName,
       }
       api.callApi('register', 'POST', userData, response => {
+      }
           if(response['responseCode'] == 200){
             this.setState({
               succesfull: true,
             })
             this.props.navigation.dispatch(NavigationActions.back());
           } else {
-            this.errorMessage(response['responseCode']['message'])
+            alert(response['responseCode']['message'])
           }
       })
-    }
   }
 
 
