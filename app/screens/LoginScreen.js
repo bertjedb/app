@@ -23,6 +23,7 @@ import { NavigationActions } from 'react-navigation';
 import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
+import { sha256 } from 'react-native-sha256';
 
 import {
     COLOR,
@@ -112,18 +113,20 @@ class LoginScreen extends Component {
     }
     else {
       let api = Api.getInstance();
-      let userData = {
-          email: this.state.email,
-          password: this.state.password,
-      }
-      api.callApi('login', 'POST', userData, response => {
-				console.log(response);
-          if(response['boolean'] == "true"){
-  				   this.setUser(response['value'], response['userId']);
-  			} else {
-  				   this.errorMessage(response['msg'])
-		    }
-      });
+      sha256(this.state.password).then( hash => {
+      	let userData = {
+      	    email: this.state.email,
+      	    password: hash,
+      	}
+      	api.callApi('login', 'POST', userData, response => {
+					console.log(response);
+      	    if(response['boolean'] == "true"){
+  					   this.setUser(response['value'], response['userId']);
+			} else {
+				   this.errorMessage(response['msg'])
+	    	}
+     	 });
+      }) 
     }
   }
 
