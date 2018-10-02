@@ -12,7 +12,7 @@ import {
     Divider,
 		ScrollView
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
@@ -75,7 +75,12 @@ class News extends Component {
       						container: {
 										position: "absolute", bottom: 5, right: 5
 									}
-								}}/>
+								}}
+                                onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
+    								routeName: 'EventStack',
+    								action: NavigationActions.navigate({ routeName: 'EventDetail' })
+    								})
+    							)}/>
 						</View>
 					</View>
 				</View>
