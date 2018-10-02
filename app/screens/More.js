@@ -27,6 +27,7 @@ export default class More extends Component {
       this.state = {
                 succesfull: false,
                 userId: null,
+                clearance: null,
       };
 
   }
@@ -45,40 +46,49 @@ export default class More extends Component {
   render () {
         let api = Api.getInstance();
         let localStorage = LocalStorage.getInstance();
-                localStorage.retrieveItem('userId').then((goals) => {
-                  this.setState({
-                                    userId: goals,
-                                })
-                  }).catch((error) => {
-                  //this callback is executed when your Promise is rejected
-                  console.log('Promise is rejected with error: ' + error);
-                  });
+        localStorage.retrieveItem('userId').then((goals) => {
+          localStorage.retrieveItem('clearance').then((clr) => {
+              this.setState({
+                                clearance: clr,
+                                userId: goals,
+                            })
+              }).catch((error) => {
+              //this callback is executed when your Promise is rejected
+              console.log('Promise is rejected with error: ' + error);
+            });
+          }).catch((error) => {
+            //this callback is executed when your Promise is rejected
+            console.log('Promise is rejected with error: ' + error);
+          });
+
 
 
       return (
                 <View style={{flex: 1}}>
         <Drawer>
-                {this.state.userId == null &&
-          <Drawer.Section
+          {this.state.userId == null &&
+            <Drawer.Section
               divider
               items={[
-                  { icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
-					value: 'Inloggen',
-					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-        				  routeName: 'LoginStack',
-        				  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
-        				})
-        			)
-				   },
-                   { icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
- 					value: 'Registreren',
- 					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-         				  routeName: 'LoginStack',
-         				  action: NavigationActions.navigate({ routeName: 'Registration' })
-         				})
-         			)
- 				   },
-                  {
+                   {
+                    icon: <Icon size={25} name={ 'login-variant' } style={{ color: 'grey' }} />,
+          					value: 'Inloggen',
+          					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                  				  routeName: 'LoginStack',
+                  				  action: NavigationActions.navigate({ routeName: 'LoginScreen' })
+                  				})
+                  			)
+          				 },
+                   {
+                    icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
+           					value: 'Registreren',
+           					onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                   				 routeName: 'LoginStack',
+                   				 action: NavigationActions.navigate({ routeName: 'Registration' })
+                 				})
+                 			)
+         				   },
+                   {
                     icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                     value: 'Wachtwoord vergeten',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
@@ -90,9 +100,9 @@ export default class More extends Component {
 
               ]}
           />
-                    }
-                    {this.state.userId != null &&
-          <Drawer.Section
+          }
+          {this.state.userId != null && this.state.clearance == 0 &&
+            <Drawer.Section
               items={[
                   {
                     icon: 'today',
@@ -121,9 +131,61 @@ export default class More extends Component {
                 }),
                 },
               ]}
-
           />
       }
+
+        {this.state.userId != null && this.state.clearance == 1 &&
+          <Drawer.Section
+            divider
+            items={[
+                 {
+                  icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
+                  value: 'Nieuw evenement aanmaken',
+                  onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                         routeName: 'LoginStack',
+                         action: NavigationActions.navigate({ routeName: 'Registration' })
+                      })
+                    )
+                 },
+                 {
+                  icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
+                  value: 'Beheerder account aanmaken',
+                  onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                        routeName: 'LoginStack',
+                        action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+                      })
+                  )
+                 },
+                 {
+                   icon: 'today',
+                   value: 'Wachtwoord veranderen',
+                   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                         routeName: 'LoginStack',
+                         action: NavigationActions.navigate({ routeName: 'ChangePassword' })
+                       })
+                   )
+                  },
+                 {
+                   icon: 'power-settings-new',
+                   value: 'Uitloggen',
+                   onPress: () =>
+                               api.callApi('logout', 'POST', {
+                                   id: this.state.userId,
+                               }, response => {
+                                   console.log(response);
+                               if(response['value'] == true){
+                                   localStorage.storeItem('userId', null);
+                                   localStorage.storeItem('points', null);
+                                   api.getPoints();
+                               } else {
+                                   //alert("Please try again..")
+                               }
+               }),
+               },
+            ]}
+        />
+        }
+
         </Drawer>
                 </View>
       );
