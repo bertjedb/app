@@ -94,6 +94,15 @@ export default class More extends Component {
                     {this.state.userId != null &&
           <Drawer.Section
               items={[
+				  {
+                    icon: 'today',
+                    value: 'Deelnemers',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                          routeName: 'ParticipantListStack',
+                          action: NavigationActions.navigate({ routeName: 'ParticipantList' })
+                        })
+                    )
+                   },
                   {
                     icon: 'today',
                     value: 'Wachtwoord veranderen',

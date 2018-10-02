@@ -36,6 +36,7 @@
     "react-native-slider": "^0.11.0",
     "react-native-snackbar": "^0.5.1",
     "react-native-svg": "^7.0.3",
+    "react-native-swipeable": "^0.6.0",
     "react-native-tabs": "^1.0.9",
     "react-native-thumbnail-video": "^0.1.1",
     "react-native-triangle": "0.0.9",

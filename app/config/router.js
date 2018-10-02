@@ -20,6 +20,7 @@ import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
 import LocalStorage from './localStorage.js';
+import ParticipantList from '../screens/ParticipantList'
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
@@ -45,6 +46,24 @@ export const LoginStack = StackNavigator({
     screen: RecoverPassword,
   }
 },{headerMode: 'screen'
+})
+
+export const ParticipantListStack = StackNavigator({
+	ParticipantList: {
+		screen: ParticipantList,
+		navigationOptions: {
+			title: 'Login',
+			headerStyle: {
+		      backgroundColor: '#93D500',
+		    },
+		    headerTintColor: '#fff',
+		    headerTitleStyle: {
+		      fontWeight: 'bold',
+		    },
+		}
+	}
+},{
+		headerMode: 'screen'
 })
 
 export const EventStack = StackNavigator({
@@ -93,6 +112,7 @@ export const PointCardStack = StackNavigator({
 	},
 },{headerMode: 'screen'
 })
+
 
 export const MoreStack = StackNavigator({
 	More: {
@@ -267,6 +287,12 @@ export const MyAppLoggedIn = StackNavigator({
 	},
 	LoginStack: {
 		screen: LoginStack,
+		navigationOptions: {
+			header: null,
+		}
+	},
+	ParticipantListStack: {
+		screen: ParticipantListStack,
 		navigationOptions: {
 			header: null,
 		}
