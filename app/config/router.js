@@ -26,6 +26,14 @@ export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
 		navigationOptions: {
+			title: 'Login',
+			headerStyle: {
+	      backgroundColor: '#93D500',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	},Registration: {
 		screen: Registration,
@@ -36,19 +44,71 @@ export const LoginStack = StackNavigator({
   RecoverPassword: {
     screen: RecoverPassword,
   }
-},{headerMode: 'none'
+},{headerMode: 'screen'
 })
 
 export const EventStack = StackNavigator({
 	News: {
 		screen: News,
 		navigationOptions: {
+			title: 'Evenementen',
+			headerStyle: {
+	      backgroundColor: '#93D500',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	},
     EventDetail: {
 		screen: EventDetail,
+		navigationOptions: {
+			title: 'Evenement',
+			headerStyle: {
+	      backgroundColor: '#93D500',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
+		}
 	},
-},{headerMode: 'none'
+},{headerMode: 'screen'
+})
+
+export const PointCardStack = StackNavigator({
+	PointCard: {
+		screen: PointCard,
+		navigationOptions: {
+			title: 'Stempelkaart',
+			headerStyle: {
+	      backgroundColor: '#93D500',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
+		}
+	},
+},{headerMode: 'screen'
+})
+
+export const MoreStack = StackNavigator({
+	More: {
+		screen: More,
+		navigationOptions: {
+			title: 'Meer',
+			headerStyle: {
+	      backgroundColor: '#93D500',
+	    },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
+		}
+	},
+},{headerMode: 'screen'
 })
 
 //TabNavigator for the main layout of the app
@@ -56,15 +116,14 @@ export const MyTabLoggedIn = TabNavigator({
 			EventStack: {
 		        screen: EventStack,
 		        navigationOptions: {
-                    header: null,
 		          tabBarLabel: 'Evenementen',
 							tabBarIcon: () => (
 		          <Icon name="calendar" size={24} color='grey' />
 		        )
 		        }
 		      },
-			PointCard: {
-		        screen: PointCard,
+			PointCardStack: {
+		        screen: PointCardStack,
 		        navigationOptions: {
 		          tabBarLabel: 'Stempelkaart',
 							tabBarIcon: () => (
@@ -72,15 +131,15 @@ export const MyTabLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
-			More: {
-						screen: More,
-						navigationOptions: {
-							tabBarLabel: 'Meer',
-							tabBarIcon: () => (
-							<Icon name="format-list-bulleted" size={24} color='grey' />
-						)
-						}
-					},
+			MoreStack: {
+				screen: MoreStack,
+				navigationOptions: {
+					tabBarLabel: 'Meer',
+					tabBarIcon: () => (
+					<Icon name="format-list-bulleted" size={24} color='grey' />
+				)
+				}
+			},
 		}, {
 		  		tabBarComponent: NavigationComponent,
 		  		tabBarPosition: 'bottom',
@@ -128,20 +187,20 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        screen: EventStack,
 		        navigationOptions: {
 		          tabBarLabel: 'Evenementen',
-							tabBarIcon: () => (
+				  tabBarIcon: () => (
 		          <Icon name="calendar" size={24} color='grey' />
 		        )
 		        }
 		      },
 			More: {
-						screen: More,
-						navigationOptions: {
-							tabBarLabel: 'Meer',
-							tabBarIcon: () => (
-							<Icon name="format-list-bulleted" size={24} color='grey' />
-						)
-						}
-					},
+				screen: More,
+				navigationOptions: {
+					tabBarLabel: 'Meer',
+					tabBarIcon: () => (
+					<Icon name="format-list-bulleted" size={24} color='grey' />
+				)
+				}
+			  },
 		}, {
 		  		tabBarComponent: NavigationComponent,
 		  		tabBarPosition: 'bottom',
@@ -185,14 +244,6 @@ export const MyAppNotLoggedIn = StackNavigator({
 		screen: MyTabNotLoggedIn,
 		navigationOptions: {
             header: null,
-			title: 'Bslim',
-			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 
 	},
@@ -200,19 +251,9 @@ export const MyAppNotLoggedIn = StackNavigator({
 		screen: LoginStack,
 		navigationOptions: {
             header: null,
-
-			title: 'Account',
-			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	},
 },{
-    header: null,
 
 })
 
@@ -220,30 +261,15 @@ export const MyAppLoggedIn = StackNavigator({
 	MyTab: {
 		screen: MyTabLoggedIn,
 		navigationOptions: {
-			title: 'Bslim',
-			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
+			header: null,
 		}
 
 	},
 	LoginStack: {
 		screen: LoginStack,
 		navigationOptions: {
-			title: 'Account',
-			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
+			header: null,
 		}
 	},
 },{
-
 })

@@ -52,6 +52,7 @@ constructor() {
   }
 }
 
+/*
 render() {
   return(
 	  <ImageBackground source={require('../assets/maps.jpeg')} style={{width: '100%', height: '100%'}} >
@@ -116,7 +117,8 @@ render() {
   );
 }
 }
-/*
+*/
+
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
@@ -132,6 +134,12 @@ render() {
                         <Text style={{marginLeft: 10, marginBottom: 10, fontWeight: 'bold', fontSize: 12,}}>
     					Vrijdag 13:15
     					</Text>
+                    </View>
+					<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'orange', borderRadius: 15, marginLeft: 60, marginTop: 15, marginBottom: 15, width: 60,}}>
+                        <Text style={{marginRight: 5, fontWeight: 'bold', fontSize: 18, color: 'white'}}>
+    					18
+    					</Text>
+						<Icon name="account-multiple" size={20} color='white' />
                     </View>
                 </View>
                 <Image
@@ -165,7 +173,7 @@ render() {
   }
 }
 
-*/
+
 const styles = StyleSheet.create({
 
     cardContainer:{
@@ -173,12 +181,12 @@ const styles = StyleSheet.create({
     	width: Dimensions.get('window').width,
 		alignItems: 'center',
 		justifyContent: 'flex-end',
-		paddingBottom: 220
+		paddingBottom: 150
 
     },
 
     card: {
-    	backgroundColor: '#FF6700',
+    	backgroundColor: 'white',
     	margin: 10,
 		marginBottom: 0,
     	borderRadius: 10,
