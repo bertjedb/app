@@ -54,7 +54,7 @@ class LoginScreen extends Component {
       super();
 		this.state = {
          	email: 'bert@bert.nl',
-			password: '123456',
+			password: '',
 			succesfull: false,
       };
   }

@@ -104,7 +104,7 @@ export default class More extends Component {
             <Drawer.Section
               items={[
                   {
-                    icon: 'today',
+                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                     value: 'Wachtwoord veranderen',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                           routeName: 'LoginStack',
@@ -138,25 +138,25 @@ export default class More extends Component {
             divider
             items={[
                  {
-                  icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
+                  icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
                   value: 'Nieuw evenement aanmaken',
                   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-                         routeName: 'LoginStack',
-                         action: NavigationActions.navigate({ routeName: 'Registration' })
+                         routeName: 'AdminStack',
+                         action: NavigationActions.navigate({ routeName: 'CreateEvent' })
                       })
                     )
                  },
                  {
-                  icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
+                  icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
                   value: 'Beheerder account aanmaken',
                   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-                        routeName: 'LoginStack',
-                        action: NavigationActions.navigate({ routeName: 'RecoverPassword' })
+                        routeName: 'AdminStack',
+                        action: NavigationActions.navigate({ routeName: 'CreateAdmin' })
                       })
                   )
                  },
                  {
-                   icon: 'today',
+                   icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                    value: 'Wachtwoord veranderen',
                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                          routeName: 'LoginStack',
@@ -168,17 +168,17 @@ export default class More extends Component {
                    icon: 'power-settings-new',
                    value: 'Uitloggen',
                    onPress: () =>
-                               api.callApi('logout', 'POST', {
-                                   id: this.state.userId,
-                               }, response => {
-                                   console.log(response);
-                               if(response['value'] == true){
-                                   localStorage.storeItem('userId', null);
-                                   localStorage.storeItem('points', null);
-                                   api.getPoints();
-                               } else {
-                                   //alert("Please try again..")
-                               }
+                     api.callApi('logout', 'POST', {
+                         id: this.state.userId,
+                     }, response => {
+                         console.log(response);
+                     if(response['value'] == true){
+                         localStorage.storeItem('userId', null);
+                         localStorage.storeItem('points', null);
+                         api.getPoints();
+                     } else {
+                         //alert("Please try again..")
+                     }
                }),
                },
             ]}

@@ -20,13 +20,15 @@ import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
 import LocalStorage from './localStorage.js';
+import CreateEvent from '../screens/CreateEvent';
+import CreateAdmin from '../screens/CreateAdmin';
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
 		navigationOptions: {
-			title: 'Login',
+			title: 'Inloggen',
 			headerStyle: {
 	      backgroundColor: '#93D500',
 	    },
@@ -37,15 +39,77 @@ export const LoginStack = StackNavigator({
 		}
 	},Registration: {
 		screen: Registration,
+		navigationOptions: {
+			title: 'Registreren',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
 	},
   ChangePassword: {
     screen: ChangePassword,
+		navigationOptions: {
+			title: 'Wachtwoord veranderen',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
   },
   RecoverPassword: {
     screen: RecoverPassword,
+		navigationOptions: {
+			title: 'Wachtwoord vergeten',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
   }
 },{headerMode: 'screen'
 })
+
+export const AdminStack = StackNavigator({
+	CreateEvent: {
+		screen: CreateEvent,
+		navigationOptions: {
+			title: 'Nieuw evenement aanmaken',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
+	},
+	CreateAdmin: {
+		screen: CreateAdmin,
+		navigationOptions: {
+			title: 'Nieuw begeleider account aanmaken',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
+	}
+},{headerMode: 'screen'
+})
+
+
 
 export const EventStack = StackNavigator({
 	News: {
@@ -271,5 +335,11 @@ export const MyAppLoggedIn = StackNavigator({
 			header: null,
 		}
 	},
+	AdminStack: {
+		screen: AdminStack,
+		navigationOptions: {
+			header: null,
+		}
+	}
 },{
 })
