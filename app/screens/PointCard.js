@@ -53,6 +53,17 @@ const uiTheme = {
 
 class PointCard extends Component {
 
+	static navigationOptions = {
+		title: 'Bslim',
+		headerStyle: {
+		  backgroundColor: '#93D500',
+		},
+		headerTintColor: '#fff',
+		headerTitleStyle: {
+		  fontWeight: 'bold',
+		},
+	  };
+
   constructor() {
       super();
       this.state = {

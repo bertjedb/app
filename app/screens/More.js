@@ -19,7 +19,6 @@ import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 
 
-
 export default class More extends Component {
 
     constructor() {
