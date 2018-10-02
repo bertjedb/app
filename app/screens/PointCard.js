@@ -76,12 +76,10 @@ class PointCard extends Component {
   }
 
   refreshCard() {
-    console.log("update");
     let localStorage = LocalStorage.getInstance();
     let api = Api.getInstance();
     api.getPoints();
     let points = localStorage.retrieveItem('points').then((points) => {
-        console.log(points);
         if(points != null) {
                 this.setState({card: this.fillCard(points)});
             }

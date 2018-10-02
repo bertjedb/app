@@ -15,6 +15,7 @@ import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
+import MakeEvent from '../screens/MakeEvent';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
@@ -34,6 +35,9 @@ export const LoginStack = StackNavigator({
   },
   RecoverPassword: {
     screen: RecoverPassword,
+  },
+  MakeEvent: {
+  	screen: MakeEvent,
   }
 },{
 	headerMode: 'none'
