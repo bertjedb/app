@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    ImageBackground,
+    ImageBackground
 } from 'react-native';
 import {
     COLOR,
@@ -20,17 +20,28 @@ import {
     Button
 } from 'react-native-material-ui';
 import { DrawerActions, NavigationActions } from 'react-navigation';
-import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
+import stylesCss from '../assets/css/style.js';
 import { TextField } from 'react-native-material-textfield';
 
 
-export default class Registration extends Component {
+const uiTheme = {
+    palette: {
+        primaryColor: COLOR.green500,
+    },
+    toolbar: {
+        container: {
+            height: 60,
+        },
+    },
+};
+
+export default class CreateAdmin extends Component {
 
   constructor() {
       super();
@@ -38,14 +49,14 @@ export default class Registration extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
-        email: 'bert@bert.nl',
-        firstPassword: '123456',
-        secondPassword: '123456',
         firstName: 'bert',
         lastName: 'boer',
+        email: 'bert@bslim.nl',
+        firstPassword: '123456',
+        secondPassword: '123456',
+        biography: '',
 		    succesfull: false,
       };
-
   }
 
 	componentWillUnmount() {
@@ -112,8 +123,9 @@ export default class Registration extends Component {
           password: hash,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
+          biography: this.state.biography,
       }
-      api.callApi('register', 'POST', userData, response => {
+      api.callApi('register-admin', 'POST', userData, response => {
           if(response['responseCode'] == 200){
             this.setState({
               succesfull: true,
@@ -134,11 +146,11 @@ export default class Registration extends Component {
         <View style={styles.container}>
           <View style={styles.card} elevation={5}>
             <Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
-            Registreren
+            Registreer nieuw begeleider account
             </Text>
             <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
             <Text style={{marginTop: 10}}>
-              Hier kun je een nieuw account aanmaken.
+              Hier kun je een nieuw begeleider account aanmaken.
             </Text>
             <TextField
               textColor='green'
@@ -181,6 +193,15 @@ export default class Registration extends Component {
               secureTextEntry={true}
               value={this.state.secondPassword}
               onChangeText={ (secondPassword) => this.setState({ secondPassword }) }
+            />
+            <TextField
+              multiline={true}
+              textColor='green'
+              tintColor='green'
+              baseColor='green'
+              label='Biografie'
+              value={this.state.biography}
+              onChangeText={ (biography) => this.setState({ biography }) }
             />
             <Button
               style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}

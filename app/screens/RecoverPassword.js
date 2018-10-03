@@ -69,10 +69,15 @@ export default class RecoverPassword extends Component {
       }
       api.callApi('reset-password', 'POST', userData, response => {
           console.log(response);
+          if(response['boolean'] == "false"){
+  				   this.errorMessage("Er bestaat geen account met het email adres: " + this.state.email);
+           }
+           else {
+             this.successMessage(
+               'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
+              );
+           }
       });
-      this.successMessage(
-        'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
-       );
    }
   }
 
