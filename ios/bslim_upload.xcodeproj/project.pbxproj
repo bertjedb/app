@@ -1310,8 +1310,11 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bslim_upload.app/bslim_upload";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+<<<<<<< HEAD
+=======
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+>>>>>>> upstream/master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1348,8 +1351,11 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bslim_upload.app/bslim_upload";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+<<<<<<< HEAD
+=======
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+>>>>>>> upstream/master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1461,8 +1467,11 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+<<<<<<< HEAD
+=======
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+>>>>>>> upstream/master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1507,8 +1516,11 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+<<<<<<< HEAD
+=======
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+>>>>>>> upstream/master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1552,8 +1564,11 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+<<<<<<< HEAD
+=======
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+>>>>>>> upstream/master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1597,8 +1612,11 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+<<<<<<< HEAD
+=======
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+>>>>>>> upstream/master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
