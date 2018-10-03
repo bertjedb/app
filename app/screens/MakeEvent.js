@@ -52,10 +52,10 @@ export default class MakeEvent extends Component {
   }
 
   createEvent() {
-  	if(this.state.name != '' ||
-  	   this.state.begin != '' ||
-  	   this.state.end != '' ||
-  	   this.state.loc != '' ||
+  	if(this.state.name != '' &&
+  	   this.state.begin != '' &&
+  	   this.state.end != '' &&
+  	   this.state.loc != '' &&
   	   this.state.desc != '') {
   			let localStorage = LocalStorage.getInstance();
   			let points = localStorage.retrieveItem('userId').then((id) => {
@@ -69,12 +69,22 @@ export default class MakeEvent extends Component {
   					leader: id,
   					img: null
   				}
+  				console.log(userData);
   				let api = Api.getInstance();
   				api.callApi('api/createEvent', 'POST', userData, response => {
         		    if(response['responseCode'] == 200) {
         		    	this.successMessage("Er is een nieuw evenement aangemaakt!");
+        		    	this.setState({
+        		    		name: '',
+							loc: '',
+							begin: '',
+							end: '',
+							desc: '',
+							beginText: '',
+							endText: ''
+        		    	})
         		    } else {
-        		    	console.log(response);
+        		    	this.errorMessage("Er is wat fout gegaan");
         		    }
         		});
   			}
@@ -86,12 +96,30 @@ export default class MakeEvent extends Component {
   }
 
   handleBegin(dateTime) {
-  	this.setState({begin: dateTime, beginText: moment(Date(dateTime)).format('MM-DD-YYYY H:mm')});
+  	minutes = dateTime.getMinutes();
+  	if(minutes < 10) {
+  		minutes = "0" + minutes
+  	}
+  	dateString = dateTime.getDay().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
+  				 dateTime.getHours().toString() + ":" + minutes;
+  				 
+  	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDay().toString() + " " +
+  				 dateTime.getHours().toString() + ":" + minutes;
+  	this.setState({begin: dateToSend, beginText: dateString});
   	this.hidePicker();
   }
 
   handleEnd(dateTime) {
-  	this.setState({end: dateTime, endText: moment(Date(dateTime)).format('MM-DD-YYYY H:mm')})
+  	minutes = dateTime.getMinutes();
+  	if(minutes < 10) {
+  		minutes = "0" + minutes
+  	}
+  	dateString = dateTime.getDay().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
+  				 dateTime.getHours().toString() + ":" + minutes;
+
+  	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDay().toString() + " " +
+  				 dateTime.getHours().toString() + ":" + minutes;
+  	this.setState({end: dateToSend, endText: dateString});
   	this.hidePicker();
   }
 
@@ -122,7 +150,7 @@ export default class MakeEvent extends Component {
 							
 							<TouchableOpacity style={styles.datePick} onPress={() => this.setState({showBegin: true})}>
 								<Text>
-									Begin: {this.state.beginText}
+									Start: {this.state.beginText}
 								</Text>
 							</TouchableOpacity>
 

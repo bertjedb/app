@@ -29,6 +29,7 @@ export default class More extends Component {
                 userId: null,
       };
 
+
   }
 
   navigateToScreen = (route) => () => {

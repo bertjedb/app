@@ -30,15 +30,15 @@ export const LoginStack = StackNavigator({
 	},Registration: {
 		screen: Registration,
 	},
-  ChangePassword: {
-    screen: ChangePassword,
-  },
-  RecoverPassword: {
-    screen: RecoverPassword,
-  },
-  MakeEvent: {
-  	screen: MakeEvent,
-  }
+  	ChangePassword: {
+  	  screen: ChangePassword,
+  	},
+  	RecoverPassword: {
+  	  screen: RecoverPassword,
+  	},
+  	MakeEvent: {
+  		screen: MakeEvent,
+  	}
 },{
 	headerMode: 'none'
 })
@@ -64,7 +64,7 @@ export const MyTabLoggedIn = TabNavigator({
 		        }
 		      },
 			More: {
-						screen: More,
+						screen: MakeEvent,
 						navigationOptions: {
 							tabBarLabel: 'Meer',
 							tabBarIcon: () => (
@@ -84,11 +84,12 @@ export const MyTabLoggedIn = TabNavigator({
 		  				jumpToIndex(scene.index);
 		  			}
 		  		}),
-				initialRouteName: 'PointCard',
+				initialRouteName: 'More',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
-						backgroundColor: 'white', elevation: 8,
+						backgroundColor: 'white',
+						elevation: 8,
 						position: 'absolute',
 		      	left: 0,
 		      	right: 0,
