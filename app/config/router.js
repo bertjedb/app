@@ -22,6 +22,8 @@ import More from '../screens/More';
 import Api from './api.js';
 import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
+import CreateEvent from '../screens/CreateEvent';
+import CreateAdmin from '../screens/CreateAdmin';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -56,12 +58,42 @@ export const LoginStack = StackNavigator({
 		}
 	},Registration: {
 		screen: Registration,
+		navigationOptions: {
+			title: 'Registreren',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
 	},
   ChangePassword: {
     screen: ChangePassword,
+		navigationOptions: {
+			title: 'Wachtwoord veranderen',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
   },
   RecoverPassword: {
     screen: RecoverPassword,
+		navigationOptions: {
+			title: 'Wachtwoord vergeten',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
   }
 },{headerMode: 'screen'
 })
@@ -89,6 +121,38 @@ export const ParticipantListStack = StackNavigator({
 },{
 		headerMode: 'screen'
 })
+
+export const AdminStack = StackNavigator({
+	CreateEvent: {
+		screen: CreateEvent,
+		navigationOptions: {
+			title: 'Nieuw evenement aanmaken',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
+	},
+	CreateAdmin: {
+		screen: CreateAdmin,
+		navigationOptions: {
+			title: 'Nieuw begeleider account aanmaken',
+			headerStyle: {
+				backgroundColor: '#93D500',
+			},
+			headerTintColor: '#fff',
+			headerTitleStyle: {
+				fontWeight: 'bold',
+			},
+		}
+	}
+},{headerMode: 'screen'
+})
+
+
 
 export const EventStack = StackNavigator({
 	News: {
@@ -346,5 +410,11 @@ export const MyAppLoggedIn = StackNavigator({
 			header: null,
 		}
 	},
+	AdminStack: {
+		screen: AdminStack,
+		navigationOptions: {
+			header: null,
+		}
+	}
 },{
 })

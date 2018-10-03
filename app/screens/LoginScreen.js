@@ -53,7 +53,7 @@ class LoginScreen extends Component {
   constructor() {
       super();
 		this.state = {
-         	email: '',
+         	email: 'bert@bert.nl',
 			password: '',
 			succesfull: false,
       };
@@ -81,11 +81,12 @@ class LoginScreen extends Component {
       });
   }
 
-	setUser(value, id){
+	setUser(value, id, clearance){
 		let localStorage = LocalStorage.getInstance();
 		localStorage.storeItem('succesfull', true);
 		this.props.navigation.dispatch(NavigationActions.back());
 		localStorage.storeItem('userId', id);
+    localStorage.storeItem('clearance', clearance);
 		let api = Api.getInstance();
 		api.getPoints();
    }
@@ -121,12 +122,12 @@ class LoginScreen extends Component {
       	api.callApi('login', 'POST', userData, response => {
 					console.log(response);
       	    if(response['boolean'] == "true"){
-  					   this.setUser(response['value'], response['userId']);
+  					   this.setUser(response['value'], response['userId'], response['clearance']);
 			} else {
 				   this.errorMessage(response['msg'])
 	    	}
      	 });
-      }) 
+      })
     }
   }
 
