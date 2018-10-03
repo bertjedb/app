@@ -1,10 +1,11 @@
 import React from 'react';
-import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator, DrawerNavigator, Header } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image, Button} from 'react-native';
+import {Image, Button, View, StyleSheet} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
@@ -22,15 +23,32 @@ import Api from './api.js';
 import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 
+//Gradient header
+export const GradientHeader = props => (
+<View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
+    <LinearGradient
+      colors={['#94D600', '#76C201', ]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
+    >
+      <Header {...props} />
+    </LinearGradient>
+  </View>
+)
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
 		navigationOptions: {
 			title: 'Login',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -53,9 +71,15 @@ export const ParticipantListStack = StackNavigator({
 		screen: ParticipantList,
 		navigationOptions: {
 			title: 'Login',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-		      backgroundColor: '#93D500',
-		    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 		    headerTintColor: '#fff',
 		    headerTitleStyle: {
 		      fontWeight: 'bold',
@@ -71,9 +95,15 @@ export const EventStack = StackNavigator({
 		screen: News,
 		navigationOptions: {
 			title: 'Evenementen',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -84,9 +114,15 @@ export const EventStack = StackNavigator({
 		screen: EventDetail,
 		navigationOptions: {
 			title: 'Evenement',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -101,9 +137,15 @@ export const PointCardStack = StackNavigator({
 		screen: PointCard,
 		navigationOptions: {
 			title: 'Stempelkaart',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -114,14 +156,21 @@ export const PointCardStack = StackNavigator({
 })
 
 
+
 export const MoreStack = StackNavigator({
 	More: {
 		screen: More,
 		navigationOptions: {
 			title: 'Meer',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
