@@ -64,7 +64,7 @@ export const MyTabLoggedIn = TabNavigator({
 		        }
 		      },
 			More: {
-						screen: MakeEvent,
+						screen: More,
 						navigationOptions: {
 							tabBarLabel: 'Meer',
 							tabBarIcon: () => (
@@ -84,7 +84,7 @@ export const MyTabLoggedIn = TabNavigator({
 		  				jumpToIndex(scene.index);
 		  			}
 		  		}),
-				initialRouteName: 'More',
+				initialRouteName: 'PointCard',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
