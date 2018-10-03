@@ -64,7 +64,7 @@ export default class CreateAdmin extends Component {
         secondPassword: '123456',
         biography: '',
 		    succesfull: false,
-        pickedImage: 'DefaultUserImage',
+        pickedImage: DefaultUserImage,
       };
   }
 
@@ -198,7 +198,7 @@ export default class CreateAdmin extends Component {
             >
             <Image
                 style={styles.img}
-                source={DefaultUserImage}
+                source={this.state.pickedImage}
                  />
             </TouchableOpacity>
 
@@ -300,8 +300,7 @@ const styles = StyleSheet.create({
     width:200,
     height:200,
     borderRadius:100,
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginTop:20,
   },
   img: {
     width:200,
