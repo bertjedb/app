@@ -11,6 +11,7 @@ import {
 		StyleSheet,
 		ImageBackground,
 		Dimensions,
+		Share,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -31,6 +32,7 @@ import Api from '../config/api.js';
 
 import LocalStorage from '../config/localStorage.js';
 
+
 import {
     COLOR,
     ThemeContext,
@@ -48,9 +50,34 @@ class EventDetail extends Component {
 constructor() {
   super();
   this.state = {
-	  map: true
+	  map: true,
+	  title: '',
+	  content: '',
+	  url: '',
+	  start: '',
+	  end: '',
+	  author: '',
   }
+  fetch('http://gromdroid.nl/ide/workspace/hanze/newfile.json', {
+      method: 'get',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+	.then(response => response.json())
+	.then(response => this.setState({
+		title: response['title'],
+		content: response['content'],
+		url: response['url'],
+		start: response['start'],
+		end: response['end'],
+		author: response['author']
+	}))
+
 }
+
 
 /*
 render() {
@@ -129,7 +156,7 @@ render() {
                     <Image source={require('../assets/bslim_profile.png')} style={{width: 40, height: 40, margin: 10}} resizeMode="cover"/>
 					<View>
                         <Text style={{marginLeft: 10, marginTop: 10, fontWeight: 'bold', fontSize: 18,}}>
-    					Jan-Willem Kroos
+    					{this.state.author}
     					</Text>
                         <Text style={{marginLeft: 10, marginBottom: 10, fontWeight: 'bold', fontSize: 12,}}>
     					Vrijdag 13:15
@@ -148,23 +175,37 @@ render() {
                     style={{width: '100%', height: 200}}
                 />
                 <Text style={{margin: 10,}}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor quis magna a pellentesque. Nulla eu tempor orci. Nunc dolor nunc, pulvinar ac mi vitae, fringilla facilisis mi. Vivamus blandit sapien quis ornare cursus. Aliquam suscipit purus vel tellus imperdiet fermentum. Mauris eu dolor faucibus, commodo dui ac, auctor quam. Aenean maximus odio nec enim dignissim, vitae luctus purus pulvinar. Suspendisse elementum nibh non nibh malesuada fringilla. Aenean nec justo cursus, venenatis orci at, aliquet mi.
+				{this.state.content}
                 </Text>
                 <View style={{margin: 10,}}>
                     <Text style={{fontWeight: 'bold'}}>
-                    Locatie: Sportpark Het Noorden
+                    Start: {this.state.start}
                     </Text>
                     <Text style={{fontWeight: 'bold'}}>
-                    Datum: Maandag 24 September 2018
-                    </Text>
-                    <Text style={{fontWeight: 'bold'}}>
-                    Tijd: 16:00 uur
+                    Einde: {this.state.end}
                     </Text>
                 </View>
                 <Image
                     source={{ uri:'https://static-maps.yandex.ru/1.x/?lang=en-US&ll=6.5560995,53.2390828&z=15&l=map&size=500,300&pt=6.5560995,53.2390828,flag'}}
                     resizeMode="cover"
                     style={{width: '100%', height: 200}}/>
+				<View style={{flexDirection: 'row'}}>
+						<Button
+							style={{
+								container: {
+									margin: 10,
+										borderRadius: 10,
+										backgroundColor: 'green'
+								},
+								text: {
+									color: 'white'
+								}
+							}}
+						 	text="Delen"
+							onPress={() => Share.share({
+      							message: 'Kom je ook sporten op 24 September 2018 bij Sportpark Het Noorden? Voor meer info: ' + this.state.url
+  							})} />
+				</View>
 			</ScrollView>
             </View>
           </View>
@@ -172,6 +213,7 @@ render() {
     );
   }
 }
+
 
 
 const styles = StyleSheet.create({

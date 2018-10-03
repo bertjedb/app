@@ -8,7 +8,7 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-		ImageBackground,
+	ImageBackground,
     Image,
     Divider,
 } from 'react-native';
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
 		justifyContent: 'center',
   },
-	card: {
+card: {
 		backgroundColor: '#93D500',
 		margin: 10,
 		borderRadius: 10,

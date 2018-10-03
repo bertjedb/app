@@ -1,10 +1,11 @@
 import React from 'react';
-import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator, DrawerNavigator, Header } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image, Button} from 'react-native';
+import {Image, Button, View, StyleSheet} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Feed from '../screens/Feed';
 import ScannerQR from '../screens/ScannerQR';
@@ -15,23 +16,40 @@ import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
-import EventDetail from '../screens/EventDetail';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
 import LocalStorage from './localStorage.js';
-import CreateEvent from '../screens/CreateEvent';
+import ParticipantList from '../screens/ParticipantList'
+import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
 
+//Gradient header
+export const GradientHeader = props => (
+<View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
+    <LinearGradient
+      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
+    >
+      <Header {...props} />
+    </LinearGradient>
+  </View>
+)
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
 		screen: LoginScreen,
 		navigationOptions: {
-			title: 'Inloggen',
+			title: 'Login',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -79,9 +97,33 @@ export const LoginStack = StackNavigator({
 },{headerMode: 'screen'
 })
 
+export const ParticipantListStack = StackNavigator({
+	ParticipantList: {
+		screen: ParticipantList,
+		navigationOptions: {
+			title: 'Login',
+			header: props => <GradientHeader {...props} />,
+			headerStyle: {
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+		    headerTintColor: '#fff',
+		    headerTitleStyle: {
+		      fontWeight: 'bold',
+		    },
+		}
+	}
+},{
+		headerMode: 'screen'
+})
+
 export const AdminStack = StackNavigator({
-	CreateEvent: {
-		screen: CreateEvent,
+	MakeEvent: {
+		screen: MakeEvent,
 		navigationOptions: {
 			title: 'Nieuw evenement aanmaken',
 			headerStyle: {
@@ -116,9 +158,15 @@ export const EventStack = StackNavigator({
 		screen: News,
 		navigationOptions: {
 			title: 'Evenementen',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -129,9 +177,15 @@ export const EventStack = StackNavigator({
 		screen: EventDetail,
 		navigationOptions: {
 			title: 'Evenement',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -146,9 +200,15 @@ export const PointCardStack = StackNavigator({
 		screen: PointCard,
 		navigationOptions: {
 			title: 'Stempelkaart',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -158,14 +218,22 @@ export const PointCardStack = StackNavigator({
 },{headerMode: 'screen'
 })
 
+
+
 export const MoreStack = StackNavigator({
 	More: {
 		screen: More,
 		navigationOptions: {
 			title: 'Meer',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-	      backgroundColor: '#93D500',
-	    },
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
 	      fontWeight: 'bold',
@@ -220,7 +288,8 @@ export const MyTabLoggedIn = TabNavigator({
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
-						backgroundColor: 'white', elevation: 8,
+						backgroundColor: 'white',
+						elevation: 8,
 						position: 'absolute',
 		      	left: 0,
 		      	right: 0,
@@ -331,6 +400,12 @@ export const MyAppLoggedIn = StackNavigator({
 	},
 	LoginStack: {
 		screen: LoginStack,
+		navigationOptions: {
+			header: null,
+		}
+	},
+	ParticipantListStack: {
+		screen: ParticipantListStack,
 		navigationOptions: {
 			header: null,
 		}

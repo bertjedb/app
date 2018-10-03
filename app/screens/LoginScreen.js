@@ -163,6 +163,7 @@ class LoginScreen extends Component {
 										underlineColorAndroid="transparent"
 										value={ this.state.password }
 										onChangeText={ password => this.setState({password}) }
+										onBlur= { () => this.login()}
 								/>
 							</View>
 						</View>

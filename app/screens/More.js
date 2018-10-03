@@ -29,6 +29,7 @@ export default class More extends Component {
                 clearance: null,
       };
 
+
   }
 
   navigateToScreen = (route) => () => {
@@ -103,6 +104,15 @@ export default class More extends Component {
           {this.state.userId != null && this.state.clearance == 0 &&
             <Drawer.Section
               items={[
+				  {
+                    icon: 'today',
+                    value: 'Deelnemers',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                          routeName: 'ParticipantListStack',
+                          action: NavigationActions.navigate({ routeName: 'ParticipantList' })
+                        })
+                    )
+                   },
                   {
                     icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                     value: 'Wachtwoord veranderen',
@@ -128,6 +138,15 @@ export default class More extends Component {
                                     //alert("Please try again..")
                                 }
                 }),
+                },
+                {
+                    icon: 'today',
+                    value: 'Nieuw evenement',
+                    onPress: () => 
+                        this.props.navigation.dispatch(NavigationActions.navigate({
+                            routeName: 'MakeEvent',
+                            action: NavigationActions.navigate({routeName: 'MakeEvent'})
+                        }))
                 },
               ]}
           />
