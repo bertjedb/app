@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    ImageBackground
+    ImageBackground,
+    Dimensions,
 } from 'react-native';
 import {
     COLOR,
@@ -28,6 +29,13 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
 import stylesCss from '../assets/css/style.js';
 import { TextField } from 'react-native-material-textfield';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob'
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import ActionButton from 'react-native-action-button';
+import * as mime from 'react-native-mime-types';
+import Video from 'react-native-af-video-player'
+import DefaultUserImage from '../assets/default-user-image.png';
 
 
 const uiTheme = {
@@ -56,6 +64,7 @@ export default class CreateAdmin extends Component {
         secondPassword: '123456',
         biography: '',
 		    succesfull: false,
+        pickedImage: DefaultUserImage,
       };
   }
 
@@ -139,11 +148,41 @@ export default class CreateAdmin extends Component {
     }
   }
 
+  reset = () => {
+    this.setState({
+      pickedImage: DefaultUserImage
+    });
+  }
+
+  /**
+ * The first arg is the options object for customization (it can also be null or omitted for default options),
+ * The second arg is the callback which sends object: response (more info below in README)
+ */
+
+  pickImageHandler = () => {
+    ImagePicker.showImagePicker({title: "Pick an Image", maxWidth: 800, maxHeight: 600}, res => {
+      if (res.didCancel) {
+        console.log("User cancelled!");
+      } else if (res.error) {
+        console.log("Error", res.error);
+      } else {
+        this.setState({
+          pickedImage: { uri: res.uri }
+        });
+
+      }
+    });
+  }
+
+  resetHandler = () =>{
+    this.reset();
+  }
 
   render() {
+
     return(
       <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <View style={styles.card} elevation={5}>
             <Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
             Registreer nieuw begeleider account
@@ -152,6 +191,17 @@ export default class CreateAdmin extends Component {
             <Text style={{marginTop: 10}}>
               Hier kun je een nieuw begeleider account aanmaken.
             </Text>
+
+            <TouchableOpacity
+              style={styles.placeholder}
+              onPress={this.pickImageHandler}
+            >
+            <Image
+                style={styles.img}
+                source={this.state.pickedImage}
+                 />
+            </TouchableOpacity>
+
             <TextField
               textColor='green'
               tintColor='green'
@@ -210,7 +260,7 @@ export default class CreateAdmin extends Component {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
       <FlashMessage position="top" />
       </ImageBackground>
     );
@@ -220,7 +270,6 @@ export default class CreateAdmin extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-		justifyContent: 'center',
   },
 	card: {
 		backgroundColor: '#93D500',
@@ -244,4 +293,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
   },
+
+  placeholder: {
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    width:200,
+    height:200,
+    borderRadius:100,
+    marginTop:20,
+  },
+  img: {
+    width:200,
+    height:200,
+    borderRadius:100,
+    resizeMode: 'contain',
+  },
+  button: {
+    flexDirection:"row",
+  },
+  previewImage: {
+      width: "100%",
+      height: "100%"
+  }
+
 })
