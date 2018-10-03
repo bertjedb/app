@@ -99,6 +99,16 @@ export default StyleSheet.create({
         width: 90,
     },
 
+	stamp: {
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		height: 90,
+        width: 90,
+	},
+
     stampUnFilled: {
         margin: 14,
         height: 100,
