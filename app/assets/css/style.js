@@ -33,6 +33,17 @@ export default StyleSheet.create({
 	    elevation: 3,
 		},
 
+    cardGreen: {
+        backgroundColor: '#93D500',
+        margin: 10,
+        borderRadius: 10,
+        shadowOffset: {width: 0, height: 13},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        // android (Android +5.0)
+        elevation: 3,
+        },
+
 	  SectionStyleTop: {
 	    flexDirection: 'row',
 	    justifyContent: 'center',
@@ -117,9 +128,17 @@ export default StyleSheet.create({
     },
 
     defaultBtn: {
-			marginTop: 30,
+		marginTop: 30,
         borderRadius: 10,
         backgroundColor: '#FF6700'
+    },
+
+    datePick: {
+        padding: 5,
+        borderRadius: 5,
+        backgroundColor: '#93D500',
+        margin: 5,
+        marginTop: 10
     },
 
     rgstBtn: {
@@ -158,5 +177,18 @@ export default StyleSheet.create({
         width: Dimensions.get('window').width -40,
         borderRadius: 10,
         alignItems: 'center',
+    },
+
+    makeEventContainer: {
+        flex: 1,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        margin: 30,
+    },
+
+    makeEventInput: {
+        backgroundColor: 'white',
+        margin: 20,
+        borderRadius: 3
     }
 });

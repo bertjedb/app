@@ -16,13 +16,12 @@ import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
-import EventDetail from '../screens/EventDetail';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
 import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
-import CreateEvent from '../screens/CreateEvent';
+import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
 
 //Gradient header
@@ -123,8 +122,8 @@ export const ParticipantListStack = StackNavigator({
 })
 
 export const AdminStack = StackNavigator({
-	CreateEvent: {
-		screen: CreateEvent,
+	MakeEvent: {
+		screen: MakeEvent,
 		navigationOptions: {
 			title: 'Nieuw evenement aanmaken',
 			headerStyle: {
@@ -289,7 +288,8 @@ export const MyTabLoggedIn = TabNavigator({
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
-						backgroundColor: 'white', elevation: 8,
+						backgroundColor: 'white',
+						elevation: 8,
 						position: 'absolute',
 		      	left: 0,
 		      	right: 0,

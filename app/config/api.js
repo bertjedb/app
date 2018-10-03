@@ -4,9 +4,14 @@ import LocalStorage from './localStorage.js';
 export default class Api {
 
 	static instance = null;
+<<<<<<< HEAD
+	url= "http://145.37.145.97:5000/"
+
+=======
 	//url= "http://145.37.145.238:5000/"
 	url= "http://10.0.2.2:5000/"
 	
+>>>>>>> upstream/master
 	static getInstance() {
 		if(Api.instance == null) {
 			Api.instance = new Api();
