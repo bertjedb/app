@@ -27,7 +27,7 @@ import ParticipantList from '../screens/ParticipantList'
 export const GradientHeader = props => (
 <View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
     <LinearGradient
-      colors={['#94D600', '#76C201', ]}
+      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
       style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
     >
       <Header {...props} />
