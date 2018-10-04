@@ -23,6 +23,8 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
+import EventDetail from '../screens/EventDetail';
+import Events from '../screens/Events';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -154,8 +156,8 @@ export const AdminStack = StackNavigator({
 
 
 export const EventStack = StackNavigator({
-	News: {
-		screen: News,
+	Events: {
+		screen: Events,
 		navigationOptions: {
 			title: 'Evenementen',
 			header: props => <GradientHeader {...props} />,
