@@ -26,6 +26,7 @@ import CreateAdmin from '../screens/CreateAdmin';
 import EventDetail from '../screens/EventDetail';
 import Events from '../screens/Events';
 
+
 //Gradient header
 export const GradientHeader = props => (
 <View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
