@@ -45,55 +45,56 @@ class Events extends Component {
             dataSource: null,
             eventArray: []
         };
-
-        fetch('http://145.37.165.191:5000/api/getAllEvents')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let ds = new ListView.DataSource({
+        let api = Api.getInstance()
+        api.callApi('api/getAllEvents', 'POST', {}, response => {
+            if(response['responseCode'] == 200) {
+                console.log(response);
+                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
                 this.setState({
-                    dataSource: ds.cloneWithRows(responseJson),
+                    dataSource: ds.cloneWithRows(response['events']),
                 });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-
+                console.log(this.state);
+            }
+        });
     }
 
+  componentDidMount() {
+    this.onLoad();
+    this.props.navigation.addListener('willFocus', this.onLoad)
+  }
+
+    onLoad = () => {
+    this.refresh();
+  }
 
     refresh(){
-        fetch('api/getAllEvents')
-            .then((response) => response.json())
-            .then((responseJson) => {
+        let api = Api.getInstance()
+        api.callApi('api/getAllEvents', 'POST', {}, response => {
+            if(response['responseCode'] == 200) {
                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
                 this.setState({
                     firstLoading: false,
-                    dataSource: ds.cloneWithRows(responseJson),
+                    dataSource: ds.cloneWithRows(response['events']),
                     uploading: false,
                 });
+            }   
             })
-            .catch((error) => {
-                console.error(error);
-            });
     }
-
 
 
     render() {
         return(
-
             <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%',paddingBottom:'8%'}}>
                 {
                     this.state.dataSource != null &&
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={(rowData) =>
-
-                            <View style={styles.container}>
+                           <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', margin: 10, marginBottom: 20}}>
                                         <Image
@@ -112,7 +113,7 @@ class Events extends Component {
                                             <Text style={{fontSize: 16, color: 'black'}}>
                                                 {rowData.created}
                                             </Text>
-                                        </View >
+                                        </View>
                                     </View>
 
                                     <View style={{
@@ -154,7 +155,7 @@ class Events extends Component {
                                                     }}>
                                                         {rowData.beginMonth}
                                                     </Text>
-                                                </View >
+                                                </View>
 
                                             </View>
                                             <View style={{
@@ -165,12 +166,12 @@ class Events extends Component {
                                             }}>
                                                 <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
                                                     {rowData.name}
-                                                </Text >
+                                                </Text>
                                                 <Text numberOfLines={3} ellipsizeMode="tail" style={{fontSize: 12}}>
                                                     {rowData.desc}
                                                 </Text>
                                             </View>
-                                        </View >
+                                        </View>
 
                                         <View style={{
                                             flex: 1,
@@ -195,7 +196,7 @@ class Events extends Component {
                     />
                 }
 
-            </ImageBackground >
+            </ImageBackground>
 
 
         );
