@@ -21,6 +21,9 @@ import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import Api from '../config/api.js';
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
+import { sha256 } from 'react-native-sha256';
 
 import {
     COLOR,
@@ -50,7 +53,7 @@ class LoginScreen extends Component {
   constructor() {
       super();
 		this.state = {
-         	email: '',
+         	email: 'bert@bert.nl',
 			password: '',
 			succesfull: false,
       };
@@ -70,11 +73,20 @@ class LoginScreen extends Component {
 		}
 	}
 
-	setUser(value, id){
+  errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 2500,
+      });
+  }
+
+	setUser(value, id, clearance){
 		let localStorage = LocalStorage.getInstance();
 		localStorage.storeItem('succesfull', true);
 		this.props.navigation.dispatch(NavigationActions.back());
 		localStorage.storeItem('userId', id);
+    localStorage.storeItem('clearance', clearance);
 		let api = Api.getInstance();
 		api.getPoints();
    }
@@ -90,24 +102,33 @@ class LoginScreen extends Component {
 		 }
  	}
 
+
+
 	login() {
-        let api = Api.getInstance();
-        let userData = {
-            email: this.state.email,
-            password: this.state.password,
-        }
 
-        api.callApi('login', 'POST', userData, response => {
+    if(this.state.email == "" || this.state.password == ""){
+      this.errorMessage("Vul alstublieft alle velden in!")
+    }
+    else if(/\S+@\S+\.\S+/.test(this.state.email) == false){
+      this.errorMessage("Het ingevoerde email adres is geen een valide email!");
+    }
+    else {
+      let api = Api.getInstance();
+      sha256(this.state.password).then( hash => {
+      	let userData = {
+      	    email: this.state.email,
+      	    password: hash,
+      	}
+      	api.callApi('login', 'POST', userData, response => {
 					console.log(response);
-            if(response['value'] == true){
-				this.setUser(response['value'], response['userId']);
+      	    if(response['boolean'] == "true"){
+  					   this.setUser(response['value'], response['userId'], response['clearance']);
 			} else {
-				alert("ERROR " + response['value'])
-				//alert("Please try again..")
-			}
-        });
-        //alert("registrating");
-
+				   this.errorMessage(response['msg'])
+	    	}
+     	 });
+      })
+    }
   }
 
   render() {
@@ -142,6 +163,7 @@ class LoginScreen extends Component {
 										underlineColorAndroid="transparent"
 										value={ this.state.password }
 										onChangeText={ password => this.setState({password}) }
+										onBlur= { () => this.login()}
 								/>
 							</View>
 						</View>
@@ -178,6 +200,7 @@ class LoginScreen extends Component {
 					</View>
 				</View>
 			</View>
+      <FlashMessage position="top" />
 		</ImageBackground>
 
     );

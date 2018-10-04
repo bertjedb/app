@@ -28,6 +28,8 @@ import {
 
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 export default class RecoverPassword extends Component {
 
@@ -39,19 +41,44 @@ export default class RecoverPassword extends Component {
 
   }
 
+  errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 2500,
+      });
+  }
+
+  successMessage(msg){
+    showMessage({
+        message: msg,
+        type: "success",
+        duration: 5000,
+      });
+  }
+
   recover() {
+
+    if(/\S+@\S+\.\S+/.test(this.state.email) == false){
+      this.errorMessage("Vul een bestaand email adres in!!");
+    }
+    else {
       let api = Api.getInstance();
       let userData = {
           'email': this.state.email,
       }
       api.callApi('reset-password', 'POST', userData, response => {
           console.log(response);
+          if(response['boolean'] == "false"){
+  				   this.errorMessage("Er bestaat geen account met het email adres: " + this.state.email);
+           }
+           else {
+             this.successMessage(
+               'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
+              );
+           }
       });
-      alert(
-        'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
-       );
-       this.props.navigation.dispatch(NavigationActions.back())
-
+   }
   }
 
   render() {
@@ -84,6 +111,7 @@ export default class RecoverPassword extends Component {
         </View>
       </View>
     </View>
+    <FlashMessage position="top" />
   </ImageBackground>
 
     );

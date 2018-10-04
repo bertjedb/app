@@ -53,30 +53,46 @@ const uiTheme = {
 
 class PointCard extends Component {
 
+	static navigationOptions = {
+		title: 'Bslim',
+		headerStyle: {
+		  backgroundColor: '#93D500',
+		},
+		headerTintColor: '#fff',
+		headerTitleStyle: {
+		  fontWeight: 'bold',
+		},
+	  };
+
   constructor() {
       super();
       this.state = {
         card: null,
         cameraActive: false,
-        loggedIn: false,
         points: null
       };
+      this.refreshCard();
   }
 
   componentDidMount() {
     if(this._confettiView) {
        this._confettiView.startConfetti();
     }
+    this.onLoad();
+    this.props.navigation.addListener('willFocus', this.onLoad)
+  }
+
+  onLoad = () => {
     this.refreshCard();
   }
 
   refreshCard() {
-    console.log("update")
     let localStorage = LocalStorage.getInstance();
+    let api = Api.getInstance();
+    api.getPoints();
     let points = localStorage.retrieveItem('points').then((points) => {
         if(points != null) {
-                this.setState({card: this.fillCard(points),
-                               loggedIn: true});
+                this.setState({card: this.fillCard(points)});
             }
 
     })
@@ -92,57 +108,96 @@ class PointCard extends Component {
 
 	getFile(id, total){
         if(id <= total){
-            return require('../assets/points/check.png');
+			return  (<View style = { stylesCss.stampFilled}>
+						<Image  style = { stylesCss.stamp}
+									source = {require('../assets/points/1.png')}
+									/>
+						<Image  style = { stylesCss.stamp}
+									source = {require('../assets/points/Check.png')}
+									/>
+					 </View>);
         }
 
         switch(id) {
         case 1:
-            return require('../assets/points/1.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/1.png')}
+							/>);
             break;
         case 2:
-            return require('../assets/points/2.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/2.png')}
+							/>);
             break;
         case 3:
-            return require('../assets/points/3.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/3.png')}
+							/>);
             break;
         case 4:
-            return require('../assets/points/4.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/4.png')}
+							/>);
             break;
         case 5:
-            return require('../assets/points/5.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/5.png')}
+							/>);
             break;
         case 6:
-            return require('../assets/points/6.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/6.png')}
+							/>);
             break;
         case 7:
-            return require('../assets/points/7.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/7.png')}
+							/>);
             break;
         case 8:
-            return require('../assets/points/8.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/8.png')}
+							/>);
             break;
         case 9:
-            return require('../assets/points/9.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/9.png')}
+							/>);
             break;
         case 10:
-            return require('../assets/points/10.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/10.png')}
+							/>);
             break;
         case 11:
-            return require('../assets/points/11.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/11.png')}
+							/>);
             break;
         case 12:
-            return require('../assets/points/12.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/12.png')}
+							/>);
             break;
         case 13:
-            return require('../assets/points/13.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/13.png')}
+							/>);
             break;
         case 14:
-            return require('../assets/points/14.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/14.png')}
+							/>);
             break;
         case 15:
-            return require('../assets/points/15.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/15.png')}
+							/>);
             break;
         default:
-            return require('../assets/points/1.png');
+			return  (<Image  style = { stylesCss.stampFilled}
+							source = {require('../assets/points/1.png')}
+							/>);
         };
     }
 
@@ -154,23 +209,16 @@ class PointCard extends Component {
         holderArray.push(
             <View key = {15 - count} style= {stylesCss.pointCardColumn }>
                 <View style={ stylesCss.pointCardRow}>
-                    <Image  style = { stylesCss.stampFilled}
-                                    source = {this.getFile(count, numOfStamps)}
-                                    />
-                    <Image  style = { stylesCss.stampFilled }
-                                    source = {this.getFile(count+1, numOfStamps)}
-                    />
-                    <Image  style = { stylesCss.stampFilled }
-                                    source = {this.getFile(count+2, numOfStamps)}
-                    />
+                    {this.getFile(count, numOfStamps)}
+					{this.getFile(count +1, numOfStamps)}
+					{this.getFile(count +2, numOfStamps)}
                 </View>
             </View>
         );
-            count = count + 3;
+            count = count +3;
     }
     return holderArray;
   }
-//			<ConfettiView>
 
   render() {
     return(
