@@ -23,6 +23,7 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
+import EventDetail from '../screens/EventDetail';
 
 //Gradient header
 export const GradientHeader = props => (
