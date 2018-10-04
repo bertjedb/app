@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image, Button, View, StyleSheet} from 'react-native';
+import {Image, Button, View, StyleSheet, Dimensions, TextInput} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Feed from '../screens/Feed';
@@ -30,11 +30,22 @@ export const GradientHeader = props => (
 <View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
     <LinearGradient
       colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
     >
       <Header {...props} />
     </LinearGradient>
   </View>
+)
+export const GradientEventsHeader = props => (
+	<View style={{ backgroundColor: '#eee', height: Header.HEIGHT}} >
+	    <LinearGradient
+	      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
+	      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
+	    >
+	      <Header {...props} />
+	    </LinearGradient>
+	    <Icon onPress={() => {showInput = !showInput; alert(showInput)}} name="magnify" style={{alignSelf: 'flex-end', margin: 10}} size={40} color='white' />
+	</View>
 )
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
@@ -159,7 +170,7 @@ export const EventStack = StackNavigator({
 		screen: News,
 		navigationOptions: {
 			title: 'Evenementen',
-			header: props => <GradientHeader {...props} />,
+			header: props => <GradientEventsHeader {...props} />,
 			headerStyle: {
 			    backgroundColor: 'transparent',
 			    position: 'absolute',
@@ -167,6 +178,7 @@ export const EventStack = StackNavigator({
 			    left: 0,
 			    right: 0,
 			    bottom: 0,
+			    width: Dimensions.get('window').width - 60
 			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
@@ -317,6 +329,15 @@ export const MyTabLoggedIn = TabNavigator({
 		})
 
 export const MyTabNotLoggedIn = TabNavigator({
+			LoginStack: {
+		        screen: LoginStack,
+		        navigationOptions: {
+		          tabBarLabel: 'Login',
+				  tabBarIcon: () => (
+		          <Icon name="login" size={24} color='grey' />
+		        )
+		        }
+		      },
 			EventStack: {
 		        screen: EventStack,
 		        navigationOptions: {
