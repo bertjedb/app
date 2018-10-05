@@ -220,6 +220,29 @@ export const PointCardStack = StackNavigator({
 },{headerMode: 'screen'
 })
 
+export const NewsStack = StackNavigator({
+    News: {
+        screen: News,
+        navigationOption: {
+            title: 'News',
+            header: props => <GradientHeader {...props} />,
+            headerStyle: {
+                backgroundColor: 'transparent',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        }
+    },
+},{headerMode: 'screen'
+})
+
 
 
 export const MoreStack = StackNavigator({
@@ -265,6 +288,15 @@ export const MyTabLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
+			News: {
+				screen: News,
+				navigationOptions: {
+					tabBarLabel: 'Nieuws',
+					tabBarIcon: () => (
+						<Icon name="cards-outline" size={24} color='grey' />
+					)
+				}
+			},
 			MoreStack: {
 				screen: MoreStack,
 				navigationOptions: {
@@ -327,6 +359,15 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
+			News: {
+				screen: News,
+				navigationOptions: {
+					tabBarLabel: 'Nieuws',
+					tabBarIcon: () => (
+						<Icon name="cards-outline" size={24} color='grey' />
+					)
+				}
+			},
 			More: {
 				screen: More,
 				navigationOptions: {
