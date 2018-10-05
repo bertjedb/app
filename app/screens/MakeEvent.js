@@ -100,10 +100,10 @@ export default class MakeEvent extends Component {
   	if(minutes < 10) {
   		minutes = "0" + minutes
   	}
-  	dateString = dateTime.getDay().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
+  	dateString = dateTime.getDate().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
   				 
-  	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDay().toString() + " " +
+  	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDate().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
   	this.setState({begin: dateToSend, beginText: dateString});
   	this.hidePicker();
@@ -114,10 +114,10 @@ export default class MakeEvent extends Component {
   	if(minutes < 10) {
   		minutes = "0" + minutes
   	}
-  	dateString = dateTime.getDay().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
+  	dateString = dateTime.getDate().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
 
-  	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDay().toString() + " " +
+  	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDate().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
   	this.setState({end: dateToSend, endText: dateString});
   	this.hidePicker();

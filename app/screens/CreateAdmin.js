@@ -57,11 +57,11 @@ export default class CreateAdmin extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
-        firstName: 'bert',
-        lastName: 'boer',
-        email: 'bert@bslim.nl',
-        firstPassword: '123456',
-        secondPassword: '123456',
+        firstName: '',
+        lastName: '',
+        email: '',
+        firstPassword: '',
+        secondPassword: '',
         biography: '',
 		    succesfull: false,
         pickedImage: DefaultUserImage,
