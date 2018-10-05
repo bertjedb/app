@@ -20,10 +20,11 @@ import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
-import {COLOR, ThemeContext, getTheme, Toolbar, Card} from 'react-native-material-ui';
+import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox} from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
 
 import Api from '../config/api.js';
+import BottomSheet from "react-native-js-bottom-sheet";
 
 const uiTheme = {
     palette: {
@@ -84,11 +85,81 @@ class Events extends Component {
             }   
             })
     }
+    showFilter() {
+        this.bottomSheet.open()
+    };
 
 
     render() {
         return(
             <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%',paddingBottom:'8%'}}>
+                <Toolbar
+                    centerElement={"Evenementen"}
+                    searchable={{
+                        autoFocus: true,
+                        placeholder: 'Zoeken',
+                        onChangeText: (text) => this.setState({search : text})
+                    }}
+                    rightElement={("filter-list")}
+                    onRightElementPress={()=> this.showFilter()}
+                />
+                <BottomSheet
+                    ref={(ref: BottomSheet) => {
+                        this.bottomSheet = ref
+                    }}
+                    styleContainer={{paddingBottom: 120}}
+                    backButtonEnabled={true}
+                    coverScreen={false}
+                    options={[
+                        {
+                            icon: (
+                                <Text style={{fontWeight: 'bold'}}>Wijken</Text>
+                            ),
+                        },
+                        {
+                            icon: (
+                                <Checkbox label="Beijum" value="agree" onCheck={()=>this.setState({check1: !this.state.check1})} checked={this.state.check1} />
+                            ),
+                        },
+                        {
+                            icon: (
+                                <Checkbox label="Hoogkerk" value="agree" onCheck={()=>this.setState({check2: !this.state.check2})} checked={this.state.check2} />
+                            ),
+                            onPress: () => null
+                        },
+                        {
+                            icon: (
+                                <Checkbox label="Ten Boer" value="agree" onCheck={()=>this.setState({check3: !this.state.check3})} checked={this.state.check3} />
+                            ),
+                            onPress: () => null
+                        },
+                        {
+                            icon: (
+                                <Text style={{fontWeight: 'bold'}}>Begeleider</Text>
+                            ),
+                            onPress: () => null
+                        },
+                        {
+                            icon: (
+                                <Checkbox label="Berend Baandrecht" value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
+                            ),
+                            onPress: () => null
+                        },
+                        {
+                            icon: (
+                                <Checkbox label="Jaap Vos" value="agree" onCheck={()=>this.setState({check5: !this.state.check5})} checked={this.state.check5} />
+                            ),
+                            onPress: () => null
+                        },
+                        {
+                            icon: (
+                                <Checkbox label="Karel Achterveld" value="agree" onCheck={()=>this.setState({check6: !this.state.check6})} checked={this.state.check6} />
+                            ),
+                            onPress: () => null
+                        }
+                    ]}
+                    isOpen={false}
+                />
                 {
                     this.state.dataSource != null &&
                     <ListView
@@ -191,7 +262,7 @@ class Events extends Component {
                                         </View>
                                     </View>
                                 </View>
-                            </View>
+                            </View >
                         }
                     />
                 }
