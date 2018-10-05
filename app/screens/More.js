@@ -65,6 +65,9 @@ export default class More extends Component {
 
       return (
                 <View style={{flex: 1}}>
+				<Toolbar
+					centerElement='Meer'
+				/>
         <Drawer>
           {this.state.userId == null &&
             <Drawer.Section
@@ -104,15 +107,6 @@ export default class More extends Component {
           {this.state.userId != null && this.state.clearance == 0 &&
             <Drawer.Section
               items={[
-				  {
-                    icon: 'today',
-                    value: 'Deelnemers',
-                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
-                          routeName: 'ParticipantListStack',
-                          action: NavigationActions.navigate({ routeName: 'ParticipantList' })
-                        })
-                    )
-                   },
                   {
                     icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                     value: 'Wachtwoord veranderen',
@@ -142,7 +136,7 @@ export default class More extends Component {
                 {
                     icon: 'today',
                     value: 'Nieuw evenement',
-                    onPress: () => 
+                    onPress: () =>
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'MakeEvent',
                             action: NavigationActions.navigate({routeName: 'MakeEvent'})
@@ -175,6 +169,15 @@ export default class More extends Component {
                       })
                   )
                  },
+				 {
+				   icon: 'people',
+				   value: 'Deelnemers',
+				   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+						 routeName: 'ParticipantListStack',
+						 action: NavigationActions.navigate({ routeName: 'ParticipantList' })
+					   })
+				   )
+				  },
                  {
                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                    value: 'Wachtwoord veranderen',

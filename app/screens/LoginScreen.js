@@ -134,72 +134,37 @@ class LoginScreen extends Component {
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-
-			<View style={styles.container}>
-				<View style={styles.card} elevation={5}>
-				<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: '#93D500'}}>
-				Inloggen
-				</Text>
-					<View style={{backgroundColor: '#93D500', height: 220, paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-						<View style={{paddingLeft: 10, paddingRight: 10, paddingTop: 20}}>
-							<View style={styles.SectionStyleTop}>
-								<Icon name="at" size={24} color='grey' style={styles.ImageStyle}/>
-								<TextInput
-										style={{flex:1}}
-										placeholder="Email"
-										underlineColorAndroid="transparent"
-										value={ this.state.email }
-										onChangeText={ email => this.setState({email}) }
-								/>
-							</View>
-						</View>
-						<View style={{paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
-							<View style={styles.SectionStyleBottom}>
-								<Icon name="lock" size={24} color='grey' style={styles.ImageStyle}/>
-								<TextInput
-										style={{flex:1}}
-										secureTextEntry={true}
-										placeholder="Password"
-										underlineColorAndroid="transparent"
-										value={ this.state.password }
-										onChangeText={ password => this.setState({password}) }
-										onBlur= { () => this.login()}
-								/>
-							</View>
-						</View>
-						<Button
-							style={{
-								container: {
-									margin: 10,
-										borderRadius: 10,
-										backgroundColor: '#FF6700'
-								},
-								text: {
-									color: 'white'
-								}
-							}}
-							raised text="Doorgaan"
-							onPress={() => this.login()} />
-						<Button
-							style={{
-								container: {
-									margin: 10,
-										borderRadius: 10,
-										backgroundColor: '#FF6700'
-								},
-								text: {
-									color: 'white'
-								}
-							}}
-							raised text="Registreren"
-							onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
-								routeName: 'LoginStack',
-								action: NavigationActions.navigate({ routeName: 'Registration' })
-								})
-							)} />
-					</View>
-				</View>
-			</View>
+		<View style={styles.container}>
+		  <View style={styles.card} elevation={5}>
+			<Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
+			Inloggen
+			</Text>
+			<View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
+			<TextField
+			  textColor='green'
+			  tintColor='green'
+			  baseColor='green'
+			  label='Email adres'
+			  value={this.state.email}
+			  onChangeText={ (email) => this.setState({ email }) }
+			/>
+			<TextField
+			  textColor='green'
+			  tintColor='green'
+			  baseColor='green'
+			  label='Wachtwoord'
+			  secureTextEntry={true}
+			  value={this.state.password}
+			  onChangeText={ (password) => this.setState({ password }) }
+			/>
+			<Button
+			  style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
+			  raised text="Doorgaan"
+			  onPress={() => this.login()}
+			/>
+		  </View>
+		</View>
+		</View>
       <FlashMessage position="top" />
 		</ImageBackground>
 
@@ -215,7 +180,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
   },
 	card: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#93D500',
 		height: 270,
 		margin: 10,
 		borderRadius: 10,

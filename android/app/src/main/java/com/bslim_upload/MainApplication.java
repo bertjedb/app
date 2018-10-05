@@ -3,6 +3,7 @@ package com.bslim_upload;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.clipsub.rnbottomsheet.RNBottomSheetPackage;
 import com.sha256lib.Sha256Package;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.horcrux.svg.SvgPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNBottomSheetPackage(),
             new Sha256Package(),
             new SnackbarPackage(),
             new SvgPackage(),
