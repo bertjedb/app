@@ -7,12 +7,12 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-		ImageBackground,
+    ImageBackground,
     Image,
     Divider,
-		ScrollView,
-		Animated,
-		Dimensions
+    ScrollView,
+    Animated,
+    Dimensions, ListView
 } from 'react-native';
 import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
@@ -38,6 +38,7 @@ import {
 } from 'react-native-material-ui';
 
 import stylesCss from '../assets/css/style.js';
+import Api from "../config/api";
 
 class News extends Component {
 
@@ -56,6 +57,20 @@ bottomSheet: BottomSheet
 		  check6: true,
 		  loading: true,
 	  }
+
+      let api = Api.getInstance()
+      api.callApi('api/getAllEvents', 'POST', {}, response => {
+          if(response['responseCode'] == 200) {
+              console.log(response);
+              let ds = new ListView.DataSource({
+                  rowHasChanged: (r1, r2) => r1 !== r2
+              });
+              this.setState({
+                  dataSource: ds.cloneWithRows(response['events']),
+              });
+              console.log(this.state);
+          }
+      });
   }
 
   componentDidMount() {
