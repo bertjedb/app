@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image, Button, View, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {Image, Button, View, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Feed from '../screens/Feed';
@@ -16,6 +16,7 @@ import PointCard from '../screens/PointCard';
 import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
+import EventDetail from '../screens/EventDetail';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
@@ -23,31 +24,17 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
-import EventDetail from '../screens/EventDetail';
-import Events from '../screens/Events';
-
 
 //Gradient header
 export const GradientHeader = props => (
 <View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
     <LinearGradient
       colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
     >
       <Header {...props} />
     </LinearGradient>
   </View>
-)
-export const GradientEventsHeader = props => (
-	<View style={{ backgroundColor: '#eee', height: Header.HEIGHT}} >
-	    <LinearGradient
-	      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-	      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
-	    >
-	      <Header {...props} />
-	    </LinearGradient>
-	    <Icon onPress={() => {showInput = !showInput; alert(showInput)}} name="magnify" style={{alignSelf: 'flex-end', margin: 10}} size={40} color='white' />
-	</View>
 )
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
@@ -55,240 +42,74 @@ export const LoginStack = StackNavigator({
 		screen: LoginScreen,
 		navigationOptions: {
 			title: 'Login',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	},Registration: {
 		screen: Registration,
 		navigationOptions: {
 			title: 'Registreren',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	},
   ChangePassword: {
     screen: ChangePassword,
 	navigationOptions: {
 		title: 'Wachtwoord veranderen',
-		header: props => <GradientHeader {...props} />,
-		headerStyle: {
-			backgroundColor: 'transparent',
-			position: 'absolute',
-			top: 0,
-			left: 0,
-			right: 0,
-			bottom: 0,
-		  },
-	headerTintColor: '#fff',
-	headerTitleStyle: {
-	  fontWeight: 'bold',
-	},
 	}
   },
   RecoverPassword: {
     screen: RecoverPassword,
 	navigationOptions: {
 		title: 'Wachtwoord vergeten',
-		header: props => <GradientHeader {...props} />,
-		headerStyle: {
-			backgroundColor: 'transparent',
-			position: 'absolute',
-			top: 0,
-			left: 0,
-			right: 0,
-			bottom: 0,
-		  },
-	headerTintColor: '#fff',
-	headerTitleStyle: {
-	  fontWeight: 'bold',
-	},
 	}
   }
-},{headerMode: 'screen'
+},{headerMode: 'none'
 })
 
-export const ParticipantListStack = StackNavigator({
-	ParticipantList: {
-		screen: ParticipantList,
-		navigationOptions: {
-			title: 'Login',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-		    headerTintColor: '#fff',
-		    headerTitleStyle: {
-		      fontWeight: 'bold',
-		    },
-		}
-	}
-},{
-		headerMode: 'screen'
-})
-
+//Stack for all the admin screens
 export const AdminStack = StackNavigator({
 	MakeEvent: {
 		screen: MakeEvent,
 		navigationOptions: {
 			title: 'Nieuw evenement',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	},
 	CreateAdmin: {
 		screen: CreateAdmin,
 		navigationOptions: {
 			title: 'Nieuw begeleider account',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	}
-},{headerMode: 'screen'
+},{headerMode: 'none'
 })
 
-
-
+//Stack for all the event screens
 export const EventStack = StackNavigator({
-	Events: {
-		screen: Events,
+	News: {
+		screen: News,
 		navigationOptions: {
 			title: 'Evenementen',
-			header: props => <GradientEventsHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			    width: Dimensions.get('window').width - 60
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	},
     EventDetail: {
 		screen: EventDetail,
 		navigationOptions: {
 			title: 'Evenement',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
 		}
 	},
-},{headerMode: 'screen'
+},{headerMode: 'none'
 })
 
-export const PointCardStack = StackNavigator({
-	PointCard: {
-		screen: PointCard,
+//Stack for participants
+export const ParticipantListStack = StackNavigator({
+	ParticipantList: {
+		screen: ParticipantList,
 		navigationOptions: {
-			title: 'Stempelkaart',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
+			title: 'Evenementen',
 		}
 	},
-},{headerMode: 'screen'
+},{headerMode: 'none'
 })
 
-
-
-export const MoreStack = StackNavigator({
-	More: {
-		screen: More,
-		navigationOptions: {
-			title: 'Meer',
-			header: props => <GradientHeader {...props} />,
-			headerStyle: {
-			    backgroundColor: 'transparent',
-			    position: 'absolute',
-			    top: 0,
-			    left: 0,
-			    right: 0,
-			    bottom: 0,
-			  },
-	    headerTintColor: '#fff',
-	    headerTitleStyle: {
-	      fontWeight: 'bold',
-	    },
-		}
-	},
-},{headerMode: 'screen'
-})
-
-//TabNavigator for the main layout of the app
+//TabNavigator for the app when logged in
 export const MyTabLoggedIn = TabNavigator({
 			EventStack: {
 		        screen: EventStack,
@@ -299,8 +120,8 @@ export const MyTabLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
-			PointCardStack: {
-		        screen: PointCardStack,
+			PointCard: {
+		        screen: PointCard,
 		        navigationOptions: {
 		          tabBarLabel: 'Stempelkaart',
 							tabBarIcon: () => (
@@ -308,8 +129,8 @@ export const MyTabLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
-			MoreStack: {
-				screen: MoreStack,
+			More: {
+				screen: More,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
@@ -332,16 +153,15 @@ export const MyTabLoggedIn = TabNavigator({
 				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
-					style: {
-						backgroundColor: 'white',
-						elevation: 8,
-						position: 'absolute',
-		      	left: 0,
-		      	right: 0,
-		      	bottom: 0,
+				style: {
+					backgroundColor: 'white', elevation: 8,
+					position: 'absolute',
+			      	left: 0,
+			      	right: 0,
+			      	bottom: 0,
 					borderTopLeftRadius: 10,
 					borderTopRightRadius: 10
-					},
+				},
 		      	labelColor: 'grey',
 				activeLabelColor: '#3bb222',
 		      	rippleColor: '#3bb222',
@@ -352,24 +172,16 @@ export const MyTabLoggedIn = TabNavigator({
 		        PointCard: {
 							activeIcon:	<Icon name="cards-outline" size={24} color='#3bb222' />
 		        },
-						More: {
-							activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
+				More: {
+					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
 		        },
 		      }
 		    }
 		  }
 		})
 
+//TabNavigator for the app when not logged in
 export const MyTabNotLoggedIn = TabNavigator({
-			LoginStack: {
-		        screen: LoginStack,
-		        navigationOptions: {
-		          tabBarLabel: 'Login',
-				  tabBarIcon: () => (
-		          <Icon name="login" size={24} color='grey' />
-		        )
-		        }
-		      },
 			EventStack: {
 		        screen: EventStack,
 		        navigationOptions: {
@@ -379,8 +191,8 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
-			MoreStack: {
-				screen: MoreStack,
+			More: {
+				screen: More,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
@@ -399,15 +211,15 @@ export const MyTabNotLoggedIn = TabNavigator({
 				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
-					style: {
-						backgroundColor: 'white', elevation: 8,
-						position: 'absolute',
-		      	left: 0,
-		      	right: 0,
-		      	bottom: 0,
+				style: {
+					backgroundColor: 'white', elevation: 8,
+					position: 'absolute',
+			      	left: 0,
+			      	right: 0,
+			      	bottom: 0,
 					borderTopLeftRadius: 10,
 					borderTopRightRadius: 10
-					},
+				},
 		      	labelColor: 'grey',
 				activeLabelColor: '#3bb222',
 		      	rippleColor: '#3bb222',
@@ -422,8 +234,6 @@ export const MyTabNotLoggedIn = TabNavigator({
 		    }
 		  }
 		})
-
-
 
 //Root navigator with tabs and loginStack to navigate outside the tabs when going to login
 export const MyAppNotLoggedIn = StackNavigator({
@@ -458,14 +268,14 @@ export const MyAppLoggedIn = StackNavigator({
 			header: null,
 		}
 	},
-	ParticipantListStack: {
-		screen: ParticipantListStack,
+	AdminStack: {
+		screen: AdminStack,
 		navigationOptions: {
 			header: null,
 		}
 	},
-	AdminStack: {
-		screen: AdminStack,
+	ParticipantListStack: {
+		screen: ParticipantListStack,
 		navigationOptions: {
 			header: null,
 		}
