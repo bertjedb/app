@@ -46,41 +46,21 @@ class News extends Component {
             eventArray: []
         };
 
-        fetch('http://145.37.165.191:5000/api/getAllEvents')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let ds = new ListView.DataSource({
-                    rowHasChanged: (r1, r2) => r1 !== r2
-                });
-                this.setState({
-                    dataSource: ds.cloneWithRows(responseJson),
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        // fetch('http://145.37.165.78:5000/api/getAllEvents')
+        //     .then((response) => response.json())
+        //     .then((responseJson) => {
+        //         let ds = new ListView.DataSource({
+        //             rowHasChanged: (r1, r2) => r1 !== r2
+        //         });
+        //         this.setState({
+        //             dataSource: ds.cloneWithRows(responseJson),
+        //         });
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //     });
 
     }
-
-
-    refresh(){
-        fetch('api/getAllEvents')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let ds = new ListView.DataSource({
-                    rowHasChanged: (r1, r2) => r1 !== r2
-                });
-                this.setState({
-                    firstLoading: false,
-                    dataSource: ds.cloneWithRows(responseJson),
-                    uploading: false,
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
 
 
     render() {
@@ -112,7 +92,7 @@ class News extends Component {
                                             <Text style={{fontSize: 16, color: 'black'}}>
                                                 {rowData.created}
                                             </Text>
-                                        </View >
+                                        </View>
                                     </View>
 
                                     <View style={{
