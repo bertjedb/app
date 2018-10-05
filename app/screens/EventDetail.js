@@ -14,6 +14,7 @@ import {
 		Share,
 		Linking,
 		Platform,
+		WebView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -38,6 +39,7 @@ import HTML from 'react-native-render-html';
 
 import ImageSlider from 'react-native-image-slider';
 import {PacmanIndicator} from 'react-native-indicators';
+import MyWebView from 'react-native-webview-autoheight';
 
 import {
     COLOR,
@@ -47,8 +49,8 @@ import {
     Card,
     Button,
 } from 'react-native-material-ui';
-import Triangle from 'react-native-triangle';
 
+const MapHtml = require('../assets/mapHTML.html');
 
 
 class EventDetail extends Component {
@@ -66,6 +68,7 @@ constructor() {
 	  author: '',
 	  loading: true,
 	  deelnemer: false,
+	  scroll: true,
   }
   let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
   let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
@@ -99,73 +102,6 @@ constructor() {
 }
 
 
-/*
-render() {
-  return(
-	  <ImageBackground source={require('../assets/maps.jpeg')} style={{width: '100%', height: '100%'}} >
-		<TouchableOpacity style={styles.cardContainer} onPress={() => this.setState({map: !this.state.map})}>
-{this.state.map == true &&
-		<View style={{marginBottom: 150, flexDirection: 'row'}}>
-		<ImageBackground blurRadius={2} source={require('../assets/sport_kids_bslim.jpg')} style={{width: 100, height: 75, elevation: 5}} resizeMode="cover">
-			<Icon name="image-filter" size={30} style={{marginLeft:35, marginTop: 20, marginBottom: 20, marginRight: 35}} color='white' />
-		</ImageBackground>
-		<TouchableOpacity style={{width: 50, height: 50, borderRadius: 50, marginLeft: 210,backgroundColor: 'white', shadowOffset: {width: 0, height: 13},
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-
-        // android (Android +5.0)
-        elevation: 3}}>
-		<Icon name="google-maps" size={30} style={{margin:10}} color='#FF6700' />
-		</TouchableOpacity>
-		</View>
-	}
-	{this.state.map == true &&
-			<View style={styles.card} elevation={5}>
-			<View style={styles.cardTitle} elevation={5}>
-				<Image source={require('../assets/bslim_profile.png')} style={{width: 40, height: 40, margin: 10, borderRadius: 55}} resizeMode="cover"/>
-				<View>
-					<Text style={{marginLeft: 10, marginTop: 10, fontWeight: 'bold', fontSize: 18, color: 'white'}}>
-					Jan-Willem Kroos
-					</Text>
-					<Text style={{marginLeft: 10, marginBottom: 10, fontWeight: 'bold', fontSize: 12, color: 'white'}}>
-					Vrijdag 13:15
-					</Text>
-				</View>
-			</View>
-			<View style={{backgroundColor: 'white', paddingBottom: 15, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-			<Text style={{margin: 10,}}>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor quis magna a pellentesque. Nulla eu tempor orci. Nunc dolor nunc, pulvinar ac mi vitae, fringilla facilisis mi. Vivamus blandit sapien quis ornare cursus. Aliquam suscipit purus vel tellus imperdiet fermentum.
-			</Text>
-			<View style={{marginLeft: 10, marginRight: 10}}>
-				<Text style={{fontWeight: 'bold'}}>
-				Locatie: Sportpark Het Noorden
-				</Text>
-				<Text style={{fontWeight: 'bold'}}>
-				Datum: Maandag 24 September 2018
-				</Text>
-				<Text style={{fontWeight: 'bold'}}>
-				Tijd: 16:00 uur
-				</Text>
-			</View>
-			</View>
-
-			</View>
-		}
-		{this.state.map == true &&
-			<Triangle
-			  width={80}
-			  height={40}
-			  color={'white'}
-			  direction={'down'}
-			/>
-		}
-		</TouchableOpacity>
-	  </ImageBackground>
-  );
-}
-}
-*/
-
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
@@ -181,7 +117,8 @@ render() {
 		{!this.state.loading &&
 		  <View style={styles.cardContainer} >
           <View style={styles.card} elevation={5}>
-          <ScrollView style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
+          <ScrollView scrollEnabled={this.state.scroll}
+ style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
                 <View style={styles.cardTitle} elevation={5}>
                     <Image source={require('../assets/bslim_profile.png')} style={{width: 40, height: 40, margin: 10}} resizeMode="cover"/>
 					<View>
@@ -236,10 +173,13 @@ render() {
                     </Text>
 					}
                 </View>
-                <Image
-                    source={{ uri:'https://static-maps.yandex.ru/1.x/?lang=en-US&ll='+ this.state.long +','+ this.state.lat +'&z=15&l=map&size=500,300&pt='+ this.state.long +','+ this.state.lat +',flag'}}
-                    resizeMode="cover"
-                    style={{width: '100%', height: 200}}/>
+
+				<View  style={{width: '100%', height: 200}}>
+				<MyWebView
+				  source={MapHtml}
+				  style={{flex: 1, width: '100%', height: 200}}
+				 />
+				</View>
 				<View style={{flexDirection: 'row'}}>
 						<Button
 							style={{
