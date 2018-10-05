@@ -279,7 +279,7 @@ export const MyTabLoggedIn = TabNavigator({
 		        }
 		      },
 			MoreStack: {
-				screen: MoreStack,
+				screen: AdminStack,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
@@ -299,7 +299,7 @@ export const MyTabLoggedIn = TabNavigator({
 		  				jumpToIndex(scene.index);
 		  			}
 		  		}),
-				initialRouteName: 'EventStack',
+				initialRouteName: 'MoreStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {

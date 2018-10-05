@@ -6,7 +6,8 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ImageBackground
+    ImageBackground,
+    Image
 } from 'react-native';
 import styles from '../assets/css/style.js';
 import FlashMessage from "react-native-flash-message";
@@ -16,22 +17,25 @@ import { Button } from 'react-native-material-ui';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import moment from 'moment';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob';
 
 export default class MakeEvent extends Component {
 
   constructor() {
     super();
 	this.state = {
-		name: '',
-		loc: '',
+		name: 'test',
+		loc: 'asdasd',
 		begin: '',
 		end: '',
-		desc: '',
+		desc: 'asddasdasdd',
 		showBegin: false,
 		showEnd: false,
 		beginText: '',
-		endText: ''
+		endText: '',
+        pickedImage: { uri: '' },
+        imgPicked: false
     };
   }
 
@@ -56,10 +60,15 @@ export default class MakeEvent extends Component {
   	   this.state.begin != '' &&
   	   this.state.end != '' &&
   	   this.state.loc != '' &&
-  	   this.state.desc != '') {
+  	   this.state.desc != '' &&
+       this.state.pickedImage.uri != '') {
   			let localStorage = LocalStorage.getInstance();
   			let points = localStorage.retrieveItem('userId').then((id) => {
   			if(id != null) {
+                // var base64 = require('base-64');
+                // img = base64.encode(this.state.pickedImage.uri);
+                // console.log(img);
+                // console.log(base64.decode(img))
   				let userData = {
   					name: this.state.name,
   					begin: this.state.begin,
@@ -67,28 +76,28 @@ export default class MakeEvent extends Component {
   					location: this.state.loc,
   					description: this.state.desc,
   					leader: id,
-  					img: null
+                    img: ''
   				}
-  				console.log(userData);
-  				let api = Api.getInstance();
+                let api = Api.getInstance();
   				api.callApi('api/createEvent', 'POST', userData, response => {
         		    if(response['responseCode'] == 200) {
-        		    	this.successMessage("Er is een nieuw evenement aangemaakt!");
-        		    	this.setState({
-        		    		name: '',
-							loc: '',
-							begin: '',
-							end: '',
-							desc: '',
-							beginText: '',
-							endText: ''
-        		    	})
+                        this.setState({
+                            name: '',
+                            loc: '',
+                            begin: '',
+                            end: '',
+                            desc: '',
+                            beginText: '',
+                            endText: '',
+                            pickedImage: { uri: '' }
+                        });
+                        this.successMessage("Er is een nieuw evenement aangemaakt!");
         		    } else {
         		    	this.errorMessage("Er is wat fout gegaan");
         		    }
         		});
-  			}
-  		});
+
+            }});
   	} else {
   		this.errorMessage("Vul alle velden in aub")
   	}
@@ -125,6 +134,24 @@ export default class MakeEvent extends Component {
 
   hidePicker() {
   	this.setState({showBegin: false, showEnd: false});
+  }
+
+  pickImageHandler = () => {
+    ImagePicker.showImagePicker({title: "Pick an Image", maxWidth: 800, maxHeight: 600}, res => {
+      if (res.didCancel) {
+        console.log("User cancelled!");
+      } else if (res.error) {
+        console.log("Error", res.error);
+      } else {
+        this.setState({
+            pickedImage: {uri: res.uri},
+            imgPicked: true,
+        });
+
+        console.log(this.state);
+
+      }
+    });
   }
 
   render() {
@@ -193,7 +220,19 @@ export default class MakeEvent extends Component {
           						numberOfLines={6}
           						onChangeText={ desc => this.setState({desc}) }
 							/>
-							<Button
+                            <TouchableOpacity
+                                style={styles.imgSel}
+                                onPress={this.pickImageHandler}
+                            >
+                            <Image
+                                style={{width: 100, height: 100}}
+                                source={this.state.pickedImage}
+                            />
+                            </TouchableOpacity>
+
+                            
+
+                            <Button
             					style={{container: styles.defaultBtn, text: {color: 'white'}}}
             					raised text="Doorgaan"
             					onPress={() => this.createEvent()}
