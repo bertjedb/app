@@ -103,11 +103,26 @@ constructor() {
 
 
   render() {
+	  const { navigation } = this.props;
+
+	  const title = navigation.getParam('title', '');
+	  const content = navigation.getParam('content', '');
+	  const url = navigation.getParam('url', '');
+	  const start = navigation.getParam('start', '');
+	  const end = navigation.getParam('end', '');
+	  const created = navigation.getParam('created', '');
+	  const author = navigation.getParam('author', '');
+	  const profilePicture = navigation.getParam('profilePicture', '');
+	  const link = navigation.getParam('link', '');
+	  const img = navigation.getParam('img', '');
+	  const location = navigation.getParam('location', '');
+
+
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 		<Toolbar
 		iconSet="MaterialCommunityIcons"
-			centerElement={this.state.title}
+			centerElement={title}
 			leftElement={("arrow-left")}
 			onLeftElementPress={() => this.props.navigation.goBack()}
 		/>
@@ -120,13 +135,13 @@ constructor() {
           <ScrollView scrollEnabled={this.state.scroll}
  style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
                 <View style={styles.cardTitle} elevation={5}>
-                    <Image source={require('../assets/bslim_profile.png')} style={{width: 40, height: 40, margin: 10}} resizeMode="cover"/>
+                    <Image source={{uri:profilePicture}} style={{width: 40, height: 40, margin: 10, borderRadius: 10}} resizeMode="cover"/>
 					<View>
                         <Text style={{marginLeft: 10, marginTop: 10, fontWeight: 'bold', fontSize: 18,}}>
-    					{this.state.author}
+    					{author}
     					</Text>
                         <Text style={{marginLeft: 10, marginBottom: 10, fontWeight: 'bold', fontSize: 12,}}>
-    					Vrijdag 13:15
+    					{created}
     					</Text>
                     </View>
 					{this.state.deelnemer &&
@@ -146,32 +161,27 @@ constructor() {
 						</TouchableOpacity>
 					}
                 </View>
-				<View style={{widht: '100%', height: 200}}>
+				<View style={{widht: '100%', height: 200, paddingBottom: 10}}>
 				{this.state.img &&
 				<ImageSlider
 				autoPlayWithInterval={3000}
-				images={this.state.img}/>
+				images={[img]}/>
 			}
 				</View>
 
 
-                <HTML onLinkPress={(evt, href) => { Linking.openURL(href); }} containerStyle={{marginLeft: 10, marginRight: 10}} ignoredTags={['img']} html={this.state.content} imagesMaxWidth={Dimensions.get('window').width } />
+                <HTML onLinkPress={(evt, href) => { Linking.openURL(href); }} containerStyle={{marginLeft: 10, marginRight: 10}} ignoredTags={['img']} html={content} imagesMaxWidth={Dimensions.get('window').width } />
                 <View style={{margin: 10,}}>
-					{this.state.date != '' &&
-                    <Text style={{fontWeight: 'bold'}}>
-                    Datum: {this.state.date}
-                    </Text>
-					}
-					{this.state.time != '' &&
-                    <Text style={{fontWeight: 'bold'}}>
-                    Tijd: {this.state.time}
-                    </Text>
-					}
-					{this.state.location != '' &&
 					<Text style={{fontWeight: 'bold'}}>
-                    Locatie: {this.state.location}
-                    </Text>
-					}
+					Begin: {start}
+					</Text>
+					<Text style={{fontWeight: 'bold'}}>
+					Eind: {end}
+					</Text>
+					<Text style={{fontWeight: 'bold'}}>
+					Locatie: {location}
+					</Text>
+
                 </View>
 
 				<View  style={{width: '100%', height: 200}}>
@@ -194,7 +204,7 @@ constructor() {
 							}}
 						 	text="Delen"
 							onPress={() => Share.share({
-      							message: 'Kom je ook sporten op 24 September 2018 bij Sportpark Het Noorden? Voor meer info: ' + this.state.url
+								message: 'Binnenkort organiseert bslim: ' + title + '. Voor meer informatie ga naar: ' + link
   							})} />
 						<Button
 							style={{

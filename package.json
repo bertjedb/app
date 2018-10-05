@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@ercpereda/react-native-accordion": "^2.0.6",
+    "base-64": "^0.1.0",
     "bcryptjs": "^2.4.3",
+    "capitalize": "^2.0.0",
     "crypto": "^1.0.1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
