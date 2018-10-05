@@ -158,7 +158,6 @@ class Feed extends Component {
     return(
 
        <View style={{flex: 1}}>
-
         {
           this.state.dataSource != null &&
           <View style={styles.MainContainer}>

@@ -23,6 +23,9 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
+import EventDetail from '../screens/EventDetail.js';
+import { NavigationActions } from 'react-navigation';
+
 
 //Gradient header
 export const GradientHeader = props => (
@@ -35,6 +38,28 @@ export const GradientHeader = props => (
     </LinearGradient>
   </View>
 )
+
+export const GradientEventsHeader = props => (
+<View style={{ backgroundColor: '#eee', height: Header.HEIGHT, flexDirection: 'row-reverse'}} >
+    <LinearGradient
+      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1 }]}
+    >
+      <Header {...props} />
+    </LinearGradient>
+    <Icon name="filter" style={{ margin: 10}} size={40} color='white'
+
+    onPress={()=> alert('hello')}
+    onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
+            routeName: 'LoginStack',
+            action: navigation.navigate({ routeName: 'LoginScreen' })
+          })
+        )}
+    />
+    <Icon onPress={() => {alert("searching")}} name="magnify" style={{ margin: 10}} size={40} color='white' />
+  </View>
+)
+
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
@@ -158,7 +183,7 @@ export const EventStack = StackNavigator({
 		screen: News,
 		navigationOptions: {
 			title: 'Evenementen',
-			header: props => <GradientHeader {...props} />,
+			header: props => <GradientEventsHeader {...props} />,
 			headerStyle: {
 			    backgroundColor: 'transparent',
 			    position: 'absolute',

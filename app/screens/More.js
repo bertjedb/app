@@ -39,10 +39,6 @@ export default class More extends Component {
       this.props.navigation.dispatch(navigate);
     }
 
-
-
-
-
   render () {
         let api = Api.getInstance();
         let localStorage = LocalStorage.getInstance();
@@ -142,7 +138,7 @@ export default class More extends Component {
                 {
                     icon: 'today',
                     value: 'Nieuw evenement',
-                    onPress: () => 
+                    onPress: () =>
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'MakeEvent',
                             action: NavigationActions.navigate({routeName: 'MakeEvent'})
