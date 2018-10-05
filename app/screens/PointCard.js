@@ -223,6 +223,9 @@ class PointCard extends Component {
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+		<Toolbar
+			centerElement='Stempelkaart'
+		/>
 		<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
           <TouchableOpacity activeOpacity={1} style={styles.container}  >
 				<View style={styles.card} elevation={5}>
@@ -241,8 +244,9 @@ class PointCard extends Component {
 						{this.state.card}
 					</View>
 					<TouchableOpacity
-						onPress={() => {  this.card.flip();
+						onPress={() => {
                                           this.setState({cameraActive: true});
+										  this.card.flip();
                                           this.refreshCard();
                                        }
                                 }
@@ -257,8 +261,9 @@ class PointCard extends Component {
 							shadowRadius: 6,
 							// android (Android +5.0)
 							elevation: 5,}}>
-						<Icon onPress={() => {this.card.flip();
+						<Icon onPress={() => {
                                               this.setState({cameraActive: true});
+											  this.card.flip();
                                               this.refreshCard();
                                           }} name="camera" style={{margin:15,}} size={35} color='white' />
 					</TouchableOpacity>
@@ -281,8 +286,9 @@ class PointCard extends Component {
 					       {this.state.cameraActive && <ScannerQR/>}
 					   </View>
 					<TouchableOpacity
-						onPress={() => { this.card.flip();
+						onPress={() => {
                                          this.setState({cameraActive: false});
+										 this.card.flip();
                                          this.refreshCard();
                                         }}
 						style = {{ marginBottom: 10,
@@ -296,8 +302,9 @@ class PointCard extends Component {
 							shadowRadius: 6,
 							// android (Android +5.0)
 							elevation: 5,}}>
-						<Icon onPress={() => { this.card.flip();
+						<Icon onPress={() => {
                                                this.setState({cameraActive: false});
+											   this.card.flip();
                                                this.refreshCard();
                                         }} name="close" style={{margin:15,}} size={35} color='white' />
 					</TouchableOpacity>

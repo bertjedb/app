@@ -12,6 +12,8 @@ import {
 		ImageBackground,
 		Dimensions,
 		Share,
+		Linking,
+		Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -32,6 +34,10 @@ import Api from '../config/api.js';
 
 import LocalStorage from '../config/localStorage.js';
 
+import HTML from 'react-native-render-html';
+
+import ImageSlider from 'react-native-image-slider';
+import {PacmanIndicator} from 'react-native-indicators';
 
 import {
     COLOR,
@@ -47,6 +53,7 @@ import Triangle from 'react-native-triangle';
 
 class EventDetail extends Component {
 
+
 constructor() {
   super();
   this.state = {
@@ -57,7 +64,12 @@ constructor() {
 	  start: '',
 	  end: '',
 	  author: '',
+	  loading: true,
+	  deelnemer: false,
   }
+  let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+  let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
+
   fetch('http://gromdroid.nl/ide/workspace/hanze/newfile.json', {
       method: 'get',
       dataType: 'json',
@@ -67,14 +79,22 @@ constructor() {
       }
     })
 	.then(response => response.json())
-	.then(response => this.setState({
-		title: response['title'],
-		content: response['content'],
-		url: response['url'],
-		start: response['start'],
-		end: response['end'],
-		author: response['author']
-	}))
+	.then(response => {this.setState({
+		title: response['name'],
+		content: response['desc'],
+		url: response['link'],
+		date: days[new Date(response['begin']).getDay()] + ' ' + new Date(response['begin']).getDay() + ' ' + months[new Date(response['begin']).getMonth()] + ' ' + new Date(response['begin']).getFullYear(),
+		time: ('0'+new Date(response['begin']).getHours()).slice(-2) + ':' + ('0'+new Date(response['begin']).getMinutes()).slice(-2) + ' tot ' + ('0'+new Date(response['end']).getHours()).slice(-2) + ':' + ('0'+new Date(response['end']).getMinutes()).slice(-2),
+		author: response['leader'],
+		img: response['img'],
+		lat: response['latitude'],
+		long: response['longtitude'],
+		location: response['location'],
+		loading: false,
+	})
+	console.log(this.state.date)
+})
+
 
 }
 
@@ -149,6 +169,16 @@ render() {
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+		<Toolbar
+		iconSet="MaterialCommunityIcons"
+			centerElement={this.state.title}
+			leftElement={("arrow-left")}
+			onLeftElementPress={() => this.props.navigation.goBack()}
+		/>
+		{this.state.loading &&
+			<PacmanIndicator color='white' />
+		}
+		{!this.state.loading &&
 		  <View style={styles.cardContainer} >
           <View style={styles.card} elevation={5}>
           <ScrollView style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
@@ -162,31 +192,52 @@ render() {
     					Vrijdag 13:15
     					</Text>
                     </View>
-					<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'orange', borderRadius: 15, marginLeft: 60, marginTop: 15, marginBottom: 15, width: 60,}}>
-                        <Text style={{marginRight: 5, fontWeight: 'bold', fontSize: 18, color: 'white'}}>
-    					18
+					{this.state.deelnemer &&
+					<TouchableOpacity onPress={()=> this.setState({deelnemer: !this.state.deelnemer})} style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'white', borderRadius: 35, borderWidth:1, borderColor: '#94D600', marginLeft: 60, marginTop: 15, marginBottom: 15, width: 60,}}>
+                        <Text style={{marginLeft: 5, marginRight: 5, fontWeight: 'bold', fontSize: 18, color: '#94D600'}}>
+    					19
     					</Text>
-						<Icon name="account-multiple" size={20} color='white' />
-                    </View>
+						<Icon style={{padding: 5, backgroundColor: '#94D600', borderRadius: 33}} name="account-multiple" size={20} color='white' />
+                    </TouchableOpacity>
+					}
+					{!this.state.deelnemer &&
+						<TouchableOpacity onPress={()=> this.setState({deelnemer: !this.state.deelnemer})} style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'white', borderRadius: 35, borderWidth:1, borderColor: 'orange', marginLeft: 60, marginTop: 15, marginBottom: 15, width: 60,}}>
+							<Icon style={{padding: 5, backgroundColor: 'orange', borderRadius: 33}} name="account-multiple" size={20} color='white' />
+							<Text style={{marginLeft: 5, marginRight: 5, fontWeight: 'bold', fontSize: 18, color: 'orange'}}>
+						   	18
+						   </Text>
+						</TouchableOpacity>
+					}
                 </View>
-                <Image
-                source={require('../assets/frisbee_kids_bslim.jpg')}
-                    resizeMode="cover"
-                    style={{width: '100%', height: 200}}
-                />
-                <Text style={{margin: 10,}}>
-				{this.state.content}
-                </Text>
+				<View style={{widht: '100%', height: 200}}>
+				{this.state.img &&
+				<ImageSlider
+				autoPlayWithInterval={3000}
+				images={this.state.img}/>
+			}
+				</View>
+
+
+                <HTML onLinkPress={(evt, href) => { Linking.openURL(href); }} containerStyle={{marginLeft: 10, marginRight: 10}} ignoredTags={['img']} html={this.state.content} imagesMaxWidth={Dimensions.get('window').width } />
                 <View style={{margin: 10,}}>
+					{this.state.date != '' &&
                     <Text style={{fontWeight: 'bold'}}>
-                    Start: {this.state.start}
+                    Datum: {this.state.date}
                     </Text>
+					}
+					{this.state.time != '' &&
                     <Text style={{fontWeight: 'bold'}}>
-                    Einde: {this.state.end}
+                    Tijd: {this.state.time}
                     </Text>
+					}
+					{this.state.location != '' &&
+					<Text style={{fontWeight: 'bold'}}>
+                    Locatie: {this.state.location}
+                    </Text>
+					}
                 </View>
                 <Image
-                    source={{ uri:'https://static-maps.yandex.ru/1.x/?lang=en-US&ll=6.5560995,53.2390828&z=15&l=map&size=500,300&pt=6.5560995,53.2390828,flag'}}
+                    source={{ uri:'https://static-maps.yandex.ru/1.x/?lang=en-US&ll='+ this.state.long +','+ this.state.lat +'&z=15&l=map&size=500,300&pt='+ this.state.long +','+ this.state.lat +',flag'}}
                     resizeMode="cover"
                     style={{width: '100%', height: 200}}/>
 				<View style={{flexDirection: 'row'}}>
@@ -205,10 +256,24 @@ render() {
 							onPress={() => Share.share({
       							message: 'Kom je ook sporten op 24 September 2018 bij Sportpark Het Noorden? Voor meer info: ' + this.state.url
   							})} />
+						<Button
+							style={{
+								container: {
+									margin: 10,
+										borderRadius: 10,
+										backgroundColor: 'green'
+								},
+								text: {
+									color: 'white'
+								}
+							}}
+						 	text="Route"
+							onPress={() => Linking.openURL(Platform.OS === 'ios' ? 'maps:' : 'geo:' + this.state.lat + ',' + this.state.long)} />
 				</View>
 			</ScrollView>
             </View>
           </View>
+	  }
 		</ImageBackground>
     );
   }

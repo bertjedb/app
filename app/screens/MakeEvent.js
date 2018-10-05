@@ -8,11 +8,12 @@ import {
     TouchableOpacity,
     ImageBackground
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import styles from '../assets/css/style.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { TextField } from 'react-native-material-textfield';
-import { Button } from 'react-native-material-ui';
+import { Button, Toolbar } from 'react-native-material-ui';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -92,7 +93,7 @@ export default class MakeEvent extends Component {
   	} else {
   		this.errorMessage("Vul alle velden in aub")
   	}
-  	
+
   }
 
   handleBegin(dateTime) {
@@ -102,7 +103,7 @@ export default class MakeEvent extends Component {
   	}
   	dateString = dateTime.getDate().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
-  				 
+
   	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDate().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
   	this.setState({begin: dateToSend, beginText: dateString});
@@ -130,15 +131,18 @@ export default class MakeEvent extends Component {
   render() {
     return(
     		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+			<Toolbar
+			iconSet="MaterialCommunityIcons"
+				centerElement={"Nieuw event"}
+				leftElement={("arrow-left")}
+				onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+			/>
 				<View style={styles.container}>
 					<View style={styles.cardGreen} elevation={5}>
-						<Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
-          					Evenementen aanmaken
-          				</Text>
-          				<View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-          				<Text style={{marginTop: 10}}>
+						<Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
           					Hier kun je nieuwe evenementen aanmaken
           				</Text>
+          				<View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
 							<TextField
 								textColor='green'
              					tintColor='green'
@@ -147,7 +151,7 @@ export default class MakeEvent extends Component {
           						value={ this.state.name }
           						onChangeText={ name => this.setState({name}) }
 							/>
-							
+
 							<TouchableOpacity style={styles.datePick} onPress={() => this.setState({showBegin: true})}>
 								<Text>
 									Start: {this.state.beginText}
@@ -182,7 +186,7 @@ export default class MakeEvent extends Component {
           						value={ this.state.loc }
           						onChangeText={ loc => this.setState({loc}) }
 							/>
-				
+
 							<TextField
 								textColor='green'
              					tintColor='green'
