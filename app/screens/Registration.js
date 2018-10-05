@@ -38,11 +38,11 @@ export default class Registration extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
-        email: 'bert@bert.nl',
-        firstPassword: '123456',
-        secondPassword: '123456',
-        firstName: 'bert',
-        lastName: 'boer',
+        email: '',
+        firstPassword: '',
+        secondPassword: '',
+        firstName: '',
+        lastName: '',
 		    succesfull: false,
       };
 
@@ -133,13 +133,10 @@ export default class Registration extends Component {
       <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
           <View style={styles.card} elevation={5}>
-            <Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
-            Registreren
+            <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
+			Hier kun je een nieuw account aanmaken.
             </Text>
             <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-            <Text style={{marginTop: 10}}>
-              Hier kun je een nieuw account aanmaken.
-            </Text>
             <TextField
               textColor='green'
               tintColor='green'

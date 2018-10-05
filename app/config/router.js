@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image, Button, View, StyleSheet} from 'react-native';
+import {Image, Button, View, StyleSheet, Dimensions, TextInput} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Feed from '../screens/Feed';
@@ -23,8 +23,13 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
+<<<<<<< HEAD
 import EventDetail from '../screens/EventDetail.js';
 import { NavigationActions } from 'react-navigation';
+=======
+import EventDetail from '../screens/EventDetail';
+import Events from '../screens/Events';
+>>>>>>> upstream/master
 
 
 //Gradient header
@@ -32,12 +37,13 @@ export const GradientHeader = props => (
 <View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
     <LinearGradient
       colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
     >
       <Header {...props} />
     </LinearGradient>
   </View>
 )
+<<<<<<< HEAD
 
 export const GradientEventsHeader = props => (
 <View style={{ backgroundColor: '#eee', height: Header.HEIGHT, flexDirection: 'row-reverse'}} >
@@ -60,6 +66,19 @@ export const GradientEventsHeader = props => (
   </View>
 )
 
+=======
+export const GradientEventsHeader = props => (
+	<View style={{ backgroundColor: '#eee', height: Header.HEIGHT}} >
+	    <LinearGradient
+	      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
+	      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
+	    >
+	      <Header {...props} />
+	    </LinearGradient>
+	    <Icon onPress={() => {showInput = !showInput; alert(showInput)}} name="magnify" style={{alignSelf: 'flex-end', margin: 10}} size={40} color='white' />
+	</View>
+)
+>>>>>>> upstream/master
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
@@ -84,40 +103,58 @@ export const LoginStack = StackNavigator({
 		screen: Registration,
 		navigationOptions: {
 			title: 'Registreren',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	},
   ChangePassword: {
     screen: ChangePassword,
-		navigationOptions: {
-			title: 'Wachtwoord veranderen',
-			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
-		}
+	navigationOptions: {
+		title: 'Wachtwoord veranderen',
+		header: props => <GradientHeader {...props} />,
+		headerStyle: {
+			backgroundColor: 'transparent',
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			right: 0,
+			bottom: 0,
+		  },
+	headerTintColor: '#fff',
+	headerTitleStyle: {
+	  fontWeight: 'bold',
+	},
+	}
   },
   RecoverPassword: {
     screen: RecoverPassword,
-		navigationOptions: {
-			title: 'Wachtwoord vergeten',
-			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
-		}
+	navigationOptions: {
+		title: 'Wachtwoord vergeten',
+		header: props => <GradientHeader {...props} />,
+		headerStyle: {
+			backgroundColor: 'transparent',
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			right: 0,
+			bottom: 0,
+		  },
+	headerTintColor: '#fff',
+	headerTitleStyle: {
+	  fontWeight: 'bold',
+	},
+	}
   }
 },{headerMode: 'screen'
 })
@@ -150,27 +187,39 @@ export const AdminStack = StackNavigator({
 	MakeEvent: {
 		screen: MakeEvent,
 		navigationOptions: {
-			title: 'Nieuw evenement aanmaken',
+			title: 'Nieuw evenement',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	},
 	CreateAdmin: {
 		screen: CreateAdmin,
 		navigationOptions: {
-			title: 'Nieuw begeleider account aanmaken',
+			title: 'Nieuw begeleider account',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	}
 },{headerMode: 'screen'
@@ -179,8 +228,8 @@ export const AdminStack = StackNavigator({
 
 
 export const EventStack = StackNavigator({
-	News: {
-		screen: News,
+	Events: {
+		screen: Events,
 		navigationOptions: {
 			title: 'Evenementen',
 			header: props => <GradientEventsHeader {...props} />,
@@ -191,6 +240,7 @@ export const EventStack = StackNavigator({
 			    left: 0,
 			    right: 0,
 			    bottom: 0,
+			    width: Dimensions.get('window').width - 60
 			  },
 	    headerTintColor: '#fff',
 	    headerTitleStyle: {
@@ -341,6 +391,15 @@ export const MyTabLoggedIn = TabNavigator({
 		})
 
 export const MyTabNotLoggedIn = TabNavigator({
+			LoginStack: {
+		        screen: LoginStack,
+		        navigationOptions: {
+		          tabBarLabel: 'Login',
+				  tabBarIcon: () => (
+		          <Icon name="login" size={24} color='grey' />
+		        )
+		        }
+		      },
 			EventStack: {
 		        screen: EventStack,
 		        navigationOptions: {
@@ -350,8 +409,8 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
-			More: {
-				screen: More,
+			MoreStack: {
+				screen: MoreStack,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (

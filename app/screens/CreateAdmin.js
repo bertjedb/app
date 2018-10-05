@@ -57,14 +57,20 @@ export default class CreateAdmin extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
-        firstName: 'bert',
-        lastName: 'boer',
-        email: 'bert@bslim.nl',
-        firstPassword: '123456',
-        secondPassword: '123456',
+        firstName: '',
+        lastName: '',
+        email: '',
+        firstPassword: '',
+        secondPassword: '',
         biography: '',
 		    succesfull: false,
         pickedImage: DefaultUserImage,
+		emailError: '',
+		emailColor: 'green',
+		firstPasswordError: '',
+		firstPasswordColor: 'green',
+		secondPasswordError: '',
+		secondPasswordColor: 'green',
       };
   }
 
@@ -174,6 +180,40 @@ export default class CreateAdmin extends Component {
     });
   }
 
+  checkEmail(email){
+	  if(/\S+@\S+\.\S+/.test(email) == false){
+		  this.setState({ emailError: "Vul een geldig email adres in", email: email, emailColor: 'red' })
+	  } else {
+		  this.setState({ emailError: '', email: email, emailColor: 'green' })
+	  }
+  }
+
+  checkFirstPassword(password){
+	  if(password.length <= 5){
+		  this.setState({ firstPasswordError: "Uw wachtwoord moet langer dan 5 karakters zijn!", firstPassword: password, firstPasswordColor: 'red' })
+      }
+      else if(password.length >= 64){
+		  this.setState({ firstPasswordError: "Uw wachtwoord mag niet langer dan 64 karakters zijn!", firstPassword: password, firstPasswordColor: 'red' })
+      }
+      else {
+		  this.setState({ firstPasswordError: '', firstPassword: password, firstPasswordColor: 'green' })
+	  }
+  }
+
+  checkSecondPassword(password){
+	  if(password.length <= 5){
+		  this.setState({ secondPasswordError: "Uw wachtwoord moet langer dan 5 karakters zijn!", secondPassword: password, secondPasswordColor: 'red' })
+      }
+      else if(password.length >= 64){
+		  this.setState({ secondPasswordError: "Uw wachtwoord mag niet langer dan 64 karakters zijn!", secondPassword: password, secondPasswordColor: 'red' })
+      }
+      else if(this.state.firstPassword != password){
+		  this.setState({ secondPasswordError: "Wachtwoord is niet hetzelfde", secondPassword: password, secondPasswordColor: 'red' })
+      } else {
+		  this.setState({ secondPasswordError: '', secondPassword: password, secondPasswordColor: 'green' })
+	  }
+  }
+
   resetHandler = () =>{
     this.reset();
   }
@@ -182,25 +222,35 @@ export default class CreateAdmin extends Component {
 
     return(
       <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+	  <Toolbar
+	  iconSet="MaterialCommunityIcons"
+		  centerElement="Nieuwe begeleider"
+		  leftElement={("arrow-left")}
+		  onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+	  />
         <ScrollView style={styles.container}>
           <View style={styles.card} elevation={5}>
-            <Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
-            Registreer nieuw begeleider account
+            <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
+            Hier kun je een nieuw begeleider account aanmaken.
             </Text>
             <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-            <Text style={{marginTop: 10}}>
-              Hier kun je een nieuw begeleider account aanmaken.
-            </Text>
-
-            <TouchableOpacity
+            <View style={{widht: '100%', justifyContent: 'center', alignItems: 'center'}}>
+			<TouchableOpacity
               style={styles.placeholder}
               onPress={this.pickImageHandler}
             >
-            <Image
+            <ImageBackground
+			blurRadius={3}
                 style={styles.img}
+				imageStyle={{ borderRadius: 100 }}
                 source={this.state.pickedImage}
-                 />
+                 >
+				 <View style={{justifyContent: 'center', alignItems:'center',borderRadius: 100, with: '100%', height: '100%', backgroundColor:'rgba(0,0,0,.3)'}}>
+			        <Icon size={35} name={ 'image-plus' } style={{ color: 'white' }} />
+			    </View>
+			</ImageBackground>
             </TouchableOpacity>
+			</View>
 
             <TextField
               textColor='green'
@@ -219,30 +269,33 @@ export default class CreateAdmin extends Component {
               onChangeText={ (lastName) => this.setState({ lastName }) }
             />
             <TextField
-              textColor='green'
+              textColor={this.state.emailColor}
               tintColor='green'
               baseColor='green'
+			  error={this.state.emailError}
               label='Email adres'
               value={this.state.email}
-              onChangeText={ (email) => this.setState({ email }) }
+              onChangeText={ (email) => this.checkEmail(email)}
             />
             <TextField
-              textColor='green'
+			  textColor={this.state.firstPasswordError}
               tintColor='green'
               baseColor='green'
+			  error={this.state.firstPasswordError}
               label='Wachtwoord'
               secureTextEntry={true}
               value={this.state.firstPassword}
-              onChangeText={ (firstPassword) => this.setState({ firstPassword }) }
+			  onChangeText={ (firstPassword) => this.checkFirstPassword(firstPassword) }
             />
             <TextField
-              textColor='green'
+			  textColor={this.state.secondPasswordError}
               tintColor='green'
               baseColor='green'
+			  error={this.state.secondPasswordError}
               label='Herhaal wachtwoord'
               secureTextEntry={true}
               value={this.state.secondPassword}
-              onChangeText={ (secondPassword) => this.setState({ secondPassword }) }
+              onChangeText={ (secondPassword) => this.checkSecondPassword(secondPassword) }
             />
             <TextField
               multiline={true}
@@ -296,15 +349,16 @@ const styles = StyleSheet.create({
 
   placeholder: {
     borderWidth:1,
+	backgroundColor: 'rgba(0,0,0,.6)',
     borderColor:'rgba(0,0,0,0.2)',
-    width:200,
-    height:200,
+    width:100,
+    height:100,
     borderRadius:100,
     marginTop:20,
   },
   img: {
-    width:200,
-    height:200,
+    width:100,
+    height:100,
     borderRadius:100,
     resizeMode: 'contain',
   },
