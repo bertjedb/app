@@ -279,7 +279,7 @@ export const MyTabLoggedIn = TabNavigator({
 		        }
 		      },
 			MoreStack: {
-				screen: AdminStack,
+				screen: MoreStack,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (

@@ -48,14 +48,12 @@ class Events extends Component {
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
             if(response['responseCode'] == 200) {
-                console.log(response);
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
                 this.setState({
                     dataSource: ds.cloneWithRows(response['events']),
                 });
-                console.log(this.state);
             }
         });
     }
@@ -98,7 +96,7 @@ class Events extends Component {
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', margin: 10, marginBottom: 20}}>
                                         <Image
-                                            source={{uri:rowData.photo[0]}}
+                                            source={{uri: 'data:image/jpg;base64,' + rowData.photo[0]}}
                                             style={{width: 60, height: 60, borderRadius: 10}}
                                         />
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 8}}>
@@ -123,7 +121,7 @@ class Events extends Component {
                                         borderBottomRightRadius: 10,
                                     }}>
                                         <Image
-                                            source={{uri:rowData.img}}
+                                            source={{uri: 'data:image/jpg;base64,' + rowData.img}}
                                             resizeMode="cover"
                                             style={{width: '100%', height: 200}}
                                         />

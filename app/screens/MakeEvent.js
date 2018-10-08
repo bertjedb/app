@@ -19,6 +19,7 @@ import LocalStorage from '../config/localStorage.js';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
+import ImgToBase64 from 'react-native-image-base64';
 
 export default class MakeEvent extends Component {
 
@@ -65,10 +66,6 @@ export default class MakeEvent extends Component {
   			let localStorage = LocalStorage.getInstance();
   			let points = localStorage.retrieveItem('userId').then((id) => {
   			if(id != null) {
-                // var base64 = require('base-64');
-                // img = base64.encode(this.state.pickedImage.uri);
-                // console.log(img);
-                // console.log(base64.decode(img))
   				let userData = {
   					name: this.state.name,
   					begin: this.state.begin,
@@ -76,7 +73,7 @@ export default class MakeEvent extends Component {
   					location: this.state.loc,
   					description: this.state.desc,
   					leader: id,
-                    img: ''
+                    img: this.state.img
   				}
                 let api = Api.getInstance();
   				api.callApi('api/createEvent', 'POST', userData, response => {
@@ -89,10 +86,12 @@ export default class MakeEvent extends Component {
                             desc: '',
                             beginText: '',
                             endText: '',
-                            pickedImage: { uri: '' }
+                            pickedImage: { uri: '' },
+                            img: ''
                         });
                         this.successMessage("Er is een nieuw evenement aangemaakt!");
         		    } else {
+                        console.log(response);
         		    	this.errorMessage("Er is wat fout gegaan");
         		    }
         		});
@@ -147,13 +146,14 @@ export default class MakeEvent extends Component {
             pickedImage: {uri: res.uri},
             imgPicked: true,
         });
-
-        console.log(this.state);
-
+        ImgToBase64.getBase64String(this.state.pickedImage.uri).then((base64String) => {
+            this.setState({
+                img: base64String
+            });
+        });
       }
     });
   }
-
   render() {
     return(
     		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>

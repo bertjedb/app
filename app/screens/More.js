@@ -139,15 +139,6 @@ export default class More extends Component {
                                 }
                 }),
                 },
-                {
-                    icon: 'today',
-                    value: 'Nieuw evenement',
-                    onPress: () => 
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'MakeEvent',
-                            action: NavigationActions.navigate({routeName: 'MakeEvent'})
-                        }))
-                },
               ]}
           />
       }
@@ -175,6 +166,15 @@ export default class More extends Component {
                       })
                   )
                  },
+                 {
+                    icon: 'today',
+                    value: 'Nieuw evenement',
+                    onPress: () => 
+                        this.props.navigation.dispatch(NavigationActions.navigate({
+                            routeName: 'MakeEvent',
+                            action: NavigationActions.navigate({routeName: 'MakeEvent'})
+                        }))
+                },
                  {
                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                    value: 'Wachtwoord veranderen',

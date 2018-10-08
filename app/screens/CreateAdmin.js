@@ -36,6 +36,7 @@ import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
 import DefaultUserImage from '../assets/default-user-image.png';
+import ImgToBase64 from 'react-native-image-base64';
 
 
 const uiTheme = {
@@ -65,6 +66,7 @@ export default class CreateAdmin extends Component {
         biography: '',
 		    succesfull: false,
         pickedImage: DefaultUserImage,
+        img: ''
       };
   }
 
@@ -91,7 +93,6 @@ export default class CreateAdmin extends Component {
   }
 
   checkRegistration() {
-    console.log(this.state);
     // empty check
     if(this.state.firstName == "" ||
        this.state.lastName == "" ||
@@ -133,6 +134,7 @@ export default class CreateAdmin extends Component {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           biography: this.state.biography,
+          img: this.state.img
       }
       api.callApi('register-admin', 'POST', userData, response => {
           if(response['responseCode'] == 200){
@@ -155,7 +157,7 @@ export default class CreateAdmin extends Component {
   }
 
   /**
- * The first arg is the options object for customization (it can also be null or omitted for default options),
+ * The first arg is the options object for customization (it can also be null or omitted forefault options),
  * The second arg is the callback which sends object: response (more info below in README)
  */
 
@@ -169,6 +171,11 @@ export default class CreateAdmin extends Component {
         this.setState({
           pickedImage: { uri: res.uri }
         });
+        ImgToBase64.getBase64String(this.state.pickedImage.uri).then((base64String) => {
+            this.setState({
+                img: base64String
+            });
+        });
 
       }
     });
@@ -179,7 +186,6 @@ export default class CreateAdmin extends Component {
   }
 
   render() {
-
     return(
       <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
         <ScrollView style={styles.container}>
@@ -303,10 +309,11 @@ const styles = StyleSheet.create({
     marginTop:20,
   },
   img: {
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
     width:200,
     height:200,
     borderRadius:100,
-    resizeMode: 'contain',
   },
   button: {
     flexDirection:"row",
