@@ -10,7 +10,10 @@ import {
     Divider,
     ScrollView,
     Button,
-    ListView
+    ListView,
+	TouchableHighlight,
+	Share,
+	Dimensions
 } from 'react-native';
 import {DrawerActions, NavigationActions} from 'react-navigation';
 import UserInput from './UserInput';
@@ -20,11 +23,14 @@ import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
-import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox} from 'react-native-material-ui';
+import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
+import Modal from "react-native-modal";
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
+
+var capitalize = require('capitalize')
 
 const uiTheme = {
     palette: {
@@ -44,7 +50,8 @@ class Events extends Component {
 
         this.state = {
             dataSource: null,
-            eventArray: []
+            eventArray: [],
+			modalVisible: false,
         };
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
@@ -82,17 +89,35 @@ class Events extends Component {
                     dataSource: ds.cloneWithRows(response['events']),
                     uploading: false,
                 });
-            }   
+            }
             })
     }
     showFilter() {
-        this.bottomSheet.open()
+		this.setState({modalVisible: !this.state.modalVisible});
     };
+
+	getBackgroundModal(){
+		if(this.state.modalVisible){
+			return {position: 'absolute',
+		    top: 58,
+		    bottom: 0,
+		    left: 0,
+		    right: 0,
+		    backgroundColor: 'rgba(0,0,0,0.5)'}
+		} else {
+			return {position: 'absolute',
+		    top: 58,
+		    bottom: 0,
+		    left: 0,
+		    right: 0,
+		    backgroundColor: 'rgba(0,0,0,0)'}
+		}
+	}
 
 
     render() {
         return(
-            <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%',paddingBottom:'8%'}}>
+            <ImageBackground  blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
                 <Toolbar
                     centerElement={"Evenementen"}
                     searchable={{
@@ -103,83 +128,50 @@ class Events extends Component {
                     rightElement={("filter-list")}
                     onRightElementPress={()=> this.showFilter()}
                 />
-                <BottomSheet
-                    ref={(ref: BottomSheet) => {
-                        this.bottomSheet = ref
-                    }}
-                    styleContainer={{paddingBottom: 120}}
-                    backButtonEnabled={true}
-                    coverScreen={false}
-                    options={[
-                        {
-                            icon: (
-                                <Text style={{fontWeight: 'bold'}}>Wijken</Text>
-                            ),
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Beijum" value="agree" onCheck={()=>this.setState({check1: !this.state.check1})} checked={this.state.check1} />
-                            ),
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Hoogkerk" value="agree" onCheck={()=>this.setState({check2: !this.state.check2})} checked={this.state.check2} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Ten Boer" value="agree" onCheck={()=>this.setState({check3: !this.state.check3})} checked={this.state.check3} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Text style={{fontWeight: 'bold'}}>Begeleider</Text>
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Berend Baandrecht" value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Jaap Vos" value="agree" onCheck={()=>this.setState({check5: !this.state.check5})} checked={this.state.check5} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Karel Achterveld" value="agree" onCheck={()=>this.setState({check6: !this.state.check6})} checked={this.state.check6} />
-                            ),
-                            onPress: () => null
-                        }
-                    ]}
-                    isOpen={false}
-                />
+				<View style={this.getBackgroundModal()}>
+				<Modal
+		          animationType="slide"
+				  style={{margin: 0, marginTop: 120}}
+		          transparent={true}
+		          visible={this.state.modalVisible}
+		          onRequestClose={() => {
+		            this.showFilter()
+		          }}>
+		          <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
+		            <View>
+		              <Text>Hello World!</Text>
+
+		              <TouchableHighlight
+		                onPress={() => {
+		                  this.setModalVisible(!this.state.modalVisible);
+		                }}>
+		                <Text>Hide Modal</Text>
+		              </TouchableHighlight>
+		            </View>
+		          </View>
+		        </Modal>
                 {
                     this.state.dataSource != null &&
                     <ListView
                         dataSource={this.state.dataSource}
+						style={{paddingTop: 20, marginBottom: 55, paddingBottom: 300}}
                         renderRow={(rowData) =>
                            <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
-                                    <View style={{flex: 1, flexDirection: 'row', margin: 10, marginBottom: 20}}>
+                                    <View style={{flex: 1, flexDirection: 'row', margin: 10}}>
                                         <Image
                                             source={{uri:rowData.photo[0]}}
-                                            style={{width: 60, height: 60, borderRadius: 10}}
+                                            style={{width: 50, height: 50, borderRadius: 10}}
                                         />
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 8}}>
-                                            <Text style={{
+                                            <Text
+											style={{
                                                 marginBottom: 3,
                                                 fontWeight: 'bold',
                                                 fontSize: 20,
                                                 color: 'black'
                                             }}>
-                                                {rowData.leader}
+                                                {capitalize.words(rowData.leader.toString().replace(', ,', ' '))}
                                             </Text>
                                             <Text style={{fontSize: 16, color: 'black'}}>
                                                 {rowData.created}
@@ -236,7 +228,7 @@ class Events extends Component {
                                                 fontWeight: 'bold'
                                             }}>
                                                 <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-                                                    {rowData.name}
+												{capitalize.words(rowData.name.toString().replace(', ,', ' '))}
                                                 </Text>
                                                 <Text numberOfLines={3} ellipsizeMode="tail" style={{fontSize: 12}}>
                                                     {rowData.desc}
@@ -249,16 +241,35 @@ class Events extends Component {
                                             flexDirection: 'row',
                                             position: 'absolute',
                                             bottom: 0,
-                                            left: 0
+                                            left: 0,
+											alignItems: 'center',
                                         }}>
-                                            <View
-                                                style={{width: '50%', borderRightWidth: 1, borderBottomLeftRadius: 40}}>
-                                                <Button color='#93D500' title="Aanmelden" style={{}}/>
-                                            </View>
-                                            <View style={{width: '50%'}}>
-                                                <Button color='#93D500' title="Delen"
-                                                        style={{borderBottomRightRadius: 10}}/>
-                                            </View>
+										<TouchableHighlight
+										onPress={() => this.props.navigation.navigate('EventDetail', {
+											title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+											profilePicture: rowData.photo[0],
+											content: rowData.desc,
+											start: rowData.begin + ' ' + rowData.beginMonth,
+											end: rowData.end,
+											created: rowData.created,
+											author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
+											link: rowData.link,
+											img: rowData.img,
+											location: rowData.location,
+								            })}
+										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+
+										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
+										</TouchableHighlight>
+										<TouchableHighlight
+										onPress={() => Share.share({
+			      							message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
+			  							})}
+										style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
+
+										    <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
+										</TouchableHighlight>
+
                                         </View>
                                     </View>
                                 </View>
@@ -266,7 +277,7 @@ class Events extends Component {
                         }
                     />
                 }
-
+				</View>
             </ImageBackground>
 
 
@@ -277,6 +288,22 @@ class Events extends Component {
 
 
 const styles = StyleSheet.create({
+	overlay:{
+    position: 'absolute',
+    top: 58,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)'
+},
+overlay2:{
+position: 'absolute',
+top: 58,
+bottom: 0,
+left: 0,
+right: 0,
+backgroundColor: 'rgba(0,0,0,0)'
+},
     container: {
         flex: 1,
         justifyContent: 'center',
