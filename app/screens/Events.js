@@ -12,7 +12,8 @@ import {
     Button,
     ListView,
 	TouchableHighlight,
-	Share
+	Share,
+	Dimensions
 } from 'react-native';
 import {DrawerActions, NavigationActions} from 'react-navigation';
 import UserInput from './UserInput';
@@ -22,8 +23,9 @@ import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
-import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox} from 'react-native-material-ui';
+import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
+import Modal from "react-native-modal";
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
@@ -48,7 +50,8 @@ class Events extends Component {
 
         this.state = {
             dataSource: null,
-            eventArray: []
+            eventArray: [],
+			modalVisible: false,
         };
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
@@ -90,13 +93,31 @@ class Events extends Component {
             })
     }
     showFilter() {
-        this.bottomSheet.open()
+		this.setState({modalVisible: !this.state.modalVisible});
     };
+
+	getBackgroundModal(){
+		if(this.state.modalVisible){
+			return {position: 'absolute',
+		    top: 58,
+		    bottom: 0,
+		    left: 0,
+		    right: 0,
+		    backgroundColor: 'rgba(0,0,0,0.5)'}
+		} else {
+			return {position: 'absolute',
+		    top: 58,
+		    bottom: 0,
+		    left: 0,
+		    right: 0,
+		    backgroundColor: 'rgba(0,0,0,0)'}
+		}
+	}
 
 
     render() {
         return(
-            <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+            <ImageBackground  blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
                 <Toolbar
                     centerElement={"Evenementen"}
                     searchable={{
@@ -107,63 +128,28 @@ class Events extends Component {
                     rightElement={("filter-list")}
                     onRightElementPress={()=> this.showFilter()}
                 />
-                <BottomSheet
-                    ref={(ref: BottomSheet) => {
-                        this.bottomSheet = ref
-                    }}
-                    styleContainer={{paddingBottom: 120}}
-                    backButtonEnabled={true}
-                    coverScreen={false}
-                    options={[
-                        {
-                            icon: (
-                                <Text style={{fontWeight: 'bold'}}>Wijken</Text>
-                            ),
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Beijum" value="agree" onCheck={()=>this.setState({check1: !this.state.check1})} checked={this.state.check1} />
-                            ),
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Hoogkerk" value="agree" onCheck={()=>this.setState({check2: !this.state.check2})} checked={this.state.check2} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Ten Boer" value="agree" onCheck={()=>this.setState({check3: !this.state.check3})} checked={this.state.check3} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Text style={{fontWeight: 'bold'}}>Begeleider</Text>
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Berend Baandrecht" value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Jaap Vos" value="agree" onCheck={()=>this.setState({check5: !this.state.check5})} checked={this.state.check5} />
-                            ),
-                            onPress: () => null
-                        },
-                        {
-                            icon: (
-                                <Checkbox label="Karel Achterveld" value="agree" onCheck={()=>this.setState({check6: !this.state.check6})} checked={this.state.check6} />
-                            ),
-                            onPress: () => null
-                        }
-                    ]}
-                    isOpen={false}
-                />
+				<View style={this.getBackgroundModal()}>
+				<Modal
+		          animationType="slide"
+				  style={{margin: 0, marginTop: 120}}
+		          transparent={true}
+		          visible={this.state.modalVisible}
+		          onRequestClose={() => {
+		            this.showFilter()
+		          }}>
+		          <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
+		            <View>
+		              <Text>Hello World!</Text>
+
+		              <TouchableHighlight
+		                onPress={() => {
+		                  this.setModalVisible(!this.state.modalVisible);
+		                }}>
+		                <Text>Hide Modal</Text>
+		              </TouchableHighlight>
+		            </View>
+		          </View>
+		        </Modal>
                 {
                     this.state.dataSource != null &&
                     <ListView
@@ -291,7 +277,7 @@ class Events extends Component {
                         }
                     />
                 }
-
+				</View>
             </ImageBackground>
 
 
@@ -302,6 +288,22 @@ class Events extends Component {
 
 
 const styles = StyleSheet.create({
+	overlay:{
+    position: 'absolute',
+    top: 58,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)'
+},
+overlay2:{
+position: 'absolute',
+top: 58,
+bottom: 0,
+left: 0,
+right: 0,
+backgroundColor: 'rgba(0,0,0,0)'
+},
     container: {
         flex: 1,
         justifyContent: 'center',
