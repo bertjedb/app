@@ -207,7 +207,7 @@ bottomSheet: BottomSheet
                                         <Text style={{marginBottom: 5, fontWeight: 'bold', fontSize: 16, color: 'black'}}>
                                             {rowData.created}
                                         </Text>
-                                    </View>
+                                    </View >
 
                                     <Text numberOfLines={3} ellipsizeMode="tail"
                                           style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>
