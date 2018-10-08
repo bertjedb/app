@@ -52,11 +52,11 @@ class Events extends Component {
             dataSource: null,
             eventArray: [],
 			modalVisible: false,
+            search: ''
         };
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
             if(response['responseCode'] == 200) {
-                console.log(response);
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -76,42 +76,60 @@ class Events extends Component {
     this.refresh();
   }
 
-    refresh(){
-        let api = Api.getInstance()
-        api.callApi('api/getAllEvents', 'POST', {}, response => {
-            if(response['responseCode'] == 200) {
-                let ds = new ListView.DataSource({
-                    rowHasChanged: (r1, r2) => r1 !== r2
-                });
-                this.setState({
-                    firstLoading: false,
-                    dataSource: ds.cloneWithRows(response['events']),
-                    uploading: false,
-                });
-            }
-            })
-    }
-    showFilter() {
-		this.setState({modalVisible: !this.state.modalVisible});
-    };
+  refresh(){
+      let api = Api.getInstance()
+      api.callApi('api/getAllEvents', 'POST', {}, response => {
+              let ds = new ListView.DataSource({
+                  rowHasChanged: (r1, r2) => r1 !== r2
+              });
+              this.setState({
+                  firstLoading: false,
+                  dataSource: ds.cloneWithRows(response['events']),
+                  uploading: false,
+              });
+          })
+  }
+  showFilter() {
+  	this.setState({modalVisible: !this.state.modalVisible});
+  };
 
-	getBackgroundModal(){
-		if(this.state.modalVisible){
-			return {position: 'absolute',
-		    top: 58,
-		    bottom: 0,
-		    left: 0,
-		    right: 0,
-		    backgroundColor: 'rgba(0,0,0,0.5)'}
-		} else {
-			return {position: 'absolute',
-		    top: 58,
-		    bottom: 0,
-		    left: 0,
-		    right: 0,
-		    backgroundColor: 'rgba(0,0,0,0)'}
-		}
-	}
+ getBackgroundModal(){
+ 	if(this.state.modalVisible){
+ 		return {position: 'absolute',
+ 	    top: 58,
+ 	    bottom: 0,
+ 	    left: 0,
+ 	    right: 0,
+ 	    backgroundColor: 'rgba(0,0,0,0.5)'}
+ 	} else {
+ 		return {position: 'absolute',
+ 	    top: 58,
+ 	    bottom: 0,
+ 	    left: 0,
+ 	    right: 0,
+ 	    backgroundColor: 'rgba(0,0,0,0)'}
+ 	}
+ }
+
+ handleSearch() {
+    let api = Api.getInstance();
+    userData = {
+        searchString: this.state.search
+    }
+    api.callApi('api/searchEvent', 'POST', userData, response => {
+        if(response['responseCode'] == 200) {
+                console.log(response);
+              let ds = new ListView.DataSource({
+                  rowHasChanged: (r1, r2) => r1 !== r2
+              });
+              this.setState({
+                  firstLoading: false,
+                  dataSource: ds.cloneWithRows(response['events']),
+                  uploading: false,
+              });
+          }
+    });
+ }
 
 
     render() {
@@ -122,7 +140,8 @@ class Events extends Component {
                     searchable={{
                         autoFocus: true,
                         placeholder: 'Zoeken',
-                        onChangeText: (text) => this.setState({search : text})
+                        onChangeText: (text) => this.setState({search : text}),
+                        onSubmitEditing: () => {this.handleSearch()}
                     }}
                     rightElement={("filter-list")}
                     onRightElementPress={()=> this.showFilter()}
@@ -138,13 +157,10 @@ class Events extends Component {
 		          }}>
 		          <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
 		            <View>
-		              <Text>Hello World!</Text>
-
 		              <TouchableHighlight
 		                onPress={() => {
 		                  this.setModalVisible(!this.state.modalVisible);
 		                }}>
-		                <Text>Hide Modal</Text>
 		              </TouchableHighlight>
 		            </View>
 		          </View>
@@ -158,6 +174,7 @@ class Events extends Component {
                            <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', margin: 10}}>
+                                    {console.log(rowData)}
                                         <Image
                                             source={{uri: 'data:image/jpg;base64,' + rowData.photo[0]}}
                                             style={{width: 50, height: 50, borderRadius: 10}}

@@ -139,8 +139,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-bottomsheet')
->>>>>>> upstream/master
     compile project(':react-native-sha256')
     compile project(':react-native-snackbar')
     compile project(':react-native-svg')
