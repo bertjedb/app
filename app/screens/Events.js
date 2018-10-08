@@ -54,13 +54,12 @@ class Events extends Component {
             eventArray: [],
 			modalVisible: false,
 			refreshing: false,
-
+            search: ''
         };
 
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
             if(response['responseCode'] == 200) {
-                console.log(response);
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -105,23 +104,43 @@ class Events extends Component {
 		this.setState({modalVisible: !this.state.modalVisible});
     };
 
-	getBackgroundModal(){
-		if(this.state.modalVisible){
-			return {position: 'absolute',
-		    top: 58,
-		    bottom: 0,
-		    left: 0,
-		    right: 0,
-		    backgroundColor: 'rgba(0,0,0,0.5)'}
-		} else {
-			return {position: 'absolute',
-		    top: 58,
-		    bottom: 0,
-		    left: 0,
-		    right: 0,
-		    backgroundColor: 'rgba(0,0,0,0)'}
-		}
-	}
+ getBackgroundModal(){
+ 	if(this.state.modalVisible){
+ 		return {position: 'absolute',
+ 	    top: 58,
+ 	    bottom: 0,
+ 	    left: 0,
+ 	    right: 0,
+ 	    backgroundColor: 'rgba(0,0,0,0.5)'}
+ 	} else {
+ 		return {position: 'absolute',
+ 	    top: 58,
+ 	    bottom: 0,
+ 	    left: 0,
+ 	    right: 0,
+ 	    backgroundColor: 'rgba(0,0,0,0)'}
+ 	}
+ }
+
+ handleSearch() {
+    let api = Api.getInstance();
+    userData = {
+        searchString: this.state.search
+    }
+    api.callApi('api/searchEvent', 'POST', userData, response => {
+        if(response['responseCode'] == 200) {
+                console.log(response);
+              let ds = new ListView.DataSource({
+                  rowHasChanged: (r1, r2) => r1 !== r2
+              });
+              this.setState({
+                  firstLoading: false,
+                  dataSource: ds.cloneWithRows(response['events']),
+                  uploading: false,
+              });
+          }
+    });
+ }
 
 
     render() {
@@ -132,7 +151,8 @@ class Events extends Component {
                     searchable={{
                         autoFocus: true,
                         placeholder: 'Zoeken',
-                        onChangeText: (text) => this.setState({search : text})
+                        onChangeText: (text) => this.setState({search : text}),
+                        onSubmitEditing: () => {this.handleSearch()}
                     }}
                     rightElement={("filter-list")}
                     onRightElementPress={()=> this.showFilter()}
@@ -148,13 +168,10 @@ class Events extends Component {
 		          }}>
 		          <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
 		            <View>
-		              <Text>Hello World!</Text>
-
 		              <TouchableHighlight
 		                onPress={() => {
 		                  this.setModalVisible(!this.state.modalVisible);
 		                }}>
-		                <Text>Hide Modal</Text>
 		              </TouchableHighlight>
 		            </View>
 		          </View>
@@ -177,7 +194,7 @@ class Events extends Component {
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
                                         <Image
-                                            source={{uri:rowData.photo[0]}}
+                                            source={{uri: 'data:image/jpg;base64,' + rowData.photo[0]}}
                                             style={{width: 50, height: 50, borderRadius: 10}}
                                         />
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
@@ -202,7 +219,7 @@ class Events extends Component {
                                         borderBottomRightRadius: 10,
                                     }}>
                                         <Image
-                                            source={{uri:rowData.img}}
+                                            source={{uri: 'data:image/jpg;base64,' + rowData.img}}
                                             resizeMode="cover"
                                             style={{width: '100%', height: 200}}
                                         />
@@ -289,7 +306,7 @@ class Events extends Component {
                                         </View>
                                     </View>
                                 </View>
-                            </View >
+                            </View>
                         }
                     />
                 }
