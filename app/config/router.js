@@ -23,13 +23,8 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
-<<<<<<< HEAD
-import EventDetail from '../screens/EventDetail.js';
-import { NavigationActions } from 'react-navigation';
-=======
 import EventDetail from '../screens/EventDetail';
 import Events from '../screens/Events';
->>>>>>> upstream/master
 
 
 //Gradient header
@@ -43,30 +38,7 @@ export const GradientHeader = props => (
     </LinearGradient>
   </View>
 )
-<<<<<<< HEAD
 
-export const GradientEventsHeader = props => (
-<View style={{ backgroundColor: '#eee', height: Header.HEIGHT, flexDirection: 'row-reverse'}} >
-    <LinearGradient
-      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1 }]}
-    >
-      <Header {...props} />
-    </LinearGradient>
-    <Icon name="filter" style={{ margin: 10}} size={40} color='white'
-
-    onPress={()=> alert('hello')}
-    onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
-            routeName: 'LoginStack',
-            action: navigation.navigate({ routeName: 'LoginScreen' })
-          })
-        )}
-    />
-    <Icon onPress={() => {alert("searching")}} name="magnify" style={{ margin: 10}} size={40} color='white' />
-  </View>
-)
-
-=======
 export const GradientEventsHeader = props => (
 	<View style={{ backgroundColor: '#eee', height: Header.HEIGHT}} >
 	    <LinearGradient
@@ -78,7 +50,6 @@ export const GradientEventsHeader = props => (
 	    <Icon onPress={() => {showInput = !showInput; alert(showInput)}} name="magnify" style={{alignSelf: 'flex-end', margin: 10}} size={40} color='white' />
 	</View>
 )
->>>>>>> upstream/master
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {

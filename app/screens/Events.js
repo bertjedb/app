@@ -81,7 +81,7 @@ class Events extends Component {
                     dataSource: ds.cloneWithRows(response['events']),
                     uploading: false,
                 });
-            }   
+            }
             })
     }
 

@@ -22,12 +22,8 @@ import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
-<<<<<<< HEAD
-import SideMenu from 'react-native-side-menu';
-=======
-import BottomSheet from 'react-native-js-bottom-sheet'
+import BottomSheet from 'react-native-js-bottom-sheet';
 import {PacmanIndicator} from 'react-native-indicators';
->>>>>>> upstream/master
 
 import {
     COLOR,
@@ -40,8 +36,11 @@ import {
 	Drawer,
 	Checkbox
 } from 'react-native-material-ui';
-
+import Api from '../config/api.js';
 import stylesCss from '../assets/css/style.js';
+
+const filterOptions = [];
+const adminArray = [{name: 'bert'}, {name: 'Gaauwe'}, {name: 'Wouter'}];
 
 class News extends Component {
 
@@ -51,6 +50,8 @@ bottomSheet: BottomSheet
   constructor() {
       super();
 	  this.state = {
+      dataSource: null,
+      adminArray: [],
 		  search: false,
 		  check1: true,
 		  check2: false,
@@ -62,17 +63,66 @@ bottomSheet: BottomSheet
 	  }
   }
 
+
   componentDidMount() {
 	  setTimeout(() => {
 		  this.setState({loading: false})
 	  }, 5000);
+  //  this.initFilterOptions(this.getAdmins())
+    this.getAdmins()
+    this.initFilterOptions2()
   }
+
+  getAdmins() {
+    api = Api.getInstance();
+    api.callApi('api/getAllAdmins', 'POST', {}, response => {
+      if(response['responseCode'] == 200) {
+        this.setState({
+          adminArray: response['admins']
+        })
+            // for(admin in response['admins']){
+            //   adminArray.push(admin);
+            // }
+            // return response['admins'];
+        }
+      })
+  }
+
 
   showFilter() {
 	  this.bottomSheet.open()
     };
 
+  initFilterOptions2(){
+      for(var admin in this.state.adminArray){
+        filterOptions.push(
+          {
+            icon: (
+                    <Checkbox label='bert' value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
+                  ),
+                onPress: () => null
+          },
+        )
+      }
+  }
+
+  initFilterOptions(arr) {
+    for(var admin in arr){
+      filterOptions.push(
+        {
+          icon: (
+                  <Checkbox label={admin} value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
+                ),
+              onPress: () => null
+        },
+      )
+    }
+
+  }
+
   render() {
+
+
     return(
 		<View>
 			<Toolbar
@@ -92,54 +142,7 @@ bottomSheet: BottomSheet
 		  styleContainer={{paddingBottom: 120}}
           backButtonEnabled={true}
           coverScreen={false}
-          options={[
-            {
-              icon: (
-                <Text style={{fontWeight: 'bold'}}>Wijken</Text>
-              ),
-            },
-            {
-				icon: (
-                  <Checkbox label="Beijum" value="agree" onCheck={()=>this.setState({check1: !this.state.check1})} checked={this.state.check1} />
-                ),
-            },
-            {
-				icon: (
-                  <Checkbox label="Hoogkerk" value="agree" onCheck={()=>this.setState({check2: !this.state.check2})} checked={this.state.check2} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Ten Boer" value="agree" onCheck={()=>this.setState({check3: !this.state.check3})} checked={this.state.check3} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Text style={{fontWeight: 'bold'}}>Begeleider</Text>
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Berend Baandrecht" value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Jaap Vos" value="agree" onCheck={()=>this.setState({check5: !this.state.check5})} checked={this.state.check5} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Karel Achterveld" value="agree" onCheck={()=>this.setState({check6: !this.state.check6})} checked={this.state.check6} />
-                ),
-              onPress: () => null
-            }
-          ]}
+          options={filterOptions}
           isOpen={false}
         />
 			<ScrollView orientation="vertical">
