@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { NavigationComponent } from 'react-native-material-bottom-navigation-performance'
 
-import {Image, Button, View, StyleSheet} from 'react-native';
+import {Image, Button, View, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Feed from '../screens/Feed';
@@ -24,6 +24,7 @@ import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
+import Events from '../screens/Events';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -66,37 +67,49 @@ export const LoginStack = StackNavigator({
 
 //Stack for all the admin screens
 export const AdminStack = StackNavigator({
-	MakeEvent: {
-		screen: MakeEvent,
-		navigationOptions: {
-			title: 'Nieuw evenement',
-		}
-	},
-	CreateAdmin: {
-		screen: CreateAdmin,
-		navigationOptions: {
-			title: 'Nieuw begeleider account',
-		}
-	}
+    MakeEvent: {
+        screen: MakeEvent,
+        navigationOptions: {
+            title: 'Nieuw evenement',
+        }
+    },
+    CreateAdmin: {
+        screen: CreateAdmin,
+        navigationOptions: {
+            title: 'Nieuw begeleider account',
+        }
+    }
+},{headerMode: 'none'
+})
+
+//Stack for all the admin screens
+export const NewsStack = StackNavigator({
+    NewsFeed: {
+        screen: News,
+        navigationOptions: {
+            title: 'Nieuws',
+        }
+    }
 },{headerMode: 'none'
 })
 
 //Stack for all the event screens
 export const EventStack = StackNavigator({
-	News: {
-		screen: News,
-		navigationOptions: {
-			title: 'Evenementen',
-		}
-	},
+    Events: {
+        screen: Events,
+        navigationOptions: {
+            title: 'Evenementen',
+        }
+    },
     EventDetail: {
-		screen: EventDetail,
-		navigationOptions: {
-			title: 'Evenement',
-		}
-	},
+        screen: EventDetail,
+        navigationOptions: {
+            title: 'Evenementen',
+        }
+    }
 },{headerMode: 'none'
 })
+
 
 //Stack for participants
 export const ParticipantListStack = StackNavigator({
@@ -129,6 +142,15 @@ export const MyTabLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
+			NewsCard: {
+				screen: NewsStack,
+				navigationOptions: {
+					tabBarLabel: 'Nieuws',
+					tabBarIcon: () => (
+						<Icon name="cards-outline" size={24} color='grey' />
+					)
+				}
+			},
 			More: {
 				screen: More,
 				navigationOptions: {
@@ -191,6 +213,16 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
+
+			NewsCard: {
+				screen: NewsStack,
+				navigationOptions: {
+					tabBarLabel: 'Nieuws',
+					tabBarIcon: () => (
+						<Icon name="cards-outline" size={24} color='grey' />
+					)
+				}
+			},
 			More: {
 				screen: More,
 				navigationOptions: {
@@ -238,12 +270,13 @@ export const MyTabNotLoggedIn = TabNavigator({
 //Root navigator with tabs and loginStack to navigate outside the tabs when going to login
 export const MyAppNotLoggedIn = StackNavigator({
 	MyTab: {
-		screen: MyTabNotLoggedIn,
-		navigationOptions: {
+        screen: MyTabNotLoggedIn,
+        navigationOptions: {
             header: null,
-		}
+        }
 
-	},
+    },
+
 	LoginStack: {
 		screen: LoginStack,
 		navigationOptions: {
@@ -253,6 +286,7 @@ export const MyAppNotLoggedIn = StackNavigator({
 },{
 
 })
+
 
 export const MyAppLoggedIn = StackNavigator({
 	MyTab: {

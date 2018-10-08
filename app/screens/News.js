@@ -7,12 +7,12 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-		ImageBackground,
+    ImageBackground,
     Image,
     Divider,
-		ScrollView,
-		Animated,
-		Dimensions
+    ScrollView,
+    Animated,
+    Dimensions, ListView
 } from 'react-native';
 import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
@@ -61,6 +61,20 @@ bottomSheet: BottomSheet
 		  check6: true,
 		  loading: true,
 	  }
+
+      let api = Api.getInstance()
+      api.callApi('api/getAllEvents', 'POST', {}, response => {
+          if(response['responseCode'] == 200) {
+              console.log(response);
+              let ds = new ListView.DataSource({
+                  rowHasChanged: (r1, r2) => r1 !== r2
+              });
+              this.setState({
+                  dataSource: ds.cloneWithRows(response['events']),
+              });
+              console.log(this.state);
+          }
+      });
   }
 
 
@@ -135,16 +149,7 @@ bottomSheet: BottomSheet
 				rightElement={("filter-list")}
 				onRightElementPress={()=> this.showFilter()}
 			/>
-			<BottomSheet
-          ref={(ref: BottomSheet) => {
-            this.bottomSheet = ref
-          }}
-		  styleContainer={{paddingBottom: 120}}
-          backButtonEnabled={true}
-          coverScreen={false}
-          options={filterOptions}
-          isOpen={false}
-        />
+			
 			<ScrollView orientation="vertical">
 			{!this.state.loading &&
 				<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
