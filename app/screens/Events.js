@@ -63,7 +63,6 @@ class Events extends Component {
                 this.setState({
                     dataSource: ds.cloneWithRows(response['events']),
                 });
-                console.log(this.state);
             }
         });
     }
