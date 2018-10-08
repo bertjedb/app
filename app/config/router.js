@@ -73,40 +73,58 @@ export const LoginStack = StackNavigator({
 		screen: Registration,
 		navigationOptions: {
 			title: 'Registreren',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	},
   ChangePassword: {
     screen: ChangePassword,
-		navigationOptions: {
-			title: 'Wachtwoord veranderen',
-			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
-		}
+	navigationOptions: {
+		title: 'Wachtwoord veranderen',
+		header: props => <GradientHeader {...props} />,
+		headerStyle: {
+			backgroundColor: 'transparent',
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			right: 0,
+			bottom: 0,
+		  },
+	headerTintColor: '#fff',
+	headerTitleStyle: {
+	  fontWeight: 'bold',
+	},
+	}
   },
   RecoverPassword: {
     screen: RecoverPassword,
-		navigationOptions: {
-			title: 'Wachtwoord vergeten',
-			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
-		}
+	navigationOptions: {
+		title: 'Wachtwoord vergeten',
+		header: props => <GradientHeader {...props} />,
+		headerStyle: {
+			backgroundColor: 'transparent',
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			right: 0,
+			bottom: 0,
+		  },
+	headerTintColor: '#fff',
+	headerTitleStyle: {
+	  fontWeight: 'bold',
+	},
+	}
   }
 },{headerMode: 'screen'
 })
@@ -139,27 +157,39 @@ export const AdminStack = StackNavigator({
 	MakeEvent: {
 		screen: MakeEvent,
 		navigationOptions: {
-			title: 'Nieuw evenement aanmaken',
+			title: 'Nieuw evenement',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	},
 	CreateAdmin: {
 		screen: CreateAdmin,
 		navigationOptions: {
-			title: 'Nieuw begeleider account aanmaken',
+			title: 'Nieuw begeleider account',
+			header: props => <GradientHeader {...props} />,
 			headerStyle: {
-				backgroundColor: '#93D500',
-			},
-			headerTintColor: '#fff',
-			headerTitleStyle: {
-				fontWeight: 'bold',
-			},
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
 		}
 	}
 },{headerMode: 'screen'
@@ -299,7 +329,7 @@ export const MyTabLoggedIn = TabNavigator({
 		  				jumpToIndex(scene.index);
 		  			}
 		  		}),
-				initialRouteName: 'MoreStack',
+				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					style: {
@@ -349,8 +379,8 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
-			More: {
-				screen: More,
+			MoreStack: {
+				screen: MoreStack,
 				navigationOptions: {
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (

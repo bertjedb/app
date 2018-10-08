@@ -87,14 +87,11 @@ export default class RecoverPassword extends Component {
     <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
       <View style={styles.container}>
         <View style={styles.card} elevation={5}>
-          <Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
-          Wachtwoord herstellen
-          </Text>
+          <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
+		  Ben je je wachtwoord vergeten? Vul hieronder je email adres in en ontvang een nieuw wachtwoord!
+		  (Check ook je spam map van je email adres!)
+		   </Text>
           <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-          <Text style={{marginTop: 10}}>
-            Ben je je wachtwoord vergeten? Vul hieronder je email adres in en ontvang een nieuw wachtwoord!
-            (Check ook je spam map van je email adres!)
-          </Text>
           <TextField
             textColor='green'
             tintColor='green'

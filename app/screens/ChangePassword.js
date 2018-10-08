@@ -102,15 +102,18 @@ export default class ChangePassword extends Component {
     return(
 
     <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+	<Toolbar
+	iconSet="MaterialCommunityIcons"
+		centerElement="Wachtwoord veranderen"
+		leftElement={("arrow-left")}
+		onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+	/>
       <View style={styles.container}>
         <View style={styles.card} elevation={5}>
-          <Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
-          Wachtwoord veranderen
+          <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
+		  Hier kun je je wachtwoord veranderen.
           </Text>
           <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-          <Text style={{marginTop: 10}}>
-            Hier kun je je wachtwoord veranderen.
-          </Text>
           <TextField
             textColor='green'
             tintColor='green'
