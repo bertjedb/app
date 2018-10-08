@@ -175,6 +175,8 @@ export const MyTabLoggedIn = TabNavigator({
 				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
+					shifting: false,
+
 				style: {
 					backgroundColor: 'white', elevation: 8,
 					position: 'absolute',
