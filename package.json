@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@ercpereda/react-native-accordion": "^2.0.6",
+    "base-64": "^0.1.0",
     "bcryptjs": "^2.4.3",
+    "capitalize": "^2.0.0",
     "crypto": "^1.0.1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
@@ -54,6 +56,8 @@
     "react-native-vector-icons": "^5.0.0",
     "react-native-video": "^3.2.1",
     "react-native-video-player": "^0.9.1",
+    "react-native-webview": "git+https://github.com/react-native-community/react-native-webview.git",
+    "react-native-webview-autoheight": "^1.0.5",
     "react-navigation": "^2.14.2",
     "react-navigation-material-bottom-tabs": "^0.4.0",
     "rn-fetch-blob": "^0.10.13"
