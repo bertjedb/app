@@ -12,7 +12,9 @@ import {
     Divider,
     ScrollView,
     Animated,
-    Dimensions, ListView
+    Dimensions,
+    ListView,
+    Button
 } from 'react-native';
 import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
@@ -31,7 +33,6 @@ import {
     getTheme,
     Toolbar,
     Card,
-    Button,
 	Subheader,
 	Drawer,
 	Checkbox
@@ -50,8 +51,12 @@ bottomSheet: BottomSheet
   constructor() {
       super();
 	  this.state = {
+<<<<<<< HEAD
       dataSource: null,
       adminArray: [],
+=======
+          dataSource: null,
+>>>>>>> upstream/master
 		  search: false,
 		  check1: true,
 		  check2: false,
@@ -63,14 +68,14 @@ bottomSheet: BottomSheet
 	  }
 
       let api = Api.getInstance()
-      api.callApi('api/getAllEvents', 'POST', {}, response => {
+      api.callApi('api/getAllNewsItems', 'GET', {}, response => {
           if(response['responseCode'] == 200) {
               console.log(response);
               let ds = new ListView.DataSource({
                   rowHasChanged: (r1, r2) => r1 !== r2
               });
               this.setState({
-                  dataSource: ds.cloneWithRows(response['events']),
+                  dataSource: ds.cloneWithRows(response['news']),
               });
               console.log(this.state);
           }
@@ -79,8 +84,11 @@ bottomSheet: BottomSheet
 
 
   componentDidMount() {
+      this.onLoad();
+      this.props.navigation.addListener('willFocus', this.onLoad)
 	  setTimeout(() => {
 		  this.setState({loading: false})
+<<<<<<< HEAD
 	  }, 5000);
   //  this.initFilterOptions(this.getAdmins())
     this.getAdmins()
@@ -103,6 +111,30 @@ bottomSheet: BottomSheet
   }
 
 
+=======
+	  }, 0);
+  }
+
+    onLoad = () => {
+        this.refresh();
+    }
+
+    refresh(){
+        let api = Api.getInstance()
+        api.callApi('api/getAllNewsItems', 'GET', {}, response => {
+            if(response['responseCode'] == 200) {
+                let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                this.setState({
+                    firstLoading: false,
+                    dataSource: ds.cloneWithRows(response['news']),
+                    uploading: false,
+                });
+            }
+        })
+    }
+>>>>>>> upstream/master
   showFilter() {
 	  this.bottomSheet.open()
     };
@@ -138,9 +170,9 @@ bottomSheet: BottomSheet
 
 
     return(
-		<View>
+		<View >
 			<Toolbar
-				centerElement={"Evenementen"}
+				centerElement={"Nieuws"}
 				searchable={{
 				  autoFocus: true,
 				  placeholder: 'Zoeken',
@@ -149,6 +181,7 @@ bottomSheet: BottomSheet
 				rightElement={("filter-list")}
 				onRightElementPress={()=> this.showFilter()}
 			/>
+<<<<<<< HEAD
 			
 			<ScrollView orientation="vertical">
 			{!this.state.loading &&
@@ -210,15 +243,135 @@ bottomSheet: BottomSheet
 				</View>
 				</ImageBackground>
 			}
+=======
+			<BottomSheet
+          ref={(ref: BottomSheet) => {
+            this.bottomSheet = ref
+          }}
+		  styleContainer={{paddingBottom: 120}}
+          backButtonEnabled={true}
+          coverScreen={false}
+          options={[
+            {
+              icon: (
+                <Text style={{fontWeight: 'bold'}}>Wijken</Text>
+              ),
+            },
+            {
+				icon: (
+                  <Checkbox label="Beijum" value="agree" onCheck={()=>this.setState({check1: !this.state.check1})} checked={this.state.check1} />
+                ),
+            },
+            {
+				icon: (
+                  <Checkbox label="Hoogkerk" value="agree" onCheck={()=>this.setState({check2: !this.state.check2})} checked={this.state.check2} />
+                ),
+              onPress: () => null
+            },
+            {
+				icon: (
+                  <Checkbox label="Ten Boer" value="agree" onCheck={()=>this.setState({check3: !this.state.check3})} checked={this.state.check3} />
+                ),
+              onPress: () => null
+            },
+            {
+				icon: (
+                  <Text style={{fontWeight: 'bold'}}>Begeleider</Text>
+                ),
+              onPress: () => null
+            },
+            {
+				icon: (
+                  <Checkbox label="Berend Baandrecht" value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
+                ),
+              onPress: () => null
+            },
+            {
+				icon: (
+                  <Checkbox label="Jaap Vos" value="agree" onCheck={()=>this.setState({check5: !this.state.check5})} checked={this.state.check5} />
+                ),
+              onPress: () => null
+            },
+            {
+				icon: (
+                  <Checkbox label="Karel Achterveld" value="agree" onCheck={()=>this.setState({check6: !this.state.check6})} checked={this.state.check6} />
+                ),
+              onPress: () => null
+            }
+          ]}
+          isOpen={false}
+        />
+
+				<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+                    {
+                this.state.dataSource != null &&
+                <ListView
+                    style={{marginBottom:150}}
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData) =>
+                        <View style={styles.container}>
+                            <View style={styles.card} elevation={5}>
+
+
+                                <View style={{
+                                    backgroundColor: 'white',
+                                    paddingBottom: 10,
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                }}>
+                                    <Image
+                                        source={{uri:rowData.url}}
+                                        resizeMode="cover"
+                                        style={{width: '100%', height: 200}}
+                                    />
+
+                                    <View style={{justifyContent:'center',alignItems: 'center',flex:1,flexDirection: 'column'}}>
+                                        <Text style={{margin: 5, fontWeight: 'bold', fontSize: 20, color: 'black'}}>
+                                            {rowData.title}
+                                        </Text>
+                                        <Text style={{marginBottom: 5, fontWeight: 'bold', fontSize: 16, color: 'black'}}>
+                                            {rowData.created}
+                                        </Text>
+                                    </View>
+
+                                    <Text numberOfLines={3} ellipsizeMode="tail"
+                                          style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>
+                                        {rowData.desc}
+                                    </Text>
+                                    <View style={{
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+
+                                    }}>
+                                    <View style={{ width: '100%',marginTop:10,}}>
+                                        <TouchableOpacity  style={{justifyContent:'center',alignItems: 'center',height: 30,
+                                            borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor:'#93D500'}}>
+                                            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>Delen</Text></TouchableOpacity>
+                                    </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </View >
+                    }
+                        />
+                    }
+				</ImageBackground >
+
+
+
+
+>>>>>>> upstream/master
 			{this.state.loading &&
 				<View style={{paddingBottom: 150, justifyContent: 'center', alignItems: 'center', widht: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
 				<Image  style = {{width: 350, height: 225}}
 							source = {require('../assets/logo.png')}
 							/>
 				<PacmanIndicator color='white' />
-				</View>
+				</View >
 			}
-			</ScrollView>
 		</View>
     );
   }
@@ -232,7 +385,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
   },
 	card: {
-		backgroundColor: '#FF6700',
+		backgroundColor: 'white',
 		margin: 10,
 		borderRadius: 10,
 		shadowOffset: {width: 0, height: 13},
