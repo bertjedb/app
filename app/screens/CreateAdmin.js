@@ -65,12 +65,13 @@ export default class CreateAdmin extends Component {
         biography: '',
 		    succesfull: false,
         pickedImage: DefaultUserImage,
-		emailError: '',
-		emailColor: 'green',
-		firstPasswordError: '',
-		firstPasswordColor: 'green',
-		secondPasswordError: '',
-		secondPasswordColor: 'green',
+		    emailError: '',
+		    emailColor: 'green',
+		    firstPasswordError: '',
+		    firstPasswordColor: 'green',
+		    secondPasswordError: '',
+		    secondPasswordColor: 'green',
+        img: ''
       };
   }
 
@@ -97,7 +98,6 @@ export default class CreateAdmin extends Component {
   }
 
   checkRegistration() {
-    console.log(this.state);
     // empty check
     if(this.state.firstName == "" ||
        this.state.lastName == "" ||
@@ -139,6 +139,7 @@ export default class CreateAdmin extends Component {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           biography: this.state.biography,
+          img: this.state.img
       }
       api.callApi('register-admin', 'POST', userData, response => {
           if(response['responseCode'] == 200){
@@ -156,7 +157,8 @@ export default class CreateAdmin extends Component {
 
   reset = () => {
     this.setState({
-      pickedImage: DefaultUserImage
+      pickedImage: DefaultUserImage,
+      img: ''
     });
   }
 
@@ -175,7 +177,11 @@ export default class CreateAdmin extends Component {
         this.setState({
           pickedImage: { uri: res.uri }
         });
-
+        ImgToBase64.getBase64String(this.state.pickedImage.uri).then((base64String) => {
+            this.setState({
+                img: base64String
+            });
+        });
       }
     });
   }
@@ -223,10 +229,10 @@ export default class CreateAdmin extends Component {
     return(
       <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 	  <Toolbar
-	  iconSet="MaterialCommunityIcons"
-		  centerElement="Nieuwe begeleider"
-		  leftElement={("arrow-left")}
-		  onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+            iconSet="MaterialCommunityIcons"
+            centerElement="Nieuwe begeleider"
+            leftElement={("arrow-left")}
+            onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
 	  />
         <ScrollView style={styles.container}>
           <View style={styles.card} elevation={5}>
@@ -240,12 +246,12 @@ export default class CreateAdmin extends Component {
               onPress={this.pickImageHandler}
             >
             <ImageBackground
-			blurRadius={3}
+                blurRadius={3}
                 style={styles.img}
 				imageStyle={{ borderRadius: 100 }}
                 source={this.state.pickedImage}
-                 >
-				 <View style={{justifyContent: 'center', alignItems:'center',borderRadius: 100, with: '100%', height: '100%', backgroundColor:'rgba(0,0,0,.3)'}}>
+            >
+				<View style={{justifyContent: 'center', alignItems:'center',borderRadius: 100, with: '100%', height: '100%', backgroundColor:'rgba(0,0,0,.3)'}}>
 			        <Icon size={35} name={ 'image-plus' } style={{ color: 'white' }} />
 			    </View>
 			</ImageBackground>
@@ -253,58 +259,58 @@ export default class CreateAdmin extends Component {
 			</View>
 
             <TextField
-              textColor='green'
-              tintColor='green'
-              baseColor='green'
-              label='Voornaam'
-              value={this.state.firstName}
-              onChangeText={ (firstName) => this.setState({ firstName }) }
+                textColor='green'
+                tintColor='green'
+                baseColor='green'
+                label='Voornaam'
+                value={this.state.firstName}
+                onChangeText={ (firstName) => this.setState({ firstName }) }
             />
             <TextField
-              textColor='green'
-              tintColor='green'
-              baseColor='green'
-              label='Achternaam'
-              value={this.state.lastName}
-              onChangeText={ (lastName) => this.setState({ lastName }) }
+                textColor='green'
+                tintColor='green'
+                baseColor='green'
+                label='Achternaam'
+                value={this.state.lastName}
+                onChangeText={ (lastName) => this.setState({ lastName }) }
             />
             <TextField
-              textColor={this.state.emailColor}
-              tintColor='green'
-              baseColor='green'
-			  error={this.state.emailError}
-              label='Email adres'
-              value={this.state.email}
-              onChangeText={ (email) => this.checkEmail(email)}
+                textColor={this.state.emailColor}
+                tintColor='green'
+                baseColor='green'
+                error={this.state.emailError}
+                label='Email adres'
+                value={this.state.email}
+                onChangeText={ (email) => this.checkEmail(email)}
             />
             <TextField
-			  textColor={this.state.firstPasswordError}
-              tintColor='green'
-              baseColor='green'
-			  error={this.state.firstPasswordError}
-              label='Wachtwoord'
-              secureTextEntry={true}
-              value={this.state.firstPassword}
-			  onChangeText={ (firstPassword) => this.checkFirstPassword(firstPassword) }
+			    textColor={this.state.firstPasswordError}
+                tintColor='green'
+                baseColor='green'
+                error={this.state.firstPasswordError}
+                label='Wachtwoord'
+                secureTextEntry={true}
+                value={this.state.firstPassword}
+                onChangeText={ (firstPassword) => this.checkFirstPassword(firstPassword) }
             />
             <TextField
-			  textColor={this.state.secondPasswordError}
-              tintColor='green'
-              baseColor='green'
-			  error={this.state.secondPasswordError}
-              label='Herhaal wachtwoord'
-              secureTextEntry={true}
-              value={this.state.secondPassword}
-              onChangeText={ (secondPassword) => this.checkSecondPassword(secondPassword) }
+                textColor={this.state.secondPasswordError}
+                tintColor='green'
+                baseColor='green'
+                error={this.state.secondPasswordError}
+                label='Herhaal wachtwoord'
+                secureTextEntry={true}
+                value={this.state.secondPassword}
+                onChangeText={ (secondPassword) => this.checkSecondPassword(secondPassword) }
             />
             <TextField
-              multiline={true}
-              textColor='green'
-              tintColor='green'
-              baseColor='green'
-              label='Biografie'
-              value={this.state.biography}
-              onChangeText={ (biography) => this.setState({ biography }) }
+                multiline={true}
+                textColor='green'
+                tintColor='green'
+                baseColor='green'
+                label='Biografie'
+                value={this.state.biography}
+                onChangeText={ (biography) => this.setState({ biography }) }
             />
             <Button
               style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
@@ -349,7 +355,7 @@ const styles = StyleSheet.create({
 
   placeholder: {
     borderWidth:1,
-	backgroundColor: 'rgba(0,0,0,.6)',
+	  backgroundColor: 'rgba(0,0,0,.6)',
     borderColor:'rgba(0,0,0,0.2)',
     width:100,
     height:100,
@@ -357,10 +363,12 @@ const styles = StyleSheet.create({
     marginTop:20,
   },
   img: {
+    borderWidth:1,
+    backgroundColor: 'rgba(0,0,0,.6)',
+    borderColor:'rgba(0,0,0,0.2)',
     width:100,
     height:100,
     borderRadius:100,
-    resizeMode: 'contain',
   },
   button: {
     flexDirection:"row",
