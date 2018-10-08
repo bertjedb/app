@@ -88,6 +88,8 @@ class Events extends Component {
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
             if(response['responseCode'] == 200) {
+				console.log(response);
+
                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -118,7 +120,7 @@ class Events extends Component {
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
- 	    backgroundColor: 'rgba(0,0,0,0)'}
+ 	    backgroundColor: 'rgba(0,0,0,0.3)'}
  	}
  }
 
@@ -168,11 +170,7 @@ class Events extends Component {
 		          }}>
 		          <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
 		            <View>
-		              <TouchableHighlight
-		                onPress={() => {
-		                  this.setModalVisible(!this.state.modalVisible);
-		                }}>
-		              </TouchableHighlight>
+
 		            </View>
 		          </View>
 		        </Modal>
@@ -193,10 +191,11 @@ class Events extends Component {
                            <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
-                                        <Image
-                                            source={{uri: 'data:image/jpg;base64,' + rowData.photo[0]}}
-                                            style={{width: 50, height: 50, borderRadius: 10}}
-                                        />
+									<Image
+										source={{uri: rowData.photo[0]}}
+										resizeMode="cover"
+										style={{width: 50, height: 50, borderRadius: 10}}
+									/>
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
                                             <Text
 											style={{
@@ -219,7 +218,7 @@ class Events extends Component {
                                         borderBottomRightRadius: 10,
                                     }}>
                                         <Image
-                                            source={{uri: 'data:image/jpg;base64,' + rowData.img}}
+                                            source={{uri: rowData.img}}
                                             resizeMode="cover"
                                             style={{width: '100%', height: 200}}
                                         />

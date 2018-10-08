@@ -56,6 +56,30 @@ export default class MakeEvent extends Component {
       });
   }
 
+  createWPEvent(){
+	  fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/create-post", {
+		  method: 'POST',
+		  headers: new Headers({
+			  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+		    }),
+			body: JSON.stringify({
+            title: this.state.name,
+            content: '<p>' + this.state.desc + '</p><img src="data:image/png;base64,' + this.state.img + '" alt="Image" />',
+            start: this.state.begin,
+            end: this.state.end,
+         }) // <-- Post parameters
+		})
+		.then((response) => response.text())
+		.then((responseText) => {
+		  alert(responseText);
+		  console.log(this.state.img);
+		})
+		.catch((error) => {
+		    console.error(error);
+		});
+  }
+
   createEvent() {
   	if(this.state.name != '' &&
   	   this.state.begin != '' &&
@@ -63,6 +87,7 @@ export default class MakeEvent extends Component {
   	   this.state.loc != '' &&
   	   this.state.desc != '' &&
        this.state.pickedImage.uri != '') {
+		   this.createWPEvent();
   			let localStorage = LocalStorage.getInstance();
   			let points = localStorage.retrieveItem('userId').then((id) => {
   			if(id != null) {
@@ -100,7 +125,7 @@ export default class MakeEvent extends Component {
   	} else {
   		this.errorMessage("Vul alle velden in aub")
   	}
-  	
+
   }
 
   handleBegin(dateTime) {
@@ -110,7 +135,7 @@ export default class MakeEvent extends Component {
   	}
   	dateString = dateTime.getDate().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getFullYear().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
-  				 
+
   	dateToSend =  dateTime.getFullYear().toString() + "-" + (dateTime.getMonth() + 1).toString() + "-" + dateTime.getDate().toString() + " " +
   				 dateTime.getHours().toString() + ":" + minutes;
   	this.setState({begin: dateToSend, beginText: dateString});
@@ -135,8 +160,9 @@ export default class MakeEvent extends Component {
   	this.setState({showBegin: false, showEnd: false});
   }
 
+
   pickImageHandler = () => {
-    ImagePicker.showImagePicker({title: "Pick an Image", maxWidth: 800, maxHeight: 600}, res => {
+    ImagePicker.showImagePicker({title: "Pick an Image", maxWidth: 500, maxHeight: 500}, res => {
       if (res.didCancel) {
         console.log("User cancelled!");
       } else if (res.error) {
@@ -147,6 +173,8 @@ export default class MakeEvent extends Component {
             imgPicked: true,
         });
         ImgToBase64.getBase64String(this.state.pickedImage.uri).then((base64String) => {
+			console.log("IMAGE:");
+			console.log(base64String);
             this.setState({
                 img: base64String
             });
@@ -174,7 +202,7 @@ export default class MakeEvent extends Component {
           						value={ this.state.name }
           						onChangeText={ name => this.setState({name}) }
 							/>
-							
+
 							<TouchableOpacity style={styles.datePick} onPress={() => this.setState({showBegin: true})}>
 								<Text>
 									Start: {this.state.beginText}
@@ -209,7 +237,7 @@ export default class MakeEvent extends Component {
           						value={ this.state.loc }
           						onChangeText={ loc => this.setState({loc}) }
 							/>
-				
+
 							<TextField
 								textColor='green'
              					tintColor='green'
@@ -230,7 +258,7 @@ export default class MakeEvent extends Component {
                             />
                             </TouchableOpacity>
 
-                            
+
 
                             <Button
             					style={{container: styles.defaultBtn, text: {color: 'white'}}}
