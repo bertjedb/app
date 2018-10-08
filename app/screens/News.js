@@ -12,7 +12,9 @@ import {
     Divider,
     ScrollView,
     Animated,
-    Dimensions, ListView
+    Dimensions,
+    ListView,
+    Button
 } from 'react-native';
 import { DrawerActions, NavigationActions } from 'react-navigation';
 import UserInput from './UserInput';
@@ -31,7 +33,6 @@ import {
     getTheme,
     Toolbar,
     Card,
-    Button,
 	Subheader,
 	Drawer,
 	Checkbox
@@ -48,6 +49,7 @@ bottomSheet: BottomSheet
   constructor() {
       super();
 	  this.state = {
+          dataSource: null,
 		  search: false,
 		  check1: true,
 		  check2: false,
@@ -59,14 +61,14 @@ bottomSheet: BottomSheet
 	  }
 
       let api = Api.getInstance()
-      api.callApi('api/getAllEvents', 'POST', {}, response => {
+      api.callApi('api/getAllNewsItems', 'GET', {}, response => {
           if(response['responseCode'] == 200) {
               console.log(response);
               let ds = new ListView.DataSource({
                   rowHasChanged: (r1, r2) => r1 !== r2
               });
               this.setState({
-                  dataSource: ds.cloneWithRows(response['events']),
+                  dataSource: ds.cloneWithRows(response['news']),
               });
               console.log(this.state);
           }
@@ -74,20 +76,41 @@ bottomSheet: BottomSheet
   }
 
   componentDidMount() {
+      this.onLoad();
+      this.props.navigation.addListener('willFocus', this.onLoad)
 	  setTimeout(() => {
 		  this.setState({loading: false})
-	  }, 5000);
+	  }, 0);
   }
 
+    onLoad = () => {
+        this.refresh();
+    }
+
+    refresh(){
+        let api = Api.getInstance()
+        api.callApi('api/getAllNewsItems', 'GET', {}, response => {
+            if(response['responseCode'] == 200) {
+                let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                this.setState({
+                    firstLoading: false,
+                    dataSource: ds.cloneWithRows(response['news']),
+                    uploading: false,
+                });
+            }
+        })
+    }
   showFilter() {
 	  this.bottomSheet.open()
     };
 
   render() {
     return(
-		<View>
+		<View >
 			<Toolbar
-				centerElement={"Evenementen"}
+				centerElement={"Nieuws"}
 				searchable={{
 				  autoFocus: true,
 				  placeholder: 'Zoeken',
@@ -153,75 +176,76 @@ bottomSheet: BottomSheet
           ]}
           isOpen={false}
         />
-			<ScrollView orientation="vertical">
-			{!this.state.loading &&
+
 				<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-				<View style={styles.container}>
-					<View style={styles.card} elevation={5}>
-					 	<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: 'white'}}>
-						Basketbal
-						</Text>
-						<View style={{backgroundColor: 'white', paddingBottom: 25, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-							<Image
-							source={require('../assets/basketbal_kids_bslim.jpg')}
-								resizeMode="cover"
-								style={{width: '100%', height: 200}}
-							/>
-							<Text style={{margin: 15, fontSize: 14, color: 'grey'}}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat lacinia ex sit amet mollis. Ut dignissim dictum ligula, vitae luctus urna commodo eget. Fusce ultricies urna sodales, fringilla dolor quis, lacinia augue. Curabitur et dui porta, dapibus nunc vitae, imperdiet est. Morbi bibendum risus augue, sed elementum felis lacinia et. Nunc fringilla nulla vel arcu condimentum, at sollicitudin ante sollicitudin. Mauris porta lacus ac nisl sodales scelerisque.
-							</Text>
-							<Button
-								primary
-								text="Meer"
-								style={{
-      						container: {
-										position: "absolute", bottom: 5, right: 5
-									}
-								}}
-                                onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
-    								routeName: 'EventStack',
-    								action: NavigationActions.navigate({ routeName: 'EventDetail' })
-    								})
-    							)}/>
-						</View>
-					</View>
-				</View>
-				<View style={styles.container}>
-					<View style={styles.card} elevation={5}>
-					 	<Text style={{margin: 15, fontWeight: 'bold', fontSize: 16, color: 'white'}}>
-						Klimmen
-						</Text>
-						<View style={{backgroundColor: 'white', paddingBottom: 25, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-							<Image
-							source={require('../assets/klimmen_kids_bslim.jpg')}
-								style={{width: '100%', height: 200}}
-								resizeMode="cover"
-							/>
-							<Text style={{margin: 15, fontSize: 14, color: 'grey'}}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat lacinia ex sit amet mollis. Ut dignissim dictum ligula, vitae luctus urna commodo eget. Fusce ultricies urna sodales, fringilla dolor quis, lacinia augue. Curabitur et dui porta, dapibus nunc vitae, imperdiet est. Morbi bibendum risus augue, sed elementum felis lacinia et. Nunc fringilla nulla vel arcu condimentum, at sollicitudin ante sollicitudin. Mauris porta lacus ac nisl sodales scelerisque.
-							</Text>
-							<Button
-								primary
-								text="Meer"
-								style={{
-      						container: {
-										position: "absolute", bottom: 5, right: 5
-									}
-								}}/>
-						</View>
-					</View>
-				</View>
-				</ImageBackground>
-			}
+                    {
+                this.state.dataSource != null &&
+                <ListView
+                    style={{marginBottom:150}}
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData) =>
+                        <View style={styles.container}>
+                            <View style={styles.card} elevation={5}>
+
+
+                                <View style={{
+                                    backgroundColor: 'white',
+                                    paddingBottom: 10,
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                }}>
+                                    <Image
+                                        source={{uri:rowData.url}}
+                                        resizeMode="cover"
+                                        style={{width: '100%', height: 200}}
+                                    />
+
+                                    <View style={{justifyContent:'center',alignItems: 'center',flex:1,flexDirection: 'column'}}>
+                                        <Text style={{margin: 5, fontWeight: 'bold', fontSize: 20, color: 'black'}}>
+                                            {rowData.title}
+                                        </Text>
+                                        <Text style={{marginBottom: 5, fontWeight: 'bold', fontSize: 16, color: 'black'}}>
+                                            {rowData.created}
+                                        </Text>
+                                    </View>
+
+                                    <Text numberOfLines={3} ellipsizeMode="tail"
+                                          style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>
+                                        {rowData.desc}
+                                    </Text>
+                                    <View style={{
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+
+                                    }}>
+                                    <View style={{ width: '100%',marginTop:10,}}>
+                                        <TouchableOpacity  style={{justifyContent:'center',alignItems: 'center',height: 30,
+                                            borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor:'#93D500'}}>
+                                            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>Delen</Text></TouchableOpacity>
+                                    </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </View >
+                    }
+                        />
+                    }
+				</ImageBackground >
+
+
+
+
 			{this.state.loading &&
 				<View style={{paddingBottom: 150, justifyContent: 'center', alignItems: 'center', widht: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
 				<Image  style = {{width: 350, height: 225}}
 							source = {require('../assets/logo.png')}
 							/>
 				<PacmanIndicator color='white' />
-				</View>
+				</View >
 			}
-			</ScrollView>
 		</View>
     );
   }
@@ -235,7 +259,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
   },
 	card: {
-		backgroundColor: '#FF6700',
+		backgroundColor: 'white',
 		margin: 10,
 		borderRadius: 10,
 		shadowOffset: {width: 0, height: 13},
