@@ -53,6 +53,7 @@ class Events extends Component {
             eventArray: [],
 			modalVisible: false,
         };
+		
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
             if(response['responseCode'] == 200) {
