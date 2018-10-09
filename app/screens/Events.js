@@ -87,6 +87,10 @@ class Events extends Component {
     refresh(){
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
+			this.setState({
+				refreshing: false
+			});
+
             if(response['responseCode'] == 200) {
 				console.log(response);
 
@@ -97,7 +101,6 @@ class Events extends Component {
                     firstLoading: false,
                     dataSource: ds.cloneWithRows(response['events']),
                     uploading: false,
-					refreshing: false
                 });
             }
             })

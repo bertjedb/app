@@ -65,7 +65,7 @@ export default class MakeEvent extends Component {
 		    }),
 			body: JSON.stringify({
             title: this.state.name,
-            content: '<p>' + this.state.desc + '</p><img src="data:image/png;base64,' + this.state.img + '" alt="Image" />',
+            content: '<p>' + this.state.desc + '</p><img src="' + this.state.img + '" alt="Image" />',
             start: this.state.begin,
             end: this.state.end,
          }) // <-- Post parameters
@@ -87,7 +87,60 @@ export default class MakeEvent extends Component {
   	   this.state.loc != '' &&
   	   this.state.desc != '' &&
        this.state.pickedImage.uri != '') {
-		   this.createWPEvent();
+		   RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
+				   //// TODO: Real authorization instead of hardcoded base64 username:password
+				   'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
+				   'Content-Type': + 'image/jpeg',
+				   'Content-Disposition': 'attachment; filename=hoi.jpg',
+				   // here's the body you're going to send, should be a BASE64 encoded string
+				   // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+				   // The data will be converted to "byte array"(say, blob) before request sent.
+			   }, RNFetchBlob.wrap(this.state.pickedImage.uri))
+			   .then((res) => res.json())
+   			.then(responseJson => {
+				this.setState({img: responseJson['guid']['raw']})
+				this.createWPEvent();
+				let localStorage = LocalStorage.getInstance();
+	  			let points = localStorage.retrieveItem('userId').then((id) => {
+	  			if(id != null) {
+	  				let userData = {
+	  					name: this.state.name,
+	  					begin: this.state.begin,
+	  					end: this.state.end,
+	  					location: this.state.loc,
+	  					description: this.state.desc,
+	  					leader: id,
+	                    img: this.state.img
+	  				}
+	                let api = Api.getInstance();
+	  				api.callApi('api/createEvent', 'POST', userData, response => {
+	        		    if(response['responseCode'] == 200) {
+	                        this.setState({
+	                            name: '',
+	                            loc: '',
+	                            begin: '',
+	                            end: '',
+	                            desc: '',
+	                            beginText: '',
+	                            endText: '',
+	                            pickedImage: { uri: '' },
+	                            img: ''
+	                        });
+	                        this.successMessage("Er is een nieuw evenement aangemaakt!");
+	        		    } else {
+	                        console.log(response);
+	        		    	this.errorMessage("Er is wat fout gegaan");
+	        		    }
+	        		});
+
+	            }});
+			})
+
+   			.catch((error) => {
+   				callBack(error);
+   			})
+		   //this.createWPEvent();
+		   /*
   			let localStorage = LocalStorage.getInstance();
   			let points = localStorage.retrieveItem('userId').then((id) => {
   			if(id != null) {
@@ -122,6 +175,7 @@ export default class MakeEvent extends Component {
         		});
 
             }});
+			*/
   	} else {
   		this.errorMessage("Vul alle velden in aub")
   	}
