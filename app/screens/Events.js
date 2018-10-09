@@ -154,7 +154,7 @@ class Events extends Component {
 
     render() {
         return(
-            <ImageBackground  blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+            <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: '100%', height: '100%'}}>
                 <Toolbar
                     centerElement={"Evenementen"}
                     searchable={{
@@ -199,7 +199,7 @@ class Events extends Component {
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
-										source={{uri: rowData.photo['profilePhoto']}}
+										source={{uri: rowData.photo[0]}}
 										resizeMode="cover"
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
@@ -210,7 +210,7 @@ class Events extends Component {
                                                 fontSize: 18,
                                                 color: 'black'
                                             }}>
-                                                {capitalize.words(rowData.leader[0]['firstname']) + ' ' + capitalize.words(rowData.leader[2]['lastname'])}
+                                                {capitalize.words(rowData.leader[0][0]) + ' ' + capitalize.words(rowData.leader[2][0])}
                                             </Text>
                                             <Text style={{fontSize: 14, color: 'black'}}>
                                                 {rowData.created}

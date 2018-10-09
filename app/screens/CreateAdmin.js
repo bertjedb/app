@@ -36,6 +36,7 @@ import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
 import DefaultUserImage from '../assets/default-user-image.png';
+import ImgToBase64 from 'react-native-image-base64';
 
 
 const uiTheme = {
@@ -132,6 +133,43 @@ export default class CreateAdmin extends Component {
     // if registration is succesfull
     else {
       let api = Api.getInstance();
+	  RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
+			  //// TODO: Real authorization instead of hardcoded base64 username:password
+			  'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
+			  'Content-Type': + 'image/jpeg',
+			  'Content-Disposition': 'attachment; filename=hoi.jpg',
+			  // here's the body you're going to send, should be a BASE64 encoded string
+			  // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+			  // The data will be converted to "byte array"(say, blob) before request sent.
+		  }, RNFetchBlob.wrap(this.state.pickedImage.uri))
+		  .then((res) => res.json())
+	   .then(responseJson => {
+		   sha256(this.state.firstPassword).then( hash => {
+	         let userData = {
+	           email: this.state.email,
+	           password: hash,
+	           firstName: this.state.firstName,
+	           lastName: this.state.lastName,
+	           biography: this.state.biography,
+	           img: responseJson['guid']['raw']
+	       }
+		   api.callApi('register-admin', 'POST', userData, response => {
+	           if(response['responseCode'] == 200){
+	             this.setState({
+	               succesfull: true,
+	             })
+	             this.props.navigation.dispatch(NavigationActions.back());
+	           } else {
+	             alert(response['responseCode']['message'])
+	           }
+	         })
+	       })
+	   })
+
+	   .catch((error) => {
+		   callBack(error);
+	   })
+	   /*
       sha256(this.state.firstPassword).then( hash => {
         let userData = {
           email: this.state.email,
@@ -152,6 +190,7 @@ export default class CreateAdmin extends Component {
           }
         })
       })
+	  */
     }
   }
 
