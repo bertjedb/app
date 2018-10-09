@@ -27,6 +27,7 @@ import { TextField } from 'react-native-material-textfield';
 import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
 import Modal from "react-native-modal";
+import HTML from 'react-native-render-html';
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
@@ -246,7 +247,7 @@ class Events extends Component {
                                                         textAlign: 'center',
                                                         marginTop: 5
                                                     }}>
-                                                        {new Date(rowData.begin).getDay()}
+                                                        {new Date(rowData.begin).getDate()}
                                                     </Text>
                                                     <Text style={{
                                                         fontWeight: 'bold',
@@ -268,9 +269,8 @@ class Events extends Component {
                                                 <Text style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
 												{capitalize.words(rowData.name.toString().replace(', ,', ' '))}
                                                 </Text>
-                                                <Text numberOfLines={4} ellipsizeMode="tail" style={{fontSize: 12}}>
-                                                    {rowData.desc}
-                                                </Text>
+												<HTML tagsStyles={{ p: { textAlign: 'left', color: 'grey' } }} onLinkPress={(evt, href) => { Linking.openURL(href); }} ignoredTags={['img']} html={rowData.desc} imagesMaxWidth={Dimensions.get('window').width } />
+
                                             </View>
                                         </View>
 
@@ -287,7 +287,7 @@ class Events extends Component {
 											title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
 											profilePicture: rowData.photo[0],
 											content: rowData.desc,
-											start: rowData.begin + ' ' + rowData.beginMonth,
+											start: rowData.begin,
 											end: rowData.end,
 											created: rowData.created,
 											author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),

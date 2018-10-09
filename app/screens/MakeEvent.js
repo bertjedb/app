@@ -100,6 +100,7 @@ export default class MakeEvent extends Component {
    			.then(responseJson => {
 				this.setState({img: responseJson['guid']['raw']})
 				this.createWPEvent();
+				/*
 				let localStorage = LocalStorage.getInstance();
 	  			let points = localStorage.retrieveItem('userId').then((id) => {
 	  			if(id != null) {
@@ -134,6 +135,7 @@ export default class MakeEvent extends Component {
 	        		});
 
 	            }});
+				*/
 			})
 
    			.catch((error) => {
@@ -300,7 +302,7 @@ export default class MakeEvent extends Component {
           						value={ this.state.desc }
           						multiline={true}
           						numberOfLines={6}
-          						onChangeText={ desc => this.setState({desc.replace('\n', '<br>')}) }
+          						onChangeText={ desc => this.setState({desc}) }
 							/>
                             <TouchableOpacity
                                 style={styles.imgSel}

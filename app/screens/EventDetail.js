@@ -32,6 +32,7 @@ import ConfettiView from 'react-native-confetti-view';
 import CardFlip from 'react-native-card-flip';
 
 import Api from '../config/api.js';
+import Maps from '../config/maps.js';
 
 import LocalStorage from '../config/localStorage.js';
 
@@ -56,6 +57,7 @@ const MapHtml = require('../assets/mapHTML.html');
 class EventDetail extends Component {
 
 
+
 constructor() {
   super();
   this.state = {
@@ -66,7 +68,7 @@ constructor() {
 	  start: '',
 	  end: '',
 	  author: '',
-	  loading: true,
+	  loading: false,
 	  deelnemer: false,
 	  scroll: true,
   }
@@ -87,7 +89,6 @@ constructor() {
 		content: response['desc'],
 		url: response['link'],
 		date: days[new Date(response['begin']).getDay()] + ' ' + new Date(response['begin']).getDay() + ' ' + months[new Date(response['begin']).getMonth()] + ' ' + new Date(response['begin']).getFullYear(),
-		time: ('0'+new Date(response['begin']).getHours()).slice(-2) + ':' + ('0'+new Date(response['begin']).getMinutes()).slice(-2) + ' tot ' + ('0'+new Date(response['end']).getHours()).slice(-2) + ':' + ('0'+new Date(response['end']).getMinutes()).slice(-2),
 		author: response['leader'],
 		img: response['img'],
 		lat: response['latitude'],
@@ -103,6 +104,8 @@ constructor() {
 
 
   render() {
+	  let map = Maps.getInstance()
+	  console.log(map.getMap('peizerweg 48'))
 	  const { navigation } = this.props;
 
 	  const title = navigation.getParam('title', '');
@@ -186,7 +189,7 @@ constructor() {
 
 				<View  style={{width: '100%', height: 200}}>
 				<MyWebView
-				  source={MapHtml}
+				source={{html: map.getMap(location)}}
 				  style={{flex: 1, width: '100%', height: 200}}
 				 />
 				</View>
