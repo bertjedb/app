@@ -44,6 +44,9 @@ const uiTheme = {
     },
 };
 
+let months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+
+
 class Events extends Component {
 
     constructor() {
@@ -134,7 +137,7 @@ class Events extends Component {
     }
     api.callApi('api/searchEvent', 'POST', userData, response => {
         if(response['responseCode'] == 200) {
-                console.log(response);
+                console.log(response['events']);
               let ds = new ListView.DataSource({
                   rowHasChanged: (r1, r2) => r1 !== r2
               });
@@ -195,7 +198,7 @@ class Events extends Component {
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
-										source={{uri: rowData.photo[0]}}
+										source={{uri: rowData.photo['profilePhoto']}}
 										resizeMode="cover"
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
@@ -206,7 +209,7 @@ class Events extends Component {
                                                 fontSize: 18,
                                                 color: 'black'
                                             }}>
-                                                {capitalize.words(rowData.leader.toString().replace(', ,', ' '))}
+                                                {capitalize.words(rowData.leader[0]['firstname']) + ' ' + capitalize.words(rowData.leader[2]['lastname'])}
                                             </Text>
                                             <Text style={{fontSize: 14, color: 'black'}}>
                                                 {rowData.created}
@@ -243,7 +246,7 @@ class Events extends Component {
                                                         textAlign: 'center',
                                                         marginTop: 5
                                                     }}>
-                                                        {rowData.begin}
+                                                        {new Date(rowData.begin).getDay()}
                                                     </Text>
                                                     <Text style={{
                                                         fontWeight: 'bold',
@@ -251,7 +254,7 @@ class Events extends Component {
                                                         color: 'white',
                                                         textAlign: 'center'
                                                     }}>
-                                                        {rowData.beginMonth}
+                                                        {months[new Date(rowData.begin).getMonth()]}
                                                     </Text>
                                                 </View>
 
