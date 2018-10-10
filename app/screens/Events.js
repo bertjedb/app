@@ -28,6 +28,7 @@ import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'rea
 import stylesCss from '../assets/css/style.js';
 import Modal from "react-native-modal";
 import HTML from 'react-native-render-html';
+import {BarIndicator} from 'react-native-indicators';
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
@@ -58,7 +59,9 @@ class Events extends Component {
             eventArray: [],
 			modalVisible: false,
 			refreshing: false,
-            search: ''
+            search: '',
+			loading: true,
+
         };
 
         let api = Api.getInstance()
@@ -68,6 +71,7 @@ class Events extends Component {
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
                 this.setState({
+					uploading: false,
                     dataSource: ds.cloneWithRows(response['events']),
                 });
             }
@@ -92,7 +96,7 @@ class Events extends Component {
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
 			this.setState({
-				refreshing: false
+				loading: false
 			});
 
             if(response['responseCode'] == 200) {
@@ -127,7 +131,7 @@ class Events extends Component {
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
- 	    backgroundColor: 'rgba(0,0,0,0.3)'}
+ 	    backgroundColor: 'rgba(0,0,0,0.5)'}
  	}
  }
 
@@ -167,6 +171,13 @@ class Events extends Component {
                     onRightElementPress={()=> this.showFilter()}
                 />
 				<View style={this.getBackgroundModal()}>
+
+				{this.state.loading &&
+					<BarIndicator color='white' />
+
+				}
+				{!this.state.loading &&
+				<View >
 				<Modal
 		          animationType="slide"
 				  style={{margin: 0, marginTop: 120}}
@@ -316,6 +327,8 @@ class Events extends Component {
                     />
                 }
 				</View>
+			}
+			</View>
             </ImageBackground>
 
 

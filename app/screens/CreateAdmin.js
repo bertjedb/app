@@ -58,6 +58,9 @@ export default class CreateAdmin extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
+		  wordpress: true,
+		  wpUsername: '',
+		  wpPassword: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -89,6 +92,37 @@ export default class CreateAdmin extends Component {
 			});
 		}
 	}
+
+  wordpressLogin(){
+	  data = {
+		  username:this.state.wpUsername,
+	  	password:this.state.wpPassword
+	};
+	  	  fetch('http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate', {
+		  method: 'POST',
+		  headers: {
+			  'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({data})
+	  }).then((response) => response.json())
+	  .then(responseJson => {
+		  console.log(responseJson)
+		  console.log(JSON.stringify({data}))
+		  this.setState({
+			  firstName: responseJson['data']['display_name'].substr(0,responseJson['data']['display_name'].indexOf(' ')),
+	          lastName: responseJson['data']['display_name'].substr(responseJson['data']['display_name'].indexOf(' ')+1),
+	          email: responseJson['data']['user_email'],
+	          firstPassword: this.state.wpPassword,
+	          secondPassword: this.state.wpPassword,
+	          biography: '',
+			  wordpress: false
+		  })
+	  })
+	  .catch((error) => {
+		  console.log(error);
+	  })
+
+  }
 
   errorMessage(msg){
     showMessage({
@@ -145,15 +179,18 @@ export default class CreateAdmin extends Component {
 		  .then((res) => res.json())
 	   .then(responseJson => {
 		   sha256(this.state.firstPassword).then( hash => {
+			   console.log(responseJson['guid']['raw'])
 	         let userData = {
 	           email: this.state.email,
 	           password: hash,
 	           firstName: this.state.firstName,
 	           lastName: this.state.lastName,
 	           biography: this.state.biography,
-	           img: responseJson['guid']['raw']
+	           img: responseJson['guid']['raw'],
+			   wordpresskey: 'YWRtaW46YnNsaW1faGFuemUh'
 	       }
 		   api.callApi('register-admin', 'POST', userData, response => {
+			   console.log(response)
 	           if(response['responseCode'] == 200){
 	             this.setState({
 	               succesfull: true,
@@ -274,6 +311,51 @@ export default class CreateAdmin extends Component {
             onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
 	  />
         <ScrollView style={styles.container}>
+		{this.state.wordpress &&
+		<View onPress={() => this.wordpressLogin()} style={{backgroundColor: '#028cb0', borderRadius: 10, flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
+		<View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
+			<View style={{flex: 1, flexDirection: 'row', alignItems:'center'}}>
+			<Icon size={48} name={ 'wordpress' } style={{padding: 5, color: 'white' }} />
+
+				<Text
+				style={{
+					fontWeight: 'bold',
+					fontSize: 18,
+					color: 'white'
+				}}>
+					{'Login op wordpress'}
+				</Text>
+			</View>
+			<View style={{marginLeft: 10, marginRight: 20, marginBottom: 20}}>
+			<TextField
+				multiline={true}
+				textColor='white'
+				tintColor='white'
+				baseColor='white'
+				label='Gebruikersnaam'
+				value={this.state.wpUsername}
+				onChangeText={ (wpUsername) => this.setState({ wpUsername }) }
+			/>
+			<TextField
+				multiline={true}
+				textColor='white'
+				tintColor='white'
+				baseColor='white'
+				label='Wachtwoord'
+				secureTextEntry={true}
+				value={this.state.wpPassword}
+				onChangeText={ (wpPassword) => this.setState({ wpPassword }) }
+			/>
+			<Button
+			  style={{container: {marginTop: 10, backgroundColor: 'white'}, text: {color: '#028cb0'}}}
+			  raised text="Doorgaan"
+			  onPress={() => this.wordpressLogin()}
+			/>
+			</View>
+			</View>
+			</View>
+		}
+		{!this.state.wordpress &&
           <View style={styles.card} elevation={5}>
             <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
             Hier kun je een nieuw begeleider account aanmaken.
@@ -296,7 +378,6 @@ export default class CreateAdmin extends Component {
 			</ImageBackground>
             </TouchableOpacity>
 			</View>
-
             <TextField
                 textColor='green'
                 tintColor='green'
@@ -342,7 +423,7 @@ export default class CreateAdmin extends Component {
                 value={this.state.secondPassword}
                 onChangeText={ (secondPassword) => this.checkSecondPassword(secondPassword) }
             />
-            <TextField
+			<TextField
                 multiline={true}
                 textColor='green'
                 tintColor='green'
@@ -351,13 +432,15 @@ export default class CreateAdmin extends Component {
                 value={this.state.biography}
                 onChangeText={ (biography) => this.setState({ biography }) }
             />
-            <Button
+			<Button
               style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
               raised text="Doorgaan"
               onPress={() => this.checkRegistration()}
             />
+
           </View>
         </View>
+	}
       </ScrollView>
       <FlashMessage position="top" />
       </ImageBackground>

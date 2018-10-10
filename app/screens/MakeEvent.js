@@ -81,6 +81,14 @@ export default class MakeEvent extends Component {
   }
 
   createEvent() {
+	  let api = Api.getInstance();
+	  let localStorage = LocalStorage.getInstance();
+	  localStorage.retrieveItem('wordpresskey').then((goals) => {
+		this.setState({wordpresskey: goals})
+		}).catch((error) => {
+		  //this callback is executed when your Promise is rejected
+		  console.log('Promise is rejected with error: ' + error);
+		});
   	if(this.state.name != '' &&
   	   this.state.begin != '' &&
   	   this.state.end != '' &&
