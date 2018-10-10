@@ -197,6 +197,7 @@ class Events extends Component {
                            <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
 
+
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
 										source={{uri: rowData.photo['profilePhoto']}}
@@ -204,6 +205,7 @@ class Events extends Component {
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
+
 
                                             <Text
 											style={{
