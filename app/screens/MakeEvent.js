@@ -121,7 +121,7 @@ export default class MakeEvent extends Component {
 	  					location: this.state.loc,
 	  					description: this.state.desc,
 	  					leader: id,
-	                    img: this.state.img
+	            img: this.state.img
 	  				}
 	                let api = Api.getInstance();
 	  				api.callApi('api/createEvent', 'POST', userData, response => {

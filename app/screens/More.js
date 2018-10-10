@@ -39,10 +39,6 @@ export default class More extends Component {
       this.props.navigation.dispatch(navigate);
     }
 
-
-
-
-
   render () {
         let api = Api.getInstance();
         let localStorage = LocalStorage.getInstance();
@@ -158,14 +154,24 @@ export default class More extends Component {
 				  key: '7',
                   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                          routeName: 'AdminStack',
-                         action: NavigationActions.navigate({ routeName: 'CreateEvent' })
+                         action: NavigationActions.navigate({ routeName: 'MakeEvent' })
+                      })
+                    )
+                 },
+                 {
+                  icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+                  value: 'Nieuw artikel aanmaken',
+				  key: '8',
+                  onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                         routeName: 'AdminStack',
+                         action: NavigationActions.navigate({ routeName: 'MakeNewsItem' })
                       })
                     )
                  },
                  {
                   icon: <Icon size={25} name={ 'account-plus' } style={{ color: 'grey' }} />,
                   value: 'Beheerder account aanmaken',
-				  key: '8',
+				  key: '9',
                   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                         routeName: 'AdminStack',
                         action: NavigationActions.navigate({ routeName: 'CreateAdmin' })
@@ -175,7 +181,7 @@ export default class More extends Component {
 				 {
 				   icon: 'people',
 				   value: 'Deelnemers',
-				   key: '9',
+				   key: '10',
 				   onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
 						 routeName: 'ParticipantListStack',
 						 action: NavigationActions.navigate({ routeName: 'ParticipantList' })
@@ -185,7 +191,7 @@ export default class More extends Component {
                  {
                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
                    value: 'Wachtwoord veranderen',
-				   key: '10',
+				   key: '11',
                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                          routeName: 'LoginStack',
                          action: NavigationActions.navigate({ routeName: 'ChangePassword' })
@@ -195,7 +201,7 @@ export default class More extends Component {
                  {
                    icon: 'power-settings-new',
                    value: 'Uitloggen',
-				   key: '11',
+				   key: '12',
                    onPress: () =>
                      api.callApi('logout', 'POST', {
                          id: this.state.userId,
