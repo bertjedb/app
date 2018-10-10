@@ -22,6 +22,7 @@ import Api from './api.js';
 import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
+import MakeNewsItem from '../screens/MakeNewsItem';
 import CreateAdmin from '../screens/CreateAdmin';
 import EventDetail from '../screens/EventDetail';
 import Events from '../screens/Events';
@@ -175,6 +176,26 @@ export const AdminStack = StackNavigator({
 	    },
 		}
 	},
+  MakeNewsItem: {
+    screen: MakeEvent,
+    navigationOptions: {
+      title: 'Nieuw artikel',
+      header: props => <GradientHeader {...props} />,
+      headerStyle: {
+          backgroundColor: 'transparent',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  },
+
 	CreateAdmin: {
 		screen: CreateAdmin,
 		navigationOptions: {

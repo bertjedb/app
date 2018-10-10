@@ -79,12 +79,12 @@ bottomSheet: BottomSheet;
               console.log(this.state);
           }
       });
-      this.getAdmins();
+    //  this.getAdmins();
   }
 
 
   componentDidMount() {
-      this.getAdmins();
+      //this.getAdmins();
       this.onLoad();
       this.props.navigation.addListener('willFocus', this.onLoad)
   	  setTimeout(() => {

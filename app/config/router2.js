@@ -24,6 +24,7 @@ import Api from './api.js';
 import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
+import MakeNewsItem from '../screens/MakeNewsItem';
 import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 
@@ -72,6 +73,12 @@ export const AdminStack = StackNavigator({
         screen: MakeEvent,
         navigationOptions: {
             title: 'Nieuw evenement',
+        }
+    },
+    MakeNewsItem: {
+        screen: MakeNewsItem,
+        navigationOptions: {
+            title: 'Nieuw artikel',
         }
     },
     CreateAdmin: {
