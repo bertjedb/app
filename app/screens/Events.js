@@ -16,8 +16,7 @@ import {
 	Dimensions,
 	RefreshControl
 } from 'react-native';
-import {DrawerActions, NavigationActions} from 'react-navigation';
-import UserInput from './UserInput';
+import {DrawerActions, NavigationActions, Header} from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -32,6 +31,9 @@ import {BarIndicator} from 'react-native-indicators';
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
+import LinearGradient from 'react-native-linear-gradient';
+
+
 
 var capitalize = require('capitalize')
 
@@ -66,6 +68,7 @@ class Events extends Component {
 
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
+			console.log(response)
             if(response['responseCode'] == 200) {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
@@ -159,6 +162,10 @@ class Events extends Component {
     render() {
         return(
             <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: '100%', height: '100%'}}>
+			<LinearGradient
+			  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+			  style={{ height: Header.HEIGHT}}
+			>
                 <Toolbar
                     centerElement={"Evenementen"}
                     searchable={{
@@ -170,6 +177,7 @@ class Events extends Component {
                     rightElement={("filter-list")}
                     onRightElementPress={()=> this.showFilter()}
                 />
+				</LinearGradient>
 				<View style={this.getBackgroundModal()}>
 
 				{this.state.loading &&
@@ -195,7 +203,7 @@ class Events extends Component {
                 {
                     this.state.dataSource != null &&
                     <ListView
-					contentContainerStyle={{paddingTop: 20}}
+					   contentContainerStyle={{paddingTop: 20}}
 						refreshControl={
 					          <RefreshControl
 							  colors={['#94D600']}
@@ -208,6 +216,8 @@ class Events extends Component {
                         renderRow={(rowData) =>
                            <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
+
+
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
 										source={{uri: rowData.photo[0]}}
@@ -215,6 +225,8 @@ class Events extends Component {
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
+
+
                                             <Text
 											style={{
                                                 fontWeight: 'bold',
@@ -235,11 +247,26 @@ class Events extends Component {
                                         borderBottomLeftRadius: 10,
                                         borderBottomRightRadius: 10,
                                     }}>
+                                        <TouchableHighlight
+                                            onPress={() => this.props.navigation.navigate('EventDetail', {
+                                                title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+                                                profilePicture: rowData.photo[0],
+                                                content: rowData.desc,
+                                                start: rowData.begin + ' ' + rowData.beginMonth,
+                                                end: rowData.end,
+                                                created: rowData.created,
+                                                author: capitalize.words(rowData.leader[0][0].replace(', ,', ' ')),
+                                                link: rowData.link,
+                                                img: rowData.img,
+                                                location: rowData.location,
+                                            })}
+                                        >
                                         <Image
                                             source={{uri: rowData.img}}
                                             resizeMode="cover"
                                             style={{width: '100%', height: 200}}
                                         />
+                                        </TouchableHighlight>
                                         <View style={{flex: 1, flexDirection: 'row', width: '80%'}} >
                                             <View style={{
                                                 minWidth: 50,
@@ -283,7 +310,8 @@ class Events extends Component {
 												<HTML tagsStyles={{ p: { textAlign: 'left', color: 'grey' } }} onLinkPress={(evt, href) => { Linking.openURL(href); }} ignoredTags={['img']} html={rowData.desc} imagesMaxWidth={Dimensions.get('window').width } />
 
                                             </View>
-                                        </View>
+
+                                        </View >
 
                                         <View style={{
                                             flex: 1,
@@ -358,6 +386,7 @@ backgroundColor: 'rgba(0,0,0,0)'
     container: {
         flex: 1,
         justifyContent: 'center',
+        marginBottom:20
     },
     card: {
         backgroundColor: 'white',

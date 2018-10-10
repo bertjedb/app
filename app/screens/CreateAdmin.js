@@ -20,7 +20,7 @@ import {
     Card,
     Button
 } from 'react-native-material-ui';
-import { DrawerActions, NavigationActions } from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
@@ -36,6 +36,7 @@ import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
 import DefaultUserImage from '../assets/default-user-image.png';
+import LinearGradient from 'react-native-linear-gradient';
 import ImgToBase64 from 'react-native-image-base64';
 
 
@@ -304,12 +305,17 @@ export default class CreateAdmin extends Component {
 
     return(
       <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-	  <Toolbar
-            iconSet="MaterialCommunityIcons"
-            centerElement="Nieuwe begeleider"
-            leftElement={("arrow-left")}
-            onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
-	  />
+        <LinearGradient
+                    colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                    style={{ height: Header.HEIGHT}}
+                  >
+          <Toolbar
+              iconSet="MaterialCommunityIcons"
+              centerElement="Nieuwe begeleider"
+              leftElement={("arrow-left")}
+              onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+          />
+        </LinearGradient>
         <ScrollView style={styles.container}>
 		{this.state.wordpress &&
 		<View onPress={() => this.wordpressLogin()} style={{backgroundColor: '#028cb0', borderRadius: 10, flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>

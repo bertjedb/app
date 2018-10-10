@@ -14,10 +14,10 @@ import {
     Animated,
     Dimensions,
     ListView,
-    Button
+    Button,
+    Alert, Share, TouchableHighlight
 } from 'react-native';
-import { DrawerActions, NavigationActions } from 'react-navigation';
-import UserInput from './UserInput';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -26,6 +26,7 @@ import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import BottomSheet from 'react-native-js-bottom-sheet'
 import {PacmanIndicator} from 'react-native-indicators';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -40,6 +41,7 @@ import {
 
 import stylesCss from '../assets/css/style.js';
 import Api from "../config/api";
+import * as capitalize from "capitalize";
 
 class News extends Component {
 
@@ -49,7 +51,7 @@ bottomSheet: BottomSheet
   constructor() {
       super();
 	  this.state = {
-          dataSource: null,
+      dataSource: null,
 		  search: false,
 		  check1: true,
 		  check2: false,
@@ -87,10 +89,31 @@ bottomSheet: BottomSheet
         this.refresh();
     }
 
+    handleSearch() {
+        let api = Api.getInstance();
+        userData = {
+            searchString: this.state.search
+        }
+        api.callApi('api/searchNews', 'POST', userData, response => {
+            if(response['responseCode'] == 200) {
+                    console.log(response);
+                  let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                this.setState({
+                    firstLoading: false,
+                    dataSource: ds.cloneWithRows(response['news']),
+                    uploading: false,
+                });
+              }
+        });
+    }
+
     refresh(){
         let api = Api.getInstance()
         api.callApi('api/getAllNewsItems', 'GET', {}, response => {
             if(response['responseCode'] == 200) {
+                console.log(response);
                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -109,24 +132,30 @@ bottomSheet: BottomSheet
   render() {
     return(
 		<View >
-			<Toolbar
-				centerElement={"Nieuws"}
-				searchable={{
-				  autoFocus: true,
-				  placeholder: 'Zoeken',
-				  onChangeText: (text) => this.setState({search : text})
-				}}
-				rightElement={("filter-list")}
-				onRightElementPress={()=> this.showFilter()}
-			/>
+            <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+			 <Toolbar
+			 	centerElement={"Nieuws"}
+			 	searchable={{
+			 	  autoFocus: true,
+			 	  placeholder: 'Zoeken',
+			 	  onChangeText: (text) => this.setState({search : text}),
+                      onSubmitEditing: () => {this.handleSearch()}
+			 	}}
+			 	rightElement={("filter-list")}
+			 	onRightElementPress={()=> this.showFilter()}
+			 />
+            </LinearGradient>
 			<BottomSheet
-          ref={(ref: BottomSheet) => {
-            this.bottomSheet = ref
-          }}
-		  styleContainer={{paddingBottom: 120}}
-          backButtonEnabled={true}
-          coverScreen={false}
-          options={[
+                ref={(ref: BottomSheet) => {
+                  this.bottomSheet = ref
+                }}
+		          styleContainer={{paddingBottom: 120}}
+                backButtonEnabled={true}
+                coverScreen={false}
+                options={[
             {
               icon: (
                 <Text style={{fontWeight: 'bold'}}>Wijken</Text>
@@ -190,29 +219,53 @@ bottomSheet: BottomSheet
 
                                 <View style={{
                                     backgroundColor: 'white',
-                                    paddingBottom: 10,
+                                    paddingBottom: 0,
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
                                 }}>
-                                    <Image
+                                    <TouchableHighlight
+                                        onPress={() => this.props.navigation.navigate('NewsDetail', {
+                                            title: rowData.title,
+                                            content: rowData.desc,
+                                            link: rowData.link,
+                                            img: rowData.url
+                                        })}>
+                                    <ImageBackground
                                         source={{uri:rowData.url}}
                                         resizeMode="cover"
-                                        style={{width: '100%', height: 200}}
-                                    />
+                                        style={{width: '100%', height: 250}}>
+                                        <View style={{height:'50%',width:'100%',backgroundColor:'#00000080', position: "absolute", bottom: 0}}>
+                                            <View style={{flex:1,flexDirection: 'column',margin:20,marginBottom:40}}>
+                                                <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}>
+                                                    {rowData.title}
+                                                </Text>
+                                            </View>
+                                            <View style={{flex:1,flexDirection: 'row',marginBottom:10}}>
+                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: 'white',left:20}} >
+                                                    {rowData.created}
+                                                </Text>
+                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: 'white',position: "absolute",right:10}}>
+                                                    lees verder
+                                                </Text>
+                                            </View>
+                                        </View>
 
-                                    <View style={{justifyContent:'center',alignItems: 'center',flex:1,flexDirection: 'column'}}>
-                                        <Text style={{margin: 5, fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-                                            {rowData.title}
-                                        </Text>
-                                        <Text style={{marginBottom: 5, fontWeight: 'bold', fontSize: 16, color: 'black'}}>
-                                            {rowData.created}
-                                        </Text>
-                                    </View>
 
-                                    <Text numberOfLines={3} ellipsizeMode="tail"
-                                          style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>
-                                        {rowData.desc}
-                                    </Text>
+                                    </ImageBackground>
+                                    </TouchableHighlight>
+                                    {/*<View style={{justifyContent:'center',alignItems: 'center',flex:1,flexDirection: 'column'}}>*/}
+                                        {/*<Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>*/}
+                                            {/*{rowData.title}*/}
+                                        {/*</Text>*/}
+                                        {/*<Text style={{fontWeight: 'bold', fontSize: 16, color: 'black'}}>*/}
+                                            {/*{rowData.created}*/}
+                                        {/*</Text>*/}
+                                    {/*</View>*/}
+
+                                    {/*<Text numberOfLines={3} ellipsizeMode="tail"*/}
+                                          {/*style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>*/}
+                                        {/*{rowData.desc}*/}
+                                    {/*</Text>*/}
                                     <View style={{
                                         flex: 1,
                                         flexDirection: 'row',
@@ -221,15 +274,19 @@ bottomSheet: BottomSheet
                                         left: 0,
 
                                     }}>
-                                    <View style={{ width: '100%',marginTop:10,}}>
-                                        <TouchableOpacity  style={{justifyContent:'center',alignItems: 'center',height: 30,
-                                            borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor:'#93D500'}}>
-                                            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>Delen</Text></TouchableOpacity>
-                                    </View>
+
+                                    {/*<View style={{ width: '100%',marginTop:10,}}>*/}
+                                        {/*<TouchableOpacity onPress={() => Share.share({*/}
+                                            {/*message: 'Bslim nieuws: ' + capitalize.words(rowData.title.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link*/}
+                                        {/*})} style={{justifyContent:'center',alignItems: 'center',height: 30,*/}
+                                            {/*borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor:'#93D500'}}>*/}
+                                            {/*<Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>Delen</Text></TouchableOpacity>*/}
+                                    {/*</View>*/}
                                     </View>
                                 </View>
                             </View>
                         </View >
+
                     }
                         />
                     }
@@ -244,7 +301,7 @@ bottomSheet: BottomSheet
 							source = {require('../assets/logo.png')}
 							/>
 				<PacmanIndicator color='white' />
-				</View >
+				</View>
 			}
 		</View>
     );
@@ -257,10 +314,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 		justifyContent: 'center',
+        marginBottom: 20
   },
 	card: {
 		backgroundColor: 'white',
 		margin: 10,
+        marginBottom:10,
 		borderRadius: 10,
 		shadowOffset: {width: 0, height: 13},
 		    shadowOpacity: 0.3,

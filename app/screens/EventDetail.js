@@ -1,46 +1,37 @@
 import React, {
     Component
 } from 'react';
-
 import {
     View,
     Text,
     ScrollView,
     TouchableOpacity,
     Image,
-		StyleSheet,
-		ImageBackground,
-		Dimensions,
-		Share,
-		Linking,
-		Platform,
-		WebView,
+	StyleSheet,
+	ImageBackground,
+	Dimensions,
+	Share,
+	Linking,
+	Platform,
+	WebView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, Header } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
-
 import stylesCss from '../assets/css/style.js';
-
 import QRCodeScanner from 'react-native-qrcode-scanner';
-
 import ScannerQR from './ScannerQR.js';
-
 import ConfettiView from 'react-native-confetti-view';
-
 import CardFlip from 'react-native-card-flip';
-
 import Api from '../config/api.js';
 import Maps from '../config/maps.js';
 
 import LocalStorage from '../config/localStorage.js';
-
 import HTML from 'react-native-render-html';
-
 import ImageSlider from 'react-native-image-slider';
 import {PacmanIndicator} from 'react-native-indicators';
 import MyWebView from 'react-native-webview-autoheight';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -75,30 +66,6 @@ constructor() {
   let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
   let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
 
-  fetch('http://gromdroid.nl/ide/workspace/hanze/newfile.json', {
-      method: 'get',
-      dataType: 'json',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-	.then(response => response.json())
-	.then(response => {this.setState({
-		title: response['name'],
-		content: response['desc'],
-		url: response['link'],
-		date: days[new Date(response['begin']).getDay()] + ' ' + new Date(response['begin']).getDay() + ' ' + months[new Date(response['begin']).getMonth()] + ' ' + new Date(response['begin']).getFullYear(),
-		author: response['leader'],
-		img: response['img'],
-		lat: response['latitude'],
-		long: response['longtitude'],
-		location: response['location'],
-		loading: false,
-	})
-	console.log(this.state.date)
-})
-
 
 }
 
@@ -123,20 +90,25 @@ constructor() {
 
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-		<Toolbar
-		iconSet="MaterialCommunityIcons"
-			centerElement={title}
-			leftElement={("arrow-left")}
-			onLeftElementPress={() => this.props.navigation.goBack()}
-		/>
+			<LinearGradient
+                        colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                        style={{ height: Header.HEIGHT}}
+                      >
+			<Toolbar
+				iconSet="MaterialCommunityIcons"
+				centerElement={title}
+				leftElement={("arrow-left")}
+				onLeftElementPress={() => this.props.navigation.goBack()}
+			/>
+			</LinearGradient>
 		{this.state.loading &&
-			<PacmanIndicator color='white' />
+			<PacmanIndicator color='white'  />
 		}
 		{!this.state.loading &&
 		  <View style={styles.cardContainer} >
           <View style={styles.card} elevation={5}>
           <ScrollView scrollEnabled={this.state.scroll}
- style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
+						style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
                 <View style={styles.cardTitle} elevation={5}>
 					<View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10, width: '100%'}}>
 					<Image

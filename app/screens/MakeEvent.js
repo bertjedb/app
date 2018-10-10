@@ -13,24 +13,26 @@ import styles from '../assets/css/style.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { TextField } from 'react-native-material-textfield';
-import { Button } from 'react-native-material-ui';
+import { Button, Toolbar } from 'react-native-material-ui';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImgToBase64 from 'react-native-image-base64';
+import LinearGradient from 'react-native-linear-gradient';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 
 export default class MakeEvent extends Component {
 
   constructor() {
     super();
 	this.state = {
-		name: 'test',
-		loc: 'asdasd',
+		name: '',
+		loc: '',
 		begin: '',
 		end: '',
-		desc: 'asddasdasdd',
+		desc: '',
 		showBegin: false,
 		showEnd: false,
 		beginText: '',
@@ -249,7 +251,18 @@ export default class MakeEvent extends Component {
   render() {
     return(
     		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-				<View style={styles.container}>
+				<LinearGradient
+                    colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                    style={{ height: Header.HEIGHT}}
+                  >
+          <Toolbar
+              iconSet="MaterialCommunityIcons"
+              centerElement="Evenement aanmaken"
+              leftElement={("arrow-left")}
+              onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+          />
+        </LinearGradient>
+        <View style={styles.container}>
 					<View style={styles.cardGreen} elevation={5}>
 						<Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
           					Evenementen aanmaken

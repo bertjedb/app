@@ -12,7 +12,7 @@ import {
     Divider,
 		AsyncStorage,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -24,6 +24,7 @@ import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -136,6 +137,17 @@ class LoginScreen extends Component {
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+        <LinearGradient
+                    colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                    style={{ height: Header.HEIGHT}}
+                  >
+          <Toolbar
+              iconSet="MaterialCommunityIcons"
+              centerElement="Inloggen"
+              leftElement={("arrow-left")}
+              onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+          />
+        </LinearGradient>
 		<View style={styles.container}>
 		  <View style={styles.card} elevation={5}>
 			<Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
