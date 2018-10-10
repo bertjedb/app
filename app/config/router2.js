@@ -17,6 +17,7 @@ import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
 import EventDetail from '../screens/EventDetail';
+import NewsDetail from '../screens/NewsDetail';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
@@ -82,10 +83,16 @@ export const AdminStack = StackNavigator({
 },{headerMode: 'none'
 })
 
-//Stack for all the admin screens
+//Stack for all the news screens
 export const NewsStack = StackNavigator({
     NewsFeed: {
         screen: News,
+        navigationOptions: {
+            title: 'Nieuws',
+        }
+    },
+    NewsDetail: {
+        screen: NewsDetail,
         navigationOptions: {
             title: 'Nieuws',
         }
