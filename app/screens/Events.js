@@ -46,7 +46,18 @@ const uiTheme = {
     },
 };
 
-let months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+let months = {'Jan': 'Jan', 
+              'Feb': 'Feb', 
+              'Mar': 'Mrt', 
+              'Apr': 'Apr', 
+              'May': 'Mei', 
+              'Jun': 'Jun', 
+              'Jul': 'Jul', 
+              'Aug': 'Aug', 
+              'Sep': 'Sep', 
+              'Oct': 'Okt', 
+              'Nov': 'Nov', 
+              'Dec': 'Dec'};
 
 
 class Events extends Component {
@@ -272,7 +283,7 @@ class Events extends Component {
                                                         textAlign: 'center',
                                                         marginTop: 5
                                                     }}>
-                                                        {new Date(rowData.begin).getDay()}
+                                                        {rowData.begin}
                                                     </Text>
                                                     <Text style={{
                                                         fontWeight: 'bold',
@@ -280,7 +291,7 @@ class Events extends Component {
                                                         color: 'white',
                                                         textAlign: 'center'
                                                     }}>
-                                                        {months[new Date(rowData.begin).getMonth()]}
+                                                        { months[rowData.beginMonth]}
                                                     </Text>
                                                 </View>
 
