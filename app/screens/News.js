@@ -263,7 +263,7 @@ bottomSheet: BottomSheet
                     }
                         />
                     }
-				</ImageBackground>
+				</ImageBackground >
 
 
 
