@@ -26,6 +26,8 @@ import { TextField } from 'react-native-material-textfield';
 import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
 import Modal from "react-native-modal";
+import HTML from 'react-native-render-html';
+import {BarIndicator} from 'react-native-indicators';
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
@@ -59,16 +61,20 @@ class Events extends Component {
             eventArray: [],
 			modalVisible: false,
 			refreshing: false,
-            search: ''
+            search: '',
+			loading: true,
+
         };
 
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
+			console.log(response)
             if(response['responseCode'] == 200) {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
                 this.setState({
+					uploading: false,
                     dataSource: ds.cloneWithRows(response['events']),
                 });
             }
@@ -93,7 +99,7 @@ class Events extends Component {
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
 			this.setState({
-				refreshing: false
+				loading: false
 			});
 
             if(response['responseCode'] == 200) {
@@ -128,7 +134,7 @@ class Events extends Component {
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
- 	    backgroundColor: 'rgba(0,0,0,0.3)'}
+ 	    backgroundColor: 'rgba(0,0,0,0.5)'}
  	}
  }
 
@@ -155,24 +161,31 @@ class Events extends Component {
 
     render() {
         return(
-            <ImageBackground  blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-                <LinearGradient
-                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
-                  style={{ height: Header.HEIGHT}}
-                >
-                    <Toolbar
-                        centerElement={"Evenementen"}
-                        searchable={{
-                            autoFocus: true,
-                            placeholder: 'Zoeken',
-                            onChangeText: (text) => this.setState({search : text}),
-                            onSubmitEditing: () => {this.handleSearch()}
-                        }}
-                        rightElement={("filter-list")}
-                        onRightElementPress={()=> this.showFilter()}
-                    />
-                </LinearGradient>
+            <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: '100%', height: '100%'}}>
+			<LinearGradient
+			  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+			  style={{ height: Header.HEIGHT}}
+			>
+                <Toolbar
+                    centerElement={"Evenementen"}
+                    searchable={{
+                        autoFocus: true,
+                        placeholder: 'Zoeken',
+                        onChangeText: (text) => this.setState({search : text}),
+                        onSubmitEditing: () => {this.handleSearch()}
+                    }}
+                    rightElement={("filter-list")}
+                    onRightElementPress={()=> this.showFilter()}
+                />
+				</LinearGradient>
 				<View style={this.getBackgroundModal()}>
+
+				{this.state.loading &&
+					<BarIndicator color='white' />
+
+				}
+				{!this.state.loading &&
+				<View >
 				<Modal
 		          animationType="slide"
 				  style={{margin: 0, marginTop: 120}}
@@ -207,7 +220,7 @@ class Events extends Component {
 
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
-										source={{uri: 'data:image/png;base64,' + rowData.photo[0]}}
+										source={{uri: rowData.photo[0]}}
 										resizeMode="cover"
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
@@ -272,7 +285,7 @@ class Events extends Component {
                                                         textAlign: 'center',
                                                         marginTop: 5
                                                     }}>
-                                                        {new Date(rowData.begin).getDay()}
+                                                        {new Date(rowData.begin).getDate()}
                                                     </Text>
                                                     <Text style={{
                                                         fontWeight: 'bold',
@@ -294,9 +307,7 @@ class Events extends Component {
                                                 <Text style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
 												{capitalize.words(rowData.name.toString().replace(', ,', ' '))}
                                                 </Text>
-                                                <Text numberOfLines={4} ellipsizeMode="tail" style={{fontSize: 12}}>
-                                                    {rowData.desc}
-                                                </Text>
+												<HTML tagsStyles={{ p: { textAlign: 'left', color: 'grey' } }} onLinkPress={(evt, href) => { Linking.openURL(href); }} ignoredTags={['img']} html={rowData.desc} imagesMaxWidth={Dimensions.get('window').width } />
 
                                             </View>
 
@@ -311,20 +322,19 @@ class Events extends Component {
 											alignItems: 'center',
                                         }}>
 										<TouchableHighlight
-										// onPress={() => this.props.navigation.navigate('EventDetail', {
-										// 	title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
-										// 	profilePicture: rowData.photo[0],
-										// 	content: rowData.desc,
-										// 	start: rowData.begin + ' ' + rowData.beginMonth,
-										// 	end: rowData.end,
-										// 	created: rowData.created,
-										// 	author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
-										// 	link: rowData.link,
-										// 	img: rowData.img,
-										// 	location: rowData.location,
-								         //    })}
-										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10
-                                            , backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+										onPress={() => this.props.navigation.navigate('EventDetail', {
+											title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+											profilePicture: rowData.photo[0],
+											content: rowData.desc,
+											start: rowData.begin,
+											end: rowData.end,
+											created: rowData.created,
+											author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
+											link: rowData.link,
+											img: rowData.img,
+											location: rowData.location,
+								            })}
+										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
 										</TouchableHighlight>
@@ -345,7 +355,9 @@ class Events extends Component {
                     />
                 }
 				</View>
-            </ImageBackground >
+			}
+			</View>
+            </ImageBackground>
 
 
         );
