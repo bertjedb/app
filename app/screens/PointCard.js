@@ -1,7 +1,6 @@
 import React, {
     Component
 } from 'react';
-
 import {
     View,
     Text,
@@ -13,23 +12,16 @@ import {
 		Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
-
 import stylesCss from '../assets/css/style.js';
-
 import QRCodeScanner from 'react-native-qrcode-scanner';
-
 import ScannerQR from './ScannerQR.js';
-
 import ConfettiView from 'react-native-confetti-view';
-
 import CardFlip from 'react-native-card-flip';
-
 import Api from '../config/api.js';
-
 import LocalStorage from '../config/localStorage.js';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -223,9 +215,14 @@ class PointCard extends Component {
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-		<Toolbar
-			centerElement='Stempelkaart'
-		/>
+		  <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+      <Toolbar
+      	centerElement='Stempelkaart'
+      />
+      </LinearGradient>
 		<CardFlip style={styles.cardContainer} ref={(card) => this.card = card} >
           <TouchableOpacity activeOpacity={1} style={styles.container}  >
 				<View style={styles.card} elevation={5}>

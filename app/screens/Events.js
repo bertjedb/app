@@ -16,8 +16,7 @@ import {
 	Dimensions,
 	RefreshControl
 } from 'react-native';
-import {DrawerActions, NavigationActions} from 'react-navigation';
-import UserInput from './UserInput';
+import {DrawerActions, NavigationActions, Header} from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -30,6 +29,9 @@ import Modal from "react-native-modal";
 
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
+import LinearGradient from 'react-native-linear-gradient';
+
+
 
 var capitalize = require('capitalize')
 
@@ -154,17 +156,22 @@ class Events extends Component {
     render() {
         return(
             <ImageBackground  blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-                <Toolbar
-                    centerElement={"Evenementen"}
-                    searchable={{
-                        autoFocus: true,
-                        placeholder: 'Zoeken',
-                        onChangeText: (text) => this.setState({search : text}),
-                        onSubmitEditing: () => {this.handleSearch()}
-                    }}
-                    rightElement={("filter-list")}
-                    onRightElementPress={()=> this.showFilter()}
-                />
+                <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+                    <Toolbar
+                        centerElement={"Evenementen"}
+                        searchable={{
+                            autoFocus: true,
+                            placeholder: 'Zoeken',
+                            onChangeText: (text) => this.setState({search : text}),
+                            onSubmitEditing: () => {this.handleSearch()}
+                        }}
+                        rightElement={("filter-list")}
+                        onRightElementPress={()=> this.showFilter()}
+                    />
+                </LinearGradient>
 				<View style={this.getBackgroundModal()}>
 				<Modal
 		          animationType="slide"
@@ -183,7 +190,7 @@ class Events extends Component {
                 {
                     this.state.dataSource != null &&
                     <ListView
-					contentContainerStyle={{paddingTop: 20}}
+					   contentContainerStyle={{paddingTop: 20}}
 						refreshControl={
 					          <RefreshControl
 							  colors={['#94D600']}
@@ -200,7 +207,7 @@ class Events extends Component {
 
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
-										source={{uri: rowData.photo[0]}}
+										source={{uri: 'data:image/png;base64,' + rowData.photo[0]}}
 										resizeMode="cover"
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
