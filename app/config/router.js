@@ -25,6 +25,7 @@ import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
 import EventDetail from '../screens/EventDetail';
 import Events from '../screens/Events';
+import Filter from '../screens/Filter';
 
 
 //Gradient header
@@ -219,6 +220,26 @@ export const EventStack = StackNavigator({
 	    },
 		}
 	},
+  Filter: {
+    screen: Filter,
+    navigationOptions: {
+			title: 'Filter op evenementen',
+			header: props => <GradientEventsHeader {...props} />,
+			headerStyle: {
+			    backgroundColor: 'transparent',
+			    position: 'absolute',
+			    top: 0,
+			    left: 0,
+			    right: 0,
+			    bottom: 0,
+			    width: Dimensions.get('window').width - 60
+			  },
+	    headerTintColor: '#fff',
+	    headerTitleStyle: {
+	      fontWeight: 'bold',
+	    },
+		}
+  }
     EventDetail: {
 		screen: EventDetail,
 		navigationOptions: {

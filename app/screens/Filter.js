@@ -25,6 +25,8 @@ constructor() {
 
   render() {
     return(
+      <View>
+      </View>
     );
   }
 }
