@@ -66,37 +66,12 @@ constructor() {
 	  start: '',
 	  end: '',
 	  author: '',
-	  loading: true,
+	  loading: false,
 	  deelnemer: false,
 	  scroll: true,
   }
   let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
   let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
-
-  fetch('http://gromdroid.nl/ide/workspace/hanze/newfile.json', {
-      method: 'get',
-      dataType: 'json',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-	.then(response => response.json())
-	.then(response => {this.setState({
-		title: response['name'],
-		content: response['desc'],
-		url: response['link'],
-		date: days[new Date(response['begin']).getDay()] + ' ' + new Date(response['begin']).getDay() + ' ' + months[new Date(response['begin']).getMonth()] + ' ' + new Date(response['begin']).getFullYear(),
-		time: ('0'+new Date(response['begin']).getHours()).slice(-2) + ':' + ('0'+new Date(response['begin']).getMinutes()).slice(-2) + ' tot ' + ('0'+new Date(response['end']).getHours()).slice(-2) + ':' + ('0'+new Date(response['end']).getMinutes()).slice(-2),
-		author: response['leader'],
-		img: response['img'],
-		lat: response['latitude'],
-		long: response['longtitude'],
-		location: response['location'],
-		loading: false,
-	})
-	console.log(this.state.date)
-})
 
 
 }
@@ -127,7 +102,7 @@ constructor() {
 			onLeftElementPress={() => this.props.navigation.goBack()}
 		/>
 		{this.state.loading &&
-			<PacmanIndicator color='white' />
+			<PacmanIndicator color='white'  />
 		}
 		{!this.state.loading &&
 		  <View style={styles.cardContainer} >
@@ -162,7 +137,7 @@ constructor() {
 					}
                 </View>
 				<View style={{widht: '100%', height: 200, paddingBottom: 10}}>
-				{this.state.img &&
+				{img &&
 				<ImageSlider
 				autoPlayWithInterval={3000}
 				images={[img]}/>
