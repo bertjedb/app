@@ -48,7 +48,18 @@ const uiTheme = {
     },
 };
 
-let months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+let months = {'Jan': 'Jan', 
+              'Feb': 'Feb', 
+              'Mar': 'Mrt', 
+              'Apr': 'Apr', 
+              'May': 'Mei', 
+              'Jun': 'Jun', 
+              'Jul': 'Jul', 
+              'Aug': 'Aug', 
+              'Sep': 'Sep', 
+              'Oct': 'Okt', 
+              'Nov': 'Nov', 
+              'Dec': 'Dec'};
 
 
 class Events extends Component {
@@ -123,14 +134,14 @@ class Events extends Component {
  getBackgroundModal(){
  	if(this.state.modalVisible){
  		return {position: 'absolute',
- 	    top: 58,
+ 	    top: 55,
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
  	    backgroundColor: 'rgba(0,0,0,0.5)'}
  	} else {
  		return {position: 'absolute',
- 	    top: 58,
+ 	    top: 55,
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
@@ -285,7 +296,7 @@ class Events extends Component {
                                                         textAlign: 'center',
                                                         marginTop: 5
                                                     }}>
-                                                        {new Date(rowData.begin).getDate()}
+                                                        {rowData.begin}
                                                     </Text>
                                                     <Text style={{
                                                         fontWeight: 'bold',
@@ -293,7 +304,7 @@ class Events extends Component {
                                                         color: 'white',
                                                         textAlign: 'center'
                                                     }}>
-                                                        {months[new Date(rowData.begin).getMonth()]}
+                                                        { months[rowData.beginMonth]}
                                                     </Text>
                                                 </View>
 
