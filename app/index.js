@@ -13,7 +13,7 @@ const uiTheme = {
     },
     toolbar: {
         container: {
-            height: 58,
+            height: Header.HEIGHT,
         },
     },
 };

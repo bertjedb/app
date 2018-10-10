@@ -48,7 +48,18 @@ const uiTheme = {
     },
 };
 
-let months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+let months = {'Jan': 'Jan', 
+              'Feb': 'Feb', 
+              'Mar': 'Mrt', 
+              'Apr': 'Apr', 
+              'May': 'Mei', 
+              'Jun': 'Jun', 
+              'Jul': 'Jul', 
+              'Aug': 'Aug', 
+              'Sep': 'Sep', 
+              'Oct': 'Okt', 
+              'Nov': 'Nov', 
+              'Dec': 'Dec'};
 
 
 class Events extends Component {
@@ -59,11 +70,12 @@ class Events extends Component {
         this.state = {
             dataSource: null,
             eventArray: [],
-			modalVisible: false,
-			refreshing: false,
+			      modalVisible: false,
+            adminArray: [],
+            checkMap: new Map(),
             search: '',
-			loading: true,
-
+            refreshing: false,
+            search: '',
         };
 
         let api = Api.getInstance()
@@ -84,6 +96,7 @@ class Events extends Component {
   componentDidMount() {
     this.onLoad();
     this.props.navigation.addListener('willFocus', this.onLoad)
+    this.getAdmins();
   }
 
     onLoad = () => {
@@ -123,14 +136,14 @@ class Events extends Component {
  getBackgroundModal(){
  	if(this.state.modalVisible){
  		return {position: 'absolute',
- 	    top: 58,
+ 	    top: 55,
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
  	    backgroundColor: 'rgba(0,0,0,0.5)'}
  	} else {
  		return {position: 'absolute',
- 	    top: 58,
+ 	    top: 55,
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
@@ -157,6 +170,41 @@ class Events extends Component {
           }
     });
  }
+
+  getAdmins() {
+    api = Api.getInstance();
+    api.callApi('api/getAllAdmins', 'POST', {}, response => {
+      if(response['responseCode'] == 200) {
+            // for(admin in response['admins']){
+            //   console.log("ADMIN :::::::::::" + admin)
+            //   this.adminArray.push(admin);
+            // }
+            // }
+            // return response['admins'];
+          console.log(this.state)
+          this.setState({
+            adminArray: response['admins']
+          })
+          this.initFilterOptions();
+          console.log(this.state)
+
+        }
+      })
+  }
+
+  renderModalContent() {
+    return(
+      <Text style={{fontWeight: 'bold'}}>Filter op evenementen met begeleider</Text>
+
+    )
+  }
+
+  initFilterOptions() {
+      this.state.adminArray.map((admin) => {
+        this.state.checkMap.set(admin.id, false);
+        });
+  }
+
 
 
     render() {
@@ -285,7 +333,7 @@ class Events extends Component {
                                                         textAlign: 'center',
                                                         marginTop: 5
                                                     }}>
-                                                        {new Date(rowData.begin).getDate()}
+                                                        {rowData.begin}
                                                     </Text>
                                                     <Text style={{
                                                         fontWeight: 'bold',
@@ -293,7 +341,7 @@ class Events extends Component {
                                                         color: 'white',
                                                         textAlign: 'center'
                                                     }}>
-                                                        {months[new Date(rowData.begin).getMonth()]}
+                                                        { months[rowData.beginMonth]}
                                                     </Text>
                                                 </View>
 

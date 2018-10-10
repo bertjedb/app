@@ -24,7 +24,7 @@ import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
-import BottomSheet from 'react-native-js-bottom-sheet'
+import BottomSheet from 'react-native-js-bottom-sheet';
 import {PacmanIndicator} from 'react-native-indicators';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -38,34 +38,38 @@ import {
 	Drawer,
 	Checkbox
 } from 'react-native-material-ui';
-
+import Api from '../config/api.js';
 import stylesCss from '../assets/css/style.js';
-import Api from "../config/api";
-import * as capitalize from "capitalize";
+
+var filterOptions = [
+  {
+    icon: (
+      <Text style={{fontWeight: 'bold'}}>Filter op evenementen met begeleider</Text>
+    ),
+  }
+];
+
+var checks = [];
 
 class News extends Component {
 
 //Define bottomSheet
-bottomSheet: BottomSheet
+bottomSheet: BottomSheet;
+
 
   constructor() {
       super();
 	  this.state = {
       dataSource: null,
-		  search: false,
-		  check1: true,
-		  check2: false,
-		  check3: true,
-		  check4: false,
-		  check5: false,
-		  check6: true,
+      adminArray: [],
+      checkMap: new Map(),
 		  loading: true,
 	  }
 
       let api = Api.getInstance()
       api.callApi('api/getAllNewsItems', 'GET', {}, response => {
           if(response['responseCode'] == 200) {
-              console.log(response);
+            Log.d(response);
               let ds = new ListView.DataSource({
                   rowHasChanged: (r1, r2) => r1 !== r2
               });
@@ -75,15 +79,41 @@ bottomSheet: BottomSheet
               console.log(this.state);
           }
       });
+    //  this.getAdmins();
   }
 
+
   componentDidMount() {
+      //this.getAdmins();
       this.onLoad();
       this.props.navigation.addListener('willFocus', this.onLoad)
-	  setTimeout(() => {
-		  this.setState({loading: false})
-	  }, 0);
+  	  setTimeout(() => {
+  		  this.setState({loading: false})
+  	  }, 0);
+      //  this.initFilterOptions(this.getAdmins())
   }
+
+  getAdmins() {
+    api = Api.getInstance();
+    api.callApi('api/getAllAdmins', 'POST', {}, response => {
+      if(response['responseCode'] == 200) {
+            // for(admin in response['admins']){
+            //   console.log("ADMIN :::::::::::" + admin)
+            //   this.adminArray.push(admin);
+            // }
+            // }
+            // return response['admins'];
+          console.log(this.state)
+          this.setState({
+            adminArray: response['admins']
+          })
+          this.initFilterOptions();
+          console.log(this.state)
+
+        }
+      })
+  }
+
 
     onLoad = () => {
         this.refresh();
@@ -125,11 +155,60 @@ bottomSheet: BottomSheet
             }
         })
     }
+
   showFilter() {
 	  this.bottomSheet.open()
     };
 
+  handleChange(e) {
+     const item = e.target.name;
+     const isChecked = e.target.checked;
+     this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+   }
+
+  initFilterOptions(){
+
+    filterOptions = [
+      {
+        icon: (
+          <Text style={{fontWeight: 'bold'}}>Filter op evenementen met begeleider</Text>
+        ),
+      }
+    ]
+      this.state.adminArray.map((admin) => {
+
+        this.state.checkMap.set(admin.id, false);
+
+        filterOptions.push(
+            {
+              icon: (
+                      <Checkbox label={admin.firstName + " " + admin.lastName } value="agree" checked={this.state.checkMap.get(admin.id)}
+                       onCheck={()=> {this.state.checkMap.set(admin.id, !this.state.checkMap.get(admin.id)), console.log(this.state.checkMap)}}
+                            />
+
+                    ),
+                  onPress: () => null,
+            },
+          )
+        });
+      //   checks['check' + admin.ixd] = false;
+      //   filterOptions.push(
+      //     {
+      //       icon: (
+      //               <Checkbox label={admin.firstName + " " + admin.lastName } value="agree" checked={checks['check1']} onCheck={()=> {checks['check1'] = true, console.log(checks['check' + admin.id])}} />
+      //             ),
+      //           onPress: () => null,
+      //     },
+      //   )
+      // });
+      console.log("ARRAYOFCHECKS /////////////////////////////////////////////////////")
+      console.log(this.state.checkMap)
+      console.log(this.state.checkMap.get(1))
+  }
+
   render() {
+
+
     return(
 		<View >
             <LinearGradient
@@ -149,60 +228,13 @@ bottomSheet: BottomSheet
 			 />
             </LinearGradient>
 			<BottomSheet
-                ref={(ref: BottomSheet) => {
-                  this.bottomSheet = ref
-                }}
-		          styleContainer={{paddingBottom: 120}}
-                backButtonEnabled={true}
-                coverScreen={false}
-                options={[
-            {
-              icon: (
-                <Text style={{fontWeight: 'bold'}}>Wijken</Text>
-              ),
-            },
-            {
-				icon: (
-                  <Checkbox label="Beijum" value="agree" onCheck={()=>this.setState({check1: !this.state.check1})} checked={this.state.check1} />
-                ),
-            },
-            {
-				icon: (
-                  <Checkbox label="Hoogkerk" value="agree" onCheck={()=>this.setState({check2: !this.state.check2})} checked={this.state.check2} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Ten Boer" value="agree" onCheck={()=>this.setState({check3: !this.state.check3})} checked={this.state.check3} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Text style={{fontWeight: 'bold'}}>Begeleider</Text>
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Berend Baandrecht" value="agree" onCheck={()=>this.setState({check4: !this.state.check4})} checked={this.state.check4} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Jaap Vos" value="agree" onCheck={()=>this.setState({check5: !this.state.check5})} checked={this.state.check5} />
-                ),
-              onPress: () => null
-            },
-            {
-				icon: (
-                  <Checkbox label="Karel Achterveld" value="agree" onCheck={()=>this.setState({check6: !this.state.check6})} checked={this.state.check6} />
-                ),
-              onPress: () => null
-            }
-          ]}
+          ref={(ref: BottomSheet) => {
+            this.bottomSheet = ref
+          }}
+		      styleContainer={{paddingBottom: 120}}
+          backButtonEnabled={true}
+          coverScreen={false}
+          options={filterOptions}
           isOpen={false}
             />
 
@@ -290,8 +322,6 @@ bottomSheet: BottomSheet
                     }
                     </View>
 				</ImageBackground >
-
-
 
 
 			{this.state.loading &&
