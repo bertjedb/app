@@ -12,8 +12,7 @@ import {
     Image,
     Divider,
 } from 'react-native';
-import { DrawerActions, NavigationActions } from 'react-navigation';
-import UserInput from './UserInput';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -21,6 +20,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import { sha256 } from 'react-native-sha256';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -102,12 +102,17 @@ export default class ChangePassword extends Component {
     return(
 
     <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-	<Toolbar
-	iconSet="MaterialCommunityIcons"
-		centerElement="Wachtwoord veranderen"
-		leftElement={("arrow-left")}
-		onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
-	/>
+    <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+	    <Toolbar
+               iconSet="MaterialCommunityIcons"
+               centerElement="Wachtwoord veranderen"
+               leftElement={("arrow-left")}
+               onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+	    />
+     </LinearGradient>
       <View style={styles.container}>
         <View style={styles.card} elevation={5}>
           <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>

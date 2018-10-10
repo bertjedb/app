@@ -16,8 +16,7 @@ import {
     ListView,
     Button
 } from 'react-native';
-import { DrawerActions, NavigationActions } from 'react-navigation';
-import UserInput from './UserInput';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -26,6 +25,7 @@ import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import BottomSheet from 'react-native-js-bottom-sheet'
 import {PacmanIndicator} from 'react-native-indicators';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -49,7 +49,7 @@ bottomSheet: BottomSheet
   constructor() {
       super();
 	  this.state = {
-          dataSource: null,
+      dataSource: null,
 		  search: false,
 		  check1: true,
 		  check2: false,
@@ -87,10 +87,31 @@ bottomSheet: BottomSheet
         this.refresh();
     }
 
+    handleSearch() {
+        let api = Api.getInstance();
+        userData = {
+            searchString: this.state.search
+        }
+        api.callApi('api/searchNews', 'POST', userData, response => {
+            if(response['responseCode'] == 200) {
+                    console.log(response);
+                  let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                this.setState({
+                    firstLoading: false,
+                    dataSource: ds.cloneWithRows(response['news']),
+                    uploading: false,
+                });
+              }
+        });
+    }
+
     refresh(){
         let api = Api.getInstance()
         api.callApi('api/getAllNewsItems', 'GET', {}, response => {
             if(response['responseCode'] == 200) {
+                console.log(response);
                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -109,24 +130,30 @@ bottomSheet: BottomSheet
   render() {
     return(
 		<View >
-			<Toolbar
-				centerElement={"Nieuws"}
-				searchable={{
-				  autoFocus: true,
-				  placeholder: 'Zoeken',
-				  onChangeText: (text) => this.setState({search : text})
-				}}
-				rightElement={("filter-list")}
-				onRightElementPress={()=> this.showFilter()}
-			/>
+            <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+			 <Toolbar
+			 	centerElement={"Nieuws"}
+			 	searchable={{
+			 	  autoFocus: true,
+			 	  placeholder: 'Zoeken',
+			 	  onChangeText: (text) => this.setState({search : text}),
+                      onSubmitEditing: () => {this.handleSearch()}
+			 	}}
+			 	rightElement={("filter-list")}
+			 	onRightElementPress={()=> this.showFilter()}
+			 />
+            </LinearGradient>
 			<BottomSheet
-          ref={(ref: BottomSheet) => {
-            this.bottomSheet = ref
-          }}
-		  styleContainer={{paddingBottom: 120}}
-          backButtonEnabled={true}
-          coverScreen={false}
-          options={[
+                ref={(ref: BottomSheet) => {
+                  this.bottomSheet = ref
+                }}
+		          styleContainer={{paddingBottom: 120}}
+                backButtonEnabled={true}
+                coverScreen={false}
+                options={[
             {
               icon: (
                 <Text style={{fontWeight: 'bold'}}>Wijken</Text>

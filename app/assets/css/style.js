@@ -17,7 +17,6 @@ export default StyleSheet.create({
 
 	container: {
 			flex: 1,
-			justifyContent: 'center',
 		},
 
 	card: {
@@ -26,11 +25,10 @@ export default StyleSheet.create({
 			margin: 10,
 			borderRadius: 10,
 			shadowOffset: {width: 0, height: 13},
-	    shadowOpacity: 0.3,
-	    shadowRadius: 6,
-
-	    // android (Android +5.0)
-	    elevation: 3,
+	       shadowOpacity: 0.3,
+	       shadowRadius: 6,
+	       // android (Android +5.0)
+	       elevation: 3,
 		},
 
     cardGreen: {

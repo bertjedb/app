@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import { ScrollView, Text, View, StyleSheet, ImageBackground, TextInput, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,7 +17,7 @@ import {
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
-
+import LinearGradient from 'react-native-linear-gradient';
 
 export default class More extends Component {
 
@@ -65,9 +65,14 @@ export default class More extends Component {
 
       return (
                 <View style={{flex: 1}}>
+                <LinearGradient
+                    colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                    style={{ height: Header.HEIGHT}}
+                  >
 				<Toolbar
 					centerElement='Meer'
 				/>
+                </LinearGradient>
         <Drawer>
           {this.state.userId == null &&
             <Drawer.Section

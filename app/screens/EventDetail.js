@@ -1,45 +1,35 @@
 import React, {
     Component
 } from 'react';
-
 import {
     View,
     Text,
     ScrollView,
     TouchableOpacity,
     Image,
-		StyleSheet,
-		ImageBackground,
-		Dimensions,
-		Share,
-		Linking,
-		Platform,
-		WebView,
+	StyleSheet,
+	ImageBackground,
+	Dimensions,
+	Share,
+	Linking,
+	Platform,
+	WebView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, Header } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
-
 import stylesCss from '../assets/css/style.js';
-
 import QRCodeScanner from 'react-native-qrcode-scanner';
-
 import ScannerQR from './ScannerQR.js';
-
 import ConfettiView from 'react-native-confetti-view';
-
 import CardFlip from 'react-native-card-flip';
-
 import Api from '../config/api.js';
-
 import LocalStorage from '../config/localStorage.js';
-
 import HTML from 'react-native-render-html';
-
 import ImageSlider from 'react-native-image-slider';
 import {PacmanIndicator} from 'react-native-indicators';
 import MyWebView from 'react-native-webview-autoheight';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -120,12 +110,17 @@ constructor() {
 
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
-		<Toolbar
-		iconSet="MaterialCommunityIcons"
-			centerElement={title}
-			leftElement={("arrow-left")}
-			onLeftElementPress={() => this.props.navigation.goBack()}
-		/>
+			<LinearGradient
+                        colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                        style={{ height: Header.HEIGHT}}
+                      >
+			<Toolbar
+				iconSet="MaterialCommunityIcons"
+				centerElement={title}
+				leftElement={("arrow-left")}
+				onLeftElementPress={() => this.props.navigation.goBack()}
+			/>
+			</LinearGradient>
 		{this.state.loading &&
 			<PacmanIndicator color='white' />
 		}
@@ -133,7 +128,7 @@ constructor() {
 		  <View style={styles.cardContainer} >
           <View style={styles.card} elevation={5}>
           <ScrollView scrollEnabled={this.state.scroll}
- style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
+						style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
                 <View style={styles.cardTitle} elevation={5}>
                     <Image source={{uri:profilePicture}} style={{width: 40, height: 40, margin: 10, borderRadius: 10}} resizeMode="cover"/>
 					<View>

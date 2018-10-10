@@ -8,22 +8,22 @@ import {
     ScrollView,
     TouchableOpacity,
     Image,
-		StyleSheet,
-		ImageBackground,
-		Dimensions,
-		Share,
-		TouchableHighlight,
-		ListView,
+	StyleSheet,
+	ImageBackground,
+	Dimensions,
+	Share,
+	TouchableHighlight,
+	ListView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import { Toolbar } from 'react-native-material-ui';
-
+import LinearGradient from 'react-native-linear-gradient';
 import Accordion from '@ercpereda/react-native-accordion';
 
-const Header = ({ isOpen }) =>
+const AcHeader = ({ isOpen }) =>
   <View style={{
       paddingTop: 15,
       paddingRight: 15,
@@ -82,15 +82,20 @@ closeRow(rowMap, rowKey) {
 
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+		<LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
 		<Toolbar
 		iconSet="MaterialCommunityIcons"
 			centerElement={"Deelnemers"}
 			leftElement={("arrow-left")}
 			onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
 		/>
+		</LinearGradient>
 		  <View style={styles.cardContainer} >
 		  <Accordion
-	          header={Header}
+	          header={AcHeader}
 	          content={<View style={{
 			      display: 'flex',
 			      backgroundColor: '#31363D'
@@ -130,7 +135,7 @@ closeRow(rowMap, rowKey) {
 	          duration={300}
 	        />
 			<Accordion
-  	          header={Header}
+  	          header={AcHeader}
   	          content={<View style={{
   			      display: 'flex',
   			      backgroundColor: '#31363D'
@@ -168,7 +173,7 @@ closeRow(rowMap, rowKey) {
   	          duration={300}
   	        />
 			<Accordion
-  	          header={Header}
+  	          header={AcHeader}
   	          content={<View style={{
   			      display: 'flex',
   			      backgroundColor: '#31363D'
