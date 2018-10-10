@@ -12,11 +12,10 @@ import {
     Image,
     Divider,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextField } from 'react-native-material-textfield';
-
 import {
     COLOR,
     ThemeContext,
@@ -25,11 +24,11 @@ import {
     Card,
     Button,
 } from 'react-native-material-ui';
-
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
+import LinearGradient from 'react-native-linear-gradient';
 
 export default class RecoverPassword extends Component {
 
@@ -85,12 +84,23 @@ export default class RecoverPassword extends Component {
     return(
 
     <ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+      <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+        <Toolbar
+               iconSet="MaterialCommunityIcons"
+               centerElement="Wachtwoord opvragen"
+               leftElement={("arrow-left")}
+               onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+        />
+     </LinearGradient>
       <View style={styles.container}>
         <View style={styles.card} elevation={5}>
           <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
-		  Ben je je wachtwoord vergeten? Vul hieronder je email adres in en ontvang een nieuw wachtwoord!
-		  (Check ook je spam map van je email adres!)
-		   </Text>
+		        Ben je je wachtwoord vergeten? Vul hieronder je email adres in en ontvang een nieuw wachtwoord!
+		        (Check ook je spam map van je email adres!)
+		  </Text>
           <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
           <TextField
             textColor='green'

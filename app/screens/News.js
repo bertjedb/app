@@ -17,8 +17,7 @@ import {
     Button,
     Alert, Share, TouchableHighlight
 } from 'react-native';
-import { DrawerActions, NavigationActions } from 'react-navigation';
-import UserInput from './UserInput';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -27,6 +26,7 @@ import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import BottomSheet from 'react-native-js-bottom-sheet';
 import {PacmanIndicator} from 'react-native-indicators';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -119,10 +119,31 @@ bottomSheet: BottomSheet;
         this.refresh();
     }
 
+    handleSearch() {
+        let api = Api.getInstance();
+        userData = {
+            searchString: this.state.search
+        }
+        api.callApi('api/searchNews', 'POST', userData, response => {
+            if(response['responseCode'] == 200) {
+                    console.log(response);
+                  let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                this.setState({
+                    firstLoading: false,
+                    dataSource: ds.cloneWithRows(response['news']),
+                    uploading: false,
+                });
+              }
+        });
+    }
+
     refresh(){
         let api = Api.getInstance()
         api.callApi('api/getAllNewsItems', 'GET', {}, response => {
             if(response['responseCode'] == 200) {
+                console.log(response);
                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -190,16 +211,22 @@ bottomSheet: BottomSheet;
 
     return(
 		<View >
-			<Toolbar
-				centerElement={"Nieuws"}
-				searchable={{
-				  autoFocus: true,
-				  placeholder: 'Zoeken',
-				  onChangeText: (text) => this.setState({search : text})
-				}}
-				rightElement={("filter-list")}
-				onRightElementPress={()=> this.showFilter()}
-			/>
+            <LinearGradient
+                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                  style={{ height: Header.HEIGHT}}
+                >
+			 <Toolbar
+			 	centerElement={"Nieuws"}
+			 	searchable={{
+			 	  autoFocus: true,
+			 	  placeholder: 'Zoeken',
+			 	  onChangeText: (text) => this.setState({search : text}),
+                      onSubmitEditing: () => {this.handleSearch()}
+			 	}}
+			 	rightElement={("filter-list")}
+			 	onRightElementPress={()=> this.showFilter()}
+			 />
+            </LinearGradient>
 			<BottomSheet
           ref={(ref: BottomSheet) => {
             this.bottomSheet = ref
@@ -209,21 +236,21 @@ bottomSheet: BottomSheet;
           coverScreen={false}
           options={filterOptions}
           isOpen={false}
-        />
+            />
 
-				<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+				<ImageBackground blurRadius={3} source={require('../assets/frisbee_kids_bslim.jpg')}  style={{width: '100%', height: '100%'}}>
+                    <View style={{marginBottom:172}}>
                     {
                 this.state.dataSource != null &&
                 <ListView
-                    style={{marginBottom:150}}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
                         <View style={styles.container}>
-                            <View style={styles.card} elevation={5}>
+                            <View style={styles.card} elevation={5} >
 
 
                                 <View style={{
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'rgba(52, 52, 52, 0,8)',
                                     paddingBottom: 0,
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
@@ -234,26 +261,24 @@ bottomSheet: BottomSheet;
                                             content: rowData.desc,
                                             link: rowData.link,
                                             img: rowData.url
-                                        })}>
+                                         })} >
                                     <ImageBackground
                                         source={{uri:rowData.url}}
                                         resizeMode="cover"
-                                        style={{width: '100%', height: 250}}>
-                                        <View style={{height:'50%',width:'100%',backgroundColor:'#00000080', position: "absolute", bottom: 0}}>
-                                            <View style={{flex:1,flexDirection: 'column',margin:20,marginBottom:40}}>
+                                        imageStyle={{ borderRadius: 10 }}
+                                        style={{width: '100%', height: 250,}}>
+                                        <View  style={{height:'38%',width:'100%',backgroundColor:'#00000080', position: "absolute", bottom: 0,borderRadius:10}}>
+                                            <View style={{flex:1,flexDirection: 'column',margin:20,marginTop:7,marginBottom:40}}>
                                                 <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}>
                                                     {rowData.title}
                                                 </Text>
                                             </View>
                                             <View style={{flex:1,flexDirection: 'row',marginBottom:10}}>
-                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: 'white',left:20}} >
-                                                    {rowData.created}
-                                                </Text>
-                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: 'white',position: "absolute",right:10}}>
+                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: '#BDBDBD',position: "absolute",right:10}}>
                                                     lees verder
                                                 </Text>
                                             </View>
-                                        </View>
+                                        </View >
 
 
                                     </ImageBackground>
@@ -295,6 +320,7 @@ bottomSheet: BottomSheet;
                     }
                         />
                     }
+                    </View>
 				</ImageBackground >
 
 
@@ -303,10 +329,10 @@ bottomSheet: BottomSheet;
 				<Image  style = {{width: 350, height: 225}}
 							source = {require('../assets/logo.png')}
 							/>
-				<PacmanIndicator color='white' />
+				<PacmanIndicator color='white'  />
 				</View>
-			}
-		</View>
+			    }
+			  </View>
     );
   }
 }
@@ -317,16 +343,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 		justifyContent: 'center',
-        marginBottom: 20
+        marginBottom: 15,
+
   },
 	card: {
-		backgroundColor: 'white',
+		color: 'rgba(52, 52, 52, 1.0)',
 		margin: 10,
         marginBottom:10,
-		borderRadius: 10,
-		shadowOffset: {width: 0, height: 13},
-		    shadowOpacity: 0.3,
-		    shadowRadius: 6,
 
 		    // android (Android +5.0)
 		    elevation: 3,
@@ -353,7 +376,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     textAlign: 'center',
     fontSize: 16,
-    color: 'white',
+    color: 'rgba(52, 52, 52, 1.0)',
   },
 })
 

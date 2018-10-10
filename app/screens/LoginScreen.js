@@ -12,7 +12,7 @@ import {
     Divider,
 		AsyncStorage,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
@@ -24,6 +24,7 @@ import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
     COLOR,
@@ -81,11 +82,13 @@ class LoginScreen extends Component {
       });
   }
 
-	setUser(value, id, clearance){
+	setUser(value, id, clearance, wordpresskey){
 		let localStorage = LocalStorage.getInstance();
 		localStorage.storeItem('succesfull', true);
 		this.props.navigation.dispatch(NavigationActions.back());
 		localStorage.storeItem('userId', id);
+		localStorage.storeItem('wordpresskey', wordpresskey);
+		console.log(wordpresskey)
     localStorage.storeItem('clearance', clearance);
 		let api = Api.getInstance();
 		api.getPoints();
@@ -122,7 +125,7 @@ class LoginScreen extends Component {
       	api.callApi('login', 'POST', userData, response => {
 					console.log(response);
       	    if(response['boolean'] == "true"){
-  					   this.setUser(response['value'], response['userId'], response['clearance']);
+  					   this.setUser(response['value'], response['userId'], response['clearance'], response['wordpresskey']);
 			} else {
 				   this.errorMessage(response['msg'])
 	    	}
@@ -134,6 +137,17 @@ class LoginScreen extends Component {
   render() {
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+        <LinearGradient
+                    colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                    style={{ height: Header.HEIGHT}}
+                  >
+          <Toolbar
+              iconSet="MaterialCommunityIcons"
+              centerElement="Inloggen"
+              leftElement={("arrow-left")}
+              onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+          />
+        </LinearGradient>
 		<View style={styles.container}>
 		  <View style={styles.card} elevation={5}>
 			<Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>

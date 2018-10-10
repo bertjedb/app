@@ -85,10 +85,10 @@ class NewsDetail extends Component {
                     centerElement={title}
                     leftElement={("arrow-left")}
                     onLeftElementPress={() => this.props.navigation.goBack()}
-                />
+                  />
                 <View style={styles.cardContainer} >
                     <View style={styles.card} elevation={5}>
-                        <ScrollView style={{height: Dimensions.get('window').height -160, borderRadius: 10,}}>
+                        <ScrollView style={{height: Dimensions.get('window').height -160, borderRadius: 10,minWidth:320}}>
 
                             <View style={{widht: '100%', height: 200, paddingBottom: 10,marginBottom:20}}>
 

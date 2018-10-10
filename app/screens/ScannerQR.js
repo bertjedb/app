@@ -119,8 +119,8 @@ class ScannerQR extends Component {
           reactivateTimeout={3000}
           showMarker={true}
           onRead={(response) => this.checkQR(response)}
-		  cameraStyle={{height: Dimensions.get('window').height -410,
-		  width: Dimensions.get('window').width -40, marginLeft: 20, marginTop: 20}}
+		      cameraStyle={{height: Dimensions.get('window').height -410,
+		      width: Dimensions.get('window').width -40, marginLeft: 20, marginTop: 20}}
           />
         </View>
     );
