@@ -140,24 +140,24 @@ export const MyTabLoggedIn = TabNavigator({
 		        )
 		        }
 		      },
+		     NewsCard: {
+				screen: NewsStack,
+				navigationOptions: {
+					tabBarLabel: 'Nieuws',
+					tabBarIcon: () => (
+						<Icon name="newspaper" size={24} color='grey' />
+					)
+				}
+			},
 			PointCard: {
 		        screen: PointCard,
 		        navigationOptions: {
 		          tabBarLabel: 'Stempelkaart',
 							tabBarIcon: () => (
-		          <Icon name="cards-outline" size={24} color='grey' />
+		          <Icon name="grid" size={24} color='grey' />
 		        )
 		        }
 		      },
-			NewsCard: {
-				screen: NewsStack,
-				navigationOptions: {
-					tabBarLabel: 'Nieuws',
-					tabBarIcon: () => (
-						<Icon name="cards-outline" size={24} color='grey' />
-					)
-				}
-			},
 			More: {
 				screen: More,
 				navigationOptions: {
@@ -226,7 +226,7 @@ export const MyTabNotLoggedIn = TabNavigator({
 				navigationOptions: {
 					tabBarLabel: 'Nieuws',
 					tabBarIcon: () => (
-						<Icon name="cards-outline" size={24} color='grey' />
+						<Icon name="newspaper" size={24} color='grey' />
 					)
 				}
 			},
