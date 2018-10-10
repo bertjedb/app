@@ -136,7 +136,7 @@ constructor() {
 					source={{uri: img}}
 					resizeMode="cover"
 					style={{width: '100%', height: 200}}
-				/>
+				  />
 				</View>
 
 
