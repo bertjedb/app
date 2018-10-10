@@ -182,6 +182,8 @@ export const MyTabLoggedIn = TabNavigator({
 				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
+					shifting: false,
+
 				style: {
 					backgroundColor: 'white', elevation: 8,
 					position: 'absolute',
@@ -198,8 +200,11 @@ export const MyTabLoggedIn = TabNavigator({
 		        EventStack: {
 							activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
 		        },
+				NewsCard: {
+							activeIcon:	<Icon name="newspaper" size={24} color='#3bb222' />
+		        },
 		        PointCard: {
-							activeIcon:	<Icon name="cards-outline" size={24} color='#3bb222' />
+							activeIcon:	<Icon name="grid" size={24} color='#3bb222' />
 		        },
 				More: {
 					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
