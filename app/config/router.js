@@ -38,21 +38,7 @@ export const GradientHeader = props => (
     </LinearGradient>
   </View>
 )
-<<<<<<< HEAD
 
-export const GradientEventsHeader = props => (
-	<View style={{ backgroundColor: '#eee', height: Header.HEIGHT}} >
-	    <LinearGradient
-	      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-	      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT, flex: 1, flexDirection: 'column' }]}
-	    >
-	      <Header {...props} />
-	    </LinearGradient>
-	    <Icon onPress={() => {showInput = !showInput; alert(showInput)}} name="magnify" style={{alignSelf: 'flex-end', margin: 10}} size={40} color='white' />
-	</View>
-)
-=======
->>>>>>> upstream/master
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
 	LoginScreen: {
@@ -90,7 +76,7 @@ export const AdminStack = StackNavigator({
         }
     },
     MakeNewsItem: {
-      screen: MakeEvent,
+      screen: MakeNewsItem,
       navigationOptions: {
         title: 'Nieuw artikel',
       }
