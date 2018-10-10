@@ -213,7 +213,7 @@ class Events extends Component {
 			<LinearGradient
 			  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
 			  style={{ height: Header.HEIGHT}}
-			>
+			 >
                 <Toolbar
                     centerElement={"Evenementen"}
                     searchable={{
