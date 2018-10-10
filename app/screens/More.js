@@ -143,16 +143,6 @@ export default class More extends Component {
                                 }
                 }),
                 },
-                {
-                    icon: 'today',
-                    value: 'Nieuw evenement',
-					key: '6',
-                    onPress: () =>
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'MakeEvent',
-                            action: NavigationActions.navigate({routeName: 'MakeEvent'})
-                        }))
-                },
               ]}
           />
       }

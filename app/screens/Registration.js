@@ -19,7 +19,7 @@ import {
     Card,
     Button
 } from 'react-native-material-ui';
-import { DrawerActions, NavigationActions } from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -28,6 +28,7 @@ import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
 import { TextField } from 'react-native-material-textfield';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 export default class Registration extends Component {

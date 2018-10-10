@@ -37,6 +37,7 @@ import * as mime from 'react-native-mime-types';
 import Video from 'react-native-af-video-player'
 import DefaultUserImage from '../assets/default-user-image.png';
 import LinearGradient from 'react-native-linear-gradient';
+import ImgToBase64 from 'react-native-image-base64';
 
 
 const uiTheme = {

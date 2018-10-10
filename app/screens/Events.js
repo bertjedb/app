@@ -190,7 +190,7 @@ class Events extends Component {
                 {
                     this.state.dataSource != null &&
                     <ListView
-					contentContainerStyle={{paddingTop: 20}}
+					   contentContainerStyle={{paddingTop: 20}}
 						refreshControl={
 					          <RefreshControl
 							  colors={['#94D600']}
@@ -207,7 +207,7 @@ class Events extends Component {
 
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
-										source={{uri: rowData.photo[0]}}
+										source={{uri: 'data:image/png;base64,' + rowData.photo[0]}}
 										resizeMode="cover"
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>

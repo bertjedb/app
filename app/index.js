@@ -43,12 +43,29 @@ class App extends Component {
           console.log('Promise is rejected with error: OH BOII' + error);
           });
 	}
+
+    update() {
+        let localStorage = LocalStorage.getInstance();
+        localStorage.retrieveItem('userId').then((id) => {
+            if(id != null){
+                this.setState({
+                                  loggedIn: true,
+                              })
+            } else {
+                this.setState({
+                                  loggedIn: false,
+                              })
+            }
+          }).catch((error) => {
+          //this callback is executed when your Promise is rejected
+          console.log('Promise is rejected with error: OH BOII' + error);
+          });
+    }
   render() {
-
-
     return (
 
 			<View style={{flex: 1}}>
+            { this.update() }
 			<StatusBar
 			    backgroundColor="#76AB00"
 			    barStyle="light-content"
