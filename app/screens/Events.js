@@ -200,7 +200,7 @@ class Events extends Component {
 
                                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
 									<Image
-										source={{uri: rowData.photo['profilePhoto']}}
+										source={{uri: rowData.photo[0]}}
 										resizeMode="cover"
 										style={{width: 50, height: 50, borderRadius: 10}}
 									/>
@@ -213,7 +213,7 @@ class Events extends Component {
                                                 fontSize: 18,
                                                 color: 'black'
                                             }}>
-                                                {capitalize.words(rowData.leader[0]['firstname']) + ' ' + capitalize.words(rowData.leader[2]['lastname'])}
+                                                {capitalize.words(rowData.leader[0][0]) + ' ' + capitalize.words(rowData.leader[2][0])}
                                             </Text>
                                             <Text style={{fontSize: 14, color: 'black'}}>
                                                 {rowData.created}
@@ -235,7 +235,7 @@ class Events extends Component {
                                                 start: rowData.begin + ' ' + rowData.beginMonth,
                                                 end: rowData.end,
                                                 created: rowData.created,
-                                                author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
+                                                author: capitalize.words(rowData.leader[0][0].replace(', ,', ' ')),
                                                 link: rowData.link,
                                                 img: rowData.img,
                                                 location: rowData.location,
