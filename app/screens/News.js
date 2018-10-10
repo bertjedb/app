@@ -14,7 +14,8 @@ import {
     Animated,
     Dimensions,
     ListView,
-    Button
+    Button,
+    Alert, Share, TouchableHighlight
 } from 'react-native';
 import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
@@ -40,6 +41,7 @@ import {
 
 import stylesCss from '../assets/css/style.js';
 import Api from "../config/api";
+import * as capitalize from "capitalize";
 
 class News extends Component {
 
@@ -217,29 +219,53 @@ bottomSheet: BottomSheet
 
                                 <View style={{
                                     backgroundColor: 'white',
-                                    paddingBottom: 10,
+                                    paddingBottom: 0,
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
                                 }}>
-                                    <Image
+                                    <TouchableHighlight
+                                        onPress={() => this.props.navigation.navigate('NewsDetail', {
+                                            title: rowData.title,
+                                            content: rowData.desc,
+                                            link: rowData.link,
+                                            img: rowData.url
+                                        })}>
+                                    <ImageBackground
                                         source={{uri:rowData.url}}
                                         resizeMode="cover"
-                                        style={{width: '100%', height: 200}}
-                                    />
+                                        style={{width: '100%', height: 250}}>
+                                        <View style={{height:'50%',width:'100%',backgroundColor:'#00000080', position: "absolute", bottom: 0}}>
+                                            <View style={{flex:1,flexDirection: 'column',margin:20,marginBottom:40}}>
+                                                <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}>
+                                                    {rowData.title}
+                                                </Text>
+                                            </View>
+                                            <View style={{flex:1,flexDirection: 'row',marginBottom:10}}>
+                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: 'white',left:20}} >
+                                                    {rowData.created}
+                                                </Text>
+                                                <Text style={{fontWeight: 'bold', fontSize: 15, color: 'white',position: "absolute",right:10}}>
+                                                    lees verder
+                                                </Text>
+                                            </View>
+                                        </View>
 
-                                    <View style={{justifyContent:'center',alignItems: 'center',flex:1,flexDirection: 'column'}}>
-                                        <Text style={{margin: 5, fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-                                            {rowData.title}
-                                        </Text>
-                                        <Text style={{marginBottom: 5, fontWeight: 'bold', fontSize: 16, color: 'black'}}>
-                                            {rowData.created}
-                                        </Text>
-                                    </View>
 
-                                    <Text numberOfLines={3} ellipsizeMode="tail"
-                                          style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>
-                                        {rowData.desc}
-                                    </Text>
+                                    </ImageBackground>
+                                    </TouchableHighlight>
+                                    {/*<View style={{justifyContent:'center',alignItems: 'center',flex:1,flexDirection: 'column'}}>*/}
+                                        {/*<Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>*/}
+                                            {/*{rowData.title}*/}
+                                        {/*</Text>*/}
+                                        {/*<Text style={{fontWeight: 'bold', fontSize: 16, color: 'black'}}>*/}
+                                            {/*{rowData.created}*/}
+                                        {/*</Text>*/}
+                                    {/*</View>*/}
+
+                                    {/*<Text numberOfLines={3} ellipsizeMode="tail"*/}
+                                          {/*style={{margin: 5,marginBottom:30, fontSize: 13, color: 'grey'}}>*/}
+                                        {/*{rowData.desc}*/}
+                                    {/*</Text>*/}
                                     <View style={{
                                         flex: 1,
                                         flexDirection: 'row',
@@ -248,15 +274,19 @@ bottomSheet: BottomSheet
                                         left: 0,
 
                                     }}>
-                                    <View style={{ width: '100%',marginTop:10,}}>
-                                        <TouchableOpacity  style={{justifyContent:'center',alignItems: 'center',height: 30,
-                                            borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor:'#93D500'}}>
-                                            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>Delen</Text></TouchableOpacity>
-                                    </View>
+
+                                    {/*<View style={{ width: '100%',marginTop:10,}}>*/}
+                                        {/*<TouchableOpacity onPress={() => Share.share({*/}
+                                            {/*message: 'Bslim nieuws: ' + capitalize.words(rowData.title.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link*/}
+                                        {/*})} style={{justifyContent:'center',alignItems: 'center',height: 30,*/}
+                                            {/*borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor:'#93D500'}}>*/}
+                                            {/*<Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>Delen</Text></TouchableOpacity>*/}
+                                    {/*</View>*/}
                                     </View>
                                 </View>
                             </View>
                         </View >
+
                     }
                         />
                     }
@@ -271,7 +301,7 @@ bottomSheet: BottomSheet
 							source = {require('../assets/logo.png')}
 							/>
 				<PacmanIndicator color='white' />
-				</View >
+				</View>
 			}
 		</View>
     );
@@ -284,10 +314,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 		justifyContent: 'center',
+        marginBottom: 20
   },
 	card: {
 		backgroundColor: 'white',
 		margin: 10,
+        marginBottom:10,
 		borderRadius: 10,
 		shadowOffset: {width: 0, height: 13},
 		    shadowOpacity: 0.3,

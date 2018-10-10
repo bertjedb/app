@@ -6,6 +6,7 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation-per
 
 import {Image, Button, View, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import ScannerQR from '../screens/ScannerQR';
 import Upload from '../screens/Upload';
 import LoginScreen from '../screens/LoginScreen';
@@ -14,6 +15,7 @@ import Registration from '../screens/Registration';
 import ChangePassword from '../screens/ChangePassword';
 import RecoverPassword from '../screens/RecoverPassword';
 import EventDetail from '../screens/EventDetail';
+import NewsDetail from '../screens/NewsDetail';
 import News from '../screens/News';
 import More from '../screens/More';
 import Api from './api.js';
@@ -79,10 +81,16 @@ export const AdminStack = StackNavigator({
 },{headerMode: 'none'
 })
 
-//Stack for all the admin screens
+//Stack for all the news screens
 export const NewsStack = StackNavigator({
     NewsFeed: {
         screen: News,
+        navigationOptions: {
+            title: 'Nieuws',
+        }
+    },
+    NewsDetail: {
+        screen: NewsDetail,
         navigationOptions: {
             title: 'Nieuws',
         }
@@ -172,6 +180,8 @@ export const MyTabLoggedIn = TabNavigator({
 				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
+					shifting: false,
+
 				style: {
 					backgroundColor: 'white', elevation: 8,
 					position: 'absolute',
@@ -188,8 +198,11 @@ export const MyTabLoggedIn = TabNavigator({
 		        EventStack: {
 							activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
 		        },
+				NewsCard: {
+							activeIcon:	<Icon name="newspaper" size={24} color='#3bb222' />
+		        },
 		        PointCard: {
-							activeIcon:	<Icon name="cards-outline" size={24} color='#3bb222' />
+							activeIcon:	<Icon name="grid" size={24} color='#3bb222' />
 		        },
 				More: {
 					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
