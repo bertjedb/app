@@ -7,8 +7,8 @@ export default class Api {
 
 
 	//url= "http://145.37.164.183:5000/"
-	url = "http://gaauwe.nl:5000/";
-	//url = "http://10.0.2.2:5000/";
+	//url = "http://gaauwe.nl:5000/";
+	url = "http://10.0.2.2:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {
