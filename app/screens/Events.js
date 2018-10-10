@@ -134,14 +134,14 @@ class Events extends Component {
  getBackgroundModal(){
  	if(this.state.modalVisible){
  		return {position: 'absolute',
- 	    top: 58,
+ 	    top: 55,
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
  	    backgroundColor: 'rgba(0,0,0,0.5)'}
  	} else {
  		return {position: 'absolute',
- 	    top: 58,
+ 	    top: 55,
  	    bottom: 0,
  	    left: 0,
  	    right: 0,
