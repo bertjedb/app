@@ -137,7 +137,7 @@ constructor() {
 					}
                 </View>
 				<View style={{widht: '100%', height: 200, paddingBottom: 10}}>
-				{this.state.img &&
+				{img &&
 				<ImageSlider
 				autoPlayWithInterval={3000}
 				images={[img]}/>

@@ -176,7 +176,7 @@ class Events extends Component {
                                     <View style={{flex: 1, flexDirection: 'row', margin: 10}}>
 
                                         <Image
-                                            source={{uri: 'data:image/jpg;base64,' + rowData.photo[0]}}
+                                            source={{uri: rowData.photo[0]}}
                                             style={{width: 50, height: 50, borderRadius: 10}}
                                         />
                                         <View style={{flex: 1, flexDirection: 'column', marginLeft: 8}}>
@@ -216,7 +216,7 @@ class Events extends Component {
                                             })}
                                         >
                                         <Image
-                                            source={{uri: 'data:image/jpg;base64,' + rowData.img}}
+                                            source={{uri: rowData.img}}
                                             resizeMode="cover"
                                             style={{width: '100%', height: 200}}
                                         />
