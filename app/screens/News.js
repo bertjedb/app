@@ -295,7 +295,7 @@ bottomSheet: BottomSheet;
                     }
                         />
                     }
-				</ImageBackground>
+				</ImageBackground >
 
 
 			{this.state.loading &&
