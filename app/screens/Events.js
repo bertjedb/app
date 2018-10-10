@@ -158,6 +158,7 @@ class Events extends Component {
                            <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
                                     <View style={{flex: 1, flexDirection: 'row', margin: 10}}>
+
                                         <Image
                                             source={{uri:rowData.photo[0]}}
                                             style={{width: 50, height: 50, borderRadius: 10}}
@@ -184,11 +185,26 @@ class Events extends Component {
                                         borderBottomLeftRadius: 10,
                                         borderBottomRightRadius: 10,
                                     }}>
+                                        <TouchableHighlight
+                                            onPress={() => this.props.navigation.navigate('EventDetail', {
+                                                title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+                                                profilePicture: rowData.photo[0],
+                                                content: rowData.desc,
+                                                start: rowData.begin + ' ' + rowData.beginMonth,
+                                                end: rowData.end,
+                                                created: rowData.created,
+                                                author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
+                                                link: rowData.link,
+                                                img: rowData.img,
+                                                location: rowData.location,
+                                            })}
+                                        >
                                         <Image
                                             source={{uri:rowData.img}}
                                             resizeMode="cover"
                                             style={{width: '100%', height: 200}}
                                         />
+                                        </TouchableHighlight>
                                         <View style={{flex: 1, flexDirection: 'row', width: '80%'}} >
                                             <View style={{
                                                 minWidth: '18%',
@@ -232,8 +248,10 @@ class Events extends Component {
                                                 <Text numberOfLines={3} ellipsizeMode="tail" style={{fontSize: 12}}>
                                                     {rowData.desc}
                                                 </Text>
+
                                             </View>
-                                        </View>
+
+                                        </View >
 
                                         <View style={{
                                             flex: 1,
@@ -244,19 +262,20 @@ class Events extends Component {
 											alignItems: 'center',
                                         }}>
 										<TouchableHighlight
-										onPress={() => this.props.navigation.navigate('EventDetail', {
-											title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
-											profilePicture: rowData.photo[0],
-											content: rowData.desc,
-											start: rowData.begin + ' ' + rowData.beginMonth,
-											end: rowData.end,
-											created: rowData.created,
-											author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
-											link: rowData.link,
-											img: rowData.img,
-											location: rowData.location,
-								            })}
-										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+										// onPress={() => this.props.navigation.navigate('EventDetail', {
+										// 	title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+										// 	profilePicture: rowData.photo[0],
+										// 	content: rowData.desc,
+										// 	start: rowData.begin + ' ' + rowData.beginMonth,
+										// 	end: rowData.end,
+										// 	created: rowData.created,
+										// 	author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
+										// 	link: rowData.link,
+										// 	img: rowData.img,
+										// 	location: rowData.location,
+								         //    })}
+										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10
+                                            , backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
 										</TouchableHighlight>
@@ -277,7 +296,7 @@ class Events extends Component {
                     />
                 }
 				</View>
-            </ImageBackground>
+            </ImageBackground >
 
 
         );
@@ -306,6 +325,7 @@ backgroundColor: 'rgba(0,0,0,0)'
     container: {
         flex: 1,
         justifyContent: 'center',
+        marginBottom:20
     },
     card: {
         backgroundColor: 'white',
