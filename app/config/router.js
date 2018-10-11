@@ -24,6 +24,8 @@ import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
 import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
+import ChangeEmailRequest from '../screens/ChangeEmailRequest';
+import ChangeEmail from '../screens/ChangeEmail';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -38,12 +40,12 @@ export const GradientHeader = props => (
 )
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
-	LoginScreen: {
+  LoginScreen: {
 		screen: LoginScreen,
 		navigationOptions: {
 			title: 'Login',
 		}
-	},Registration: {
+},Registration: {
 		screen: Registration,
 		navigationOptions: {
 			title: 'Registreren',
@@ -60,7 +62,19 @@ export const LoginStack = StackNavigator({
 	navigationOptions: {
 		title: 'Wachtwoord vergeten',
 	}
-  }
+  },
+  ChangeEmailRequest: {
+  	screen: ChangeEmailRequest,
+  	navigationOptions: {
+  		title: 'E-mail adres verandering opvragen'
+  	}
+  },
+  ChangeEmail: {
+  	screen: ChangeEmail,
+  	navigationOptions: {
+  		title: 'E-mail adres veranderen'
+  	}
+  },
 },{headerMode: 'none'
 })
 
