@@ -22,10 +22,12 @@ import Api from './api.js';
 import LocalStorage from './localStorage.js';
 import ParticipantList from '../screens/ParticipantList'
 import MakeEvent from '../screens/MakeEvent';
+import MakeNewsItem from '../screens/MakeNewsItem';
 import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
+import Filter from '../screens/Filter';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -38,6 +40,7 @@ export const GradientHeader = props => (
     </LinearGradient>
   </View>
 )
+
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
   LoginScreen: {
@@ -85,6 +88,12 @@ export const AdminStack = StackNavigator({
         navigationOptions: {
             title: 'Nieuw evenement',
         }
+    },
+    MakeNewsItem: {
+      screen: MakeNewsItem,
+      navigationOptions: {
+        title: 'Nieuw artikel',
+      }
     },
     CreateAdmin: {
         screen: CreateAdmin,

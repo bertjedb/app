@@ -70,11 +70,12 @@ class Events extends Component {
         this.state = {
             dataSource: null,
             eventArray: [],
-			modalVisible: false,
-			refreshing: false,
+			      modalVisible: false,
+            adminArray: [],
+            checkMap: new Map(),
             search: '',
-			loading: true,
-
+            refreshing: false,
+            search: '',
         };
 
         let api = Api.getInstance()
@@ -95,6 +96,7 @@ class Events extends Component {
   componentDidMount() {
     this.onLoad();
     this.props.navigation.addListener('willFocus', this.onLoad)
+    this.getAdmins();
   }
 
     onLoad = () => {
@@ -169,6 +171,41 @@ class Events extends Component {
     });
  }
 
+  getAdmins() {
+    api = Api.getInstance();
+    api.callApi('api/getAllAdmins', 'POST', {}, response => {
+      if(response['responseCode'] == 200) {
+            // for(admin in response['admins']){
+            //   console.log("ADMIN :::::::::::" + admin)
+            //   this.adminArray.push(admin);
+            // }
+            // }
+            // return response['admins'];
+          console.log(this.state)
+          this.setState({
+            adminArray: response['admins']
+          })
+          this.initFilterOptions();
+          console.log(this.state)
+
+        }
+      })
+  }
+
+  renderModalContent() {
+    return(
+      <Text style={{fontWeight: 'bold'}}>Filter op evenementen met begeleider</Text>
+
+    )
+  }
+
+  initFilterOptions() {
+      this.state.adminArray.map((admin) => {
+        this.state.checkMap.set(admin.id, false);
+        });
+  }
+
+
 
     render() {
         return(
@@ -176,7 +213,7 @@ class Events extends Component {
 			<LinearGradient
 			  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
 			  style={{ height: Header.HEIGHT}}
-			>
+			 >
                 <Toolbar
                     centerElement={"Evenementen"}
                     searchable={{
