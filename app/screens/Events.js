@@ -32,6 +32,7 @@ import {BarIndicator} from 'react-native-indicators';
 import Api from '../config/api.js';
 import BottomSheet from "react-native-js-bottom-sheet";
 import LinearGradient from 'react-native-linear-gradient';
+import LocalStorage from "../config/localStorage";
 
 
 
@@ -76,6 +77,7 @@ class Events extends Component {
             search: '',
             refreshing: false,
             search: '',
+            check: false
         };
 
         let api = Api.getInstance()
@@ -168,9 +170,27 @@ class Events extends Component {
                   uploading: false,
               });
           }
-    });
- }
+     });}
 
+ check(){
+
+     let localStorage = LocalStorage.getInstance();
+     localStorage.retrieveItem('userId').then((id) => {
+         console.log(id)
+         if (id != null) {
+             return true
+         }
+
+         else
+     {
+         return false
+         print('nope')
+       }
+     }).catch((error) => {
+         //this callback is executed when your Promise is rejected
+         console.log('Promise is rejected with error: ' + error);
+     });
+ }
   getAdmins() {
     api = Api.getInstance();
     api.callApi('api/getAllAdmins', 'POST', {}, response => {
@@ -370,21 +390,44 @@ class Events extends Component {
 											alignItems: 'center',
                                         }}>
 										<TouchableHighlight
-										onPress={() => this.props.navigation.navigate('EventDetail', {
-											title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
-											profilePicture: rowData.photo[0],
-											content: rowData.desc,
-											start: rowData.begin,
-											end: rowData.end,
-											created: rowData.created,
-											author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
-											link: rowData.link,
-											img: rowData.img,
-											location: rowData.location,
-								            })}
+										onPress={() =>{
+                                            let localStorage = LocalStorage.getInstance();
+                                            localStorage.retrieveItem('userId').then((id) => {
+                                                console.log(id)
+                                                if (id != null) {
+                                                    this.props.navigation.navigate('EventDetail', {
+                                                        title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+                                                        profilePicture: rowData.photo[0],
+                                                        content: rowData.desc,
+                                                        start: rowData.begin,
+                                                        end: rowData.end,
+                                                        created: rowData.created,
+                                                        author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
+                                                        link: rowData.link,
+                                                        img: rowData.img,
+                                                        location: rowData.location
+                                                    })
+                                                }
+
+                                                else
+                                                {
+                                                    this.props.navigation.navigate('LoginScreen')
+                                                }
+                                            }).catch((error) => {
+                                                //this callback is executed when your Promise is rejected
+                                                console.log('Promise is rejected with error: ' + error);
+                                            });
+
+
+
+
+
+
+										 }}
 										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
+
 										</TouchableHighlight>
 										<TouchableHighlight
 										onPress={() => Share.share({
