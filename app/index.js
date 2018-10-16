@@ -4,7 +4,8 @@ import { View, StatusBar, StyleSheet } from 'react-native';
 import LocalStorage from './config/localStorage.js';
 import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
 import LinearGradient from 'react-native-linear-gradient';
-import { Header } from 'react-navigation'
+import { Header } from 'react-navigation';
+import OneSignal from 'react-native-onesignal';
 
 // you can set your style right here, it'll be propagated to application
 const uiTheme = {
@@ -26,6 +27,35 @@ class App extends Component {
 		}
 		console.disableYellowBox = true;
 	}
+
+  componentWillMount() {
+    OneSignal.init("893db161-0c60-438b-af84-8520b89c6d93");
+
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
+  }
+  
+  componentWillUnmount() {
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('ids', this.onIds);
+  }
+
+  onReceived(notification) {
+    console.log("Notification received: ", notification);
+  }
+
+  onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device) {
+    console.log('Device info: ', device);
+  }
 	componentDidMount() {
 		let localStorage = LocalStorage.getInstance();
         localStorage.retrieveItem('userId').then((id) => {

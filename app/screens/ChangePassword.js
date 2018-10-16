@@ -79,7 +79,6 @@ export default class ChangePassword extends Component {
                     oldPassword: oldHash,
                     newPassword: newHash
                 }
-                console.log(userData);
                 api.callApi('api/changePassword', 'POST', userData, response => {
                     if(response['responseCode'] == 200){
                         this.successMessage("Wachtwoord is succesvol veranderd")
