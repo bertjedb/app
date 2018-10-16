@@ -16,12 +16,10 @@ import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'rea
 import stylesCss from '../assets/css/style.js';
 import HTML from 'react-native-render-html';
 import {BarIndicator} from 'react-native-indicators';
-import {PacmanIndicator} from 'react-native-indicators';
 import Api from '../config/api.js';
 import LinearGradient from 'react-native-linear-gradient';
 import LocalStorage from "../config/localStorage";
-
-
+import {PacmanIndicator} from 'react-native-indicators';
 
 var capitalize = require('capitalize')
 
@@ -212,6 +210,8 @@ class Events extends Component {
                         }}
                     />
                 </LinearGradient>
+            { !this.state.loading && 
+                <View>
             { this.state.dataSource != null &&
                 <ListView
                     contentContainerStyle={{paddingTop: 20}}
@@ -396,13 +396,15 @@ class Events extends Component {
 
                                         <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
                                     </TouchableHighlight>
-
                                     </View>
                                 </View>
                             </View>
                         </View> }
-                    />
-            }
+                    /> }
+                </View> }
+                {this.state.loading && 
+                    <PacmanIndicator color='#94D600'  />
+                }
         </ImageBackground>
         );
     }

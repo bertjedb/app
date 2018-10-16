@@ -112,7 +112,7 @@ class App extends Component {
                 }
                 {this.state.loading &&
                     <View style={{justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
-                        <Image  style = {{width: 350, height: 225}}
+                        <Image  style = {{width: 350, height: 225, marginTop: 100}}
                                 source = {require('./assets/logo.png')}/>
                         <PacmanIndicator color='white'  />
                     </View>
