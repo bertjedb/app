@@ -334,8 +334,8 @@ class Events extends Component {
                                                 title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
                                                 profilePicture: rowData.photo[0],
                                                 content: rowData.desc,
-                                                start: rowData.begin + ' ' + rowData.beginMonth,
-                                                end: rowData.end,
+                                                start: rowData.begin + ' ' + rowData.beginMonth + ' ' + rowData.beginTime,
+                                                end: rowData.end + ' ' + rowData.endMonth + ' ' + rowData.endTime,
                                                 created: rowData.created,
                                                 author: capitalize.words(rowData.leader[0][0].replace(', ,', ' ')),
                                                 link: rowData.link,
@@ -403,7 +403,6 @@ class Events extends Component {
                                             left: 0,
 											alignItems: 'center',
                                         }}>
-                                        {console.log(rowData.subscribed)}
 										{ !rowData.subscribed && <TouchableHighlight
 										  onPress={() => {
                                                     let api = Api.getInstance()
@@ -432,7 +431,6 @@ class Events extends Component {
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
 										</TouchableHighlight> }
-                                        {console.log(rowData.subscribed)}
                                         { rowData.subscribed && <TouchableHighlight
                                           onPress={() => {
                                                     let api = Api.getInstance()
