@@ -31,6 +31,7 @@ import {BarIndicator} from 'react-native-indicators';
 import {PacmanIndicator} from 'react-native-indicators';
 
 import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 import BottomSheet from "react-native-js-bottom-sheet";
 import LinearGradient from 'react-native-linear-gradient';
 import LocalStorage from "../config/localStorage";
@@ -72,7 +73,7 @@ class Events extends Component {
         this.state = {
             dataSource: null,
             eventArray: [],
-			      modalVisible: false,
+            modalVisible: false,
             adminArray: [],
             checkMap: new Map(),
             search: '',
@@ -84,15 +85,31 @@ class Events extends Component {
 
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
-			console.log(response)
             if(response['responseCode'] == 200) {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
-                this.setState({
-					          uploading: false,
-                    dataSource: ds.cloneWithRows(response['events']),
-                });
+
+                let array = response['events'];
+                for(let index=0; index < array.length; index++) {
+                    let localStorage = LocalStorage.getInstance();
+                    localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            userData = {
+                                "eventId": response['events'][index]['id'],
+                                "personId": id
+                            }
+                            api.callApi('api/checkSub', 'POST', userData, response => {
+                                array[index]['subscribed'] = response['found']
+                            });
+                        }
+                        this.setState({
+                            uploading: false,
+                            dataSource: ds.cloneWithRows(array),
+                        });
+                    });
+                }
+
             }
         });
     }
@@ -125,68 +142,74 @@ class Events extends Component {
     this.refresh();
   }
 
-  refresh(){
-    let api = Api.getInstance()
-    api.callApi('api/getAllEvents', 'POST', {}, response => {
-		this.setState({
-			loading: false
-		});
+    refresh(){
+        let api = Api.getInstance()
+        api.callApi('api/getAllEvents', 'POST', {}, response => {
+            if(response['responseCode'] == 200) {
+                 let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                let array = response['events'];
+                for(let index=0; index < array.length; index++) {
+                    let localStorage = LocalStorage.getInstance();
+                    localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            userData = {
+                                "eventId": response['events'][index]['id'],
+                                "personId": id
+                            }
+                            api.callApi('api/checkSub', 'POST', userData, response => {
+                                array[index]['subscribed'] = response['found'];
+                                this.setState({
+                                    uploading: false,
+                                    dataSource: ds.cloneWithRows(array),
+                                });
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
+    showFilter() {
+		this.setState({modalVisible: !this.state.modalVisible});
+    };
 
-      if(response['responseCode'] == 200) {
-	        console.log(response);
-          let ds = new ListView.DataSource({
-              rowHasChanged: (r1, r2) => r1 !== r2
-          });
-          this.setState({
-              firstLoading: false,
-              dataSource: ds.cloneWithRows(response['events']),
-              uploading: false,
-          });
-      }
-    })
-  }
-  showFilter() {
-	this.setState({modalVisible: !this.state.modalVisible});
-  };
+ 
+
 
  handleSearch() {
     let api = Api.getInstance();
     userData = {
         searchString: this.state.search
     }
-    api.callApi('api/searchEvent', 'POST', userData, response => {
-        if(response['responseCode'] == 200) {
-                console.log(response['events']);
-              let ds = new ListView.DataSource({
-                  rowHasChanged: (r1, r2) => r1 !== r2
-              });
-              this.setState({
-                  firstLoading: false,
-                  dataSource: ds.cloneWithRows(response['events']),
-                  uploading: false,
-              });
-          }
-     });}
+    api.callApi('api/searchEvent', 'POST', {}, response => {
+            if(response['responseCode'] == 200) {
+                 let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                let array = response['events'];
+                for(let index=0; index < array.length; index++) {
+                    let localStorage = LocalStorage.getInstance();
+                    localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            userData = {
+                                "eventId": response['events'][index]['id'],
+                                "personId": id
+                            }
+                            api.callApi('api/checkSub', 'POST', userData, response => {
+                                array[index]['subscribed'] = response['found'];
+                                this.setState({
+                                    uploading: false,
+                                    dataSource: ds.cloneWithRows(array),
+                                });
+                            });
+                        }
+                    });
+                }
+            }
+        });
 
- check(){
-
-     let localStorage = LocalStorage.getInstance();
-     localStorage.retrieveItem('userId').then((id) => {
-         console.log(id)
-         if (id != null) {
-             return true
-         }
-
-         else
-     {
-         return false
-         print('nope')
-       }
-     }).catch((error) => {
-         //this callback is executed when your Promise is rejected
-         console.log('Promise is rejected with error: ' + error);
-     });
- }
   getAdmins() {
     api = Api.getInstance();
     api.callApi('api/getAllAdmins', 'POST', {}, response => {
@@ -197,12 +220,10 @@ class Events extends Component {
             // }
             // }
             // return response['admins'];
-          console.log(this.state)
           this.setState({
             adminArray: response['admins']
           })
           this.initFilterOptions();
-          console.log(this.state)
 
         }
       })
@@ -334,7 +355,7 @@ class Events extends Component {
 
                                             </View>
                                             <View style={{
-												marginTop: 10,
+												                        marginTop: 10,
                                                 marginRight: 10,
                                                 marginBottom: 30,
                                                 fontWeight: 'bold'
@@ -346,7 +367,7 @@ class Events extends Component {
 
                                             </View>
 
-                                        </View >
+                                        </View>
 
                                         <View style={{
                                             flex: 1,
@@ -354,53 +375,76 @@ class Events extends Component {
                                             position: 'absolute',
                                             bottom: 0,
                                             left: 0,
-											alignItems: 'center',
+											                      alignItems: 'center',
                                         }}>
-										<TouchableHighlight
-										onPress={() =>{
-                                            let localStorage = LocalStorage.getInstance();
-                                            localStorage.retrieveItem('userId').then((id) => {
-                                                console.log(id)
-                                                if (id != null) {
-                                                    this.props.navigation.navigate('EventDetail', {
-                                                        title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
-                                                        profilePicture: rowData.photo[0],
-                                                        content: rowData.desc,
-                                                        start: rowData.begin,
-                                                        end: rowData.end,
-                                                        created: rowData.created,
-                                                        author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
-                                                        link: rowData.link,
-                                                        img: rowData.img,
-                                                        location: rowData.location
-                                                    })
-                                                }
 
-                                                else
-                                                {
-                                                    this.props.navigation.navigate('LoginScreen')
-                                                }
-                                            }).catch((error) => {
-                                                //this callback is executed when your Promise is rejected
-                                                console.log('Promise is rejected with error: ' + error);
-                                            });
-
-
-
-
-
-
-										 }}
-										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+										{ !rowData.subscribed && <TouchableHighlight
+										  onPress={() => {
+                                                    let api = Api.getInstance()
+                                                    let localStorage = LocalStorage.getInstance();
+                                                    localStorage.retrieveItem('userId').then((id) => {
+                                                        if(id != null) {
+                                                            userData = {
+                                                            "eventId": rowData.id,
+                                                            "personId": id
+                                                        }
+                                                        api.callApi('api/subToEvent', 'POST', userData, response=>{
+                                                            if(response['responseCode'] == 200) {
+                                                                alert("Je hebt je aangemeld voor dit evenement")
+                                                                this.refresh();
+                                                            } else if(response['responseCode'] == 400) {
+                                                                alert("Je bent al aangemeld");
+                                                            } else {
+                                                                alert("Er is wat fout gegaan");
+                                                            }
+                                                        });
+                                                        } else {
+                                                            this.props.navigation.navigate('LoginScreen')
+                                                        }    
+                                                    });
+								                }
+                                            }
+										  style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
+										</TouchableHighlight> }
+                                        {console.log(rowData.subscribed)}
+                                        { rowData.subscribed && <TouchableHighlight
+                                          onPress={() => {
+                                                    let api = Api.getInstance()
+                                                    let localStorage = LocalStorage.getInstance();
+                                                    localStorage.retrieveItem('userId').then((id) => {
+                                                        if(id != null) {
+                                                            userData = {
+                                                            "eventId": rowData.id,
+                                                            "personId": id
+                                                        }
+                                                        api.callApi('api/unSubToEvent', 'POST', userData, response=>{
+                                                            if(response['responseCode'] == 200) {
+                                                                alert("Je hebt je afgemeld voor dit evenement");
+                                                                this.refresh();
+                                                            } else if(response['responseCode'] == 400) {
+                                                                alert("Je bent al afgemeld");
+                                                            } else {
+                                                                alert("Er is wat fout gegaan");
+                                                            }
+                                                        });
+                                                        } else {
+                                                            this.props.navigation.navigate('LoginScreen')
+                                                        }  
+                                                    });
+                                                }
+                                            }
+                                          style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
-										</TouchableHighlight>
+                                            <Text style={{color: 'white', fontWeight: 'bold'}} >AFMELDEN</Text>
+                      </TouchableHighlight> }
+
 										<TouchableHighlight
-										onPress={() => Share.share({
-			      							message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
-			  							})}
-										style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
+										    onPress={() => Share.share({
+			      							    message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
+			  							  })}
+										    style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
 										</TouchableHighlight>
@@ -413,6 +457,7 @@ class Events extends Component {
                     />
                 }
 				</View>
+
         </View>
         </ImageBackground>
 
