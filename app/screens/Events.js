@@ -33,6 +33,7 @@ import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import BottomSheet from "react-native-js-bottom-sheet";
 import LinearGradient from 'react-native-linear-gradient';
+import LocalStorage from "../config/localStorage";
 
 
 
@@ -77,6 +78,7 @@ class Events extends Component {
             search: '',
             refreshing: false,
             search: '',
+            check: false
         };
 
         let api = Api.getInstance()
@@ -205,7 +207,6 @@ class Events extends Component {
                 }
             }
         });
- }
 
   getAdmins() {
     api = Api.getInstance();
@@ -381,7 +382,7 @@ class Events extends Component {
 
                                             </View>
                                             <View style={{
-												marginTop: 10,
+												                        marginTop: 10,
                                                 marginRight: 10,
                                                 marginBottom: 30,
                                                 fontWeight: 'bold'
@@ -401,9 +402,9 @@ class Events extends Component {
                                             position: 'absolute',
                                             bottom: 0,
                                             left: 0,
-											alignItems: 'center',
+											                      alignItems: 'center',
                                         }}>
-                                        {console.log(rowData.subscribed)}
+
 										{ !rowData.subscribed && <TouchableHighlight
 										  onPress={() => {
                                                     let api = Api.getInstance()
@@ -424,7 +425,9 @@ class Events extends Component {
                                                                 alert("Er is wat fout gegaan");
                                                             }
                                                         });
-                                                        }  
+                                                        } else {
+                                                            this.props.navigation.navigate('LoginScreen')
+                                                        }    
                                                     });
 								                }
                                             }
@@ -453,6 +456,8 @@ class Events extends Component {
                                                                 alert("Er is wat fout gegaan");
                                                             }
                                                         });
+                                                        } else {
+                                                            this.props.navigation.navigate('LoginScreen')
                                                         }  
                                                     });
                                                 }
@@ -460,12 +465,13 @@ class Events extends Component {
                                           style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
                                             <Text style={{color: 'white', fontWeight: 'bold'}} >AFMELDEN</Text>
-                                        </TouchableHighlight> }
+                      </TouchableHighlight> }
+
 										<TouchableHighlight
-										onPress={() => Share.share({
-			      							message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
-			  							})}
-										style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
+										    onPress={() => Share.share({
+			      							    message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
+			  							  })}
+										    style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
 										</TouchableHighlight>
