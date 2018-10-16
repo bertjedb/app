@@ -364,7 +364,7 @@ export default class CreateAdmin extends Component {
 		{!this.state.wordpress &&
           <View style={styles.card} elevation={5}>
             <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
-            Hier kun je een nieuw begeleider account aanmaken.
+            Hier kun je een nieuw begeleider account koppelen.
             </Text>
             <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
             <View style={{widht: '100%', justifyContent: 'center', alignItems: 'center'}}>

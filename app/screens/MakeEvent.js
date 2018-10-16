@@ -83,6 +83,7 @@ export default class MakeEvent extends Component {
   }
 
   createEvent() {
+
 	  let api = Api.getInstance();
 	  let localStorage = LocalStorage.getInstance();
 	  localStorage.retrieveItem('wordpresskey').then((goals) => {
