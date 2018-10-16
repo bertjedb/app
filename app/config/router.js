@@ -27,7 +27,6 @@ import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
-import Filter from '../screens/Filter';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -263,7 +262,7 @@ export const MyTabNotLoggedIn = TabNavigator({
             		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/more.png')}/>
       			)
 				}
-			  },
+			},
 		}, {
 		  		tabBarComponent: NavigationComponent,
 		  		tabBarPosition: 'bottom',

@@ -28,11 +28,13 @@ import stylesCss from '../assets/css/style.js';
 import Modal from "react-native-modal";
 import HTML from 'react-native-render-html';
 import {BarIndicator} from 'react-native-indicators';
+import {PacmanIndicator} from 'react-native-indicators';
 
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import BottomSheet from "react-native-js-bottom-sheet";
 import LinearGradient from 'react-native-linear-gradient';
+import LocalStorage from "../config/localStorage";
 
 
 
@@ -49,17 +51,17 @@ const uiTheme = {
     },
 };
 
-let months = {'Jan': 'Jan', 
-              'Feb': 'Feb', 
-              'Mar': 'Mrt', 
-              'Apr': 'Apr', 
-              'May': 'Mei', 
-              'Jun': 'Jun', 
-              'Jul': 'Jul', 
-              'Aug': 'Aug', 
-              'Sep': 'Sep', 
-              'Oct': 'Okt', 
-              'Nov': 'Nov', 
+let months = {'Jan': 'Jan',
+              'Feb': 'Feb',
+              'Mar': 'Mrt',
+              'Apr': 'Apr',
+              'May': 'Mei',
+              'Jun': 'Jun',
+              'Jul': 'Jul',
+              'Aug': 'Aug',
+              'Sep': 'Sep',
+              'Oct': 'Okt',
+              'Nov': 'Nov',
               'Dec': 'Dec'};
 
 
@@ -77,6 +79,8 @@ class Events extends Component {
             search: '',
             refreshing: false,
             search: '',
+            loading: true,
+            check: false
         };
 
         let api = Api.getInstance()
@@ -85,6 +89,7 @@ class Events extends Component {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
+
                 let array = response['events'];
                 for(let index=0; index < array.length; index++) {
                     let localStorage = LocalStorage.getInstance();
@@ -104,11 +109,25 @@ class Events extends Component {
                         });
                     });
                 }
+
             }
         });
     }
 
+  hideSplashScreen() {
+    this.setState({
+      splashScreenVisible: false
+    });
+  }
+
   componentDidMount() {
+    //
+    // setTimeout(function(){
+    //   this.hideSplashScreen();
+    // }, 5000)
+    setTimeout(() => {
+      this.setState({loading: false})
+    }, 5000);
     this.onLoad();
     this.props.navigation.addListener('willFocus', this.onLoad)
     this.getAdmins();
@@ -156,23 +175,8 @@ class Events extends Component {
 		this.setState({modalVisible: !this.state.modalVisible});
     };
 
- getBackgroundModal(){
- 	if(this.state.modalVisible){
- 		return {position: 'absolute',
- 	    top: 55,
- 	    bottom: 0,
- 	    left: 0,
- 	    right: 0,
- 	    backgroundColor: 'rgba(0,0,0,0.5)'}
- 	} else {
- 		return {position: 'absolute',
- 	    top: 55,
- 	    bottom: 0,
- 	    left: 0,
- 	    right: 0,
- 	    backgroundColor: 'rgba(0,0,0,0.5)'}
- 	}
- }
+ 
+
 
  handleSearch() {
     let api = Api.getInstance();
@@ -205,7 +209,6 @@ class Events extends Component {
                 }
             }
         });
- }
 
   getAdmins() {
     api = Api.getInstance();
@@ -226,62 +229,33 @@ class Events extends Component {
       })
   }
 
-  renderModalContent() {
-    return(
-      <Text style={{fontWeight: 'bold'}}>Filter op evenementen met begeleider</Text>
-
-    )
-  }
-
-  initFilterOptions() {
-      this.state.adminArray.map((admin) => {
-        this.state.checkMap.set(admin.id, false);
-        });
-  }
-
-
-
     render() {
         return(
-            <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: '100%', height: '100%'}}>
-			<LinearGradient
-			  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
-			  style={{ height: Header.HEIGHT}}
-			 >
-                <Toolbar
-                    centerElement={"Evenementen"}
-                    searchable={{
-                        autoFocus: true,
-                        placeholder: 'Zoeken',
-                        onChangeText: (text) => this.setState({search : text}),
-                        onSubmitEditing: () => {this.handleSearch()}
-                    }}
-                    rightElement={("filter-list")}
-                    onRightElementPress={()=> this.showFilter()}
-                />
-				</LinearGradient>
-				<View style={this.getBackgroundModal()}>
-
+          <View>
 				{this.state.loading &&
 					<BarIndicator color='white' />
 
 				}
 				{!this.state.loading &&
+          <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: '100%', height: '100%'}}>
+            <LinearGradient
+              colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+              style={{ height: Header.HEIGHT}}
+             >
+              <Toolbar
+                  centerElement={"Evenementen"}
+                  searchable={{
+                      autoFocus: true,
+                      placeholder: 'Zoeken',
+                      onChangeText: (text) => this.setState({search : text}),
+                      onSubmitEditing: () => {this.handleSearch()}
+                  }}
+              />
+            </LinearGradient>
 				<View >
-				<Modal
-		          animationType="slide"
-				  style={{margin: 0, marginTop: 120}}
-		          transparent={true}
-		          visible={this.state.modalVisible}
-		          onRequestClose={() => {
-		            this.showFilter()
-		          }}>
-		          <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
-		            <View>
-
-		            </View>
-		          </View>
-		        </Modal>
+        <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
+          <View>
+            </View>
                 {
                     this.state.dataSource != null &&
                     <ListView
@@ -381,7 +355,7 @@ class Events extends Component {
 
                                             </View>
                                             <View style={{
-												marginTop: 10,
+												                        marginTop: 10,
                                                 marginRight: 10,
                                                 marginBottom: 30,
                                                 fontWeight: 'bold'
@@ -401,8 +375,9 @@ class Events extends Component {
                                             position: 'absolute',
                                             bottom: 0,
                                             left: 0,
-											alignItems: 'center',
+				                            alignItems: 'center',
                                         }}>
+
 										{ !rowData.subscribed && <TouchableHighlight
 										  onPress={() => {
                                                     let api = Api.getInstance()
@@ -423,7 +398,9 @@ class Events extends Component {
                                                                 alert("Er is wat fout gegaan");
                                                             }
                                                         });
-                                                        }  
+                                                        } else {
+                                                            this.props.navigation.navigate('LoginScreen')
+                                                        }    
                                                     });
 								                }
                                             }
@@ -451,6 +428,8 @@ class Events extends Component {
                                                                 alert("Er is wat fout gegaan");
                                                             }
                                                         });
+                                                        } else {
+                                                            this.props.navigation.navigate('LoginScreen')
                                                         }  
                                                     });
                                                 }
@@ -459,11 +438,12 @@ class Events extends Component {
 
                                             <Text style={{color: 'white', fontWeight: 'bold'}} >AFMELDEN</Text>
                                         </TouchableHighlight> }
+
 										<TouchableHighlight
-										onPress={() => Share.share({
-			      							message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
-			  							})}
-										style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
+										    onPress={() => Share.share({
+			      							    message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
+			  							  })}
+										    style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
 										</TouchableHighlight>
@@ -476,9 +456,21 @@ class Events extends Component {
                     />
                 }
 				</View>
+
+        </View>
+        </ImageBackground>
+
 			}
-			</View>
-            </ImageBackground>
+      {this.state.loading &&
+				<View style={{paddingBottom: 150, justifyContent: 'center', alignItems: 'center', widht: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
+				<Image  style = {{width: 350, height: 225, marginTop: '10%'}}
+							source = {require('../assets/logo.png')}
+							/>
+				<PacmanIndicator color='white'  />
+				</View>
+			    }
+</View>
+
         );
     }
 }
@@ -486,65 +478,71 @@ class Events extends Component {
 
 
 const styles = StyleSheet.create({
-	overlay:{
+  splashScreen: {
+    backgroundColor: 'blue',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  overlay:{
     position: 'absolute',
     top: 58,
     bottom: 0,
     left: 0,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0.5)'
-},
-overlay2:{
-position: 'absolute',
-top: 58,
-bottom: 0,
-left: 0,
-right: 0,
-backgroundColor: 'rgba(0,0,0,0)'
-},
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        marginBottom:20
-    },
-    card: {
-        backgroundColor: 'white',
-        marginTop:0,
-        marginBottom: 20,
-        borderRadius: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        shadowOffset: {width: 0, height: 13},
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
+  },
+  overlay2:{
+    position: 'absolute',
+    top: 58,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0)'
+  },
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      marginBottom:20
+  },
+  card: {
+      backgroundColor: 'white',
+      marginTop:0,
+      marginBottom: 20,
+      borderRadius: 10,
+      marginLeft: 10,
+      marginRight: 10,
+      shadowOffset: {width: 0, height: 13},
+      shadowOpacity: 0.3,
+      shadowRadius: 6,
 
-        // android (Android +5.0)
-        elevation: 3,
-    },
-    video: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-    },
-    logo: {
-        height: 250,
-        width: 300,
-        resizeMode: 'contain',
-    },
-    loginButton: {
-        margin: 5,
-        backgroundColor: '#FF6700',
-        padding: 10,
-        borderRadius: 10,
-        overflow: 'hidden'
-    },
-    loginButtonText: {
-        textAlign: 'center',
-        fontSize: 16,
-        color: 'white',
-    },
+      // android (Android +5.0)
+      elevation: 3,
+  },
+  video: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+  },
+  logo: {
+      height: 250,
+      width: 300,
+      resizeMode: 'contain',
+  },
+  loginButton: {
+      margin: 5,
+      backgroundColor: '#FF6700',
+      padding: 10,
+      borderRadius: 10,
+      overflow: 'hidden'
+  },
+  loginButtonText: {
+      textAlign: 'center',
+      fontSize: 16,
+      color: 'white',
+  },
 })
 
 
