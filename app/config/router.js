@@ -27,7 +27,6 @@ import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
-import Filter from '../screens/Filter';
 
 //Gradient header
 export const GradientHeader = props => (
@@ -262,9 +261,9 @@ export const MyTabNotLoggedIn = TabNavigator({
 					tabBarLabel: 'Meer',
 					tabBarIcon: () => (
 					<Icon name="format-list-bulleted" size={24} color='grey' />
-				)
+				  )
 				}
-			  },
+			},
 		}, {
 		  		tabBarComponent: NavigationComponent,
 		  		tabBarPosition: 'bottom',
@@ -275,29 +274,29 @@ export const MyTabNotLoggedIn = TabNavigator({
 		  		}),
 				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
-		    	bottomNavigationOptions: {
-				style: {
-					backgroundColor: 'white', elevation: 8,
-					position: 'absolute',
-			      	left: 0,
-			      	right: 0,
-			      	bottom: 0,
-					borderTopLeftRadius: 10,
-					borderTopRightRadius: 10
-				},
-		      	labelColor: 'grey',
-				activeLabelColor: '#3bb222',
-		      	rippleColor: '#3bb222',
-		      	tabs: {
-		        EventStack: {
-					activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
-		        },
-				More: {
-					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
-		        },
-		      }
-		    }
-		  }
+		    	  bottomNavigationOptions: {
+      				style: {
+      					backgroundColor: 'white', elevation: 8,
+      					position: 'absolute',
+      			      	left: 0,
+      			      	right: 0,
+      			      	bottom: 0,
+      					borderTopLeftRadius: 10,
+      					borderTopRightRadius: 10
+      				},
+  		      	labelColor: 'grey',
+      				activeLabelColor: '#3bb222',
+  		      	rippleColor: '#3bb222',
+  		      	tabs: {
+      		      EventStack: {
+      					activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
+      		      },
+      				More: {
+      					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
+      		        },
+      		    }
+      		  }
+		     }
 		})
 
 //Root navigator with tabs and loginStack to navigate outside the tabs when going to login
