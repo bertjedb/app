@@ -30,6 +30,7 @@ import HTML from 'react-native-render-html';
 import {BarIndicator} from 'react-native-indicators';
 
 import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 import BottomSheet from "react-native-js-bottom-sheet";
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -70,7 +71,7 @@ class Events extends Component {
         this.state = {
             dataSource: null,
             eventArray: [],
-			      modalVisible: false,
+            modalVisible: false,
             adminArray: [],
             checkMap: new Map(),
             search: '',
@@ -80,15 +81,29 @@ class Events extends Component {
 
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
-			console.log(response)
             if(response['responseCode'] == 200) {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
-                this.setState({
-					uploading: false,
-                    dataSource: ds.cloneWithRows(response['events']),
-                });
+                let array = response['events'];
+                for(let index=0; index < array.length; index++) {
+                    let localStorage = LocalStorage.getInstance();
+                    localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            userData = {
+                                "eventId": response['events'][index]['id'],
+                                "personId": id
+                            }
+                            api.callApi('api/checkSub', 'POST', userData, response => {
+                                array[index]['subscribed'] = response['found']
+                            });
+                        }
+                        this.setState({
+                            uploading: false,
+                            dataSource: ds.cloneWithRows(array),
+                        });
+                    });
+                }
             }
         });
     }
@@ -111,23 +126,31 @@ class Events extends Component {
     refresh(){
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
-			this.setState({
-				loading: false
-			});
-
             if(response['responseCode'] == 200) {
-				console.log(response);
-
-                let ds = new ListView.DataSource({
+                 let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
-                this.setState({
-                    firstLoading: false,
-                    dataSource: ds.cloneWithRows(response['events']),
-                    uploading: false,
-                });
+                let array = response['events'];
+                for(let index=0; index < array.length; index++) {
+                    let localStorage = LocalStorage.getInstance();
+                    localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            userData = {
+                                "eventId": response['events'][index]['id'],
+                                "personId": id
+                            }
+                            api.callApi('api/checkSub', 'POST', userData, response => {
+                                array[index]['subscribed'] = response['found'];
+                                this.setState({
+                                    uploading: false,
+                                    dataSource: ds.cloneWithRows(array),
+                                });
+                            });
+                        }
+                    });
+                }
             }
-            })
+        });
     }
     showFilter() {
 		this.setState({modalVisible: !this.state.modalVisible});
@@ -156,19 +179,32 @@ class Events extends Component {
     userData = {
         searchString: this.state.search
     }
-    api.callApi('api/searchEvent', 'POST', userData, response => {
-        if(response['responseCode'] == 200) {
-                console.log(response['events']);
-              let ds = new ListView.DataSource({
-                  rowHasChanged: (r1, r2) => r1 !== r2
-              });
-              this.setState({
-                  firstLoading: false,
-                  dataSource: ds.cloneWithRows(response['events']),
-                  uploading: false,
-              });
-          }
-    });
+    api.callApi('api/searchEvent', 'POST', {}, response => {
+            if(response['responseCode'] == 200) {
+                 let ds = new ListView.DataSource({
+                    rowHasChanged: (r1, r2) => r1 !== r2
+                });
+                let array = response['events'];
+                for(let index=0; index < array.length; index++) {
+                    let localStorage = LocalStorage.getInstance();
+                    localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            userData = {
+                                "eventId": response['events'][index]['id'],
+                                "personId": id
+                            }
+                            api.callApi('api/checkSub', 'POST', userData, response => {
+                                array[index]['subscribed'] = response['found'];
+                                this.setState({
+                                    uploading: false,
+                                    dataSource: ds.cloneWithRows(array),
+                                });
+                            });
+                        }
+                    });
+                }
+            }
+        });
  }
 
   getAdmins() {
@@ -181,12 +217,10 @@ class Events extends Component {
             // }
             // }
             // return response['admins'];
-          console.log(this.state)
           this.setState({
             adminArray: response['admins']
           })
           this.initFilterOptions();
-          console.log(this.state)
 
         }
       })
@@ -359,7 +393,7 @@ class Events extends Component {
 
                                             </View>
 
-                                        </View >
+                                        </View>
 
                                         <View style={{
                                             flex: 1,
@@ -369,23 +403,64 @@ class Events extends Component {
                                             left: 0,
 											alignItems: 'center',
                                         }}>
-										<TouchableHighlight
-										onPress={() => this.props.navigation.navigate('EventDetail', {
-											title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
-											profilePicture: rowData.photo[0],
-											content: rowData.desc,
-											start: rowData.begin,
-											end: rowData.end,
-											created: rowData.created,
-											author: capitalize.words(rowData.leader.toString().replace(', ,', ' ')),
-											link: rowData.link,
-											img: rowData.img,
-											location: rowData.location,
-								            })}
-										style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+                                        {console.log(rowData.subscribed)}
+										{ !rowData.subscribed && <TouchableHighlight
+										  onPress={() => {
+                                                    let api = Api.getInstance()
+                                                    let localStorage = LocalStorage.getInstance();
+                                                    localStorage.retrieveItem('userId').then((id) => {
+                                                        if(id != null) {
+                                                            userData = {
+                                                            "eventId": rowData.id,
+                                                            "personId": id
+                                                        }
+                                                        api.callApi('api/subToEvent', 'POST', userData, response=>{
+                                                            if(response['responseCode'] == 200) {
+                                                                alert("Je hebt je aangemeld voor dit evenement")
+                                                                this.refresh();
+                                                            } else if(response['responseCode'] == 400) {
+                                                                alert("Je bent al aangemeld");
+                                                            } else {
+                                                                alert("Er is wat fout gegaan");
+                                                            }
+                                                        });
+                                                        }  
+                                                    });
+								                }
+                                            }
+										  style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
 										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
-										</TouchableHighlight>
+										</TouchableHighlight> }
+                                        {console.log(rowData.subscribed)}
+                                        { rowData.subscribed && <TouchableHighlight
+                                          onPress={() => {
+                                                    let api = Api.getInstance()
+                                                    let localStorage = LocalStorage.getInstance();
+                                                    localStorage.retrieveItem('userId').then((id) => {
+                                                        if(id != null) {
+                                                            userData = {
+                                                            "eventId": rowData.id,
+                                                            "personId": id
+                                                        }
+                                                        api.callApi('api/unSubToEvent', 'POST', userData, response=>{
+                                                            if(response['responseCode'] == 200) {
+                                                                alert("Je hebt je afgemeld voor dit evenement");
+                                                                this.refresh();
+                                                            } else if(response['responseCode'] == 400) {
+                                                                alert("Je bent al afgemeld");
+                                                            } else {
+                                                                alert("Er is wat fout gegaan");
+                                                            }
+                                                        });
+                                                        }  
+                                                    });
+                                                }
+                                            }
+                                          style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+
+                                            <Text style={{color: 'white', fontWeight: 'bold'}} >AFMELDEN</Text>
+                                        </TouchableHighlight> }
 										<TouchableHighlight
 										onPress={() => Share.share({
 			      							message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
@@ -406,8 +481,6 @@ class Events extends Component {
 			}
 			</View>
             </ImageBackground>
-
-
         );
     }
 }
