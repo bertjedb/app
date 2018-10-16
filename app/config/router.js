@@ -28,18 +28,6 @@ import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
 
-//Gradient header
-export const GradientHeader = props => (
-<View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
-    <LinearGradient
-      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
-    >
-      <Header {...props} />
-    </LinearGradient>
-  </View>
-)
-
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
   LoginScreen: {

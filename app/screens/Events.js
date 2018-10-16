@@ -36,20 +36,6 @@ const uiTheme = {
     },
 };
 
-let months = {'Jan': 'Jan',
-              'Feb': 'Feb',
-              'Mar': 'Mrt',
-              'Apr': 'Apr',
-              'May': 'Mei',
-              'Jun': 'Jun',
-              'Jul': 'Jul',
-              'Aug': 'Aug',
-              'Sep': 'Sep',
-              'Oct': 'Okt',
-              'Nov': 'Nov',
-              'Dec': 'Dec'};
-
-
 class Events extends Component {
 
     constructor() {
@@ -147,6 +133,7 @@ class Events extends Component {
                                 array[index]['subscribed'] = response['found'];
                                 this.setState({
                                     uploading: false,
+                                    refreshing: false,
                                     dataSource: ds.cloneWithRows(array),
                                 });
                             });
@@ -156,12 +143,6 @@ class Events extends Component {
             }
         });
     }
-    showFilter() {
-		this.setState({modalVisible: !this.state.modalVisible});
-    };
-
- 
-
 
  handleSearch() {
     let api = Api.getInstance();
@@ -218,10 +199,6 @@ class Events extends Component {
     render() {
         return(
         <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
-            {this.state.loading &&
-                <BarIndicator color='white' />
-            }
-            {!this.state.loading &&
                 <LinearGradient
                     colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
                     style={{ height: Header.HEIGHT}}>
@@ -235,7 +212,6 @@ class Events extends Component {
                         }}
                     />
                 </LinearGradient>
-            }
             { this.state.dataSource != null &&
                 <ListView
                     contentContainerStyle={{paddingTop: 20}}
@@ -323,7 +299,7 @@ class Events extends Component {
                                                     color: 'white',
                                                     textAlign: 'center'
                                                 }}>
-                                                    { months[rowData.beginMonth]}
+                                                    { rowData.beginMonth}
                                                 </Text>
                                             </View>
                                         </View>
@@ -426,13 +402,6 @@ class Events extends Component {
                             </View>
                         </View> }
                     />
-            }
-            {this.state.loading &&
-                <View style={{paddingBottom: 150, justifyContent: 'center', alignItems: 'center', widht: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
-                    <Image  style = {{width: 350, height: 225, marginTop: '10%'}}
-                            source = {require('../assets/logo.png')}/>
-                    <PacmanIndicator color='white'  />
-                </View>
             }
         </ImageBackground>
         );
