@@ -74,7 +74,9 @@ export default class MakeNewsItem extends Component {
   }
 
   createArticle() {
+
   	if(this.state.title != '' &&
+       this.state.title.length <= 30 &&
   	   this.state.content != '' &&
        this.state.pickedImage.uri != '') {
 		   RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
@@ -120,44 +122,13 @@ export default class MakeNewsItem extends Component {
    			.catch((error) => {
    				callBack(error);
    			})
-		   //this.createWPEvent();
-		   /*
-  			let localStorage = LocalStorage.getInstance();
-  			let points = localStorage.retrieveItem('userId').then((id) => {
-  			if(id != null) {
-  				let userData = {
-  					name: this.state.name,
-  					begin: this.state.begin,
-  					end: this.state.end,
-  					location: this.state.loc,
-  					description: this.state.desc,
-  					leader: id,
-                    img: this.state.img
-  				}
-                let api = Api.getInstance();
-  				api.callApi('api/createEvent', 'POST', userData, response => {
-        		    if(response['responseCode'] == 200) {
-                        this.setState({
-                            name: '',
-                            loc: '',
-                            begin: '',
-                            end: '',
-                            desc: '',
-                            beginText: '',
-                            endText: '',
-                            pickedImage: { uri: '' },
-                            img: ''
-                        });
-                        this.successMessage("Er is een nieuw evenement aangemaakt!");
-        		    } else {
-                        console.log(response);
-        		    	this.errorMessage("Er is wat fout gegaan");
-        		    }
-        		});
+    } else if(this.state.content != '' &&
+       this.state.pickedImage.uri != '' &&
+       this.state.title.length > 30){
+         this.errorMessage("De titel mag maximaal 30 characters lang zijn!")
+       }
 
-            }});
-			*/
-  	} else {
+    else {
   		this.errorMessage("Vul alle velden in aub")
   	}
 
