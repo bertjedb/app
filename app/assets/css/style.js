@@ -10,26 +10,42 @@ import {
 
 export default StyleSheet.create({
 	actionButtonIcon: {
-				fontSize: 20,
-				height: 22,
-				color: 'white',
-		},
+		fontSize: 20,
+		height: 22,
+		color: 'white',
+	},
 
 	container: {
-			flex: 1,
-		},
+		flex: 1,
+	},
+
+   ChangeEmailReqcontainer: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+
+    ChangeEmailReqcard: {
+        backgroundColor: '#93D500',
+        margin: 10,
+        borderRadius: 10,
+        shadowOffset: {width: 0, height: 13},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        // android (Android +5.0)
+        elevation: 3,
+    },
 
 	card: {
-			backgroundColor: '#FFFFFF',
-			height: 390,
-			margin: 10,
-			borderRadius: 10,
-			shadowOffset: {width: 0, height: 13},
-	       shadowOpacity: 0.3,
-	       shadowRadius: 6,
-	       // android (Android +5.0)
-	       elevation: 3,
-		},
+		backgroundColor: '#FFFFFF',
+		height: 390,
+		margin: 10,
+		borderRadius: 10,
+		shadowOffset: {width: 0, height: 13},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        // android (Android +5.0)
+        elevation: 3,
+	},
 
     cardGreen: {
         backgroundColor: '#93D500',

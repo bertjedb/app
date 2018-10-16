@@ -89,8 +89,7 @@ class NewsDetail extends Component {
                         iconSet="MaterialCommunityIcons"
                         centerElement={title}
                         leftElement={("arrow-left")}
-                        onLeftElementPress={() => this.props.navigation.goBack()}
-                    />
+                        onLeftElementPress={() => this.props.navigation.goBack()}/>
                 </LinearGradient>
                 <View style={styles.cardContainer} >
                     <View style={styles.card} elevation={5}>
@@ -112,7 +111,7 @@ class NewsDetail extends Component {
                             <View style={{flex:1}}>
                                 <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black',alignItems: 'center',textAlign: 'center', marginBottom:5}} >
                                     {title}
-                                 </Text>
+                                    </Text>
                             </View>
                             <View style={{flex:1, alignItems: 'center',textAlign: 'center'}}>
                                 <HTML onLinkPress={(evt, href) => { Linking.openURL(href); }} containerStyle={{marginLeft: 20, marginRight: 10, alignItems: 'center',textAlign: 'center'}} ignoredTags={['img']} html={content} imagesMaxWidth={Dimensions.get('window').width } />
