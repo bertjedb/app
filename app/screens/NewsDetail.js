@@ -93,7 +93,7 @@ class NewsDetail extends Component {
                 </LinearGradient>
                 <View style={styles.cardContainer} >
                     <View style={styles.card} elevation={5}>
-                        <ScrollView style={{height: Dimensions.get('window').height -160, borderRadius: 10,width: Dimensions.get('window').width} - 100}>
+                        <ScrollView style={{height: Dimensions.get('window').height -160, borderRadius: 10,width: Dimensions.get('window').width - 50}}>
 
                             <View style={{widht: '100%', height: 200, paddingBottom: 10,marginBottom:20}}>
 
