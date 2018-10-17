@@ -12,7 +12,6 @@ import com.github.yamill.orientation.OrientationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.imagepicker.ImagePickerPackage;
 import fr.snapp.imagebase64.RNImgToBase64Package;
-import com.clipsub.rnbottomsheet.RNBottomSheetPackage;
 import com.sha256lib.Sha256Package;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;

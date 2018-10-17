@@ -91,6 +91,7 @@ export default class MakeEvent extends Component {
       .retrieveItem("wordpresskey")
       .then(goals => {
         this.setState({ wordpresskey: goals });
+		console.log(this.state.wordpresskey)
       })
       .catch(error => {
         //this callback is executed when your Promise is rejected
@@ -131,7 +132,7 @@ export default class MakeEvent extends Component {
                 end: this.state.end,
                 location: this.state.loc,
                 description: this.state.desc,
-                leader: id,
+                leader: this.state.wordpresskey,
                 img: this.state.img
               };
               let api = Api.getInstance();
