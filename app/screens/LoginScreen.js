@@ -77,7 +77,7 @@ class LoginScreen extends Component {
   errorMessage(msg){
     alert(msg)
     showMessage({
-        message: "msg",
+        message: msg,
         type: "danger",
         duration: 2500,
       });
@@ -122,7 +122,7 @@ class LoginScreen extends Component {
                 password: hash,
             }
           	api.callApi('login', 'POST', userData, response => {
-                if(response['responseCode'] == 503) {
+                if(response['responseCode'] != 503) {
                     if(response['boolean'] == "true"){
                         this.setUser(response['value'], response['userId'], response['clearance'], response['wordpresskey']);
                     } else {
