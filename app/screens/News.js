@@ -25,7 +25,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import BottomSheet from 'react-native-js-bottom-sheet';
-import {PacmanIndicator} from 'react-native-indicators';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {
@@ -63,7 +62,6 @@ bottomSheet: BottomSheet;
       dataSource: null,
       adminArray: [],
       checkMap: new Map(),
-		  loading: true,
 	  }
 
       let api = Api.getInstance()
@@ -87,9 +85,6 @@ bottomSheet: BottomSheet;
       //this.getAdmins();
       this.onLoad();
       this.props.navigation.addListener('willFocus', this.onLoad)
-  	  setTimeout(() => {
-  		  this.setState({loading: false})
-  	  }, 0);
       //  this.initFilterOptions(this.getAdmins())
   }
 
@@ -322,17 +317,7 @@ bottomSheet: BottomSheet;
                     }
                     </View>
 				</ImageBackground >
-
-
-			{this.state.loading &&
-				<View style={{paddingBottom: 150, justifyContent: 'center', alignItems: 'center', widht: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
-				<Image  style = {{width: 350, height: 225}}
-							source = {require('../assets/logo.png')}
-							/>
-				<PacmanIndicator color='white'  />
-				</View>
-			    }
-			  </View>
+		  </View>
     );
   }
 }
@@ -361,11 +346,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
-  logo: {
-    height: 250,
-    width: 300,
-    resizeMode: 'contain',
-  },
+
   loginButton: {
     margin: 5,
     backgroundColor: '#FF6700',

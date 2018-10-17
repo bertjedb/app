@@ -83,6 +83,7 @@ export default class MakeEvent extends Component {
   }
 
   createEvent() {
+
 	  let api = Api.getInstance();
 	  let localStorage = LocalStorage.getInstance();
 	  localStorage.retrieveItem('wordpresskey').then((goals) => {
@@ -319,10 +320,10 @@ export default class MakeEvent extends Component {
 								textColor='green'
              					tintColor='green'
              					baseColor='green'
-		  						label="Beschrijving van evenement"
+	  						    label="Beschrijving van evenement"
           						value={ this.state.desc }
           						multiline={true}
-          						numberOfLines={6}
+          						numberOfLines={30}
           						onChangeText={ desc => this.setState({desc}) }
 							/>
                             <TouchableOpacity

@@ -104,6 +104,16 @@ export default class More extends Component {
                         })
                     )
                    },
+                {
+                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
+                    value: 'E-mail adres verandering opvragen',
+                    key: '12',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                          routeName: 'LoginStack',
+                          action: NavigationActions.navigate({ routeName: 'ChangeEmailRequest' })
+                        })
+                    )
+                },
 
               ]}
           />
@@ -121,6 +131,16 @@ export default class More extends Component {
                         })
                     )
                    },
+                {
+                    icon: <Icon size={25} name={ 'lock-question' } style={{ color: 'grey' }} />,
+                    value: 'E-mail adres verandering opvragen',
+                    key: '12',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                          routeName: 'LoginStack',
+                          action: NavigationActions.navigate({ routeName: 'ChangeEmailRequest' })
+                        })
+                    )
+                },
                   {
                     icon: 'power-settings-new',
                     value: 'Uitloggen',

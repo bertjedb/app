@@ -57,9 +57,8 @@ export default class RecoverPassword extends Component {
   }
 
   recover() {
-
     if(/\S+@\S+\.\S+/.test(this.state.email) == false){
-      this.errorMessage("Vul een bestaand email adres in!!");
+      this.errorMessage("Vul een geldig e-mail adres in!!");
     }
     else {
       let api = Api.getInstance();
@@ -67,14 +66,17 @@ export default class RecoverPassword extends Component {
           'email': this.state.email,
       }
       api.callApi('reset-password', 'POST', userData, response => {
-          console.log(response);
           if(response['boolean'] == "false"){
-  				   this.errorMessage("Er bestaat geen account met het email adres: " + this.state.email);
+  				   this.errorMessage("Er bestaat geen account met het e-mail adres: " + this.state.email);
            }
            else {
              this.successMessage(
-               'Er is een email met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
+               'Er is een e-mail met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
               );
+             this.props.navigation.dispatch(NavigationActions.navigate({
+                           routeName: 'LoginStack',
+                           action: NavigationActions.navigate({ routeName: 'LoginScreen' })
+                        }));
            }
       });
    }
@@ -98,8 +100,8 @@ export default class RecoverPassword extends Component {
       <View style={styles.container}>
         <View style={styles.card} elevation={5}>
           <Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
-		        Ben je je wachtwoord vergeten? Vul hieronder je email adres in en ontvang een nieuw wachtwoord!
-		        (Check ook je spam map van je email adres!)
+		        Ben je je wachtwoord vergeten? Vul hieronder je e-mail adres in en ontvang een nieuw wachtwoord!
+		        (Check ook je spam map van je e-mail adres!)
 		  </Text>
           <View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
           <TextField
@@ -120,7 +122,6 @@ export default class RecoverPassword extends Component {
     </View>
     <FlashMessage position="top" />
   </ImageBackground>
-
     );
   }
 }
