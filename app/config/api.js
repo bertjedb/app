@@ -5,10 +5,7 @@ export default class Api {
 
 	static instance = null;
 
-
-	//url= "http://145.37.164.183:5000/"
-	url = "http://gaauwe.nl:5000/";
-	//url = "http://10.0.2.2:5000/";
+	url = "http://145.37.145.71:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {

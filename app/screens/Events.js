@@ -3,13 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    TextInput,
-    TouchableOpacity,
     ImageBackground,
     Image,
-    Divider,
-    ScrollView,
-    Button,
     ListView,
 	TouchableHighlight,
 	Share,
@@ -17,26 +12,14 @@ import {
 	RefreshControl
 } from 'react-native';
 import {DrawerActions, NavigationActions, Header} from 'react-navigation';
-import usernameImg from '../assets/Username.png';
-import passwordImg from '../assets/Password.png';
-import { FormInput } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-af-video-player'
-import { TextField } from 'react-native-material-textfield';
 import {COLOR, ThemeContext, getTheme, Toolbar, Card,Checkbox, Drawer} from 'react-native-material-ui';
 import stylesCss from '../assets/css/style.js';
-import Modal from "react-native-modal";
 import HTML from 'react-native-render-html';
 import {BarIndicator} from 'react-native-indicators';
-import {PacmanIndicator} from 'react-native-indicators';
-
 import Api from '../config/api.js';
-import LocalStorage from '../config/localStorage.js';
-import BottomSheet from "react-native-js-bottom-sheet";
 import LinearGradient from 'react-native-linear-gradient';
 import LocalStorage from "../config/localStorage";
-
-
+import {PacmanIndicator} from 'react-native-indicators';
 
 var capitalize = require('capitalize')
 
@@ -50,20 +33,6 @@ const uiTheme = {
         },
     },
 };
-
-let months = {'Jan': 'Jan',
-              'Feb': 'Feb',
-              'Mar': 'Mrt',
-              'Apr': 'Apr',
-              'May': 'Mei',
-              'Jun': 'Jun',
-              'Jul': 'Jul',
-              'Aug': 'Aug',
-              'Sep': 'Sep',
-              'Oct': 'Okt',
-              'Nov': 'Nov',
-              'Dec': 'Dec'};
-
 
 class Events extends Component {
 
@@ -162,6 +131,7 @@ class Events extends Component {
                                 array[index]['subscribed'] = response['found'];
                                 this.setState({
                                     uploading: false,
+                                    refreshing: false,
                                     dataSource: ds.cloneWithRows(array),
                                 });
                             });
@@ -171,12 +141,6 @@ class Events extends Component {
             }
         });
     }
-    showFilter() {
-		this.setState({modalVisible: !this.state.modalVisible});
-    };
-
- 
-
 
  handleSearch() {
     let api = Api.getInstance();
@@ -209,6 +173,7 @@ class Events extends Component {
                 }
             }
         });
+}
 
   getAdmins() {
     api = Api.getInstance();
@@ -231,247 +196,216 @@ class Events extends Component {
 
     render() {
         return(
-          <View>
-				{this.state.loading &&
-					<BarIndicator color='white' />
-
-				}
-				{!this.state.loading &&
-          <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: '100%', height: '100%'}}>
-            <LinearGradient
-              colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
-              style={{ height: Header.HEIGHT}}
-             >
-              <Toolbar
-                  centerElement={"Evenementen"}
-                  searchable={{
-                      autoFocus: true,
-                      placeholder: 'Zoeken',
-                      onChangeText: (text) => this.setState({search : text}),
-                      onSubmitEditing: () => {this.handleSearch()}
-                  }}
-              />
-            </LinearGradient>
-				<View >
-        <View style={{marginTop: 120, borderRadius: 10, margin: 0, height: '100%', backgroundColor: 'white'}}>
-          <View>
-            </View>
-                {
-                    this.state.dataSource != null &&
-                    <ListView
-					   contentContainerStyle={{paddingTop: 20}}
-						refreshControl={
-					          <RefreshControl
-							  colors={['#94D600']}
-					            refreshing={this.state.refreshing}
-					            onRefresh={this._onRefresh}
-					          />
-					        }
-                        dataSource={this.state.dataSource}
-						style={{paddingTop: 10, marginBottom: 55}}
-                        renderRow={(rowData) =>
-                           <View style={styles.container}>
-                                <View style={styles.card} elevation={5}>
-
-
-                                    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
-									<Image
-										source={{uri: rowData.photo[0]}}
-										resizeMode="cover"
-										style={{width: 50, height: 50, borderRadius: 10}}
-									/>
-                                        <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
-
-
-                                            <Text
-											style={{
-                                                fontWeight: 'bold',
-                                                fontSize: 18,
-                                                color: 'black'
-                                            }}>
-                                                {capitalize.words(rowData.leader[0][0]) + ' ' + capitalize.words(rowData.leader[2][0])}
-                                            </Text>
-                                            <Text style={{fontSize: 14, color: 'black'}}>
-                                                {rowData.created}
-                                            </Text>
+        <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+                <LinearGradient
+                    colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+                    style={{ height: Header.HEIGHT}}>
+                    <Toolbar
+                        centerElement={"Evenementen"}
+                        searchable={{
+                            autoFocus: true,
+                            placeholder: 'Zoeken',
+                            onChangeText: (text) => this.setState({search : text}),
+                            onSubmitEditing: () => {this.handleSearch()}
+                        }}
+                    />
+                </LinearGradient>
+            { !this.state.loading && 
+                <View>
+            { this.state.dataSource != null &&
+                <ListView
+                    contentContainerStyle={{paddingTop: 20}}
+                    refreshControl={
+                        <RefreshControl
+                            colors={['#94D600']}
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                          />
+                        }
+                    dataSource={this.state.dataSource}
+                    style={{paddingTop: 10, marginBottom: 55}}
+                    renderRow={(rowData) =>
+                       <View style={styles.container}>
+                            <View style={styles.card} elevation={5}>
+                                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
+                                <Image
+                                    source={{uri: rowData.photo[0]}}
+                                    resizeMode="cover"
+                                    style={{width: 50, height: 50, borderRadius: 10}}
+                                />
+                                <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
+                                        <Text
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 18,
+                                            color: 'black'
+                                        }}>
+                                            {capitalize.words(rowData.leader[0][0]) + ' ' + capitalize.words(rowData.leader[2][0])}
+                                        </Text>
+                                        <Text style={{fontSize: 14, color: 'black'}}>
+                                            {rowData.created}
+                                        </Text>
+                                    </View>
+                                </View>
+                                <View style={{
+                                    backgroundColor: 'white',
+                                    paddingBottom: 25,
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                }}>
+                                    <TouchableHighlight
+                                        onPress={() => this.props.navigation.navigate('EventDetail', {
+                                            title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
+                                            profilePicture: rowData.photo[0],
+                                            content: rowData.desc,
+                                            start: rowData.begin + ' ' + rowData.beginMonth + ' ' + rowData.beginTime,
+                                            end: rowData.end + ' ' + rowData.endMonth + ' ' + rowData.endTime,
+                                            created: rowData.created,
+                                            author: capitalize.words(rowData.leader[0][0].replace(', ,', ' ')),
+                                            link: rowData.link,
+                                            img: rowData.img,
+                                            location: rowData.location,
+                                        })}
+                                    >
+                                    <Image
+                                        source={{uri: rowData.img}}
+                                        resizeMode="cover"
+                                        style={{width: '100%', height: 200}}
+                                    />
+                                    </TouchableHighlight>
+                                    <View style={{flex: 1, flexDirection: 'row', width: '80%'}} >
+                                        <View style={{
+                                            minWidth: 50,
+                                            maxHeight: 50,
+                                            backgroundColor: '#F27B13',
+                                            marginTop: 10,
+                                            borderRadius: 5,
+                                            marginLeft: 10,
+                                            marginRight: 10
+                                        }}>
+                                            <View style={{flex: 1, flexDirection: 'column'}}>
+                                                <Text style={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: 16,
+                                                    color: 'white',
+                                                    textAlign: 'center',
+                                                    marginTop: 5
+                                                }}>
+                                                    {rowData.begin}
+                                                </Text>
+                                                <Text style={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: 16,
+                                                    color: 'white',
+                                                    textAlign: 'center'
+                                                }}>
+                                                    { rowData.beginMonth}
+                                                </Text>
+                                            </View>
                                         </View>
+                                        <View style={{
+                                            marginTop: 10,
+                                            marginRight: 10,
+                                            marginBottom: 30,
+                                            fontWeight: 'bold'
+                                        }}>
+                                            <Text style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
+                                            {capitalize.words(rowData.name.toString().replace(', ,', ' '))}
+                                            </Text>
+                                            <HTML tagsStyles={{ p: { textAlign: 'left', color: 'grey' } }} onLinkPress={(evt, href) => { Linking.openURL(href); }} ignoredTags={['img']} html={rowData.desc} imagesMaxWidth={Dimensions.get('window').width } />
+
+                                        </View>
+
                                     </View>
 
                                     <View style={{
-                                        backgroundColor: 'white',
-                                        paddingBottom: 25,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        alignItems: 'center',
                                     }}>
-                                        <TouchableHighlight
-                                            onPress={() => this.props.navigation.navigate('EventDetail', {
-                                                title: capitalize.words(rowData.name.toString().replace(', ,', ' ')),
-                                                profilePicture: rowData.photo[0],
-                                                content: rowData.desc,
-                                                start: rowData.begin + ' ' + rowData.beginMonth,
-                                                end: rowData.end,
-                                                created: rowData.created,
-                                                author: capitalize.words(rowData.leader[0][0].replace(', ,', ' ')),
-                                                link: rowData.link,
-                                                img: rowData.img,
-                                                location: rowData.location,
-                                            })}
-                                        >
-                                        <Image
-                                            source={{uri: rowData.img}}
-                                            resizeMode="cover"
-                                            style={{width: '100%', height: 200}}
-                                        />
-                                        </TouchableHighlight>
-                                        <View style={{flex: 1, flexDirection: 'row', width: '80%'}} >
-                                            <View style={{
-                                                minWidth: 50,
-                                                maxHeight: 50,
-                                                backgroundColor: '#F27B13',
-                                                marginTop: 10,
-                                                borderRadius: 5,
-                                                marginLeft: 10,
-                                                marginRight: 10
-                                            }}>
-                                                <View style={{flex: 1, flexDirection: 'column'}}>
-                                                    <Text style={{
-                                                        fontWeight: 'bold',
-                                                        fontSize: 16,
-                                                        color: 'white',
-                                                        textAlign: 'center',
-                                                        marginTop: 5
-                                                    }}>
-                                                        {rowData.begin}
-                                                    </Text>
-                                                    <Text style={{
-                                                        fontWeight: 'bold',
-                                                        fontSize: 16,
-                                                        color: 'white',
-                                                        textAlign: 'center'
-                                                    }}>
-                                                        { months[rowData.beginMonth]}
-                                                    </Text>
-                                                </View>
 
-                                            </View>
-                                            <View style={{
-												                        marginTop: 10,
-                                                marginRight: 10,
-                                                marginBottom: 30,
-                                                fontWeight: 'bold'
-                                            }}>
-                                                <Text style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-												{capitalize.words(rowData.name.toString().replace(', ,', ' '))}
-                                                </Text>
-												<HTML tagsStyles={{ p: { textAlign: 'left', color: 'grey' } }} onLinkPress={(evt, href) => { Linking.openURL(href); }} ignoredTags={['img']} html={rowData.desc} imagesMaxWidth={Dimensions.get('window').width } />
-
-                                            </View>
-
-                                        </View>
-
-                                        <View style={{
-                                            flex: 1,
-                                            flexDirection: 'row',
-                                            position: 'absolute',
-                                            bottom: 0,
-                                            left: 0,
-											                      alignItems: 'center',
-                                        }}>
-
-										{ !rowData.subscribed && <TouchableHighlight
-										  onPress={() => {
-                                                    let api = Api.getInstance()
-                                                    let localStorage = LocalStorage.getInstance();
-                                                    localStorage.retrieveItem('userId').then((id) => {
-                                                        if(id != null) {
-                                                            userData = {
-                                                            "eventId": rowData.id,
-                                                            "personId": id
-                                                        }
-                                                        api.callApi('api/subToEvent', 'POST', userData, response=>{
-                                                            if(response['responseCode'] == 200) {
-                                                                alert("Je hebt je aangemeld voor dit evenement")
-                                                                this.refresh();
-                                                            } else if(response['responseCode'] == 400) {
-                                                                alert("Je bent al aangemeld");
-                                                            } else {
-                                                                alert("Er is wat fout gegaan");
-                                                            }
-                                                        });
+                                    { !rowData.subscribed && <TouchableHighlight
+                                      onPress={() => {
+                                                let api = Api.getInstance()
+                                                let localStorage = LocalStorage.getInstance();
+                                                localStorage.retrieveItem('userId').then((id) => {
+                                                    if(id != null) {
+                                                        userData = {
+                                                        "eventId": rowData.id,
+                                                        "personId": id
+                                                    }
+                                                    api.callApi('api/subToEvent', 'POST', userData, response=>{
+                                                        if(response['responseCode'] == 200) {
+                                                            alert("Je hebt je aangemeld voor dit evenement")
+                                                            this.refresh();
+                                                        } else if(response['responseCode'] == 400) {
+                                                            alert("Je bent al aangemeld");
                                                         } else {
-                                                            this.props.navigation.navigate('LoginScreen')
-                                                        }    
-                                                    });
-								                }
-                                            }
-										  style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
-
-										    <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
-										</TouchableHighlight> }
-                                        {console.log(rowData.subscribed)}
-                                        { rowData.subscribed && <TouchableHighlight
-                                          onPress={() => {
-                                                    let api = Api.getInstance()
-                                                    let localStorage = LocalStorage.getInstance();
-                                                    localStorage.retrieveItem('userId').then((id) => {
-                                                        if(id != null) {
-                                                            userData = {
-                                                            "eventId": rowData.id,
-                                                            "personId": id
+                                                            alert("Er is wat fout gegaan");
                                                         }
-                                                        api.callApi('api/unSubToEvent', 'POST', userData, response=>{
-                                                            if(response['responseCode'] == 200) {
-                                                                alert("Je hebt je afgemeld voor dit evenement");
-                                                                this.refresh();
-                                                            } else if(response['responseCode'] == 400) {
-                                                                alert("Je bent al afgemeld");
-                                                            } else {
-                                                                alert("Er is wat fout gegaan");
-                                                            }
-                                                        });
-                                                        } else {
-                                                            this.props.navigation.navigate('LoginScreen')
-                                                        }  
                                                     });
-                                                }
+                                                    } else {
+                                                        this.props.navigation.navigate('LoginScreen')
+                                                    }    
+                                                });
                                             }
-                                          style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
+                                        }
+                                      style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
-                                            <Text style={{color: 'white', fontWeight: 'bold'}} >AFMELDEN</Text>
-                      </TouchableHighlight> }
+                                        <Text style={{color: 'white', fontWeight: 'bold'}} >AANMELDEN</Text>
+                                    </TouchableHighlight> }
+                                    { rowData.subscribed && <TouchableHighlight
+                                      onPress={() => {
+                                                let api = Api.getInstance()
+                                                let localStorage = LocalStorage.getInstance();
+                                                localStorage.retrieveItem('userId').then((id) => {
+                                                    if(id != null) {
+                                                        userData = {
+                                                        "eventId": rowData.id,
+                                                        "personId": id
+                                                    }
+                                                    api.callApi('api/unSubToEvent', 'POST', userData, response=>{
+                                                        if(response['responseCode'] == 200) {
+                                                            alert("Je hebt je afgemeld voor dit evenement");
+                                                            this.refresh();
+                                                        } else if(response['responseCode'] == 400) {
+                                                            alert("Je bent al afgemeld");
+                                                        } else {
+                                                            alert("Er is wat fout gegaan");
+                                                        }
+                                                    });
+                                                    } else {
+                                                        this.props.navigation.navigate('LoginScreen')
+                                                    }  
+                                                });
+                                            }
+                                        }
+                                      style={{width: '50%', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomLeftRadius: 10}}>
 
-										<TouchableHighlight
-										    onPress={() => Share.share({
-			      							    message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
-			  							  })}
-										    style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
+                                        <Text style={{color: 'white', fontWeight: 'bold'}} >AFMELDEN</Text>
+                                    </TouchableHighlight> }
 
-										    <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
-										</TouchableHighlight>
+                                    <TouchableHighlight
+                                        onPress={() => Share.share({
+                                            message: 'Binnenkort organiseert bslim: ' + capitalize.words(rowData.name.toString().replace(', ,', ' ')) + '. Voor meer informatie ga naar: ' + rowData.link
+                                      })}
+                                        style={{width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, backgroundColor: '#93D500', borderBottomRightRadius: 10}}>
 
-                                        </View>
+                                        <Text style={{color: 'white', fontWeight: 'bold'}}>DELEN</Text>
+                                    </TouchableHighlight>
                                     </View>
                                 </View>
                             </View>
-                        }
-                    />
+                        </View> }
+                    /> }
+                </View> }
+                {this.state.loading && 
+                    <PacmanIndicator color='#94D600'  />
                 }
-				</View>
-
-        </View>
         </ImageBackground>
-
-			}
-      {this.state.loading &&
-				<View style={{paddingBottom: 150, justifyContent: 'center', alignItems: 'center', widht: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
-				<Image  style = {{width: 350, height: 225, marginTop: '10%'}}
-							source = {require('../assets/logo.png')}
-							/>
-				<PacmanIndicator color='white'  />
-				</View>
-			    }
-</View>
-
         );
     }
 }

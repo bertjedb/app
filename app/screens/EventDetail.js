@@ -86,7 +86,6 @@ constructor() {
 	  const link = navigation.getParam('link', '');
 	  const img = navigation.getParam('img', '');
 	  const location = navigation.getParam('location', '');
-	  console.log(img);
 
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
