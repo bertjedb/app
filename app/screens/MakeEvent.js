@@ -71,7 +71,8 @@ export default class MakeEvent extends Component {
           this.state.img +
           '" alt="Image" />',
         start: this.state.begin,
-        end: this.state.end
+        end: this.state.end,
+		author: this.state.wordpresskey
       }) // <-- Post parameters
     })
       .then(response => response.text())
@@ -122,7 +123,8 @@ export default class MakeEvent extends Component {
         .then(res => res.json())
         .then(responseJson => {
           this.setState({ img: responseJson["guid"]["raw"] });
-          //  this.createWPEvent();
+          this.createWPEvent();
+		  /*
           let localStorage = LocalStorage.getInstance();
           let points = localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -156,7 +158,9 @@ export default class MakeEvent extends Component {
                 }
               });
             }
+
           });
+		  */
         })
 
         .catch(error => {
