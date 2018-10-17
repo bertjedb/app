@@ -48,7 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
             new KCKeepAwakePackage(),
             new ImagePickerPackage(),
             new RNImgToBase64Package(),
-            new RNBottomSheetPackage(),
             new Sha256Package(),
             new LinearGradientPackage(),
             new SnackbarPackage(),
