@@ -144,7 +144,7 @@ export const MyTabLoggedIn = TabNavigator({
 		        navigationOptions: {
 		        tabBarLabel: 'Evenementen',
 				tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/calendercolor.png')}/>
+            		<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
       			)
 		        }
 		      },
@@ -153,7 +153,7 @@ export const MyTabLoggedIn = TabNavigator({
 				navigationOptions: {
 				tabBarLabel: 'Nieuws',
 				tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/newscolor.png')}/>
+            		<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
       			)
 				}
 			},
@@ -162,7 +162,7 @@ export const MyTabLoggedIn = TabNavigator({
 		        navigationOptions: {
 	          	tabBarLabel: 'Stempelkaart',
 				tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/stempelcolor.png')}/>
+            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Stempelkaart.png')}/>
       			)
 		        }
 		      },
@@ -171,7 +171,7 @@ export const MyTabLoggedIn = TabNavigator({
 				navigationOptions: {
 				tabBarLabel: 'Meer',
 				tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/more.png')}/>
+            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
       			)
 				}
 			},
@@ -187,7 +187,7 @@ export const MyTabLoggedIn = TabNavigator({
 	  					jumpToIndex(scene.index);
 	  				}
 		  		}),
-				initialRouteName: 'EventStack',
+				initialRouteName: 'NewsCard',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					shifting: false,
@@ -205,16 +205,16 @@ export const MyTabLoggedIn = TabNavigator({
 		      	rippleColor: '#3bb222',
 		      	tabs: {
 		        EventStack: {
-					activeIcon:	<Image style={{ width: 28, height: 28 }} source={require('../assets/icons/calendercolor.png')}/>
+					activeIcon:	<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
 		        },
 				NewsCard: {
-					activeIcon:	<Image style={{ width: 28, height: 28 }} source={require('../assets/icons/newscolor.png')}/>
+					activeIcon:	<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
 		        },
 		        PointCard: {
-					activeIcon:	<Image style={{ width: 28, height: 28 }} source={require('../assets/icons/stempelcolor.png')}/>
+					activeIcon:	<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Stempelkaart.png')}/>
 		        },
 				More: {
-					activeIcon:	<Image style={{ width: 28, height: 28 }} source={require('../assets/icons/more.png')}/>
+					activeIcon:	<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
 		        },
 		      }
 		    }
@@ -228,7 +228,7 @@ export const MyTabNotLoggedIn = TabNavigator({
 		        navigationOptions: {
 	          	tabBarLabel: 'Evenementen',
 			  	tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/calendercolor.png')}/>
+            		<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
       			)
 		        }
 		      },
@@ -238,7 +238,7 @@ export const MyTabNotLoggedIn = TabNavigator({
 				navigationOptions: {
 				tabBarLabel: 'Nieuws',
 				tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/newscolor.png')}/>
+            		<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
       			)
 				}
 			},
@@ -247,7 +247,7 @@ export const MyTabNotLoggedIn = TabNavigator({
 				navigationOptions: {
 				tabBarLabel: 'Meer',
 				tabBarIcon: (
-            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/more.png')}/>
+            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
       			)
 				}
 			},
@@ -276,13 +276,13 @@ export const MyTabNotLoggedIn = TabNavigator({
 		      	rippleColor: '#3bb222',
 		      	tabs: {
 		        EventStack: {
-					activeIcon:	<Image style={{ width: 30, height: 30 }} source={require('../assets/icons/calendercolor.png')}/>
+					activeIcon:	<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
 		        },
 				NewsCard: {
-					activeIcon:	<Image style={{ width: 30, height: 30 }} source={require('../assets/icons/newscolor.png')}/>
+					activeIcon:	<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
 		        },
 		        More: {
-					activeIcon:	<Image style={{ width: 30, height: 30 }} source={require('../assets/icons/more.png')}/>
+					activeIcon:	<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
 		        },
 		      }
 		    }

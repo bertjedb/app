@@ -3,6 +3,8 @@ package com.bslim_upload;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.snapp.imagebase64.RNImgToBase64Package;
+import com.imagepicker.ImagePickerPackage;
 import com.sha256lib.Sha256Package;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNImgToBase64Package(),
+            new ImagePickerPackage(),
             new Sha256Package(),
             new LinearGradientPackage(),
             new SnackbarPackage(),

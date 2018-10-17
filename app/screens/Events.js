@@ -20,6 +20,8 @@ import Api from '../config/api.js';
 import LinearGradient from 'react-native-linear-gradient';
 import LocalStorage from "../config/localStorage";
 import {PacmanIndicator} from 'react-native-indicators';
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 var capitalize = require('capitalize')
 
@@ -49,12 +51,13 @@ class Events extends Component {
             refreshing: false,
             search: '',
             loading: true,
-            check: false
+            check: false,
+            sleeping: false
         };
-
         let api = Api.getInstance()
         api.callApi('api/getAllEvents', 'POST', {}, response => {
-            if(response['responseCode'] == 200) {
+            if(response['responseCode'] != 503) {
+                if(response['responseCode'] == 200) {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
                 });
@@ -74,11 +77,17 @@ class Events extends Component {
                         }
                         this.setState({
                             uploading: false,
+                            loading: false,
                             dataSource: ds.cloneWithRows(array),
                         });
                     });
                 }
-
+                }
+            } else {
+                this.setState({sleeping: true})
+                setTimeout(() => {
+                    this.setState({sleeping: false, loading: false})
+                }, 3000);
             }
         });
     }
@@ -89,17 +98,17 @@ class Events extends Component {
     });
   }
 
+  errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 3000,
+      });
+  }
+
   componentDidMount() {
-    //
-    // setTimeout(function(){
-    //   this.hideSplashScreen();
-    // }, 5000)
-    setTimeout(() => {
-      this.setState({loading: false})
-    }, 5000);
     this.onLoad();
     this.props.navigation.addListener('willFocus', this.onLoad)
-    this.getAdmins();
   }
 
     onLoad = () => {
@@ -107,39 +116,50 @@ class Events extends Component {
   }
 
   _onRefresh = () => {
-    this.setState({refreshing: true});
+    this.setState({refreshing: true, sleeping: false, loading: true});
     this.refresh();
   }
 
     refresh(){
-        let api = Api.getInstance()
-        api.callApi('api/getAllEvents', 'POST', {}, response => {
-            if(response['responseCode'] == 200) {
-                 let ds = new ListView.DataSource({
-                    rowHasChanged: (r1, r2) => r1 !== r2
-                });
-                let array = response['events'];
-                for(let index=0; index < array.length; index++) {
-                    let localStorage = LocalStorage.getInstance();
-                    localStorage.retrieveItem('userId').then((id) => {
-                        if(id != null) {
-                            userData = {
-                                "eventId": response['events'][index]['id'],
-                                "personId": id
-                            }
-                            api.callApi('api/checkSub', 'POST', userData, response => {
-                                array[index]['subscribed'] = response['found'];
-                                this.setState({
-                                    uploading: false,
-                                    refreshing: false,
-                                    dataSource: ds.cloneWithRows(array),
-                                });
-                            });
-                        }
+        if(!this.state.sleeping) {
+            let api = Api.getInstance()
+            api.callApi('api/getAllEvents', 'POST', {}, response => {
+            if(response['responseCode'] != 503) {
+                if(response['responseCode'] == 200) {
+                     let ds = new ListView.DataSource({
+                        rowHasChanged: (r1, r2) => r1 !== r2
                     });
+                    let array = response['events'];
+                    for(let index=0; index < array.length; index++) {
+                        let localStorage = LocalStorage.getInstance();
+                        localStorage.retrieveItem('userId').then((id) => {
+                            if(id != null) {
+                                userData = {
+                                    "eventId": response['events'][index]['id'],
+                                    "personId": id
+                                }
+                                api.callApi('api/checkSub', 'POST', userData, response => {
+                                    array[index]['subscribed'] = response['found'];
+                                    this.setState({
+                                        uploading: false,
+                                        refreshing: false,
+                                        loading: false,
+                                        dataSource: ds.cloneWithRows(array),
+                                    });
+                                });
+                            }
+                        });
+                    }
                 }
+            } else {
+                this.setState({sleeping: true})
+                setTimeout(() => {
+                    this.setState({sleeping: false})
+                }, 3000);
+                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
             }
         });
+        } 
     }
 
  handleSearch() {
@@ -148,6 +168,7 @@ class Events extends Component {
         searchString: this.state.search
     }
     api.callApi('api/searchEvent', 'POST', {}, response => {
+        if(response['responseCode'] == 503) {
             if(response['responseCode'] == 200) {
                  let ds = new ListView.DataSource({
                     rowHasChanged: (r1, r2) => r1 !== r2
@@ -172,31 +193,19 @@ class Events extends Component {
                     });
                 }
             }
-        });
-}
-
-  getAdmins() {
-    api = Api.getInstance();
-    api.callApi('api/getAllAdmins', 'POST', {}, response => {
-      if(response['responseCode'] == 200) {
-            // for(admin in response['admins']){
-            //   console.log("ADMIN :::::::::::" + admin)
-            //   this.adminArray.push(admin);
-            // }
-            // }
-            // return response['admins'];
-          this.setState({
-            adminArray: response['admins']
-          })
-          this.initFilterOptions();
-
+        } else {
+            this.setState({sleeping: true})
+            setTimeout(() => {
+                this.setState({sleeping: false})
+            }, 3000);
+            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
         }
-      })
-  }
+        });
+    }
 
     render() {
         return(
-        <ImageBackground  blurRadius={0} source={require('../assets/background.jpg')} style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+        <ImageBackground  blurRadius={0} source={require('../assets/Bslim_Background.jpg')} style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>   
                 <LinearGradient
                     colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
                     style={{ height: Header.HEIGHT}}>
@@ -273,7 +282,7 @@ class Events extends Component {
                                         style={{width: '100%', height: 200}}
                                     />
                                     </TouchableHighlight>
-                                    <View style={{flex: 1, flexDirection: 'row', width: '80%'}} >
+                                    <View style={{flex: 1, flexDirection: 'row', width: '80%', marginBottom: 10}} >
                                         <View style={{
                                             minWidth: 50,
                                             maxHeight: 50,
@@ -281,7 +290,7 @@ class Events extends Component {
                                             marginTop: 10,
                                             borderRadius: 5,
                                             marginLeft: 10,
-                                            marginRight: 10
+                                            marginRight: 10,
                                         }}>
                                             <View style={{flex: 1, flexDirection: 'column'}}>
                                                 <Text style={{
@@ -403,8 +412,9 @@ class Events extends Component {
                     /> }
                 </View> }
                 {this.state.loading && 
-                    <PacmanIndicator color='#94D600'  />
+                    <PacmanIndicator color='#94D600'/>
                 }
+            <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/> 
         </ImageBackground>
         );
     }
@@ -418,22 +428,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-  },
-  overlay:{
-    position: 'absolute',
-    top: 58,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)'
-  },
-  overlay2:{
-    position: 'absolute',
-    top: 58,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0)'
   },
   container: {
       flex: 1,
