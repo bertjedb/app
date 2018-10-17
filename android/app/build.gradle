@@ -114,6 +114,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -148,11 +149,20 @@ android {
 }
 
 dependencies {
+    compile project(':rn-fetch-blob')
+    compile project(':react-native-webview')
+    compile project(':react-native-video')
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-svg')
+    compile project(':react-native-orientation')
+    compile project(':react-native-keep-awake')
+    compile project(':react-native-image-picker')
+    compile project(':react-native-image-base64')
+    compile project(':react-native-bottomsheet')
     compile project(':react-native-sha256')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-snackbar')
     compile project(':react-native-camera')
-    compile project(':react-native-fetch-blob')
     compile project(':react-native-onesignal')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
