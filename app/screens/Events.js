@@ -61,6 +61,7 @@ class Events extends Component {
 
     let api = Api.getInstance();
     api.callApi("api/getAllEvents", "POST", {}, response => {
+		console.log(response)
       if (response["responseCode"] == 200) {
         let ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
@@ -289,9 +290,7 @@ class Events extends Component {
                               color: "black"
                             }}
                           >
-                            {capitalize.words(rowData.leader[0][0]) +
-                              " " +
-                              capitalize.words(rowData.leader[2][0])}
+                            {capitalize.words(rowData.leader)}
                           </Text>
                           <Text style={{ fontSize: 14, color: "black" }}>
                             {rowData.created}

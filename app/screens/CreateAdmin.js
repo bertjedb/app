@@ -76,21 +76,49 @@ export default class CreateAdmin extends Component {
     };
   }
 
-  componentWillUnmount() {
-    if (this.state.succesfull) {
-      Snackbar.show({
-        title: "Registratie succesvol!",
-        duration: Snackbar.LENGTH_LONG,
-        action: {
-          title: "OK",
-          color: "green",
-          onPress: () => {
-            /* Do something. */
-          }
-        }
-      });
-    }
-  }
+	componentWillUnmount() {
+		if(this.state.succesfull){
+			Snackbar.show({
+			  title: 'Registratie succesvol!',
+			  duration: Snackbar.LENGTH_LONG,
+			  action: {
+			    title: 'OK',
+			    color: 'green',
+			    onPress: () => { /* Do something. */ },
+			  },
+			});
+		}
+	}
+
+  wordpressLogin(){
+	  data = {
+		  username:this.state.wpUsername,
+	  	password:this.state.wpPassword
+	};
+	  	  fetch('http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate', {
+		  method: 'POST',
+		  headers: {
+			  'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({data})
+	  }).then((response) => response.json())
+	  .then(responseJson => {
+		  console.log(responseJson)
+		  console.log(JSON.stringify({data}))
+		  this.setState({
+			  firstName: responseJson['data']['display_name'].substr(0,responseJson['data']['display_name'].indexOf(' ')),
+	          lastName: responseJson['data']['display_name'].substr(responseJson['data']['display_name'].indexOf(' ')+1),
+			  email: responseJson['data']['user_email'],
+			  idWP: responseJson['data']['ID'],
+	          firstPassword: this.state.wpPassword,
+	          secondPassword: this.state.wpPassword,
+	          biography: '',
+			  wordpress: false
+		  })
+	  })
+	  .catch((error) => {
+		  console.log(error);
+	  })
 
   wordpressLogin() {
     data = {
@@ -173,46 +201,41 @@ export default class CreateAdmin extends Component {
     // if registration is succesfull
     else {
       let api = Api.getInstance();
-      RNFetchBlob.fetch(
-        "POST",
-        "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
-        {
-          //// TODO: Real authorization instead of hardcoded base64 username:password
-          Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
-          "Content-Type": +"image/jpeg",
-          "Content-Disposition": "attachment; filename=hoi.jpg"
-          // here's the body you're going to send, should be a BASE64 encoded string
-          // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-          // The data will be converted to "byte array"(say, blob) before request sent.
-        },
-        RNFetchBlob.wrap(this.state.pickedImage.uri)
-      )
-        .then(res => res.json())
-        .then(responseJson => {
-          sha256(this.state.firstPassword).then(hash => {
-            console.log(responseJson["guid"]["raw"]);
-            let userData = {
-              email: this.state.email,
-              password: hash,
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              biography: this.state.biography,
-              img: responseJson["guid"]["raw"],
-              wordpresskey: "YWRtaW46YnNsaW1faGFuemUh"
-            };
-            api.callApi("register-admin", "POST", userData, response => {
-              console.log(response);
-              if (response["responseCode"] == 200) {
-                this.setState({
-                  succesfull: true
-                });
-                this.props.navigation.dispatch(NavigationActions.back());
-              } else {
-                alert(response["responseCode"]["message"]);
-              }
-            });
-          });
-        })
+	  RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
+			  //// TODO: Real authorization instead of hardcoded base64 username:password
+			  'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
+			  'Content-Type': + 'image/jpeg',
+			  'Content-Disposition': 'attachment; filename=hoi.jpg',
+			  // here's the body you're going to send, should be a BASE64 encoded string
+			  // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+			  // The data will be converted to "byte array"(say, blob) before request sent.
+		  }, RNFetchBlob.wrap(this.state.pickedImage.uri))
+		  .then((res) => res.json())
+	   .then(responseJson => {
+		   sha256(this.state.firstPassword).then( hash => {
+			   console.log(responseJson['guid']['raw'])
+	         let userData = {
+	           email: this.state.email,
+	           password: hash,
+	           firstName: this.state.firstName,
+	           lastName: this.state.lastName,
+	           biography: this.state.biography,
+	           img: responseJson['guid']['raw'],
+			   wordpresskey: this.state.idWP,
+	       }
+		   api.callApi('register-admin', 'POST', userData, response => {
+			   console.log(response)
+	           if(response['responseCode'] == 200){
+	             this.setState({
+	               succesfull: true,
+	             })
+	             this.props.navigation.dispatch(NavigationActions.back());
+	           } else {
+	             alert(response['responseCode']['message'])
+	           }
+	         })
+	       })
+	   })
 
         .catch(error => {
           callBack(error);
