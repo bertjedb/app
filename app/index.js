@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MyAppNotLoggedIn, MyAppLoggedIn } from './config/router';
-import { View, StatusBar, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, StatusBar, StyleSheet, Dimensions, Image, SafeAreaView } from 'react-native';
 import LocalStorage from './config/localStorage.js';
 import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
 import LinearGradient from 'react-native-linear-gradient';
@@ -36,7 +36,7 @@ class App extends Component {
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
   }
-  
+
   componentWillUnmount() {
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
@@ -99,13 +99,13 @@ class App extends Component {
 
   render() {
     return (
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <StatusBar
                     backgroundColor="#76AB00"
                     barStyle="light-content"
                 />
                 { this.update() }
-                {!this.state.loading && 
+                {!this.state.loading &&
                     <ThemeContext.Provider value={getTheme(uiTheme)}>
                         {this.state.loggedIn ? <MyAppLoggedIn/> : <MyAppNotLoggedIn/>}
                     </ThemeContext.Provider>
@@ -117,7 +117,7 @@ class App extends Component {
                         <PacmanIndicator color='white'  />
                     </View>
                 }
-            </View>
+            </SafeAreaView>
     	);
   }
 }
