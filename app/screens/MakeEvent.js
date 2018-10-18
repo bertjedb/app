@@ -71,7 +71,8 @@ export default class MakeEvent extends Component {
           this.state.img +
           '" alt="Image" />',
         start: this.state.begin,
-        end: this.state.end
+        end: this.state.end,
+		author: this.state.wordpresskey
       }) // <-- Post parameters
     })
       .then(response => response.text())
@@ -91,6 +92,7 @@ export default class MakeEvent extends Component {
       .retrieveItem("wordpresskey")
       .then(goals => {
         this.setState({ wordpresskey: goals });
+		console.log(this.state.wordpresskey)
       })
       .catch(error => {
         //this callback is executed when your Promise is rejected
@@ -121,7 +123,8 @@ export default class MakeEvent extends Component {
         .then(res => res.json())
         .then(responseJson => {
           this.setState({ img: responseJson["guid"]["raw"] });
-          //  this.createWPEvent();
+          this.createWPEvent();
+		  /*
           let localStorage = LocalStorage.getInstance();
           let points = localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -131,7 +134,7 @@ export default class MakeEvent extends Component {
                 end: this.state.end,
                 location: this.state.loc,
                 description: this.state.desc,
-                leader: id,
+                leader: this.state.wordpresskey,
                 img: this.state.img
               };
               let api = Api.getInstance();
@@ -155,7 +158,9 @@ export default class MakeEvent extends Component {
                 }
               });
             }
+
           });
+		  */
         })
 
         .catch(error => {
