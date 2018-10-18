@@ -8,7 +8,7 @@ export default class Api {
 
 	static instance = null;
 
-	url = "http://145.37.146.32:5000/";
+	url = "http://gaauwe.nl:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {
@@ -67,3 +67,4 @@ export default class Api {
 		});
 
 	}
+}

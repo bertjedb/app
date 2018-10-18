@@ -71,7 +71,6 @@ class News extends Component {
       api.callApi('api/getAllNewsItems', 'GET', {}, response => {
         if(response['responseCode'] != 503) {
             if(response['responseCode'] == 200) {
-                Log.d(response);
                   let ds = new ListView.DataSource({
                       rowHasChanged: (r1, r2) => r1 !== r2
                   });

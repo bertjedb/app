@@ -100,10 +100,7 @@ class Events extends Component {
               dataSource: ds.cloneWithRows(array)
             });
           });
-        }
-      }
-    });
-  }
+    }
 
   hideSplashScreen() {
     this.setState({
@@ -221,7 +218,7 @@ class Events extends Component {
         return(
         <ImageBackground
         blurRadius={0}
-        source={require("../assets/background.jpg")}
+        source={require("../assets/../assets/Bslim_Background.jpg")}
         style={{
           width: Dimensions.get("window").width,
           height: Dimensions.get("window").height

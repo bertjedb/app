@@ -121,41 +121,41 @@ export default class MakeEvent extends Component {
         .then(res => res.json())
         .then(responseJson => {
           this.setState({ img: responseJson["guid"]["raw"] });
-          //  this.createWPEvent();
-          let localStorage = LocalStorage.getInstance();
-          let points = localStorage.retrieveItem("userId").then(id => {
-            if (id != null) {
-              let userData = {
-                name: this.state.name,
-                begin: this.state.begin,
-                end: this.state.end,
-                location: this.state.loc,
-                description: this.state.desc,
-                leader: id,
-                img: this.state.img
-              };
-              let api = Api.getInstance();
-              api.callApi("api/createEvent", "POST", userData, response => {
-                if (response["responseCode"] == 200) {
-                  this.setState({
-                    name: "",
-                    loc: "",
-                    begin: "",
-                    end: "",
-                    desc: "",
-                    beginText: "",
-                    endText: "",
-                    pickedImage: { uri: "" },
-                    img: ""
-                  });
-                  this.successMessage("Er is een nieuw evenement aangemaakt!");
-                } else {
-                  console.log(response);
-                  this.errorMessage("Er is wat fout gegaan");
-                }
-              });
-            }
-          });
+          this.createWPEvent();
+          // let localStorage = LocalStorage.getInstance();
+          // let points = localStorage.retrieveItem("userId").then(id => {
+          //   if (id != null) {
+          //     let userData = {
+          //       name: this.state.name,
+          //       begin: this.state.begin,
+          //       end: this.state.end,
+          //       location: this.state.loc,
+          //       description: this.state.desc,
+          //       leader: id,
+          //       img: this.state.img
+          //     };
+          //     let api = Api.getInstance();
+          //     api.callApi("api/createEvent", "POST", userData, response => {
+          //       if (response["responseCode"] == 200) {
+          //         this.setState({
+          //           name: "",
+          //           loc: "",
+          //           begin: "",
+          //           end: "",
+          //           desc: "",
+          //           beginText: "",
+          //           endText: "",
+          //           pickedImage: { uri: "" },
+          //           img: ""
+          //         });
+          //         this.successMessage("Er is een nieuw evenement aangemaakt!");
+          //       } else {
+          //         console.log(response);
+          //         this.errorMessage("Er is wat fout gegaan");
+          //       }
+          //     });
+          //   }
+          // });
         })
 
         .catch(error => {
