@@ -67,7 +67,6 @@ class Events extends Component {
              let ds = new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2
             });
-
             let array = response['events'];
             for(let index=0; index < array.length; index++) {
                 let localStorage = LocalStorage.getInstance();
@@ -95,10 +94,6 @@ class Events extends Component {
                 this.setState({sleeping: false, loading: false})
             }, 3000);
             }
-            this.setState({
-              uploading: false,
-              dataSource: ds.cloneWithRows(array)
-            });
           });
     }
 
@@ -304,9 +299,7 @@ class Events extends Component {
                               color: "black"
                             }}
                           >
-                            {capitalize.words(rowData.leader[0][0]) +
-                              " " +
-                              capitalize.words(rowData.leader[2][0])}
+                            {capitalize.words(rowData.leader)}
                           </Text>
                           <Text style={{ fontSize: 14, color: "black" }}>
                             {rowData.created}

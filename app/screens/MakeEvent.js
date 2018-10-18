@@ -71,7 +71,8 @@ export default class MakeEvent extends Component {
           this.state.img +
           '" alt="Image" />',
         start: this.state.begin,
-        end: this.state.end
+        end: this.state.end,
+		author: this.state.wordpresskey
       }) // <-- Post parameters
     })
       .then(response => response.text())
@@ -91,6 +92,7 @@ export default class MakeEvent extends Component {
       .retrieveItem("wordpresskey")
       .then(goals => {
         this.setState({ wordpresskey: goals });
+		console.log(this.state.wordpresskey)
       })
       .catch(error => {
         //this callback is executed when your Promise is rejected
@@ -122,40 +124,6 @@ export default class MakeEvent extends Component {
         .then(responseJson => {
           this.setState({ img: responseJson["guid"]["raw"] });
           this.createWPEvent();
-          // let localStorage = LocalStorage.getInstance();
-          // let points = localStorage.retrieveItem("userId").then(id => {
-          //   if (id != null) {
-          //     let userData = {
-          //       name: this.state.name,
-          //       begin: this.state.begin,
-          //       end: this.state.end,
-          //       location: this.state.loc,
-          //       description: this.state.desc,
-          //       leader: id,
-          //       img: this.state.img
-          //     };
-          //     let api = Api.getInstance();
-          //     api.callApi("api/createEvent", "POST", userData, response => {
-          //       if (response["responseCode"] == 200) {
-          //         this.setState({
-          //           name: "",
-          //           loc: "",
-          //           begin: "",
-          //           end: "",
-          //           desc: "",
-          //           beginText: "",
-          //           endText: "",
-          //           pickedImage: { uri: "" },
-          //           img: ""
-          //         });
-          //         this.successMessage("Er is een nieuw evenement aangemaakt!");
-          //       } else {
-          //         console.log(response);
-          //         this.errorMessage("Er is wat fout gegaan");
-          //       }
-          //     });
-          //   }
-          // });
         })
 
         .catch(error => {
@@ -282,8 +250,6 @@ export default class MakeEvent extends Component {
           });
           ImgToBase64.getBase64String(this.state.pickedImage.uri).then(
             base64String => {
-              console.log("IMAGE:");
-              console.log(base64String);
               this.setState({
                 img: base64String
               });

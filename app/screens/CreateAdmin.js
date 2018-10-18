@@ -112,7 +112,8 @@ export default class CreateAdmin extends Component {
 		  this.setState({
 			  firstName: responseJson['data']['display_name'].substr(0,responseJson['data']['display_name'].indexOf(' ')),
 	          lastName: responseJson['data']['display_name'].substr(responseJson['data']['display_name'].indexOf(' ')+1),
-	          email: responseJson['data']['user_email'],
+			  email: responseJson['data']['user_email'],
+			  idWP: responseJson['data']['ID'],
 	          firstPassword: this.state.wpPassword,
 	          secondPassword: this.state.wpPassword,
 	          biography: '',
@@ -188,7 +189,7 @@ export default class CreateAdmin extends Component {
 	           lastName: this.state.lastName,
 	           biography: this.state.biography,
 	           img: responseJson['guid']['raw'],
-			   wordpresskey: 'YWRtaW46YnNsaW1faGFuemUh'
+			   wordpresskey: this.state.idWP,
 	       }
 		   api.callApi('register-admin', 'POST', userData, response => {
 			   console.log(response)
