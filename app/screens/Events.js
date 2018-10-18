@@ -332,7 +332,8 @@ class Events extends Component {
                               ),
                               link: rowData.link,
                               img: rowData.img,
-                              location: rowData.location
+                              location: rowData.location,
+                              participants: rowData.participants
                             })
                           }
                         >

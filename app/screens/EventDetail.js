@@ -98,6 +98,8 @@ class EventDetail extends Component {
     const link = navigation.getParam("link", "");
     const img = navigation.getParam("img", "");
     const location = navigation.getParam("location", "");
+    const participants = navigation.getParam("participants", "");
+    console.log(participants);
 
     return (
       <ImageBackground
@@ -216,7 +218,9 @@ class EventDetail extends Component {
                   />
                 </View>
 
-                <View style={{ flexDirection: 1 }} />
+                <View style={{ flexDirection: 1 }}>
+                  <Text>this.participants</Text>
+                </View>
 
                 <View style={{ flexDirection: "row" }}>
                   <Button
