@@ -114,6 +114,16 @@ export default class More extends Component {
                         })
                     )
                 },
+				{
+ 				icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+ 				value: 'Intro',
+ 				key: '13',
+ 				onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+ 					   routeName: 'IntroStack',
+ 					   action: NavigationActions.navigate({ routeName: 'Intro' })
+ 					})
+ 				  )
+ 			   },
 
               ]}
           />
@@ -159,6 +169,16 @@ export default class More extends Component {
                                 }
                 }),
                 },
+				{
+ 				icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+ 				value: 'Intro',
+ 				key: '13',
+ 				onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+ 					   routeName: 'IntroStack',
+ 					   action: NavigationActions.navigate({ routeName: 'Intro' })
+ 					})
+ 				  )
+ 			   },
               ]}
           />
       }
@@ -236,6 +256,16 @@ export default class More extends Component {
                      }
                }),
                },
+			   {
+				icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+				value: 'Intro',
+				key: '13',
+				onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+					   routeName: 'IntroStack',
+					   action: NavigationActions.navigate({ routeName: 'Intro' })
+					})
+				  )
+			   },
             ]}
         />
         }

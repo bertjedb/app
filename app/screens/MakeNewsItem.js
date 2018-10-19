@@ -194,7 +194,7 @@ export default class MakeNewsItem extends Component {
 		                >
 			    <Toolbar
 		               iconSet="MaterialCommunityIcons"
-		               centerElement="Wachtwoord veranderen"
+		               centerElement="Nieuws aanmaken"
 		               leftElement={("arrow-left")}
 		               onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
 			    />

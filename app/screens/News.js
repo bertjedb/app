@@ -233,7 +233,7 @@ bottomSheet: BottomSheet;
           isOpen={false}
             />
 
-				<ImageBackground blurRadius={3} source={require('../assets/frisbee_kids_bslim.jpg')}  style={{width: '100%', height: '100%'}}>
+				<ImageBackground source={require('../assets/Bslim_Background.jpg')}  style={{width: '100%', height: '100%'}}>
                     <View style={{marginBottom:172}}>
                     {
                 this.state.dataSource != null &&

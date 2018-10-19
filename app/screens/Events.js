@@ -154,7 +154,9 @@ class Events extends Component {
     userData = {
       searchString: this.state.search
     };
-    api.callApi("api/searchEvent", "POST", {}, response => {
+	console.log(userData);
+    api.callApi("api/searchEvent", "POST", userData, response => {
+		console.log(userData)
       if (response["responseCode"] == 200) {
         let ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
@@ -204,7 +206,7 @@ class Events extends Component {
     return (
       <ImageBackground
         blurRadius={0}
-        source={require("../assets/background.jpg")}
+        source={require("../assets/Bslim_Background.jpg")}
         style={{
           width: Dimensions.get("window").width,
           height: Dimensions.get("window").height
@@ -327,7 +329,7 @@ class Events extends Component {
                                 rowData.endTime,
                               created: rowData.created,
                               author: capitalize.words(
-                                rowData.leader[0][0].replace(", ,", " ")
+                                rowData.leader.replace(", ,", " ")
                               ),
                               link: rowData.link,
                               img: rowData.img,
