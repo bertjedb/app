@@ -14,7 +14,9 @@ import {
 	Linking,
 	Platform,
 	WebView,
-	Animated
+	Animated,
+	ListView,
+
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DrawerActions, Header } from 'react-navigation';
@@ -106,7 +108,15 @@ handleScroll(event) {
 	  const link = navigation.getParam('link', '');
 	  const img = navigation.getParam('img', '');
 	  const location = navigation.getParam('location', '');
-
+	  /*
+	  const participants = navigation.getParam("participants", "");
+	      const ds = new ListView.DataSource({
+	        rowHasChanged: (r1, r2) => r1 !== r2
+	      });
+	  this.state = {
+	        dataSource: ds.cloneWithRows(participants)
+	      };
+		  */
     return(
 		<View style={{width: '100%', height: '100%', backgroundColor: '#DCDCDC'}}>
 		<Animated.View
@@ -258,6 +268,32 @@ handleScroll(event) {
 				 />
 				</View>
 				                  </Animatable.View>
+								  <Animatable.View
+						            delay={500}
+						            animation="lightSpeedIn"
+						            iterationCount={1}
+						            style={styles.card}
+						            elevation={5}
+						          >
+								  {/*
+						            <ListView
+						              style={styles.participantContainer}
+						              dataSource={this.state.dataSource}
+						              renderRow={rowData => (
+						                <View>
+						                  <View
+						                    style={{
+						                      borderBottomColor: "black",
+						                      borderBottomWidth: 1
+						                    }}
+						                  >
+						                    <Text style={styles.text}>{rowData}</Text>
+						                  </View>
+						                </View>
+						              )}
+						            />
+									*/}
+						          </Animatable.View>
             </Animated.ScrollView>
 
 		</View>
@@ -343,6 +379,30 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
     },
+
+	participantContainer: {
+    margin: "5%",
+    flex: 1,
+    borderWidth: 1,
+    backgroundColor: "#fcd6e8",
+    height: 500
+  },
+  participantField: {
+    flex: 1,
+    margin: "5%",
+    flexDirection: "row",
+    borderWidth: 1,
+    backgroundColor: "#fff"
+  },
+  participantRow: {
+    flex: 1,
+    padding: 12,
+    flexDirection: "row"
+  },
+  text: {
+    marginLeft: 12,
+    fontSize: 16
+  }
 })
 
 

@@ -27,7 +27,7 @@ import { BarIndicator } from "react-native-indicators";
 import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
-import {PacmanIndicator} from 'react-native-indicators';
+import { PacmanIndicator } from "react-native-indicators";
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 
@@ -48,54 +48,54 @@ class Events extends Component {
   constructor() {
     super();
     this.state = {
-        dataSource: null,
-        eventArray: [],
-        modalVisible: false,
-        adminArray: [],
-        checkMap: new Map(),
-        search: '',
-        refreshing: false,
-        search: '',
-        loading: true,
-        check: false,
-        sleeping: false
+      dataSource: null,
+      eventArray: [],
+      modalVisible: false,
+      adminArray: [],
+      checkMap: new Map(),
+      search: "",
+      refreshing: false,
+      search: "",
+      loading: true,
+      check: false,
+      sleeping: false
     };
-    let api = Api.getInstance()
-    api.callApi('api/getAllEvents', 'POST', {}, response => {
-        if(response['responseCode'] != 503) {
-            if(response['responseCode'] == 200) {
-             let ds = new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
-            });
-            let array = response['events'];
-            for(let index=0; index < array.length; index++) {
-                let localStorage = LocalStorage.getInstance();
-                localStorage.retrieveItem('userId').then((id) => {
-                    if(id != null) {
-                        userData = {
-                            "eventId": response['events'][index]['id'],
-                            "personId": id
-                        }
-                        api.callApi('api/checkSub', 'POST', userData, response => {
-                            array[index]['subscribed'] = response['found']
-                        });
-                    }
-                    this.setState({
-                        uploading: false,
-                        loading: false,
-                        dataSource: ds.cloneWithRows(array),
-                    });
-                });
-            }
-            }
-        } else {
-            this.setState({sleeping: true})
-            setTimeout(() => {
-                this.setState({sleeping: false, loading: false})
-            }, 3000);
-            }
+    let api = Api.getInstance();
+    api.callApi("api/getAllEvents", "POST", {}, response => {
+      if (response["responseCode"] != 503) {
+        if (response["responseCode"] == 200) {
+          let ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
           });
-    }
+          let array = response["events"];
+          for (let index = 0; index < array.length; index++) {
+            let localStorage = LocalStorage.getInstance();
+            localStorage.retrieveItem("userId").then(id => {
+              if (id != null) {
+                userData = {
+                  eventId: response["events"][index]["id"],
+                  personId: id
+                };
+                api.callApi("api/checkSub", "POST", userData, response => {
+                  array[index]["subscribed"] = response["found"];
+                });
+              }
+              this.setState({
+                uploading: false,
+                loading: false,
+                dataSource: ds.cloneWithRows(array)
+              });
+            });
+          }
+        }
+      } else {
+        this.setState({ sleeping: true });
+        setTimeout(() => {
+          this.setState({ sleeping: false, loading: false });
+        }, 3000);
+      }
+    });
+  }
 
   hideSplashScreen() {
     this.setState({
@@ -103,17 +103,17 @@ class Events extends Component {
     });
   }
 
-  errorMessage(msg){
+  errorMessage(msg) {
     showMessage({
-        message: msg,
-        type: "danger",
-        duration: 3000,
-      });
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
   }
 
   componentDidMount() {
     this.onLoad();
-    this.props.navigation.addListener('willFocus', this.onLoad)
+    this.props.navigation.addListener("willFocus", this.onLoad);
   }
 
   onLoad = () => {
@@ -121,116 +121,99 @@ class Events extends Component {
   };
 
   _onRefresh = () => {
-    this.setState({refreshing: true, sleeping: false, loading: true});
+    this.setState({ refreshing: true, sleeping: false, loading: true });
     this.refresh();
   };
 
-    refresh(){
-        if(!this.state.sleeping) {
-            let api = Api.getInstance()
-            api.callApi('api/getAllEvents', 'POST', {}, response => {
-            if(response['responseCode'] != 503) {
-                if(response['responseCode'] == 200) {
-                     let ds = new ListView.DataSource({
-                        rowHasChanged: (r1, r2) => r1 !== r2
+  refresh() {
+    if (!this.state.sleeping) {
+      let api = Api.getInstance();
+      api.callApi("api/getAllEvents", "POST", {}, response => {
+        if (response["responseCode"] != 503) {
+          if (response["responseCode"] == 200) {
+            let ds = new ListView.DataSource({
+              rowHasChanged: (r1, r2) => r1 !== r2
+            });
+            let array = response["events"];
+            for (let index = 0; index < array.length; index++) {
+              let localStorage = LocalStorage.getInstance();
+              localStorage.retrieveItem("userId").then(id => {
+                if (id != null) {
+                  userData = {
+                    eventId: response["events"][index]["id"],
+                    personId: id
+                  };
+                  api.callApi("api/checkSub", "POST", userData, response => {
+                    array[index]["subscribed"] = response["found"];
+                    this.setState({
+                      uploading: false,
+                      refreshing: false,
+                      loading: false,
+                      dataSource: ds.cloneWithRows(array)
                     });
-                    let array = response['events'];
-                    for(let index=0; index < array.length; index++) {
-                        let localStorage = LocalStorage.getInstance();
-                        localStorage.retrieveItem('userId').then((id) => {
-                            if(id != null) {
-                                userData = {
-                                    "eventId": response['events'][index]['id'],
-                                    "personId": id
-                                }
-                                api.callApi('api/checkSub', 'POST', userData, response => {
-                                    array[index]['subscribed'] = response['found'];
-                                    this.setState({
-                                        uploading: false,
-                                        refreshing: false,
-                                        loading: false,
-                                        dataSource: ds.cloneWithRows(array),
-                                    });
-                                });
-                            }
-                        });
-                    }
+                  });
                 }
-            } else {
-                this.setState({sleeping: true})
-                setTimeout(() => {
-                    this.setState({sleeping: false})
-                }, 3000);
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+              });
             }
-        });
-        } 
+          }
+        } else {
+          this.setState({ sleeping: true });
+          setTimeout(() => {
+            this.setState({ sleeping: false });
+          }, 3000);
+          this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        }
+      });
     }
+  }
 
   handleSearch() {
     let api = Api.getInstance();
     userData = {
       searchString: this.state.search
     };
-
-	console.log(userData);
     api.callApi("api/searchEvent", "POST", userData, response => {
-		console.log(userData)
-      if (response["responseCode"] == 200) {
-        let ds = new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2
-        });
-        let array = response["events"];
-        for (let index = 0; index < array.length; index++) {
-          let localStorage = LocalStorage.getInstance();
-          localStorage.retrieveItem("userId").then(id => {
-            if (id != null) {
-              userData = {
-                eventId: response["events"][index]["id"],
-                personId: id
-              };
-              api.callApi("api/checkSub", "POST", userData, response => {
-                array[index]["subscribed"] = response["found"];
-                this.setState({
-                  uploading: false,
-                  dataSource: ds.cloneWithRows(array)
+      if (response["responseCode"] != 503) {
+        if (response["responseCode"] == 200) {
+          let ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+          });
+          let array = response["events"];
+          for (let index = 0; index < array.length; index++) {
+            array[index]["subscribed"] = false;
+            let localStorage = LocalStorage.getInstance();
+            localStorage.retrieveItem("userId").then(id => {
+              if (id != null) {
+                userData = {
+                  eventId: response["events"][index]["id"],
+                  personId: id
+                };
+                api.callApi("api/checkSub", "POST", userData, response => {
+                  array[index]["subscribed"] = response["found"];
+                  this.setState({
+                    uploading: false,
+                    dataSource: ds.cloneWithRows(array),
+                    loading: false
+                  });
                 });
-                let array = response["events"];
-                for (let index = 0; index < array.length; index++) {
-                    let localStorage = LocalStorage.getInstance();
-                    localStorage.retrieveItem("userId").then(id => {
-                        if (id != null) {
-                            userData = {
-                                eventId: response["events"][index]["id"],
-                                personId: id
-                            };
-                            api.callApi("api/checkSub", "POST", userData, response => {
-                                array[index]["subscribed"] = response["found"];
-                                this.setState({
-                                    uploading: false,
-                                    dataSource: ds.cloneWithRows(array),
-                                    loading: false
-                                });
-                            });
-                        }
-                    });
-                }
-            }
-        } else {
-                this.setState({sleeping: true})
-                setTimeout(() => {
-                    this.setState({sleeping: false})
-                }, 3000);
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-            }
-        });
-    }
+              }
+            });
+          }
+        }
+      } else {
+        this.setState({ sleeping: true });
+        setTimeout(() => {
+          this.setState({ sleeping: false });
+        }, 3000);
+        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+      }
+    });
+  }
 
-    render() {
-        return(
-        <ImageBackground
+  render() {
+    return (
+      <ImageBackground
         blurRadius={0}
-
         source={require("../assets/Bslim_Background.jpg")}
         style={{
           width: Dimensions.get("window").width,
@@ -358,7 +341,8 @@ class Events extends Component {
                               ),
                               link: rowData.link,
                               img: rowData.img,
-                              location: rowData.location
+                              location: rowData.location,
+                              participants: rowData.participants
                             })
                           }
                         >
@@ -599,10 +583,10 @@ class Events extends Component {
           </View>
         )}
         {this.state.loading && <PacmanIndicator color="#94D600" />}
-        <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
-        </ImageBackground>
-        );
-    }
+        <FlashMessage position="top" style={{ marginTop: Header.HEIGHT }} />
+      </ImageBackground>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
