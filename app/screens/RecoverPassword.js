@@ -41,6 +41,7 @@ export default class RecoverPassword extends Component {
   }
 
   errorMessage(msg){
+    alert(msg)
     showMessage({
         message: msg,
         type: "danger",
@@ -66,18 +67,22 @@ export default class RecoverPassword extends Component {
           'email': this.state.email,
       }
       api.callApi('reset-password', 'POST', userData, response => {
-          if(response['boolean'] == "false"){
-  				   this.errorMessage("Er bestaat geen account met het e-mail adres: " + this.state.email);
-           }
-           else {
-             this.successMessage(
-               'Er is een e-mail met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
-              );
-             this.props.navigation.dispatch(NavigationActions.navigate({
-                           routeName: 'LoginStack',
-                           action: NavigationActions.navigate({ routeName: 'LoginScreen' })
-                        }));
-           }
+        if(response['responseCode'] != 503) {
+            if(response['boolean'] == false){
+  			   	   this.errorMessage("Er bestaat geen account met het e-mail adres: " + this.state.email);
+             }
+             else {
+               this.successMessage(
+                    'Er is een e-mail met het nieuwe wachtwoord verzonden naar: ' + this.state.email,
+                );
+               this.props.navigation.dispatch(NavigationActions.navigate({
+                             routeName: 'LoginStack',
+                             action: NavigationActions.navigate({ routeName: 'LoginScreen' })
+                          }));
+             }
+        } else {
+            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+        }
       });
    }
   }
