@@ -215,7 +215,8 @@ class Events extends Component {
         return(
         <ImageBackground
         blurRadius={0}
-        source={require("../assets/../assets/Bslim_Background.jpg")}
+
+        source={require("../assets/Bslim_Background.jpg")}
         style={{
           width: Dimensions.get("window").width,
           height: Dimensions.get("window").height
