@@ -7,19 +7,18 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-		ImageBackground,
+	ImageBackground,
     Image,
     Divider,
 		AsyncStorage,
 } from 'react-native';
-import { DrawerActions, Header } from 'react-navigation';
+import { DrawerActions, Header, NavigationActions } from 'react-navigation';
 import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
-import { NavigationActions } from 'react-navigation';
 import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
@@ -174,10 +173,15 @@ class LoginScreen extends Component {
 			  onChangeText={ (password) => this.setState({ password }) }
 			/>
 			<Button
-			  style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
+			  style={{container: stylesCss.loginBtn, text: {color: 'white'}}}
 			  raised text="Doorgaan"
 			  onPress={() => this.login()}
 			/>
+            <Button
+              style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
+              raised text="Nog geen account? Registreer nu!"
+              onPress={() => this.props.navigation.navigate("Registration")}
+            />
 		  </View>
 		</View>
 		</View>
@@ -196,11 +200,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
   },
 	card: {
-		backgroundColor: '#93D500',
-		height: 270,
-		margin: 10,
-		borderRadius: 10,
-		shadowOffset: {width: 0, height: 13},
+	backgroundColor: '#93D500',
+	height: 270,
+	margin: 10,
+	borderRadius: 10,
+	shadowOffset: {width: 0, height: 13},
     shadowOpacity: 0.3,
     shadowRadius: 6,
 
@@ -220,7 +224,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 5 ,
 	},
 
-	SectionStyleBottom: {
+SectionStyleBottom: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

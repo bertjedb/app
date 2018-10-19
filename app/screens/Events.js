@@ -69,6 +69,7 @@ class Events extends Component {
             });
             let array = response['events'];
             for(let index=0; index < array.length; index++) {
+                array[index]['subscribed'] = false
                 let localStorage = LocalStorage.getInstance();
                 localStorage.retrieveItem('userId').then((id) => {
                     if(id != null) {
@@ -136,6 +137,7 @@ class Events extends Component {
                     });
                     let array = response['events'];
                     for(let index=0; index < array.length; index++) {
+                        array[index]['subscribed'] = false
                         let localStorage = LocalStorage.getInstance();
                         localStorage.retrieveItem('userId').then((id) => {
                             if(id != null) {
@@ -172,7 +174,7 @@ class Events extends Component {
     userData = {
       searchString: this.state.search
     };
-    api.callApi("api/searchEvent", "POST", {}, response => {
+    api.callApi("api/searchEvent", "POST", userData, response => {
         if(response['responseCode'] != 503) {
             if (response["responseCode"] == 200) {
                 let ds = new ListView.DataSource({
@@ -180,6 +182,7 @@ class Events extends Component {
                 });
                 let array = response["events"];
                 for (let index = 0; index < array.length; index++) {
+                    array[index]['subscribed'] = false
                     let localStorage = LocalStorage.getInstance();
                     localStorage.retrieveItem("userId").then(id => {
                         if (id != null) {
@@ -279,7 +282,7 @@ class Events extends Component {
                           justifyContent: "center",
                           margin: 10
                         }}
-                      >
+                      > 
                         <Image
                           source={{ uri: rowData.photo[0] }}
                           resizeMode="cover"
@@ -317,6 +320,7 @@ class Events extends Component {
                         <TouchableHighlight
                           onPress={() =>
                             this.props.navigation.navigate("EventDetail", {
+                              id: rowData.id,
                               title: capitalize.words(
                                 rowData.name.toString().replace(", ,", " ")
                               ),
@@ -340,7 +344,8 @@ class Events extends Component {
                               ),
                               link: rowData.link,
                               img: rowData.img,
-                              location: rowData.location
+                              location: rowData.location,
+                              subscribed: rowData.subscribed
                             })
                           }
                         >
@@ -500,23 +505,24 @@ class Events extends Component {
                                       eventId: rowData.id,
                                       personId: id
                                     };
-                                    api.callApi(
-                                      "api/unSubToEvent",
-                                      "POST",
-                                      userData,
-                                      response => {
-                                        if (response["responseCode"] == 200) {
-                                          alert(
-                                            "Je hebt je afgemeld voor dit evenement"
-                                          );
-                                          this.refresh();
-                                        } else if (
-                                          response["responseCode"] == 400
-                                        ) {
-                                          alert("Je bent al afgemeld");
+                                    api.callApi("api/unSubToEvent","POST",userData,response => {
+                                        if(response['responseCode'] != 503) {
+                                            if (response["responseCode"] == 200) {
+                                                alert(
+                                                  "Je hebt je afgemeld voor dit evenement"
+                                                );
+                                                this.refresh();
+                                            } else if (
+                                              response["responseCode"] == 400
+                                            ) {
+                                              alert("Je bent al afgemeld");
+                                            } else {
+                                              alert("Er is wat fout gegaan");
+                                            }
                                         } else {
-                                          alert("Er is wat fout gegaan");
+                                            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
                                         }
+                                        
                                       }
                                     );
                                   } else {

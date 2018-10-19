@@ -187,7 +187,7 @@ export const MyTabLoggedIn = TabNavigator({
 	  					jumpToIndex(scene.index);
 	  				}
 		  		}),
-				initialRouteName: 'NewsCard',
+				initialRouteName: 'EventStack',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					shifting: false,

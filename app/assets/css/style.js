@@ -142,7 +142,12 @@ export default StyleSheet.create({
     },
 
     defaultBtn: {
-		marginTop: 30,
+        borderRadius: 10,
+        backgroundColor: '#FF6700'
+    },
+
+    loginBtn: {
+        marginBottom: 30,
         borderRadius: 10,
         backgroundColor: '#FF6700'
     },

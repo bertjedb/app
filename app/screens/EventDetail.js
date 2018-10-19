@@ -14,6 +14,7 @@ import {
 	Linking,
 	Platform,
 	WebView,
+	TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DrawerActions, Header } from 'react-navigation';
@@ -50,43 +51,43 @@ class EventDetail extends Component {
 
 
 constructor() {
-  super();
-  this.state = {
-	  map: true,
-	  title: '',
-	  content: '',
-	  url: '',
-	  start: '',
-	  end: '',
-	  author: '',
-	  loading: false,
-	  deelnemer: false,
-	  scroll: true,
-  }
-  let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
-  let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
-
-
+	super();
+	this.state = {
+		map: true,
+		title: '',
+		content: '',
+		url: '',
+		start: '',
+		end: '',
+		author: '',
+		loading: false,
+		deelnemer: false,
+		scroll: true
+	}
+	let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+	let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
 }
 
+componentDidMount() {
+	const { navigation } = this.props;
+	this.setState({	eventId: navigation.getParam('id', ''),
+					title: navigation.getParam('title', ''),
+					profilePicture: navigation.getParam('profilePicture', ''),
+					author: navigation.getParam('author', ''),
+					content: navigation.getParam('content', ''),
+					url: navigation.getParam('url', ''),
+					start: navigation.getParam('start', ''),
+					end: navigation.getParam('end', ''),
+					created: navigation.getParam('created', ''),
+					link: navigation.getParam('link', ''),
+					img: navigation.getParam('img', ''),
+					location: navigation.getParam('location', ''),
+					subscribed: navigation.getParam('subscribed', '')
+				});
+  }
 
   render() {
-	  let map = Maps.getInstance()
-	  console.log(map.getMap('peizerweg 48'))
-	  const { navigation } = this.props;
-
-	  const title = navigation.getParam('title', '');
-	  const content = navigation.getParam('content', '');
-	  const url = navigation.getParam('url', '');
-	  const start = navigation.getParam('start', '');
-	  const end = navigation.getParam('end', '');
-	  const created = navigation.getParam('created', '');
-	  const author = navigation.getParam('author', '');
-	  const profilePicture = navigation.getParam('profilePicture', '');
-	  const link = navigation.getParam('link', '');
-	  const img = navigation.getParam('img', '');
-	  const location = navigation.getParam('location', '');
-
+  	let map = Maps.getInstance()
     return(
 		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
 			<LinearGradient
@@ -95,7 +96,7 @@ constructor() {
                       >
 			<Toolbar
 				iconSet="MaterialCommunityIcons"
-				centerElement={title}
+				centerElement={this.state.title}
 				leftElement={("arrow-left")}
 				onLeftElementPress={() => this.props.navigation.goBack()}
 			/>
@@ -111,7 +112,7 @@ constructor() {
                 <View style={styles.cardTitle} elevation={5}>
 					<View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10, width: '100%'}}>
 					<Image
-						source={{uri: profilePicture}}
+						source={{uri: this.state.profilePicture}}
 						resizeMode="cover"
 						style={{width: 50, height: 50, borderRadius: 10}}
 					/>
@@ -122,44 +123,132 @@ constructor() {
 								fontSize: 18,
 								color: 'black'
 							}}>
-								{author}
+								{this.state.author}
 							</Text>
 							<Text style={{fontSize: 14, color: 'black'}}>
-								{created}
+								{this.state.created}
 							</Text>
 						</View>
 					</View>
                 </View>
 				<View style={{widht: '100%', height: 200, paddingBottom: 10}}>
 				<Image
-					source={{uri: img}}
+					source={{uri: this.state.img}}
 					resizeMode="cover"
 					style={{width: '100%', height: 200}}
 				  />
 				</View>
 
 
-                <HTML onLinkPress={(evt, href) => { Linking.openURL(href); }} containerStyle={{marginLeft: 10, marginRight: 10}} ignoredTags={['img']} html={content} imagesMaxWidth={Dimensions.get('window').width } />
+                <HTML onLinkPress={(evt, href) => { Linking.openURL(href); }} containerStyle={{marginLeft: 10, marginRight: 10}} ignoredTags={['img']} html={this.state.content} imagesMaxWidth={Dimensions.get('window').width } />
                 <View style={{margin: 10,}}>
 					<Text style={{fontWeight: 'bold'}}>
-					Begin: {start}
+					Begin: {this.state.start}
 					</Text>
 					<Text style={{fontWeight: 'bold'}}>
-					Eind: {end}
+					Eind: {this.state.end}
 					</Text>
 					<Text style={{fontWeight: 'bold'}}>
-					Locatie: {location}
+					Locatie: {this.state.location}
 					</Text>
 
                 </View>
 
 				<View  style={{width: '100%', height: 200}}>
 				<MyWebView
-				source={{html: map.getMap(location)}}
+				source={{html: map.getMap(this.state.location)}}
 				  style={{flex: 1, width: '100%', height: 200}}
 				 />
 				</View>
 				<View style={{flexDirection: 'row'}}>
+					{ !this.state.subscribed && 
+						<Button
+								style={{
+									container: {
+										margin: 10,
+											borderRadius: 10,
+											backgroundColor: 'green'
+									},
+									text: {
+										color: 'white'
+									}
+								}}
+                              	onPress={() => {
+                                	let api = Api.getInstance();
+                                	let localStorage = LocalStorage.getInstance();
+                                	localStorage.retrieveItem("userId").then(id => {
+                                	  if (id != null) {
+                                	    userData = {
+                                	      eventId: this.state.eventId,
+                                	      personId: id
+                                	    };
+                                	    api.callApi("api/subToEvent","POST",userData, response => {
+                                	        if (response["responseCode"] == 200) {
+                                	          alert(
+                                	            "Je hebt je aangemeld voor dit evenement"
+                                	          );
+                                	          this.setState({subscribed: true})
+                                	        } else if (response["responseCode"] == 400) {
+                                	          alert("Je bent al aangemeld");
+                                	        } else {
+                                	          alert("Er is wat fout gegaan");
+                                	        }
+                                	      }
+                                	    );
+                                	  } else {
+                                	    this.props.navigation.navigate(
+                                	      "LoginScreen"
+                                	    );
+                                	  }
+                                	});
+                              }	}
+                              text="Aanmelden"
+                           />}
+                        { this.state.subscribed &&
+                            <Button
+								style={{
+									container: {
+										margin: 10,
+											borderRadius: 10,
+											backgroundColor: 'green'
+									},
+									text: {
+										color: 'white'
+									}
+								}}
+                          		onPress={() => {
+                            		let api = Api.getInstance();
+                            		let localStorage = LocalStorage.getInstance();
+                            		localStorage.retrieveItem("userId").then(id => {
+                            		  if (id != null) {
+                            		    userData = {
+                            		      eventId: this.state.eventId,
+                            		      personId: id
+                            		    };
+                            		    api.callApi("api/unSubToEvent","POST",userData,response => {
+                            		        if (response["responseCode"] == 200) {
+                            		          alert(
+                            		            "Je hebt je afgemeld voor dit evenement"
+                            		          );
+                            		          this.setState({subscribed: false})
+                            		        } else if (
+                            		          response["responseCode"] == 400
+                            		        ) {
+                            		          alert("Je bent al afgemeld");
+                            		        } else {
+                            		          alert("Er is wat fout gegaan");
+                            		        }
+                            		      }
+                            		    );
+                            		  } else {
+                            		    this.props.navigation.navigate(
+                            		      "LoginScreen"
+                            		    );
+                            		  }
+                            		});
+                              }	}
+                              text="Afmelden"
+                            /> }
 						<Button
 							style={{
 								container: {
@@ -173,7 +262,7 @@ constructor() {
 							}}
 						 	text="Delen"
 							onPress={() => Share.share({
-								message: 'Binnenkort organiseert bslim: ' + title + '. Voor meer informatie ga naar: ' + link
+								message: 'Binnenkort organiseert bslim: ' + this.state.title + '. Voor meer informatie ga naar: ' + this.state.link
   							})} />
 						<Button
 							style={{
