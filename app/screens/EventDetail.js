@@ -11,8 +11,11 @@ import {
   Share,
   Linking,
   Platform,
-  WebView
+  WebView,
+  ListView,
+  Divider
 } from "react-native";
+import { Table, Row, Rows } from "react-native-table-component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { DrawerActions, Header } from "react-navigation";
 import ActionButton from "react-native-action-button";
@@ -99,7 +102,12 @@ class EventDetail extends Component {
     const img = navigation.getParam("img", "");
     const location = navigation.getParam("location", "");
     const participants = navigation.getParam("participants", "");
-    console.log(participants);
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+    this.state = {
+      dataSource: ds.cloneWithRows(participants)
+    };
 
     return (
       <ImageBackground
@@ -217,10 +225,22 @@ class EventDetail extends Component {
                     style={{ flex: 1, width: "100%", height: 200 }}
                   />
                 </View>
-
-                <View style={{ flexDirection: 1 }}>
-                  <Text>this.participants</Text>
-                </View>
+                <ListView
+                  style={styles.participantContainer}
+                  dataSource={this.state.dataSource}
+                  renderRow={rowData => (
+                    <View>
+                      <View
+                        style={{
+                          borderBottomColor: "black",
+                          borderBottomWidth: 1
+                        }}
+                      >
+                        <Text style={styles.text}>{rowData}</Text>
+                      </View>
+                    </View>
+                  )}
+                />
 
                 <View style={{ flexDirection: "row" }}>
                   <Button
@@ -302,6 +322,29 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     margin: 0,
     padding: 0
+  },
+  participantContainer: {
+    margin: "5%",
+    flex: 1,
+    borderWidth: 1,
+    backgroundColor: "#fcd6e8",
+    height: 500
+  },
+  participantField: {
+    flex: 1,
+    margin: "5%",
+    flexDirection: "row",
+    borderWidth: 1,
+    backgroundColor: "#fff"
+  },
+  participantRow: {
+    flex: 1,
+    padding: 12,
+    flexDirection: "row"
+  },
+  text: {
+    marginLeft: 12,
+    fontSize: 16
   }
 });
 
