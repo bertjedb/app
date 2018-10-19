@@ -27,6 +27,7 @@ import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
+import Intro from '../screens/Intro';
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
@@ -132,6 +133,16 @@ export const ParticipantListStack = StackNavigator({
 		screen: ParticipantList,
 		navigationOptions: {
 			title: 'Evenementen',
+		}
+	},
+},{headerMode: 'none'
+})
+
+export const IntroStack = StackNavigator({
+	Intro: {
+		screen: Intro,
+		navigationOptions: {
+			title: 'Intro',
 		}
 	},
 },{headerMode: 'none'
@@ -305,6 +316,12 @@ export const MyAppNotLoggedIn = StackNavigator({
             header: null,
 		}
 	},
+	IntroStack: {
+		screen: IntroStack,
+		navigationOptions: {
+			header: null,
+		}
+	}
 },{
 
 })
@@ -332,6 +349,12 @@ export const MyAppLoggedIn = StackNavigator({
 	},
 	ParticipantListStack: {
 		screen: ParticipantListStack,
+		navigationOptions: {
+			header: null,
+		}
+	},
+	IntroStack: {
+		screen: IntroStack,
 		navigationOptions: {
 			header: null,
 		}

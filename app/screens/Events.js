@@ -329,7 +329,7 @@ class Events extends Component {
                                 rowData.endTime,
                               created: rowData.created,
                               author: capitalize.words(
-                                rowData.leader[0][0].replace(", ,", " ")
+                                rowData.leader.replace(", ,", " ")
                               ),
                               link: rowData.link,
                               img: rowData.img,
