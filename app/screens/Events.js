@@ -172,11 +172,28 @@ class Events extends Component {
     userData = {
       searchString: this.state.search
     };
-    api.callApi("api/searchEvent", "POST", {}, response => {
-        if(response['responseCode'] != 503) {
-            if (response["responseCode"] == 200) {
-                let ds = new ListView.DataSource({
-                    rowHasChanged: (r1, r2) => r1 !== r2
+
+	console.log(userData);
+    api.callApi("api/searchEvent", "POST", userData, response => {
+		console.log(userData)
+      if (response["responseCode"] == 200) {
+        let ds = new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 !== r2
+        });
+        let array = response["events"];
+        for (let index = 0; index < array.length; index++) {
+          let localStorage = LocalStorage.getInstance();
+          localStorage.retrieveItem("userId").then(id => {
+            if (id != null) {
+              userData = {
+                eventId: response["events"][index]["id"],
+                personId: id
+              };
+              api.callApi("api/checkSub", "POST", userData, response => {
+                array[index]["subscribed"] = response["found"];
+                this.setState({
+                  uploading: false,
+                  dataSource: ds.cloneWithRows(array)
                 });
                 let array = response["events"];
                 for (let index = 0; index < array.length; index++) {
@@ -213,7 +230,8 @@ class Events extends Component {
         return(
         <ImageBackground
         blurRadius={0}
-        source={require("../assets/../assets/Bslim_Background.jpg")}
+
+        source={require("../assets/Bslim_Background.jpg")}
         style={{
           width: Dimensions.get("window").width,
           height: Dimensions.get("window").height
@@ -336,7 +354,7 @@ class Events extends Component {
                                 rowData.endTime,
                               created: rowData.created,
                               author: capitalize.words(
-                                rowData.leader[0][0].replace(", ,", " ")
+                                rowData.leader.replace(", ,", " ")
                               ),
                               link: rowData.link,
                               img: rowData.img,

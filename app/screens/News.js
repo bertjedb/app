@@ -192,6 +192,7 @@ class News extends Component {
             { !this.state.loading && 
             <View>
             { this.state.dataSource != null &&
+
                 <ListView
                     refreshControl={
                         <RefreshControl
