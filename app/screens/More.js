@@ -18,6 +18,8 @@ import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import LinearGradient from 'react-native-linear-gradient';
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 export default class More extends Component {
 
@@ -37,6 +39,14 @@ export default class More extends Component {
         routeName: route
       });
       this.props.navigation.dispatch(navigate);
+    }
+
+    errorMessage(msg){
+        showMessage({
+            message: msg,
+            type: "danger",
+            duration: 3000,
+          });
     }
 
   render () {
@@ -114,6 +124,16 @@ export default class More extends Component {
                         })
                     )
                 },
+				{
+ 				icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+ 				value: 'Intro',
+ 				key: '13',
+ 				onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+ 					   routeName: 'IntroStack',
+ 					   action: NavigationActions.navigate({ routeName: 'Intro' })
+ 					})
+ 				  )
+ 			   },
 
               ]}
           />
@@ -149,16 +169,29 @@ export default class More extends Component {
                                 api.callApi('logout', 'POST', {
                                     id: this.state.userId,
                                 }, response => {
-                                    console.log(response);
-                                if(response['value'] == true){
-                                    localStorage.storeItem('userId', null);
-                                    localStorage.storeItem('points', null);
-                                    api.getPoints();
-                                } else {
-                                    //alert("Please try again..")
-                                }
-                }),
+                                    if(response['responseCode'] != 503) {
+                                        if(response['boolean'] == true){
+                                            localStorage.storeItem('userId', null);
+                                            localStorage.storeItem('points', null);
+                                            api.getPoints();
+                                        }
+                                    } else {
+                                        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                                        alert("Zorg ervoor dat u een internet verbinding heeft")
+                                    }
+                                    
+                                }),
                 },
+				{
+ 				icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+ 				value: 'Intro',
+ 				key: '13',
+ 				onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+ 					   routeName: 'IntroStack',
+ 					   action: NavigationActions.navigate({ routeName: 'Intro' })
+ 					})
+ 				  )
+ 			   },
               ]}
           />
       }
@@ -226,22 +259,36 @@ export default class More extends Component {
                      api.callApi('logout', 'POST', {
                          id: this.state.userId,
                      }, response => {
-                         console.log(response);
-                     if(response['value'] == true){
-                         localStorage.storeItem('userId', null);
-                         localStorage.storeItem('points', null);
-                         api.getPoints();
-                     } else {
-                         //alert("Please try again..")
-                     }
+                                    if(response['responseCode'] != 503) {
+                                        console.log(response);
+                                        if(response['boolean'] == true){
+                                            localStorage.storeItem('userId', null);
+                                            localStorage.storeItem('points', null);
+                                            api.getPoints();
+                                        }
+                                    } else {
+                                        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                                        alert("Zorg ervoor dat u een internet verbinding heeft")
+                                    }
                }),
                },
+			   {
+				icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
+				value: 'Intro',
+				key: '13',
+				onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+					   routeName: 'IntroStack',
+					   action: NavigationActions.navigate({ routeName: 'Intro' })
+					})
+				  )
+			   },
             ]}
         />
         }
 
-        </Drawer>
-                </View>
+            </Drawer>
+            <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
+        </View>
       );
     }
 }

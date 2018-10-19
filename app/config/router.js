@@ -27,19 +27,7 @@ import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
-import Filter from '../screens/Filter';
-
-//Gradient header
-export const GradientHeader = props => (
-<View style={{ backgroundColor: '#eee', paddingBottom: Header.HEIGHT  }} >
-    <LinearGradient
-      colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201',  ]}
-      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
-    >
-      <Header {...props} />
-    </LinearGradient>
-  </View>
-)
+import Intro from '../screens/Intro';
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
@@ -150,61 +138,70 @@ export const ParticipantListStack = StackNavigator({
 },{headerMode: 'none'
 })
 
+export const IntroStack = StackNavigator({
+	Intro: {
+		screen: Intro,
+		navigationOptions: {
+			title: 'Intro',
+		}
+	},
+},{headerMode: 'none'
+})
+
 //TabNavigator for the app when logged in
 export const MyTabLoggedIn = TabNavigator({
 			EventStack: {
 		        screen: EventStack,
 		        navigationOptions: {
-		          tabBarLabel: 'Evenementen',
-							tabBarIcon: () => (
-		          <Icon name="calendar" size={24} color='grey' />
-		        )
+		        tabBarLabel: 'Evenementen',
+				tabBarIcon: (
+            		<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
+      			)
 		        }
 		      },
 		     NewsCard: {
 				screen: NewsStack,
 				navigationOptions: {
-					tabBarLabel: 'Nieuws',
-					tabBarIcon: () => (
-						<Icon name="newspaper" size={24} color='grey' />
-					)
+				tabBarLabel: 'Nieuws',
+				tabBarIcon: (
+            		<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
+      			)
 				}
 			},
 			PointCard: {
 		        screen: PointCard,
 		        navigationOptions: {
-		          tabBarLabel: 'Stempelkaart',
-							tabBarIcon: () => (
-		          <Icon name="grid" size={24} color='grey' />
-		        )
+	          	tabBarLabel: 'Stempelkaart',
+				tabBarIcon: (
+            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Stempelkaart.png')}/>
+      			)
 		        }
 		      },
 			More: {
 				screen: More,
 				navigationOptions: {
-					tabBarLabel: 'Meer',
-					tabBarIcon: () => (
-					<Icon name="format-list-bulleted" size={24} color='grey' />
-				)
+				tabBarLabel: 'Meer',
+				tabBarIcon: (
+            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
+      			)
 				}
 			},
 		}, {
 		  		tabBarComponent: NavigationComponent,
 		  		tabBarPosition: 'bottom',
 		  		navigationOptions: ({ naviagtion }) => ({
-		  			tabBarOnPress: (scene, jumpToIndex) => {
-		  				if(scene.route.key == "PointCard") {
-		  					let api = Api.getInstance();
-		  					api.getPoints();
-		  				}
-		  				jumpToIndex(scene.index);
-		  			}
+	  				tabBarOnPress: (scene, jumpToIndex) => {
+	  					if(scene.route.key == "PointCard") {
+	  						let api = Api.getInstance();
+	  						api.getPoints();
+	  					}
+	  					jumpToIndex(scene.index);
+	  				}
 		  		}),
-				initialRouteName: 'EventStack',
+				initialRouteName: 'NewsCard',
 		  		tabBarOptions: {
 		    	bottomNavigationOptions: {
 					shifting: false,
-
 				style: {
 					backgroundColor: 'white', elevation: 8,
 					position: 'absolute',
@@ -219,16 +216,16 @@ export const MyTabLoggedIn = TabNavigator({
 		      	rippleColor: '#3bb222',
 		      	tabs: {
 		        EventStack: {
-							activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
+					activeIcon:	<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
 		        },
 				NewsCard: {
-							activeIcon:	<Icon name="newspaper" size={24} color='#3bb222' />
+					activeIcon:	<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
 		        },
 		        PointCard: {
-							activeIcon:	<Icon name="grid" size={24} color='#3bb222' />
+					activeIcon:	<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Stempelkaart.png')}/>
 		        },
 				More: {
-					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
+					activeIcon:	<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
 		        },
 		      }
 		    }
@@ -240,31 +237,31 @@ export const MyTabNotLoggedIn = TabNavigator({
 			EventStack: {
 		        screen: EventStack,
 		        navigationOptions: {
-		          tabBarLabel: 'Evenementen',
-				  tabBarIcon: () => (
-		          <Icon name="calendar" size={24} color='grey' />
-		        )
+	          	tabBarLabel: 'Evenementen',
+			  	tabBarIcon: (
+            		<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
+      			)
 		        }
 		      },
 
 			NewsCard: {
 				screen: NewsStack,
 				navigationOptions: {
-					tabBarLabel: 'Nieuws',
-					tabBarIcon: () => (
-						<Icon name="newspaper" size={24} color='grey' />
-					)
+				tabBarLabel: 'Nieuws',
+				tabBarIcon: (
+            		<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
+      			)
 				}
 			},
 			More: {
 				screen: More,
 				navigationOptions: {
-					tabBarLabel: 'Meer',
-					tabBarIcon: () => (
-					<Icon name="format-list-bulleted" size={24} color='grey' />
-				)
+				tabBarLabel: 'Meer',
+				tabBarIcon: (
+            		<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
+      			)
 				}
-			  },
+			},
 		}, {
 		  		tabBarComponent: NavigationComponent,
 		  		tabBarPosition: 'bottom',
@@ -290,10 +287,13 @@ export const MyTabNotLoggedIn = TabNavigator({
 		      	rippleColor: '#3bb222',
 		      	tabs: {
 		        EventStack: {
-					activeIcon:	<Icon name="calendar" size={24} color='#3bb222' />
+					activeIcon:	<Image style={{ width: 25, height: 24 }} source={require('../assets/icons/Event.png')}/>
 		        },
-				More: {
-					activeIcon:	<Icon name="format-list-bulleted" size={24} color='#3bb222' />
+				NewsCard: {
+					activeIcon:	<Image style={{ width: 28, height: 24 }} source={require('../assets/icons/News.png')}/>
+		        },
+		        More: {
+					activeIcon:	<Image style={{ width: 24, height: 24 }} source={require('../assets/icons/Burgermenu.png')}/>
 		        },
 		      }
 		    }
@@ -316,6 +316,12 @@ export const MyAppNotLoggedIn = StackNavigator({
             header: null,
 		}
 	},
+	IntroStack: {
+		screen: IntroStack,
+		navigationOptions: {
+			header: null,
+		}
+	}
 },{
 
 })
@@ -343,6 +349,12 @@ export const MyAppLoggedIn = StackNavigator({
 	},
 	ParticipantListStack: {
 		screen: ParticipantListStack,
+		navigationOptions: {
+			header: null,
+		}
+	},
+	IntroStack: {
+		screen: IntroStack,
 		navigationOptions: {
 			header: null,
 		}

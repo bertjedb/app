@@ -13,13 +13,15 @@ import styles from '../assets/css/style.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { TextField } from 'react-native-material-textfield';
-import { Button } from 'react-native-material-ui';
+import { Button, Toolbar } from 'react-native-material-ui';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImgToBase64 from 'react-native-image-base64';
+import LinearGradient from 'react-native-linear-gradient';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 
 export default class MakeNewsItem extends Component {
 
@@ -27,9 +29,9 @@ export default class MakeNewsItem extends Component {
     super();
 	this.state = {
 		title: '',
-  	content: '',
-    pickedImage: { uri: '' },
-    imgPicked: false,
+        content: '',
+        pickedImage: { uri: '' },
+        imgPicked: false,
     };
   }
 
@@ -53,8 +55,8 @@ export default class MakeNewsItem extends Component {
 	  fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/create-post", {
 		  method: 'POST',
 		  headers: new Headers({
-			  'Accept': 'application/json',
-  'Content-Type': 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
 		    }),
 			body: JSON.stringify({
             title: this.state.title,
@@ -66,7 +68,6 @@ export default class MakeNewsItem extends Component {
 		.then((response) => response.text())
 		.then((responseText) => {
 		  alert(responseText);
-		  console.log(this.state.img);
 		})
 		.catch((error) => {
 		    console.error(error);
@@ -98,7 +99,7 @@ export default class MakeNewsItem extends Component {
 	  				let userData = {
 	  					title: this.state.title,
 	  					content: this.state.content,
-              img: this.state.img
+                        img: this.state.img
 	  				}
 	                let api = Api.getInstance();
 	  				api.callApi('api/createNewsItem', 'POST', userData, response => {
@@ -117,9 +118,7 @@ export default class MakeNewsItem extends Component {
 	        		});
 
 	            }});
-			})
-
-   			.catch((error) => {
+			}).catch((error) => {
    				callBack(error);
    			})
     } else if(this.state.content != '' &&
@@ -179,8 +178,6 @@ export default class MakeNewsItem extends Component {
             imgPicked: true,
         });
         ImgToBase64.getBase64String(this.state.pickedImage.uri).then((base64String) => {
-			console.log("IMAGE:");
-			console.log(base64String);
             this.setState({
                 img: base64String
             });
@@ -191,6 +188,17 @@ export default class MakeNewsItem extends Component {
   render() {
     return(
     		<ImageBackground blurRadius={3} source={require('../assets/sport_kids_bslim.jpg')} style={{width: '100%', height: '100%'}}>
+			<LinearGradient
+		                  colors={['#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201', '#94D600', '#76C201','#94D600', '#76C201', '#94D600', '#76C201']}
+		                  style={{ height: Header.HEIGHT}}
+		                >
+			    <Toolbar
+		               iconSet="MaterialCommunityIcons"
+		               centerElement="Nieuws aanmaken"
+		               leftElement={("arrow-left")}
+		               onLeftElementPress={() => this.props.navigation.dispatch(NavigationActions.back())}
+			    />
+		     </LinearGradient>
 				<View style={styles.container}>
 					<View style={styles.cardGreen} elevation={5}>
 						<Text style={{margin: 15, fontWeight: 'bold', fontSize: 24, color: 'white'}}>
@@ -213,7 +221,9 @@ export default class MakeNewsItem extends Component {
 								textColor='green'
              					tintColor='green'
              					baseColor='green'
-		  						label="Content"
+		  						label="Inhoud"
+                                multiline={true}
+                                numberOfLines={30}
           						value={ this.state.content }
           						onChangeText={ content => this.setState({content}) }
 							/>
