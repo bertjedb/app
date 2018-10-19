@@ -28,7 +28,6 @@ import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
 import {PacmanIndicator} from 'react-native-indicators';
-import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 
 var capitalize = require("capitalize");
@@ -317,44 +316,11 @@ class Events extends Component {
                           borderBottomRightRadius: 10
                         }}
                       >
-                        <TouchableHighlight
-                          onPress={() =>
-                            this.props.navigation.navigate("EventDetail", {
-                              id: rowData.id,
-                              title: capitalize.words(
-                                rowData.name.toString().replace(", ,", " ")
-                              ),
-                              profilePicture: rowData.photo[0],
-                              content: rowData.desc,
-                              start:
-                                rowData.begin +
-                                " " +
-                                rowData.beginMonth +
-                                " " +
-                                rowData.beginTime,
-                              end:
-                                rowData.end +
-                                " " +
-                                rowData.endMonth +
-                                " " +
-                                rowData.endTime,
-                              created: rowData.created,
-                              author: capitalize.words(
-                                rowData.leader[0][0].replace(", ,", " ")
-                              ),
-                              link: rowData.link,
-                              img: rowData.img,
-                              location: rowData.location,
-                              subscribed: rowData.subscribed
-                            })
-                          }
-                        >
                           <Image
                             source={{ uri: rowData.img }}
                             resizeMode="cover"
                             style={{ width: "100%", height: 200 }}
                           />
-                        </TouchableHighlight>
                         <View
                           style={{
                             flex: 1,
@@ -478,7 +444,7 @@ class Events extends Component {
                                 });
                               }}
                               style={{
-                                width: "50%",
+                                width: "33%",
                                 borderRightWidth: 1,
                                 justifyContent: "center",
                                 alignItems: "center",
@@ -533,7 +499,7 @@ class Events extends Component {
                                 });
                               }}
                               style={{
-                                width: "50%",
+                                width: "33%",
                                 borderRightWidth: 1,
                                 justifyContent: "center",
                                 alignItems: "center",
@@ -563,12 +529,11 @@ class Events extends Component {
                               })
                             }
                             style={{
-                              width: "50%",
+                              width: "33%",
                               justifyContent: "center",
                               alignItems: "center",
                               padding: 10,
-                              backgroundColor: "#93D500",
-                              borderBottomRightRadius: 10
+                              backgroundColor: "#93D500"
                             }}
                           >
                             <Text
@@ -577,6 +542,53 @@ class Events extends Component {
                               DELEN
                             </Text>
                           </TouchableHighlight>
+                          <TouchableHighlight
+                                onPress={() =>
+                                  this.props.navigation.navigate("EventDetail", {
+                                    id: rowData.id,
+                                    title: capitalize.words(
+                                      rowData.name.toString().replace(", ,", " ")
+                                    ),
+                                    profilePicture: rowData.photo[0],
+                                    content: rowData.desc,
+                                    start:
+                                      rowData.begin +
+                                      " " +
+                                      rowData.beginMonth +
+                                      " " +
+                                      rowData.beginTime,
+                                    end:
+                                      rowData.end +
+                                      " " +
+                                      rowData.endMonth +
+                                      " " +
+                                      rowData.endTime,
+                                    created: rowData.created,
+                                    author: capitalize.words(
+                                      rowData.leader
+                                    ),
+                                    link: rowData.link,
+                                    img: rowData.img,
+                                    location: rowData.location,
+                                    subscribed: rowData.subscribed
+                                  })
+                                }
+                                style={{
+                                    width: "34%",
+                                    borderLeftWidth: 1,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    padding: 10,
+                                    backgroundColor: "#93D500",
+                                    borderBottomRightRadius: 10
+                                }}
+                            >
+                                <Text
+                                    style={{ color: "white", fontWeight: "bold" }}
+                                >
+                                    LEES MEER...
+                                </Text>
+                            </TouchableHighlight>
                         </View>
                       </View>
                     </View>
@@ -587,7 +599,6 @@ class Events extends Component {
           </View>
         )}
         {this.state.loading && <PacmanIndicator color="#94D600" />}
-        <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
         </ImageBackground>
         );
     }

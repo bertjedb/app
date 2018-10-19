@@ -24,7 +24,6 @@ import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
-import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
 import { TextField } from 'react-native-material-textfield';
@@ -64,16 +63,14 @@ export default class Registration extends Component {
 	}
 
   errorMessage(msg){
-    alert(msg)
     showMessage({
         message: msg,
         type: "danger",
-        duration: 2500,
+        duration: 3000,
       });
   }
 
   checkRegistration() {
-    console.log(this.state);
     // empty check
     if(this.state.firstName == "" ||
        this.state.lastName == "" ||
@@ -174,6 +171,7 @@ export default class Registration extends Component {
               textColor='green'
               tintColor='green'
               baseColor='green'
+              autoCapitalize = 'none'
               label='Email adres'
               value={this.state.email}
               onChangeText={ (email) => this.setState({ email }) }
@@ -204,7 +202,6 @@ export default class Registration extends Component {
           </View>
         </View>
       </View>
-      <FlashMessage position="top" />
       </ImageBackground>
     );
   }

@@ -73,20 +73,23 @@ export default class ChangeEmail extends Component {
         'secCode': this.state.secCode
     }
     api.callApi('changeUserEmail', 'POST', userData, response => {
-          console.log(response);
-          if(response['responseCode'] == 200) {
-            this.setState({
-                oldEmail: '',
-                newEmail: '',
-                secCode: ''
-            })
-            this.successMessage("Je e-mail adres is verandert")
-          } else if(response['responseCode'] == 400) {
-            this.setState({'secCode': ''})
-            this.errorMessage(response['msg'])
+          if(response['responseCode'] != 503) {
+            if(response['responseCode'] == 200) {
+                this.setState({
+                    oldEmail: '',
+                    newEmail: '',
+                    secCode: ''
+                })
+                this.successMessage("Je e-mail adres is verandert")
+            } else if(response['responseCode'] == 400) {
+                this.setState({'secCode': ''})
+                this.errorMessage(response['msg'])
+            } else {
+                this.errorMessage('Er is wat fout gegaan')
+            }
           } else {
-            this.errorMessage('Er is wat fout gegaan')
-          }
+            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+          } 
       });
   }
 

@@ -11,6 +11,7 @@ import {
     TextInput,
     ImageBackground,
     Dimensions,
+    NetInfo
 } from 'react-native';
 import {
     COLOR,
@@ -24,7 +25,6 @@ import { DrawerActions, NavigationActions, Header } from 'react-navigation';
 import Api from '../config/api.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Snackbar from 'react-native-snackbar';
-import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { sha256 } from 'react-native-sha256';
 import stylesCss from '../assets/css/style.js';
@@ -59,23 +59,23 @@ export default class CreateAdmin extends Component {
       // the user to type their password twice to avoid typing errors
       //the 'succesfull' state variable is used to display the snackbar when logged in
       this.state = {
-		  wordpress: true,
-		  wpUsername: '',
-		  wpPassword: '',
+        wordpress: true,
+        wpUsername: '',
+        wpPassword: '',
         firstName: '',
         lastName: '',
         email: '',
         firstPassword: '',
         secondPassword: '',
         biography: '',
-		    succesfull: false,
+	    succesfull: false,
         pickedImage: DefaultUserImage,
-		    emailError: '',
-		    emailColor: 'green',
-		    firstPasswordError: '',
-		    firstPasswordColor: 'green',
-		    secondPasswordError: '',
-		    secondPasswordColor: 'green',
+	    emailError: '',
+	    emailColor: 'green',
+	    firstPasswordError: '',
+	    firstPasswordColor: 'green',
+	    secondPasswordError: '',
+	    secondPasswordColor: 'green',
         img: ''
       };
   }
@@ -95,42 +95,39 @@ export default class CreateAdmin extends Component {
 	}
 
   wordpressLogin(){
-	  data = {
-		  username:this.state.wpUsername,
-	  	password:this.state.wpPassword
-	};
-	  	  fetch('http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate', {
-		  method: 'POST',
-		  headers: {
-			  'Content-Type': 'application/json',
-		  },
-		  body: JSON.stringify({data})
-	  }).then((response) => response.json())
-	  .then(responseJson => {
-		  console.log(responseJson)
-		  console.log(JSON.stringify({data}))
-		  this.setState({
-			  firstName: responseJson['data']['display_name'].substr(0,responseJson['data']['display_name'].indexOf(' ')),
-	          lastName: responseJson['data']['display_name'].substr(responseJson['data']['display_name'].indexOf(' ')+1),
-			  email: responseJson['data']['user_email'],
-			  idWP: responseJson['data']['ID'],
-	          firstPassword: this.state.wpPassword,
-	          secondPassword: this.state.wpPassword,
-	          biography: '',
-			  wordpress: false
-		  })
-	  })
-	  .catch((error) => {
-		  console.log(error);
-	  })
-
+    data = {
+        username:this.state.wpUsername,
+  	    password:this.state.wpPassword
+    };
+    NetInfo.getConnectionInfo().then((connectionInfo) => {
+                if(connectionInfo.type != 'none') {
+                    fetch('http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate', {method: 'POST',headers: {'Content-Type': 'application/json',},body: JSON.stringify({data})
+                    }).then((response) => response.json()).then(responseJson => {
+                        this.setState({
+                            firstName: responseJson['data']['display_name'].substr(0,responseJson['data']['display_name'].indexOf(' ')),
+                            lastName: responseJson['data']['display_name'].substr(responseJson['data']['display_name'].indexOf(' ')+1),
+                            email: responseJson['data']['user_email'],
+                            idWP: responseJson['data']['ID'],
+                            firstPassword: this.state.wpPassword,
+                            secondPassword: this.state.wpPassword,
+                            biography: '',
+                            wordpress: false
+                        })
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                } else {
+                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                }
+            });
   }
 
   errorMessage(msg){
     showMessage({
         message: msg,
         type: "danger",
-        duration: 2500,
+        duration: 3000,
       });
   }
 
@@ -169,45 +166,51 @@ export default class CreateAdmin extends Component {
     // if registration is succesfull
     else {
       let api = Api.getInstance();
-	  RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
-			  //// TODO: Real authorization instead of hardcoded base64 username:password
-			  'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
-			  'Content-Type': + 'image/jpeg',
-			  'Content-Disposition': 'attachment; filename=hoi.jpg',
-			  // here's the body you're going to send, should be a BASE64 encoded string
-			  // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-			  // The data will be converted to "byte array"(say, blob) before request sent.
-		  }, RNFetchBlob.wrap(this.state.pickedImage.uri))
-		  .then((res) => res.json())
-	   .then(responseJson => {
-		   sha256(this.state.firstPassword).then( hash => {
-			   console.log(responseJson['guid']['raw'])
-	         let userData = {
-	           email: this.state.email,
-	           password: hash,
-	           firstName: this.state.firstName,
-	           lastName: this.state.lastName,
-	           biography: this.state.biography,
-	           img: responseJson['guid']['raw'],
-			   wordpresskey: this.state.idWP,
-	       }
-		   api.callApi('register-admin', 'POST', userData, response => {
-			   console.log(response)
-	           if(response['responseCode'] == 200){
-	             this.setState({
-	               succesfull: true,
-	             })
-	             this.props.navigation.dispatch(NavigationActions.back());
-	           } else {
-	             alert(response['responseCode']['message'])
-	           }
-	         })
-	       })
-	   })
-
-	   .catch((error) => {
-		   callBack(error);
-	   })
+      NetInfo.getConnectionInfo().then((connectionInfo) => {
+                if(connectionInfo.type != 'none') {
+                    RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
+                   //// TODO: Real authorization instead of hardcoded base64 username:password
+                   'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
+                   'Content-Type': + 'image/jpeg',
+                   'Content-Disposition': 'attachment; filename=hoi.jpg',
+                   // here's the body you're going to send, should be a BASE64 encoded string
+                   // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+                   // The data will be converted to "byte array"(say, blob) before request sent.
+               }, RNFetchBlob.wrap(this.state.pickedImage.uri))
+               .then((res) => res.json()).then(responseJson => {
+                sha256(this.state.firstPassword).then( hash => {
+                    let userData = {
+                        email: this.state.email,
+                        password: hash,
+                        firstName: this.state.firstName,
+                        lastName: this.state.lastName,
+                        biography: this.state.biography,
+                        img: responseJson['guid']['raw'],
+                        wordpresskey: this.state.idWP,
+                    }
+                    api.callApi('register-admin', 'POST', userData, response => {
+                        if(response['responseCode'] != 503) {
+                            if(response['responseCode'] == 200){
+                            this.setState({
+                                succesfull: true,
+                            })
+                            this.props.navigation.dispatch(NavigationActions.back());
+                            } else {
+                                alert(response['responseCode']['message'])
+                            }
+                        } else {
+                            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                        }
+                        
+                      })
+                    });
+                }).catch((error) => {
+                     callBack(error);
+                 });
+             } else {
+                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+             }
+            });
 	   /*
       sha256(this.state.firstPassword).then( hash => {
         let userData = {
@@ -449,7 +452,6 @@ export default class CreateAdmin extends Component {
         </View>
 	}
       </ScrollView>
-      <FlashMessage position="top" />
       </ImageBackground>
     );
   }

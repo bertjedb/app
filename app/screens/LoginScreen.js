@@ -74,7 +74,6 @@ class LoginScreen extends Component {
 	}
 
   errorMessage(msg){
-    alert(msg)
     showMessage({
         message: msg,
         type: "danger",
@@ -160,6 +159,7 @@ class LoginScreen extends Component {
 			  tintColor='green'
 			  baseColor='green'
 			  label='Email adres'
+              autoCapitalize = 'none'
 			  value={this.state.email}
 			  onChangeText={ (email) => this.setState({ email }) }
 			/>
@@ -185,7 +185,6 @@ class LoginScreen extends Component {
 		  </View>
 		</View>
 		</View>
-        <FlashMessage position="top" />
 		</ImageBackground>
 
     );

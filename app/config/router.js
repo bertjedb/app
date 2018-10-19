@@ -27,6 +27,7 @@ import CreateAdmin from '../screens/CreateAdmin';
 import Events from '../screens/Events';
 import ChangeEmailRequest from '../screens/ChangeEmailRequest';
 import ChangeEmail from '../screens/ChangeEmail';
+import VideoRecorder from '../screens/VideoRecorder';
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator({
@@ -87,6 +88,12 @@ export const AdminStack = StackNavigator({
         navigationOptions: {
             title: 'Nieuw begeleider account',
         }
+    },
+    VideoRecorder: {
+    	screen: VideoRecorder,
+    	navigationOptions: {
+    		title: 'Video opnemen',
+    	}
     }
 },{headerMode: 'none'
 })

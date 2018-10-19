@@ -178,9 +178,9 @@ export default class More extends Component {
 
         {this.state.userId != null && this.state.clearance == 1 &&
           <Drawer.Section
-          title='Beheerder'
-            divider
-            items={[
+                title='Beheerder'
+                divider
+                items={[
                  {
                   icon: <Icon size={25} name={ 'calendar-plus' } style={{ color: 'grey' }} />,
                   value: 'Nieuw evenement aanmaken',
@@ -210,6 +210,16 @@ export default class More extends Component {
                         action: NavigationActions.navigate({ routeName: 'CreateAdmin' })
                       })
                   )
+                 },
+                 {
+                    icon: 'camera-front',
+                    value: 'Video opnemen',
+                    key: '13',
+                    onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
+                            routeName: 'AdminStack',
+                            action: NavigationActions.navigate({ routeName: 'VideoRecorder'})
+                        })
+                    )
                  },
 				 {
 				   icon: 'people',

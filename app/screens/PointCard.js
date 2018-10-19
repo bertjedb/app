@@ -7,9 +7,9 @@ import {
     ScrollView,
     TouchableOpacity,
     Image,
-		StyleSheet,
-		ImageBackground,
-		Dimensions,
+	StyleSheet,
+	ImageBackground,
+	Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DrawerActions, NavigationActions, Header } from 'react-navigation';
@@ -22,6 +22,7 @@ import CardFlip from 'react-native-card-flip';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
 import LinearGradient from 'react-native-linear-gradient';
+import { showMessage } from "react-native-flash-message";
 
 import {
     COLOR,
@@ -78,14 +79,24 @@ class PointCard extends Component {
     this.refreshCard();
   }
 
+   errorMessage(msg){
+    showMessage({
+        message: msg,
+        type: "danger",
+        duration: 3000,
+      });
+  }
+
   refreshCard() {
     let localStorage = LocalStorage.getInstance();
     let api = Api.getInstance();
     api.getPoints();
     let points = localStorage.retrieveItem('points').then((points) => {
         if(points != null) {
-                this.setState({card: this.fillCard(points)});
-            }
+            this.setState({card: this.fillCard(points)});
+        } else {
+            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+        }
 
     })
   }

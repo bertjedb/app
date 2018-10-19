@@ -34,7 +34,6 @@ import {
 import stylesCss from '../assets/css/style.js';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';
-import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 
 export default class ChangePassword extends Component {
@@ -55,7 +54,7 @@ export default class ChangePassword extends Component {
     showMessage({
         message: msg,
         type: "danger",
-        duration: 2500,
+        duration: 3000,
       });
   }
 
@@ -80,9 +79,13 @@ export default class ChangePassword extends Component {
                     newPassword: newHash
                 }
                 api.callApi('api/changePassword', 'POST', userData, response => {
-                    if(response['responseCode'] == 200){
-                        this.successMessage("Wachtwoord is succesvol veranderd")
-                        this.props.navigation.dispatch(NavigationActions.back());
+                    if(response['responseCode'] != 503) {
+                        if(response['responseCode'] == 200){
+                            this.successMessage("Wachtwoord is succesvol veranderd")
+                            this.props.navigation.dispatch(NavigationActions.back());
+                        }
+                    } else {
+                        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
                     }
                 });
                 });
@@ -153,7 +156,6 @@ export default class ChangePassword extends Component {
         </View>
       </View>
     </View>
-    <FlashMessage position="top" />
   </ImageBackground>
 
     );

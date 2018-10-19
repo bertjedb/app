@@ -61,6 +61,8 @@ export default class Api {
 				this.callApi('api/checkPoints', 'POST', userData, response => {
 					if(response['responseCode'] != 503) {
 						localStorage.storeItem('points', response['points'][0])
+					} else {
+						localStorage.storeItem('points', null)
 					}
 				});
 			}

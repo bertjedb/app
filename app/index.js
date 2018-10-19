@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Header } from 'react-navigation';
 import OneSignal from 'react-native-onesignal';
 import {PacmanIndicator} from 'react-native-indicators';
+import FlashMessage from "react-native-flash-message";
 // you can set your style right here, it'll be propagated to application
 const uiTheme = {
     palette: {
@@ -117,6 +118,7 @@ class App extends Component {
                         <PacmanIndicator color='white'  />
                     </View>
                 }
+                <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
             </SafeAreaView>
     	);
   }
