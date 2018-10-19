@@ -74,6 +74,7 @@ class LoginScreen extends Component {
   }
 
   errorMessage(msg) {
+    alert(msg);
     showMessage({
       message: msg,
       type: "danger",
@@ -87,7 +88,6 @@ class LoginScreen extends Component {
     this.props.navigation.dispatch(NavigationActions.back());
     localStorage.storeItem("userId", id);
     localStorage.storeItem("wordpresskey", wordpresskey);
-    console.log(wordpresskey);
     localStorage.storeItem("clearance", clearance);
     let api = Api.getInstance();
     api.getPoints();
@@ -117,16 +117,21 @@ class LoginScreen extends Component {
           password: hash
         };
         api.callApi("login", "POST", userData, response => {
-          console.log(response);
-          if (response["boolean"] == "true") {
-            this.setUser(
-              response["value"],
-              response["userId"],
-              response["clearance"],
-              response["wordpresskey"]
-            );
+          if (response["responseCode"] != 503) {
+            if (response["boolean"] == "true") {
+              this.setUser(
+                response["value"],
+                response["userId"],
+                response["clearance"],
+                response["wordpresskey"]
+              );
+            } else {
+              this.errorMessage(response["msg"]);
+            }
           } else {
-            this.errorMessage(response["msg"]);
+            this.errorMessage(
+              "Zorg ervoor dat u een internet verbinding heeft"
+            );
           }
         });
       });

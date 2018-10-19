@@ -114,13 +114,19 @@ export default class Registration extends Component {
           lastName: this.state.lastName
         };
         api.callApi("register", "POST", userData, response => {
-          if (response["responseCode"] == 200) {
-            this.setState({
-              succesfull: true
-            });
-            this.props.navigation.dispatch(NavigationActions.back());
+          if (response["responseCode"] != 503) {
+            if (response["responseCode"] == 200) {
+              this.setState({
+                succesfull: true
+              });
+              this.props.navigation.dispatch(NavigationActions.back());
+            } else {
+              alert(response["responseCode"]["message"]);
+            }
           } else {
-            alert(response["responseCode"]["message"]);
+            this.errorMessage(
+              "Zorg ervoor dat u een internet verbinding heeft"
+            );
           }
         });
       });

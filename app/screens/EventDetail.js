@@ -13,9 +13,9 @@ import {
   Platform,
   WebView,
   ListView,
-  Divider
+  Divider,
+  Animated
 } from "react-native";
-import { Table, Row, Rows } from "react-native-table-component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { DrawerActions, Header } from "react-navigation";
 import ActionButton from "react-native-action-button";
@@ -33,6 +33,8 @@ import ImageSlider from "react-native-image-slider";
 import { PacmanIndicator } from "react-native-indicators";
 import MyWebView from "react-native-webview-autoheight";
 import LinearGradient from "react-native-linear-gradient";
+import ImageOverlay from "react-native-image-overlay";
+import * as Animatable from "react-native-animatable";
 
 import {
   COLOR,
@@ -44,6 +46,9 @@ import {
 } from "react-native-material-ui";
 
 const MapHtml = require("../assets/mapHTML.html");
+const HEADER_MAX_HEIGHT = 300;
+const HEADER_MIN_HEIGHT = 125;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class EventDetail extends Component {
   constructor() {
@@ -58,7 +63,11 @@ class EventDetail extends Component {
       author: "",
       loading: false,
       deelnemer: false,
-      scroll: true
+      scroll: true,
+      scrollOpacity: "rgba(148, 214, 10, 0)",
+      scrollHeight: "40%",
+      scrollBlur: 0,
+      scrollY: new Animated.Value(0)
     };
     let days = [
       "Zondag",
@@ -84,10 +93,24 @@ class EventDetail extends Component {
       "December"
     ];
   }
+  handleScroll(event) {
+    this.setState({
+      scrollOpacity: "rgba(148, 214, 10, " + this.state.scrollY / 150 + ")",
+      scrollHeight:
+        "" + ((event.nativeEvent.contentOffset.y / 150) * 40 + 40) + "%",
+      scrollBlur: event.nativeEvent.contentOffset.y / 450
+    });
+  }
 
   render() {
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      outputRange: [0, -HEADER_SCROLL_DISTANCE],
+      extrapolate: "clamp"
+    });
+
     let map = Maps.getInstance();
-    console.log(map.getMap("peizerweg 48"));
     const { navigation } = this.props;
 
     const title = navigation.getParam("title", "");
@@ -110,187 +133,318 @@ class EventDetail extends Component {
     };
 
     return (
-      <ImageBackground
-        blurRadius={3}
-        source={require("../assets/sport_kids_bslim.jpg")}
-        style={{ width: "100%", height: "100%" }}
+      <View
+        style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
       >
-        <LinearGradient
-          colors={[
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201",
-            "#94D600",
-            "#76C201"
+        <Animated.View
+          style={[
+            styles.header,
+            { transform: [{ translateY: headerTranslate }] }
           ]}
-          style={{ height: Header.HEIGHT }}
+        >
+          <ImageOverlay
+            source={require("../assets/basketbal_kids_bslim.jpg")}
+            overlayColor="black"
+            overlayAlpha={0.3}
+            containerStyle={{ height: "100%" }}
+          />
+          <View style={{ position: "absolute", top: 185, left: 20 }}>
+            <Text
+              style={{
+                fontSize: 32,
+                fontWeight: "bold",
+                color: "white",
+                paddingBottom: 10
+              }}
+            >
+              Basketbal
+            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={24}
+                name={"calendar"}
+                style={{ color: "white", paddingRight: 10 }}
+              />
+              <Text style={{ fontSize: 16, color: "white" }}>26 Okt 2018</Text>
+            </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={24}
+                name={"map-marker"}
+                style={{ color: "white", paddingRight: 10 }}
+              />
+              <Text style={{ fontSize: 16, color: "white" }}>Peizerweg 48</Text>
+            </View>
+          </View>
+        </Animated.View>
+        <View
+          style={{
+            backgroundColor: this.state.scrollOpacity,
+            height: Header.HEIGHT
+          }}
         >
           <Toolbar
             iconSet="MaterialCommunityIcons"
-            centerElement={title}
+            centerElement=""
             leftElement={"arrow-left"}
+            rightElement={"share-variant"}
             onLeftElementPress={() => this.props.navigation.goBack()}
           />
-        </LinearGradient>
-        {this.state.loading && <PacmanIndicator color="white" />}
-        {!this.state.loading && (
-          <View style={styles.cardContainer}>
-            <View style={styles.card} elevation={5}>
-              <ScrollView
-                scrollEnabled={this.state.scroll}
+        </View>
+        <Animated.ScrollView
+          style={styles.cardContainer}
+          scrollEventThrottle={16}
+          scrollEventThrottle={1}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+              listener: event => {
+                this.setState({
+                  scrollOpacity:
+                    "rgba(148, 214, 10, " +
+                    event.nativeEvent.contentOffset.y / 150 +
+                    ")"
+                });
+              },
+              useNativeDriver: true
+            }
+          )}
+        >
+          <Animatable.View
+            delay={0}
+            animation="lightSpeedIn"
+            iterationCount={1}
+            style={styles.cardTop}
+            elevation={5}
+          >
+            <View style={styles.cardTitle} elevation={5}>
+              <View
                 style={{
-                  height: Dimensions.get("window").height - 160,
-                  borderRadius: 10
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: 10,
+                  marginBottom: 0,
+                  width: "100%"
                 }}
               >
-                <View style={styles.cardTitle} elevation={5}>
-                  <View
+                <Image
+                  source={{ uri: profilePicture }}
+                  resizeMode="cover"
+                  style={{ width: 50, height: 50, borderRadius: 50 }}
+                />
+                <View
+                  style={{ flex: 1, flexDirection: "column", marginLeft: 10 }}
+                >
+                  <Text
                     style={{
-                      flex: 1,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      margin: 10,
-                      width: "100%"
+                      fontWeight: "bold",
+                      fontSize: 18,
+                      color: "black"
                     }}
                   >
-                    <Image
-                      source={{ uri: profilePicture }}
-                      resizeMode="cover"
-                      style={{ width: 50, height: 50, borderRadius: 10 }}
-                    />
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "column",
-                        marginLeft: 10
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: 18,
-                          color: "black"
-                        }}
-                      >
-                        {author}
-                      </Text>
-                      <Text style={{ fontSize: 14, color: "black" }}>
-                        {created}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <View style={{ widht: "100%", height: 200, paddingBottom: 10 }}>
-                  <Image
-                    source={{ uri: img }}
-                    resizeMode="cover"
-                    style={{ width: "100%", height: 200 }}
-                  />
-                </View>
-
-                <HTML
-                  onLinkPress={(evt, href) => {
-                    Linking.openURL(href);
-                  }}
-                  containerStyle={{ marginLeft: 10, marginRight: 10 }}
-                  ignoredTags={["img"]}
-                  html={content}
-                  imagesMaxWidth={Dimensions.get("window").width}
-                />
-                <View style={{ margin: 10 }}>
-                  <Text style={{ fontWeight: "bold" }}>Begin: {start}</Text>
-                  <Text style={{ fontWeight: "bold" }}>Eind: {end}</Text>
-                  <Text style={{ fontWeight: "bold" }}>
-                    Locatie: {location}
+                    {author}
+                  </Text>
+                  <Text style={{ fontSize: 14, color: "black" }}>
+                    {created}
                   </Text>
                 </View>
-
-                <View style={{ width: "100%", height: 200 }}>
-                  <MyWebView
-                    source={{ html: map.getMap(location) }}
-                    style={{ flex: 1, width: "100%", height: 200 }}
-                  />
-                </View>
-                <ListView
-                  style={styles.participantContainer}
-                  dataSource={this.state.dataSource}
-                  renderRow={rowData => (
-                    <View>
-                      <View
-                        style={{
-                          borderBottomColor: "black",
-                          borderBottomWidth: 1
-                        }}
-                      >
-                        <Text style={styles.text}>{rowData}</Text>
-                      </View>
-                    </View>
-                  )}
-                />
-
-                <View style={{ flexDirection: "row" }}>
-                  <Button
-                    style={{
-                      container: {
-                        margin: 10,
-                        borderRadius: 10,
-                        backgroundColor: "green"
-                      },
-                      text: {
-                        color: "white"
-                      }
-                    }}
-                    text="Delen"
-                    onPress={() =>
-                      Share.share({
-                        message:
-                          "Binnenkort organiseert bslim: " +
-                          title +
-                          ". Voor meer informatie ga naar: " +
-                          link
-                      })
-                    }
-                  />
-                  <Button
-                    style={{
-                      container: {
-                        margin: 10,
-                        borderRadius: 10,
-                        backgroundColor: "green"
-                      },
-                      text: {
-                        color: "white"
-                      }
-                    }}
-                    text="Route"
-                    onPress={() =>
-                      Linking.openURL(
-                        Platform.OS === "ios"
-                          ? "maps:"
-                          : "geo:" + this.state.lat + "," + this.state.long
-                      )
-                    }
-                  />
-                </View>
-              </ScrollView>
+              </View>
             </View>
-          </View>
-        )}
-      </ImageBackground>
+            <View
+              style={{
+                backgroundColor: "#DCDCDC",
+                width: "94%",
+                height: 1,
+                margin: 10
+              }}
+            />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={require("../assets/klimmen_kids_bslim.jpg")}
+                resizeMode="cover"
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
+                  margin: 10,
+                  marginRight: 0
+                }}
+              />
+              <Image
+                source={require("../assets/frisbee_kids_bslim.jpg")}
+                resizeMode="cover"
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
+                  margin: 10,
+                  marginRight: 0
+                }}
+              />
+              <Image
+                source={require("../assets/basketbal_kids_bslim.jpg")}
+                resizeMode="cover"
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
+                  margin: 10,
+                  marginRight: 0
+                }}
+              />
+              <Image
+                source={require("../assets/sport_kids_bslim.jpg")}
+                resizeMode="cover"
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
+                  margin: 10,
+                  marginRight: 0
+                }}
+              />
+              <ImageBackground
+                blurRadius={3}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
+                  margin: 10,
+                  marginRight: 0
+                }}
+                imageStyle={{ borderRadius: 10 }}
+                source={require("../assets/klimmen_kids_bslim.jpg")}
+              >
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 10,
+                    with: "100%",
+                    height: "100%",
+                    backgroundColor: "rgba(0,0,0,.3)"
+                  }}
+                >
+                  <Text fontSize="18" style={{ color: "white" }}>
+                    +4
+                  </Text>
+                </View>
+              </ImageBackground>
+            </View>
+
+            <View
+              style={{
+                backgroundColor: "#DCDCDC",
+                width: "94%",
+                height: 1,
+                margin: 10
+              }}
+            />
+
+            <View>
+              <Text style={{ color: "black", fontSize: 20, padding: 10 }}>
+                Kom jij ook?
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Button
+                  style={{
+                    container: {
+                      margin: 10,
+                      padding: 5,
+                      borderRadius: 10,
+                      backgroundColor: "#18CE3A"
+                    },
+                    text: {
+                      color: "white"
+                    }
+                  }}
+                  text="Aanmelden"
+                />
+              </View>
+            </View>
+          </Animatable.View>
+          <Animatable.View
+            delay={500}
+            animation="lightSpeedIn"
+            iterationCount={1}
+            style={styles.card}
+            elevation={5}
+          >
+            <Text style={{ color: "black", fontSize: 20, padding: 10 }}>
+              Info
+            </Text>
+
+            <HTML
+              onLinkPress={(evt, href) => {
+                Linking.openURL(href);
+              }}
+              containerStyle={{ marginLeft: 10, marginRight: 10 }}
+              ignoredTags={["img"]}
+              html={content}
+              imagesMaxWidth={Dimensions.get("window").width}
+            />
+          </Animatable.View>
+          <Animatable.View
+            delay={1000}
+            animation="lightSpeedIn"
+            iterationCount={1}
+            style={styles.cardBottom}
+            elevation={5}
+          >
+            <View
+              style={{
+                width: "100%",
+                height: 200,
+                borderRadius: 10,
+                overflow: "hidden"
+              }}
+            >
+              <MyWebView
+                source={{ html: map.getMap(location) }}
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  height: 200,
+                  borderRadius: 10,
+                  overflow: "hidden"
+                }}
+              />
+            </View>
+          </Animatable.View>
+          <Animatable.View
+            delay={500}
+            animation="lightSpeedIn"
+            iterationCount={1}
+            style={styles.card}
+            elevation={5}
+          >
+            <ListView
+              style={styles.participantContainer}
+              dataSource={this.state.dataSource}
+              renderRow={rowData => (
+                <View>
+                  <View
+                    style={{
+                      borderBottomColor: "black",
+                      borderBottomWidth: 1
+                    }}
+                  >
+                    <Text style={styles.text}>{rowData}</Text>
+                  </View>
+                </View>
+              )}
+            />
+          </Animatable.View>
+        </Animated.ScrollView>
+      </View>
     );
   }
 }
@@ -304,10 +458,53 @@ const styles = StyleSheet.create({
     paddingBottom: 150
   },
 
+  cardContainer: {
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    marginTop: 75
+  },
+
   card: {
     backgroundColor: "white",
     margin: 10,
-    marginBottom: 0,
+    borderRadius: 10,
+    shadowOffset: { width: 0, height: 13 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+
+    // android (Android +5.0)
+    elevation: 3
+  },
+
+  header: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#03A9F4",
+    overflow: "hidden",
+    height: HEADER_MAX_HEIGHT
+  },
+
+  cardTop: {
+    backgroundColor: "white",
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 175,
+    borderRadius: 10,
+    shadowOffset: { width: 0, height: 13 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+
+    // android (Android +5.0)
+    elevation: 3
+  },
+
+  cardBottom: {
+    backgroundColor: "white",
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 65,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
