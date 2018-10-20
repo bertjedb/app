@@ -297,7 +297,7 @@ class Events extends Component {
                   // maxToRenderPerBatch={4}
                   onEndReachedThreshold={0.6}
                   onEndReached={() => this.handelEnd()}
-                contentContainerStyle={{ paddingTop: 20 }}
+                contentContainerStyle={{ paddingTop: 20, paddingBottom:60 }}
                 refreshControl={
                   <RefreshControl
                     colors={["#94D600"]}

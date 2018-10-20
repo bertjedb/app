@@ -220,15 +220,15 @@ class News extends Component {
                         // maxToRenderPerBatch={4}
                         onEndReachedThreshold={0.6}
                         onEndReached={() => this.handelEnd()}
-
+                        contentContainerStyle={{ paddingTop: 20, paddingBottom:60 }}
                         refreshControl={
                             <RefreshControl
                                 colors={['#94D600']}
                                 refreshing={this.state.refreshing}
                                 onRefresh={this._onRefresh}
                              />
-                        }
-
+                         }
+                        style={{ paddingTop: 10, marginBottom: 55 }}
                         renderItem={({item}) => (
                             <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
@@ -312,16 +312,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        marginBottom: 15,
+        marginBottom: 20,
 
     },
 
     card: {
         color: 'rgba(52, 52, 52, 1.0)',
-        margin: 10,
-        marginBottom: 10,
-        // android (Android +5.0)
-        elevation: 3,
+        marginTop: 0,
+        marginBottom: 20,
+        borderRadius: 10,
+        marginLeft: 10,
+        marginRight: 10,
+        shadowOffset: { width: 0, height: 13 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
     },
 
     video: {
