@@ -234,10 +234,10 @@ export default class More extends Component {
                  {
                     icon: 'camera-front',
                     value: 'Video opnemen',
-                    key: '13',
+                    key: '14',
                     onPress: () => this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'AdminStack',
-                            action: NavigationActions.navigate({ routeName: 'VideoRecorder'})
+                            action: NavigationActions.navigate({ routeName: 'VideoPicker'})
                         })
                     )
                  },

@@ -25,7 +25,6 @@ import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import BottomSheet from 'react-native-js-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
@@ -277,15 +276,6 @@ const styles = StyleSheet.create({
 	    // android (Android +5.0)
 	    elevation: 3,
 	},
-
-    video: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-    },
-
   loginButton: {
     margin: 5,
     backgroundColor: '#FF6700',

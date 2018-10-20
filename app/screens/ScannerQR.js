@@ -25,7 +25,6 @@ import {TextField} from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
 import * as mime from 'react-native-mime-types';
-import Video from 'react-native-af-video-player'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Api from '../config/api.js';
 import LocalStorage from '../config/localStorage.js';

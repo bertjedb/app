@@ -17,7 +17,6 @@ import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
@@ -239,14 +238,6 @@ SectionStyleBottom: {
 	    margin: 5,
 	    alignItems: 'center'
 	},
-
-	video: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
   logo: {
     height: 250,
     width: 300,

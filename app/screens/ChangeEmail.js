@@ -17,7 +17,6 @@ import usernameImg from '../assets/Username.png';
 import passwordImg from '../assets/Password.png';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-af-video-player'
 import { TextField } from 'react-native-material-textfield';
 import LinearGradient from 'react-native-linear-gradient';
 
