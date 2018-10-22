@@ -25,7 +25,7 @@ var capitalize = require("capitalize");
 var startNum = 0;
 var endNum = 2;
 var start = startNum;
-var end = endNum
+var end = endNum;
 
 const uiTheme = {
   palette: {
@@ -117,47 +117,48 @@ class Events extends Component {
     this.refresh();
   };
 
-    refresh(){
-        if(!this.state.sleeping) {
-            let api = Api.getInstance()
-            api.callApi('api/getAllEvents', 'POST', {}, response => {
-            if(response['responseCode'] != 503) {
-                if(response['responseCode'] == 200) {
-                     let ds = new ListView.DataSource({
-                        rowHasChanged: (r1, r2) => r1 !== r2
-                    });
-                    let array = response['events'];
-                    for(let index=0; index < array.length; index++) {
-                        let localStorage = LocalStorage.getInstance();
-                        localStorage.retrieveItem('userId').then((id) => {
-                            if(id != null) {
-                                userData = {
-                                    "eventId": response['events'][index]['id'],
-                                    "personId": id
-                                }
-                                api.callApi('api/checkSub', 'POST', userData, response => {
-                                    array[index]['subscribed'] = response['found'];
-                                    this.setState({
-                                        uploading: false,
-                                        refreshing: false,
-                                        loading: false,
-                                        dataSource: ds.cloneWithRows(array),
+    refresh() {
+        startNum = 0;
+        endNum = 2;
+        start = startNum;
+        end = endNum;
+        if (!this.state.sleeping) {
+            let api = Api.getInstance();
+            api.callApi("api/getAllEvents", "POST", {}, response => {
+                if (response["responseCode"] != 503) {
+                    if (response["responseCode"] == 200) {
+                        let array = response["events"];
+                        for (let index = 0; index < array.length; index++) {
+                            let localStorage = LocalStorage.getInstance();
+                            localStorage.retrieveItem("userId").then(id => {
+                                if (id != null) {
+                                    userData = {
+                                        eventId: response["events"][index]["id"],
+                                        personId: id
+                                    };
+                                    api.callApi("api/checkSub", "POST", userData, response => {
+                                        array[index]["subscribed"] = response["found"];
+                                        this.setState({
+                                            uploading: false,
+                                            refreshing: false,
+                                            loading: false,
+                                            data: array.slice(start, end),
+                                        });
                                     });
-                                });
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
+                } else {
+                    this.setState({ sleeping: true });
+                    setTimeout(() => {
+                        this.setState({ sleeping: false });
+                    }, 3000);
+                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
                 }
-            } else {
-                this.setState({sleeping: true})
-                setTimeout(() => {
-                    this.setState({sleeping: false})
-                }, 3000);
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-            }
-        });
-        } 
-     }
+            });
+        }
+    }
 
     handleSearch() {
         let api = Api.getInstance();
