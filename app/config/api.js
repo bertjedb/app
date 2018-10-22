@@ -8,15 +8,15 @@ export default class Api {
 
 	static instance = null;
 
-	url = "http://192.168.1.79:5000/";
+	url = "http://192.168.1.84:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {
 			Api.instance = new Api();
-		}
+		 }
 
 		return Api.instance;
-	}
+    	}
 
 	callApi(action, method, data, callBack = response => console.log(response)) {
 		NetInfo.getConnectionInfo().then((connectionInfo) => {

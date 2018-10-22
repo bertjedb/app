@@ -5,6 +5,7 @@ import {
     Button,
     Dimensions,
     Divider,
+    FlatList,
     Image,
     ImageBackground,
     ListView,
@@ -12,7 +13,6 @@ import {
     ScrollView,
     Share,
     StyleSheet,
-    FlatList,
     Text,
     TextInput,
     TouchableHighlight,
@@ -70,15 +70,15 @@ class News extends Component {
                     });
                 }
             } else {
-                this.setState({ sleeping: true });
+                this.setState({sleeping: true});
                 setTimeout(() => {
-                    this.setState({ sleeping: false, loading: false });
+                    this.setState({sleeping: false, loading: false});
                 }, 3000);
             }
         });
 
 
-      }
+    }
 
 
     componentDidMount() {
@@ -110,12 +110,11 @@ class News extends Component {
 
                     this.setState({
                         firstLoading: false,
-                        data: response['news'].slice(start, end),
-                        fullArray: response['news'],
+                        data: response['news'],
                         uploading: false,
                         loading: false
                     });
-                }
+                 }
             } else {
                 this.setState({sleeping: true})
                 setTimeout(() => {
@@ -134,10 +133,6 @@ class News extends Component {
     refresh() {
         if (!this.state.sleeping) {
             this.setState({data: []})
-            var startNum = 0;
-            var endNum = 2;
-            var start = startNum;
-            var end = endNum;
             let api = Api.getInstance()
             api.callApi('api/getAllNewsItems', 'GET', {}, response => {
                 if (response['responseCode'] != 503) {
@@ -206,7 +201,7 @@ class News extends Component {
                             onSubmitEditing: () => {
                                 this.handleSearch()
                             }
-                         }}
+                        }}
                     />
                 </LinearGradient>
                 {!this.state.loading &&
@@ -220,15 +215,15 @@ class News extends Component {
                         // maxToRenderPerBatch={4}
                         onEndReachedThreshold={0.6}
                         onEndReached={() => this.handelEnd()}
-                        contentContainerStyle={{ paddingTop: 20, paddingBottom:60 }}
+                        contentContainerStyle={{paddingTop: 20, paddingBottom: 60}}
                         refreshControl={
                             <RefreshControl
                                 colors={['#94D600']}
                                 refreshing={this.state.refreshing}
                                 onRefresh={this._onRefresh}
-                             />
-                         }
-                        style={{ paddingTop: 10, marginBottom: 55 }}
+                            />
+                        }
+                        style={{paddingTop: 10, marginBottom: 55}}
                         renderItem={({item}) => (
                             <View style={styles.container}>
                                 <View style={styles.card} elevation={5}>
@@ -257,7 +252,7 @@ class News extends Component {
                                                     position: "absolute",
                                                     bottom: 0,
                                                     borderRadius: 10
-                                                }} >
+                                                }}>
                                                     <View style={{
                                                         flex: 1,
                                                         flexDirection: 'column',
@@ -323,7 +318,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 10,
         marginRight: 10,
-        shadowOffset: { width: 0, height: 13 },
+        shadowOffset: {width: 0, height: 13},
         shadowOpacity: 0.3,
         shadowRadius: 6,
     },
