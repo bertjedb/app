@@ -34,8 +34,10 @@ var end = endNum;
 var filterOptions = [
     {
         icon: (
-            <Text style={{fontWeight: 'bold'}}>Filter op evenementen met begeleider</Text>
-        ),
+            <Text style={{ fontWeight: "bold" }}>
+                Filter op evenementen met begeleider
+            </Text>
+        )
     }
 ];
 
@@ -123,10 +125,10 @@ class News extends Component {
         });
     }
 
-    _onRefresh = () => {
-        this.setState({refreshing: true, sleeping: false, loading: true});
-        this.refresh();
-    }
+  _onRefresh = () => {
+    this.setState({ refreshing: true, sleeping: false, loading: true });
+    this.refresh();
+  };
 
     refresh() {
         startNum = 0;
@@ -163,6 +165,27 @@ class News extends Component {
         const isChecked = e.target.checked;
         this.setState(prevState => ({checkedItems: prevState.checkedItems.set(item, isChecked)}));
     }
+
+    handelEnd = () => {
+        let api = Api.getInstance();
+        if (end <= this.state.fullArray.length) {
+            end += 2;
+            start += 2;
+            // alert(end + " " + this.state.data.length);
+            api.callApi('api/getAllNewsItems', 'GET', {}, response => {
+                console.log(response);
+                if (response['responseCode'] == 200) {
+
+                    this.setState({
+
+                        data: [...this.state.data, ...response['news'].slice(start, end)]
+
+                    });
+                }
+            });
+        }
+
+    };
 
     handelEnd = () => {
         let api = Api.getInstance();
@@ -304,46 +327,43 @@ class News extends Component {
 }
 
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        marginBottom: 20,
+		justifyContent: 'center',
+        marginBottom: 15,
 
     },
 
     card: {
-        color: 'rgba(52, 52, 52, 1.0)',
-        marginTop: 0,
-        marginBottom: 20,
-        borderRadius: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        shadowOffset: {width: 0, height: 13},
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-    },
+		color: 'rgba(52, 52, 52, 1.0)',
+		margin: 10,
+        marginBottom:10,
+	    // android (Android +5.0)
+	    elevation: 3,
+	},
 
-    video: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-    },
+  video: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  },
 
-    loginButton: {
-        margin: 5,
-        backgroundColor: '#FF6700',
-        padding: 10,
-        borderRadius: 10,
-        overflow: 'hidden'
-    },
-    loginButtonText: {
-        textAlign: 'center',
-        fontSize: 16,
-        color: 'rgba(52, 52, 52, 1.0)',
-    },
+  loginButton: {
+    margin: 5,
+    backgroundColor: '#FF6700',
+    padding: 10,
+    borderRadius: 10,
+    overflow: 'hidden'
+  },
+  loginButtonText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'rgba(52, 52, 52, 1.0)',
+  },
 })
 
 

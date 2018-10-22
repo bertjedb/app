@@ -15,11 +15,12 @@ import {
 import {Header} from "react-navigation";
 import {Toolbar} from "react-native-material-ui";
 import HTML from "react-native-render-html";
-import {PacmanIndicator} from "react-native-indicators";
 import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
-import FlashMessage, {showMessage} from "react-native-flash-message";
+import { PacmanIndicator } from "react-native-indicators";
+import FlashMessage from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 var capitalize = require("capitalize");
 var startNum = 0;
@@ -42,17 +43,17 @@ class Events extends Component {
   constructor() {
     super();
     this.state = {
-        dataSource: null,
-        eventArray: [],
-        modalVisible: false,
-        adminArray: [],
-        checkMap: new Map(),
-        search: '',
-        refreshing: false,
-        search: '',
-        loading: true,
-        check: false,
-        sleeping: false
+      dataSource: null,
+      eventArray: [],
+      modalVisible: false,
+      adminArray: [],
+      checkMap: new Map(),
+      search: "",
+      refreshing: false,
+      search: "",
+      loading: true,
+      check: false,
+      sleeping: false
     };
     let api = Api.getInstance()
     api.callApi('api/getAllEvents', 'POST', {}, response => {
@@ -95,12 +96,12 @@ class Events extends Component {
     });
   }
 
-  errorMessage(msg){
+  errorMessage(msg) {
     showMessage({
-        message: msg,
-        type: "danger",
-        duration: 3000,
-      });
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
   }
 
   componentDidMount() {
@@ -113,7 +114,7 @@ class Events extends Component {
   };
 
   _onRefresh = () => {
-    this.setState({refreshing: true, sleeping: false, loading: true});
+    this.setState({ refreshing: true, sleeping: false, loading: true });
     this.refresh();
   };
 
@@ -223,9 +224,9 @@ class Events extends Component {
 
     };
 
-    render() {
-        return(
-        <ImageBackground
+  render() {
+    return (
+      <ImageBackground
         blurRadius={0}
 
         source={require("../assets/Bslim_Background.jpg")}
@@ -362,7 +363,8 @@ class Events extends Component {
                               ),
                               link: item.link,
                               img: item.img,
-                              location: item.location
+                              location: item.location,
+                              participants: item.participants
                             })
                           }
                         >
@@ -603,10 +605,10 @@ class Events extends Component {
           </View>
         )}
         {this.state.loading && <PacmanIndicator color="#94D600" />}
-        <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
-        </ImageBackground>
-        );
-    }
+        <FlashMessage position="top" style={{ marginTop: Header.HEIGHT }} />
+      </ImageBackground>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
