@@ -60,9 +60,7 @@ class News extends Component {
         api.callApi("api/getAllNewsItems", "GET", {}, response => {
             if (response["responseCode"] != 503) {
                 if (response["responseCode"] == 200) {
-                    let ds = new ListView.DataSource({
-                        rowHasChanged: (r1, r2) => r1 !== r2
-                    });
+
                     this.setState({
                         data: response['news'].slice(start, end),
                         fullArray: response['news'],
@@ -114,7 +112,7 @@ class News extends Component {
                         uploading: false,
                         loading: false
                     });
-                 }
+                }
             } else {
                 this.setState({sleeping: true})
                 setTimeout(() => {
@@ -131,12 +129,15 @@ class News extends Component {
     }
 
     refresh() {
+        startNum = 0;
+        endNum = 2;
+        start = startNum;
+        end = endNum;
         if (!this.state.sleeping) {
-            this.setState({data: []})
-            let api = Api.getInstance()
-            api.callApi('api/getAllNewsItems', 'GET', {}, response => {
-                if (response['responseCode'] != 503) {
-                    if (response['responseCode'] == 200) {
+            let api = Api.getInstance();
+            api.callApi("api/getAllNewsItems", "GET", {}, response => {
+                if (response["responseCode"] != 503) {
+                    if (response["responseCode"] == 200) {
 
                         this.setState({
                             firstLoading: false,
@@ -147,11 +148,11 @@ class News extends Component {
                         });
                     }
                 } else {
-                    this.setState({sleeping: true})
+                    this.setState({sleeping: true});
                     setTimeout(() => {
-                        this.setState({sleeping: false})
+                        this.setState({sleeping: false});
                     }, 3000);
-                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
                 }
             });
         }
