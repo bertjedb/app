@@ -5,18 +5,15 @@ import { NetInfo } from "react-native";
 export default class Api {
   static instance = null;
 
-  //url = "http://gaauwe.nl:5000/";
-  //url= "http://145.37.164.183:5000/"
-  url = "http://gaauwe.nl:5000/";
-  //url = "http://82.73.189.187:5000/";
+	url = "http://192.168.1.84:5000/";
 
-  static getInstance() {
-    if (Api.instance == null) {
-      Api.instance = new Api();
-    }
+	static getInstance() {
+		if(Api.instance == null) {
+			Api.instance = new Api();
+		 }
 
-    return Api.instance;
-  }
+		return Api.instance;
+    	}
 
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
@@ -69,3 +66,4 @@ export default class Api {
     });
   }
 }
+
