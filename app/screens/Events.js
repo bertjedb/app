@@ -1,29 +1,20 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  ListView,
-  TouchableHighlight,
-  Share,
-  Dimensions,
-  RefreshControl
+    Dimensions,
+    Image,
+    ImageBackground,
+    ListView,
+    RefreshControl,
+    Share,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    FlatList,
+    View
 } from "react-native";
-import { DrawerActions, NavigationActions, Header } from "react-navigation";
-import {
-  COLOR,
-  ThemeContext,
-  getTheme,
-  Toolbar,
-  Card,
-  Checkbox,
-  Drawer
-} from "react-native-material-ui";
-import stylesCss from "../assets/css/style.js";
+import {Header} from "react-navigation";
+import {Toolbar} from "react-native-material-ui";
 import HTML from "react-native-render-html";
-import { BarIndicator } from "react-native-indicators";
 import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
@@ -32,6 +23,10 @@ import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 
 var capitalize = require("capitalize");
+var startNum = 0;
+var endNum = 2;
+var start = startNum;
+var end = endNum;
 
 const uiTheme = {
   palette: {
@@ -60,42 +55,40 @@ class Events extends Component {
       check: false,
       sleeping: false
     };
-    let api = Api.getInstance();
-    api.callApi("api/getAllEvents", "POST", {}, response => {
-      if (response["responseCode"] != 503) {
-        if (response["responseCode"] == 200) {
-          let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-          });
-          let array = response["events"];
-          for (let index = 0; index < array.length; index++) {
-            let localStorage = LocalStorage.getInstance();
-            localStorage.retrieveItem("userId").then(id => {
-              if (id != null) {
-                userData = {
-                  eventId: response["events"][index]["id"],
-                  personId: id
-                };
-                api.callApi("api/checkSub", "POST", userData, response => {
-                  array[index]["subscribed"] = response["found"];
+    let api = Api.getInstance()
+    api.callApi('api/getAllEvents', 'POST', {}, response => {
+        if(response['responseCode'] != 503) {
+            if(response['responseCode'] == 200) {
+            let array = response['events'];
+            for(let index=0; index < array.length; index++) {
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    if(id != null) {
+                        userData = {
+                            "eventId": response['events'][index]['id'],
+                            "personId": id
+                        }
+                        api.callApi('api/checkSub', 'POST', userData, response => {
+                            array[index]['subscribed'] = response['found']
+                        });
+                    }
+                    this.setState({
+                        uploading: false,
+                        loading: false,
+                        data: response['events'].slice(start, end),
+                        fullArray: response['events']
+                    });
                 });
-              }
-              this.setState({
-                uploading: false,
-                loading: false,
-                dataSource: ds.cloneWithRows(array)
-              });
-            });
-          }
-        }
-      } else {
-        this.setState({ sleeping: true });
-        setTimeout(() => {
-          this.setState({ sleeping: false, loading: false });
-        }, 3000);
-      }
-    });
-  }
+            }
+            }
+        } else {
+            this.setState({sleeping: true})
+            setTimeout(() => {
+                this.setState({sleeping: false, loading: false})
+            }, 3000);
+            }
+          });
+    }
 
   hideSplashScreen() {
     this.setState({
@@ -112,8 +105,8 @@ class Events extends Component {
   }
 
   componentDidMount() {
-    this.onLoad();
-    this.props.navigation.addListener("willFocus", this.onLoad);
+    // this.onLoad();
+    // this.props.navigation.addListener('willFocus', this.onLoad)
   }
 
   onLoad = () => {
@@ -125,95 +118,117 @@ class Events extends Component {
     this.refresh();
   };
 
-  refresh() {
-    if (!this.state.sleeping) {
-      let api = Api.getInstance();
-      api.callApi("api/getAllEvents", "POST", {}, response => {
-        if (response["responseCode"] != 503) {
-          if (response["responseCode"] == 200) {
-            let ds = new ListView.DataSource({
-              rowHasChanged: (r1, r2) => r1 !== r2
-            });
-            let array = response["events"];
-            for (let index = 0; index < array.length; index++) {
-              let localStorage = LocalStorage.getInstance();
-              localStorage.retrieveItem("userId").then(id => {
-                if (id != null) {
-                  userData = {
-                    eventId: response["events"][index]["id"],
-                    personId: id
-                  };
-                  api.callApi("api/checkSub", "POST", userData, response => {
-                    array[index]["subscribed"] = response["found"];
-                    this.setState({
-                      uploading: false,
-                      refreshing: false,
-                      loading: false,
-                      dataSource: ds.cloneWithRows(array)
-                    });
-                  });
+    refresh() {
+        startNum = 0;
+        endNum = 2;
+        start = startNum;
+        end = endNum;
+        if (!this.state.sleeping) {
+            let api = Api.getInstance();
+            api.callApi("api/getAllEvents", "POST", {}, response => {
+                if (response["responseCode"] != 503) {
+                    if (response["responseCode"] == 200) {
+                        let array = response["events"];
+                        for (let index = 0; index < array.length; index++) {
+                            let localStorage = LocalStorage.getInstance();
+                            localStorage.retrieveItem("userId").then(id => {
+                                if (id != null) {
+                                    userData = {
+                                        eventId: response["events"][index]["id"],
+                                        personId: id
+                                    };
+                                    api.callApi("api/checkSub", "POST", userData, response => {
+                                        array[index]["subscribed"] = response["found"];
+                                        this.setState({
+                                            uploading: false,
+                                            refreshing: false,
+                                            loading: false,
+                                            data: array.slice(start, end),
+                                        });
+                                    });
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    this.setState({ sleeping: true });
+                    setTimeout(() => {
+                        this.setState({ sleeping: false });
+                    }, 3000);
+                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
                 }
-              });
-            }
-          }
-        } else {
-          this.setState({ sleeping: true });
-          setTimeout(() => {
-            this.setState({ sleeping: false });
-          }, 3000);
-          this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
-        }
-      });
-    }
-  }
-
-  handleSearch() {
-    let api = Api.getInstance();
-    userData = {
-      searchString: this.state.search
-    };
-    api.callApi("api/searchEvent", "POST", userData, response => {
-      if (response["responseCode"] != 503) {
-        if (response["responseCode"] == 200) {
-          let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-          });
-          let array = response["events"];
-          for (let index = 0; index < array.length; index++) {
-            array[index]["subscribed"] = false;
-            let localStorage = LocalStorage.getInstance();
-            localStorage.retrieveItem("userId").then(id => {
-              if (id != null) {
-                userData = {
-                  eventId: response["events"][index]["id"],
-                  personId: id
-                };
-                api.callApi("api/checkSub", "POST", userData, response => {
-                  array[index]["subscribed"] = response["found"];
-                  this.setState({
-                    uploading: false,
-                    dataSource: ds.cloneWithRows(array),
-                    loading: false
-                  });
-                });
-              }
             });
-          }
         }
-      } else {
-        this.setState({ sleeping: true });
-        setTimeout(() => {
-          this.setState({ sleeping: false });
-        }, 3000);
-        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
-      }
-    });
-  }
+    }
+
+    handleSearch() {
+        let api = Api.getInstance();
+        userData = {
+            searchString: this.state.search
+        };
+        api.callApi("api/searchEvent", "POST", userData, response => {
+            if (response["responseCode"] != 503) {
+                if (response["responseCode"] == 200) {
+
+                    let array = response["events"];
+                    for (let index = 0; index < array.length; index++) {
+                        array[index]["subscribed"] = false;
+                        let localStorage = LocalStorage.getInstance();
+                        localStorage.retrieveItem("userId").then(id => {
+                            if (id != null) {
+                                userData = {
+                                    eventId: response["events"][index]["id"],
+                                    personId: id
+                                };
+                                api.callApi("api/checkSub", "POST", userData, response => {
+                                    array[index]["subscribed"] = response["found"];
+                                    this.setState({
+                                        uploading: false,
+                                        data: array,
+                                        loading: false
+                                    });
+                                });
+                            }
+                        });
+                    }
+                }
+            } else {
+                this.setState({ sleeping: true });
+                setTimeout(() => {
+                    this.setState({ sleeping: false });
+                }, 3000);
+                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+            }
+        });
+     }
+
+
+    handelEnd = () => {
+        api = Api.getInstance()
+        if (end <= this.state.fullArray.length) {
+            end += 2;
+            start += 2;
+            // alert(end + " " + this.state.data.length);
+            api.callApi('api/getAllEvents', 'POST', {}, response => {
+                console.log(response);
+                if (response['responseCode'] == 200) {
+
+                    this.setState({
+
+                        data: [...this.state.data, ...response['events'].slice(start, end)]
+
+                    });
+                }
+            });
+        }
+
+    };
 
   render() {
     return (
       <ImageBackground
         blurRadius={0}
+
         source={require("../assets/Bslim_Background.jpg")}
         style={{
           width: Dimensions.get("window").width,
@@ -257,9 +272,16 @@ class Events extends Component {
         </LinearGradient>
         {!this.state.loading && (
           <View>
-            {this.state.dataSource != null && (
-              <ListView
-                contentContainerStyle={{ paddingTop: 20 }}
+
+              <FlatList
+                  data={this.state.data}
+                  keyExtractor={item => item.title}
+                  initialNumToRender={2}
+                  // windowSize={2}
+                  // maxToRenderPerBatch={4}
+                  onEndReachedThreshold={0.6}
+                  onEndReached={() => this.handelEnd()}
+                contentContainerStyle={{ paddingTop: 20, paddingBottom:60 }}
                 refreshControl={
                   <RefreshControl
                     colors={["#94D600"]}
@@ -267,9 +289,9 @@ class Events extends Component {
                     onRefresh={this._onRefresh}
                   />
                 }
-                dataSource={this.state.dataSource}
+
                 style={{ paddingTop: 10, marginBottom: 55 }}
-                renderRow={rowData => (
+                  renderItem={({item}) => (
                   <View style={styles.container}>
                     <View style={styles.card} elevation={5}>
                       <View
@@ -282,7 +304,7 @@ class Events extends Component {
                         }}
                       >
                         <Image
-                          source={{ uri: rowData.photo[0] }}
+                          source={{ uri: item.photo[0] }}
                           resizeMode="cover"
                           style={{ width: 50, height: 50, borderRadius: 10 }}
                         />
@@ -300,10 +322,10 @@ class Events extends Component {
                               color: "black"
                             }}
                           >
-                            {capitalize.words(rowData.leader)}
+                            {capitalize.words(item.leader)}
                           </Text>
                           <Text style={{ fontSize: 14, color: "black" }}>
-                            {rowData.created}
+                            {item.created}
                           </Text>
                         </View>
                       </View>
@@ -319,35 +341,35 @@ class Events extends Component {
                           onPress={() =>
                             this.props.navigation.navigate("EventDetail", {
                               title: capitalize.words(
-                                rowData.name.toString().replace(", ,", " ")
+                                  item.name.toString().replace(", ,", " ")
                               ),
-                              profilePicture: rowData.photo[0],
-                              content: rowData.desc,
+                              profilePicture: item.photo[0],
+                              content: item.desc,
                               start:
-                                rowData.begin +
+                              item.begin +
                                 " " +
-                                rowData.beginMonth +
+                              item.beginMonth +
                                 " " +
-                                rowData.beginTime,
+                              item.beginTime,
                               end:
-                                rowData.end +
+                              item.end +
                                 " " +
-                                rowData.endMonth +
+                              item.endMonth +
                                 " " +
-                                rowData.endTime,
-                              created: rowData.created,
+                              item.endTime,
+                              created: item.created,
                               author: capitalize.words(
-                                rowData.leader.replace(", ,", " ")
+                                  item.leader.replace(", ,", " ")
                               ),
-                              link: rowData.link,
-                              img: rowData.img,
-                              location: rowData.location,
-                              participants: rowData.participants
+                              link: item.link,
+                              img: item.img,
+                              location: item.location,
+                              participants: item.participants
                             })
                           }
                         >
                           <Image
-                            source={{ uri: rowData.img }}
+                            source={{ uri: item.img }}
                             resizeMode="cover"
                             style={{ width: "100%", height: 200 }}
                           />
@@ -380,7 +402,7 @@ class Events extends Component {
                                   marginTop: 5
                                 }}
                               >
-                                {rowData.begin}
+                                {item.begin}
                               </Text>
                               <Text
                                 style={{
@@ -390,7 +412,7 @@ class Events extends Component {
                                   textAlign: "center"
                                 }}
                               >
-                                {rowData.beginMonth}
+                                {item.beginMonth}
                               </Text>
                             </View>
                           </View>
@@ -410,7 +432,7 @@ class Events extends Component {
                               }}
                             >
                               {capitalize.words(
-                                rowData.name.toString().replace(", ,", " ")
+                                  item.name.toString().replace(", ,", " ")
                               )}
                             </Text>
                             <HTML
@@ -421,7 +443,7 @@ class Events extends Component {
                                 Linking.openURL(href);
                               }}
                               ignoredTags={["img"]}
-                              html={rowData.desc}
+                              html={item.desc}
                               imagesMaxWidth={Dimensions.get("window").width}
                             />
                           </View>
@@ -437,7 +459,7 @@ class Events extends Component {
                             alignItems: "center"
                           }}
                         >
-                          {!rowData.subscribed && (
+                          {!item.subscribed && (
                             <TouchableHighlight
                               onPress={() => {
                                 let api = Api.getInstance();
@@ -445,7 +467,7 @@ class Events extends Component {
                                 localStorage.retrieveItem("userId").then(id => {
                                   if (id != null) {
                                     userData = {
-                                      eventId: rowData.id,
+                                      eventId: item.id,
                                       personId: id
                                     };
                                     api.callApi(
@@ -491,7 +513,7 @@ class Events extends Component {
                               </Text>
                             </TouchableHighlight>
                           )}
-                          {rowData.subscribed && (
+                          {item.subscribed && (
                             <TouchableHighlight
                               onPress={() => {
                                 let api = Api.getInstance();
@@ -499,7 +521,7 @@ class Events extends Component {
                                 localStorage.retrieveItem("userId").then(id => {
                                   if (id != null) {
                                     userData = {
-                                      eventId: rowData.id,
+                                      eventId: item.id,
                                       personId: id
                                     };
                                     api.callApi(
@@ -540,7 +562,7 @@ class Events extends Component {
                             >
                               <Text
                                 style={{ color: "white", fontWeight: "bold" }}
-                              >
+                                >
                                 AFMELDEN
                               </Text>
                             </TouchableHighlight>
@@ -552,10 +574,10 @@ class Events extends Component {
                                 message:
                                   "Binnenkort organiseert bslim: " +
                                   capitalize.words(
-                                    rowData.name.toString().replace(", ,", " ")
+                                      item.name.toString().replace(", ,", " ")
                                   ) +
                                   ". Voor meer informatie ga naar: " +
-                                  rowData.link
+                                  item.link
                               })
                             }
                             style={{
@@ -579,7 +601,7 @@ class Events extends Component {
                   </View>
                 )}
               />
-            )}
+
           </View>
         )}
         {this.state.loading && <PacmanIndicator color="#94D600" />}
