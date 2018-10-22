@@ -9,9 +9,17 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import { NavigationComponent } from "react-native-material-bottom-navigation-performance";
 
-import { Image, Button, View, StyleSheet, Dimensions } from "react-native";
+import {
+  Image,
+  Button,
+  View,
+  StyleSheet,
+  Dimensions,
+  Animated,
+  Easing
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-
+import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 import ScannerQR from "../screens/ScannerQR";
 import Upload from "../screens/Upload";
 import LoginScreen from "../screens/LoginScreen";
@@ -127,6 +135,46 @@ export const NewsStack = StackNavigator(
   }
 );
 
+const transitionConfig = {
+  duration: 250,
+  timing: Animated.timing,
+  easing: Easing.easing
+};
+
+let MyTransition = (index, position) => {
+  const inputRange = [index - 1, index, index + 1];
+  const opacity = position.interpolate({
+    inputRange,
+    outputRange: [0, 1, 1]
+  });
+
+  const scaleX = position.interpolate({
+    inputRange,
+    outputRange: [0.8, 1, 1]
+  });
+
+  const scaleY = position.interpolate({
+    inputRange,
+    outputRange: [0.8, 1, 1]
+  });
+
+  return {
+    opacity,
+    transform: [{ scaleX, scaleY }]
+  };
+};
+
+let TransitionConfiguration = () => {
+  return {
+    // Define scene interpolation, eq. custom transition
+    screenInterpolator: sceneProps => {
+      const { position, scene } = sceneProps;
+      const { index } = scene;
+
+      return MyTransition(index, position);
+    }
+  };
+};
 //Stack for all the event screens
 export const EventStack = StackNavigator(
   {
@@ -144,7 +192,8 @@ export const EventStack = StackNavigator(
     }
   },
   {
-    headerMode: "none"
+    headerMode: "none",
+    transitionConfig: TransitionConfiguration
   }
 );
 
@@ -243,6 +292,7 @@ export const MyTabLoggedIn = TabNavigator(
     }),
     initialRouteName: "NewsCard",
     tabBarOptions: {
+      lazy: true,
       bottomNavigationOptions: {
         shifting: false,
         style: {
@@ -348,6 +398,7 @@ export const MyTabNotLoggedIn = TabNavigator(
     }),
     initialRouteName: "EventStack",
     tabBarOptions: {
+      lazy: true,
       bottomNavigationOptions: {
         style: {
           backgroundColor: "white",

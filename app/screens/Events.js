@@ -30,6 +30,7 @@ import LocalStorage from "../config/localStorage";
 import { PacmanIndicator } from "react-native-indicators";
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
+import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 
 var capitalize = require("capitalize");
 
@@ -109,11 +110,6 @@ class Events extends Component {
       type: "danger",
       duration: 3000
     });
-  }
-
-  componentDidMount() {
-    this.onLoad();
-    this.props.navigation.addListener("willFocus", this.onLoad);
   }
 
   onLoad = () => {
@@ -321,20 +317,19 @@ class Events extends Component {
                               title: capitalize.words(
                                 rowData.name.toString().replace(", ,", " ")
                               ),
+                              subscribed: rowData.subscribed,
+                              id: rowData.id,
                               profilePicture: rowData.photo[0],
                               content: rowData.desc,
                               start:
                                 rowData.begin +
                                 " " +
                                 rowData.beginMonth +
-                                " " +
-                                rowData.beginTime,
+                                " 2018",
+                              startTime: rowData.beginTime,
                               end:
-                                rowData.end +
-                                " " +
-                                rowData.endMonth +
-                                " " +
-                                rowData.endTime,
+                                rowData.end + " " + rowData.endMonth + " 2018",
+                              endTime: rowData.endTime,
                               created: rowData.created,
                               author: capitalize.words(
                                 rowData.leader.replace(", ,", " ")
@@ -414,6 +409,7 @@ class Events extends Component {
                               )}
                             </Text>
                             <HTML
+                              style={{ height: 55 }}
                               tagsStyles={{
                                 p: { textAlign: "left", color: "grey" }
                               }}
@@ -421,7 +417,7 @@ class Events extends Component {
                                 Linking.openURL(href);
                               }}
                               ignoredTags={["img"]}
-                              html={rowData.desc}
+                              html={rowData.desc.substr(0, 165) + "..."}
                               imagesMaxWidth={Dimensions.get("window").width}
                             />
                           </View>
@@ -555,7 +551,7 @@ class Events extends Component {
                                     rowData.name.toString().replace(", ,", " ")
                                   ) +
                                   ". Voor meer informatie ga naar: " +
-                                  rowData.link
+                                  rowData.url
                               })
                             }
                             style={{
