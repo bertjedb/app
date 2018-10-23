@@ -20,22 +20,13 @@ import { DrawerActions, NavigationActions, Header } from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import LinearGradient from "react-native-linear-gradient";
 import Accordion from "@ercpereda/react-native-accordion";
+import Swipeout from "react-native-swipeout";
 
-const AcHeader = ({ isOpen }) => (
-  <View
-    style={{
-      paddingTop: 15,
-      paddingRight: 15,
-      paddingLeft: 15,
-      paddingBottom: 15,
-      borderBottomWidth: 1,
-      borderBottomColor: "#a9a9a9",
-      backgroundColor: "#f9f9f9"
-    }}
-  >
-    <Text>{`${isOpen ? "-" : "+"} Evenement`}</Text>
-  </View>
-);
+var swipeoutBtns = [
+  {
+    text: "Button"
+  }
+];
 
 class ParticipantList extends Component {
   constructor() {
@@ -122,167 +113,11 @@ class ParticipantList extends Component {
           />
         </LinearGradient>
         <View style={styles.cardContainer}>
-          <Accordion
-            header={AcHeader}
-            content={
-              <View
-                style={{
-                  display: "flex",
-                  backgroundColor: "#31363D"
-                }}
-              >
-                <SwipeListView
-                  dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                  stopLeftSwipe={150}
-                  stopRightSwipe={-150}
-                  renderRow={data => (
-                    <TouchableHighlight
-                      onPress={_ => console.log("You touched me")}
-                      style={styles.rowFront}
-                      underlayColor={"#AAA"}
-                    >
-                      <View>
-                        <Text>{data.text}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  )}
-                  renderHiddenRow={(data, secId, rowId, rowMap) => (
-                    <View style={styles.rowBack}>
-                      <TouchableOpacity
-                        style={styles.backLeftBtn}
-                        onPress={_ => this.closeRow(rowMap, `${secId}${rowId}`)}
-                      >
-                        <Icon name="delete" size={24} color="white" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-                        onPress={_ => this.closeRow(rowMap, `${secId}${rowId}`)}
-                      >
-                        <Icon name="plus" size={24} color="white" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.backRightBtn, styles.backRightBtnRight]}
-                        onPress={_ =>
-                          this.deleteRow(rowMap, `${secId}${rowId}`)
-                        }
-                      >
-                        <Icon name="minus" size={24} color="white" />
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                  leftOpenValue={75}
-                  rightOpenValue={-150}
-                />
-              </View>
-            }
-            duration={300}
-          />
-          <Accordion
-            header={AcHeader}
-            content={
-              <View
-                style={{
-                  display: "flex",
-                  backgroundColor: "#31363D"
-                }}
-              >
-                <SwipeListView
-                  dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                  renderRow={data => (
-                    <TouchableHighlight
-                      onPress={_ => console.log("You touched me")}
-                      style={styles.rowFront}
-                      underlayColor={"#AAA"}
-                    >
-                      <View>
-                        <Text>{data.text}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  )}
-                  renderHiddenRow={(data, secId, rowId, rowMap) => (
-                    <View style={styles.rowBack}>
-                      <TouchableOpacity
-                        style={styles.backLeftBtn}
-                        onPress={_ => this.closeRow(rowMap, `${secId}${rowId}`)}
-                      >
-                        <Icon name="delete" size={24} color="white" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-                        onPress={_ => this.closeRow(rowMap, `${secId}${rowId}`)}
-                      >
-                        <Icon name="plus" size={24} color="white" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.backRightBtn, styles.backRightBtnRight]}
-                        onPress={_ =>
-                          this.deleteRow(rowMap, `${secId}${rowId}`)
-                        }
-                      >
-                        <Icon name="minus" size={24} color="white" />
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                  leftOpenValue={75}
-                  rightOpenValue={-150}
-                />
-              </View>
-            }
-            duration={300}
-          />
-          <Accordion
-            header={AcHeader}
-            content={
-              <View
-                style={{
-                  display: "flex",
-                  backgroundColor: "#31363D"
-                }}
-              >
-                <SwipeListView
-                  dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-                  renderRow={data => (
-                    <TouchableHighlight
-                      onPress={_ => console.log("You touched me")}
-                      style={styles.rowFront}
-                      underlayColor={"#AAA"}
-                    >
-                      <View>
-                        <Text>{data.text}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  )}
-                  renderHiddenRow={(data, secId, rowId, rowMap) => (
-                    <View style={styles.rowBack}>
-                      <TouchableOpacity
-                        style={styles.backLeftBtn}
-                        onPress={_ => this.closeRow(rowMap, `${secId}${rowId}`)}
-                      >
-                        <Icon name="delete" size={24} color="white" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-                        onPress={_ => this.closeRow(rowMap, `${secId}${rowId}`)}
-                      >
-                        <Icon name="plus" size={24} color="white" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.backRightBtn, styles.backRightBtnRight]}
-                        onPress={_ =>
-                          this.deleteRow(rowMap, `${secId}${rowId}`)
-                        }
-                      >
-                        <Icon name="minus" size={24} color="white" />
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                  leftOpenValue={75}
-                  rightOpenValue={-150}
-                />
-              </View>
-            }
-            duration={300}
-          />
+          <Swipeout right={swipeoutBtns}>
+            <View>
+              <Text>Swipe me left</Text>
+            </View>
+          </Swipeout>
         </View>
       </ImageBackground>
     );
