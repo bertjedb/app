@@ -426,22 +426,24 @@ class EventDetail extends Component {
             style={styles.card}
             elevation={5}
           >
-            <ListView
-              style={styles.participantContainer}
-              dataSource={this.state.dataSource}
-              renderRow={rowData => (
-                <View>
-                  <View
-                    style={{
-                      borderBottomColor: "black",
-                      borderBottomWidth: 1
-                    }}
-                  >
-                    <Text style={styles.text}>{rowData}</Text>
-                  </View>
-                </View>
-              )}
-            />
+            {
+              // <ListView
+              //   style={styles.participantContainer}
+              //   dataSource={this.state.dataSource}
+              //   renderRow={rowData => (
+              //     <View>
+              //       <View
+              //         style={{
+              //           borderBottomColor: "black",
+              //           borderBottomWidth: 1
+              //         }}
+              //       >
+              //         <Text style={styles.text}>{rowData}</Text>
+              //       </View>
+              //     </View>
+              //   )}
+              // />
+            }
           </Animatable.View>
         </Animated.ScrollView>
       </View>
