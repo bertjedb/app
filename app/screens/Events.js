@@ -507,7 +507,7 @@ class Events extends Component {
                               });
                             }}
                             style={{
-                              width: "50%",
+                              width: "33%",
                               borderRightWidth: 1,
                               justifyContent: "center",
                               alignItems: "center",
@@ -559,7 +559,7 @@ class Events extends Component {
                               });
                             }}
                             style={{
-                              width: "50%",
+                              width: "33%",
                               borderRightWidth: 1,
                               justifyContent: "center",
                               alignItems: "center",
@@ -574,35 +574,59 @@ class Events extends Component {
                               AFMELDEN
                             </Text>
                           </TouchableHighlight> )}
-                          <TouchableHighlight
+                        <TouchableHighlight
+                          onPress={() =>
+                            Share.share({
+                              message:
+                                "Binnenkort organiseert bslim: " +
+                                capitalize.words(
+                                  item.name.toString().replace(", ,", " ")
+                                ) +
+                                ". Voor meer informatie ga naar: " +
+                                item.link
+                            })
+                          }
+                          style={{
+                            width: "33%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: 10,
+                            backgroundColor: "#93D500",
+                          }}
+                        >
+                          <Text style={{ color: "white", fontWeight: "bold" }}>
+                            DELEN
+                          </Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
                                 onPress={() =>
                                   this.props.navigation.navigate("EventDetail", {
-                                    id: rowData.id,
+                                    id: item.id,
                                     title: capitalize.words(
-                                      rowData.name.toString().replace(", ,", " ")
+                                      item.name.toString().replace(", ,", " ")
                                     ),
-                                    profilePicture: rowData.photo[0],
-                                    content: rowData.desc,
+                                    profilePicture: item.photo[0],
+                                    content: item.desc,
                                     start:
-                                      rowData.begin +
+                                      item.begin +
                                       " " +
-                                      rowData.beginMonth +
+                                      item.beginMonth +
                                       " " +
-                                      rowData.beginTime,
+                                      item.beginTime,
                                     end:
-                                      rowData.end +
+                                      item.end +
                                       " " +
-                                      rowData.endMonth +
+                                      item.endMonth +
                                       " " +
-                                      rowData.endTime,
-                                    created: rowData.created,
+                                      item.endTime,
+                                    created: item.created,
                                     author: capitalize.words(
-                                      rowData.leader
+                                      item.leader
                                     ),
-                                    link: rowData.link,
-                                    img: rowData.img,
-                                    location: rowData.location,
-                                    subscribed: rowData.subscribed
+                                    link: item.link,
+                                    img: item.img,
+                                    location: item.location,
+                                    subscribed: item.subscribed
                                   })
                                 }
                                 style={{
@@ -620,35 +644,8 @@ class Events extends Component {
                                 >
                                     LEES MEER...
                                 </Text>
-                            </TouchableHighlight>)}
+                            </TouchableHighlight>
                         </View>
-                        
-
-                        <TouchableHighlight
-                          onPress={() =>
-                            Share.share({
-                              message:
-                                "Binnenkort organiseert bslim: " +
-                                capitalize.words(
-                                  item.name.toString().replace(", ,", " ")
-                                ) +
-                                ". Voor meer informatie ga naar: " +
-                                item.link
-                            })
-                          }
-                          style={{
-                            width: "50%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: 10,
-                            backgroundColor: "#93D500",
-                            borderBottomRightRadius: 10
-                          }}
-                        >
-                          <Text style={{ color: "white", fontWeight: "bold" }}>
-                            DELEN
-                          </Text>
-                        </TouchableHighlight>
                       </View>
                     </View>
                   </View>

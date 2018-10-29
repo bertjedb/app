@@ -290,7 +290,7 @@ export const MyTabLoggedIn = TabNavigator(
         jumpToIndex(scene.index);
       }
     }),
-    initialRouteName: "NewsCard",
+    initialRouteName: "EventStack",
     tabBarOptions: {
       lazy: true,
       bottomNavigationOptions: {
