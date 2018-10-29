@@ -13,6 +13,7 @@ import { Header, NavigationActions } from 'react-navigation';
 import styles from '../assets/css/style.js';
 import ImagePicker from "react-native-image-picker";
 import Video from 'react-native-video';
+import RNFetchBlob from "rn-fetch-blob";
 
 export default class VideoPicker extends Component {
 
@@ -28,7 +29,7 @@ export default class VideoPicker extends Component {
             title: 'Video picker',
             mediaType: 'video',
             storageOptions: {
-                skipBackup: false,
+                skipBackup: true,
                 path: 'image'
             }
         }
@@ -36,8 +37,38 @@ export default class VideoPicker extends Component {
             const uri = response.uri
             this.setState({ uri });
             console.log(this.state);
+            this.uploadContent("Video", uri, "video/mp4", "mp4");
         });
     };
+
+    uploadContent(fileName, imageSource, mimeType, fileExtension) {
+    this.setState({
+      uploading: true
+    });
+    RNFetchBlob.fetch(
+      "POST",
+      "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
+      {
+        Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
+        "Content-Type": + mimeType,
+        "Content-Disposition":
+          "attachment; filename=" + fileName + "." + fileExtension
+      },
+      RNFetchBlob.wrap(imageSource)
+    )
+      .uploadProgress({ interval: 250 }, (written, total) => {
+      })
+      .then(res => {
+        this.setState({
+          uploading: false
+        });
+      })
+      .catch(err => {
+            console.log(err)
+      });
+  }
+
+
 
     
     render() {
@@ -106,9 +137,6 @@ export default class VideoPicker extends Component {
                     raised text="Video opnemen"
                     onPress={this.recordVideo}
                 />
-                <Text>
-                {this.state.uri}
-                </Text>
             </View>
           </View>
         </View>
