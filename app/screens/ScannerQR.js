@@ -16,18 +16,17 @@ import {
   ActivityIndicator
 } from "react-native";
 
-import ImagePicker from "react-native-image-picker";
-import RNFetchBlob from "rn-fetch-blob";
-import ProgressBarAnimated from "react-native-progress-bar-animated";
-import { TextField } from "react-native-material-textfield";
-import Icon from "react-native-vector-icons/Ionicons";
-import ActionButton from "react-native-action-button";
-import * as mime from "react-native-mime-types";
-import Video from "react-native-af-video-player";
-import QRCodeScanner from "react-native-qrcode-scanner";
-import Api from "../config/api.js";
-import LocalStorage from "../config/localStorage.js";
-import { NavigationActions } from "react-navigation";
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob'
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import {TextField} from 'react-native-material-textfield';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-action-button';
+import * as mime from 'react-native-mime-types';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
+import { NavigationActions } from 'react-navigation';
 
 import {
   COLOR,

@@ -54,30 +54,25 @@ export default class ChangeEmailRequest extends Component {
     } else {
       let api = Api.getInstance();
       let userData = {
-        oldEmail: this.state.email
-      };
-      api.callApi("changeEmailRequest", "POST", userData, response => {
-        console.log(response);
-        if (response["responseCode"] == 400) {
-          this.errorMessage(
-            "Het ingevulde e-mail adres is niet bij ons bekend."
-          );
-        } else if (response["responseCode"] == 500) {
-          this.errorMessage(
-            "Er is iets fout gegaan bij het genereren van een veiligheidscode."
-          );
-        } else {
-          this.successMessage(
-            "Er is een email met een veiligheids code verzonden naar: " +
-              response["oldEmail"]
-          );
-          this.props.navigation.dispatch(
-            NavigationActions.navigate({
-              routeName: "LoginStack",
-              action: NavigationActions.navigate({ routeName: "ChangeEmail" })
-            })
-          );
-        }
+          'oldEmail': this.state.email,
+      }
+      api.callApi('changeEmailRequest', 'POST', userData, response => {
+          if(response['responseCode'] != 503) {
+            if(response['responseCode'] == 400){
+               this.errorMessage('Het ingevulde e-mail adres is niet bij ons bekend.');
+            } else if(response['responseCode'] == 500) {
+                this.errorMessage('Er is iets fout gegaan bij het genereren van een veiligheidscode.')
+            }
+            else {
+                this.successMessage('Er is een email met een veiligheids code verzonden naar: ' + response['oldEmail'],);
+                this.props.navigation.dispatch(NavigationActions.navigate({
+                      routeName: 'LoginStack',
+                      action: NavigationActions.navigate({ routeName: 'ChangeEmail' })
+                    }))
+            }
+          } else {
+            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+          }
       });
     }
   }

@@ -18,7 +18,6 @@ import {
   Modal
 } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { DrawerActions, Header } from "react-navigation";
 import ActionButton from "react-native-action-button";
@@ -47,7 +46,9 @@ import {
   Card,
   Button
 } from "react-native-material-ui";
+
 var capitalize = require("capitalize");
+
 
 const MapHtml = require("../assets/mapHTML.html");
 const HEADER_MAX_HEIGHT = 300;
@@ -58,7 +59,6 @@ class EventDetail extends Component {
   constructor() {
     super();
     this.animatedValue = new Animated.Value(0);
-
     this.state = {
       map: true,
       title: "",
@@ -179,7 +179,6 @@ class EventDetail extends Component {
     let map = Maps.getInstance();
     const { navigation } = this.props;
     const subscribed = navigation.getParam("subscribed", "");
-
     const eventID = navigation.getParam("id", "");
     const title = navigation.getParam("title", "");
     const content = navigation.getParam("content", "");
@@ -255,104 +254,55 @@ class EventDetail extends Component {
             { transform: [{ translateY: headerTranslate }] }
           ]}
         >
-          <Animated.View
-            style={[
-              styles.header,
-              {
-                transform: [
-                  {
-                    translateY: this.state.y
-                  }
-                ]
-              }
-            ]}
-          >
-            <ImageOverlay
-              overlayColor="black"
-              overlayAlpha={0.3}
-              source={{ uri: img }}
-              resizeMode="cover"
-              containerStyle={{ width: "100%", height: 200 }}
-            />
-            <Animated.View
+          <ImageOverlay
+            source={require("../assets/basketbal_kids_bslim.jpg")}
+            overlayColor="black"
+            overlayAlpha={0.3}
+            containerStyle={{ height: "100%" }}
+          />
+          <View style={{ position: "absolute", top: 185, left: 20 }}>
+            <Text
               style={{
-                position: "absolute",
-                top: 130,
-                left: 15,
-                opacity: this.state.scrollY.interpolate({
-                  inputRange: [0, 80],
-                  outputRange: [1, 0]
-                })
+                fontSize: 32,
+                fontWeight: "bold",
+                color: "white",
+                paddingBottom: 10
               }}
             >
-              <Text
-                style={{ fontSize: 28, fontWeight: "bold", color: "white" }}
-              >
-                {title}
-              </Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Icon
-                  size={20}
-                  name={"calendar"}
-                  style={{ color: "white", paddingRight: 5 }}
-                />
-                <Text style={{ fontSize: 16, color: "white" }}>{start}</Text>
-              </View>
-            </Animated.View>
-          </Animated.View>
+              Basketbal
+            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={24}
+                name={"calendar"}
+                style={{ color: "white", paddingRight: 10 }}
+              />
+              <Text style={{ fontSize: 16, color: "white" }}>26 Okt 2018</Text>
+            </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={24}
+                name={"map-marker"}
+                style={{ color: "white", paddingRight: 10 }}
+              />
+              <Text style={{ fontSize: 16, color: "white" }}>Peizerweg 48</Text>
+            </View>
+          </View>
         </Animated.View>
-        <Animated.View
-          style={[
-            styles.headerTitle,
-            {
-              opacity: this.state.scrollY.interpolate({
-                inputRange: [0, 150],
-                outputRange: [0, 1]
-              })
-            }
-          ]}
+        <View
+          style={{
+            backgroundColor: this.state.scrollOpacity,
+            height: Header.HEIGHT
+          }}
         >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "white",
-              position: "absolute",
-              top: 8,
-              left: 60
-            }}
-          >
-            Basketbal
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: "white",
-              position: "absolute",
-              top: 30,
-              left: 60
-            }}
-          >
-            26 Okt 2018
-          </Text>
-        </Animated.View>
-        <Toolbar
-          style={styles.headerTitle}
-          iconSet="MaterialCommunityIcons"
-          centerElement=""
-          leftElement={"arrow-left"}
-          rightElement={"share-variant"}
-          onRightElementPress={() =>
-            Share.share({
-              message:
-                "Binnenkort organiseert bslim: " +
-                capitalize.words(title.toString().replace(", ,", " ")) +
-                ". Voor meer informatie ga naar: " +
-                link
-            })
-          }
-          onLeftElementPress={() => this.props.navigation.goBack()}
-        />
+          <Toolbar
+            iconSet="MaterialCommunityIcons"
+            centerElement=""
+            leftElement={"arrow-left"}
+            rightElement={"share-variant"}
+            onLeftElementPress={() => this.props.navigation.goBack()}
+          />
+        </View>
         <Animated.ScrollView
           style={styles.cardContainer}
           scrollEventThrottle={16}
@@ -442,91 +392,50 @@ class EventDetail extends Component {
               }}
             />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TouchableOpacity
+              <Image
+                source={require("../assets/klimmen_kids_bslim.jpg")}
+                resizeMode="cover"
                 style={{
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 35,
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
                   margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
+                  marginRight: 0
                 }}
-                onPress={() =>
-                  this.setState({ imageFullScreen: true, imageIndex: 0 })
-                }
-              >
-                <Image
-                  source={require("../assets/klimmen_kids_bslim.jpg")}
-                  resizeMode="cover"
-                  elevation={5}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50
-                  }}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
+              />
+              <Image
+                source={require("../assets/frisbee_kids_bslim.jpg")}
+                resizeMode="cover"
                 style={{
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 5,
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
                   margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
+                  marginRight: 0
                 }}
-                onPress={() =>
-                  this.setState({ imageFullScreen: true, imageIndex: 1 })
-                }
-              >
-                <Image
-                  source={require("../assets/frisbee_kids_bslim.jpg")}
-                  resizeMode="cover"
-                  elevation={5}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
+              />
+              <Image
+                source={require("../assets/basketbal_kids_bslim.jpg")}
+                resizeMode="cover"
                 style={{
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 5,
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
                   margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
+                  marginRight: 0
                 }}
-                onPress={() =>
-                  this.setState({ imageFullScreen: true, imageIndex: 2 })
-                }
-              >
-                <Image
-                  source={require("../assets/basketbal_kids_bslim.jpg")}
-                  resizeMode="cover"
-                  elevation={5}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50
-                  }}
-                />
-              </TouchableOpacity>
+              />
+              <Image
+                source={require("../assets/sport_kids_bslim.jpg")}
+                resizeMode="cover"
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 10,
+                  margin: 10,
+                  marginRight: 0
+                }}
+              />
               <ImageBackground
                 blurRadius={3}
                 style={{
@@ -815,7 +724,6 @@ const styles = StyleSheet.create({
     // android (Android +5.0)
     elevation: 3
   },
-
   headerTitle: {
     height: Header.HEIGHT,
     backgroundColor: "#94d60a",
@@ -869,7 +777,6 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0
   },
-
   participantContainer: {
     margin: "5%",
     flex: 1,

@@ -12,7 +12,6 @@ export default class Maps {
 	}
 
 getMap(adres){
-	console.log(adres);
 	let script = '\r\n\t\tvar geocoder;\r\n\tvar map;\r\n\tvar address = \"'+adres+'\";\r\n\tfunction initMap() {\r\n\t  var map = new google.maps.Map(document.getElementById(\"map\"), {\r\n\t\tzoom: 15,\r\n\t\tdisableDefaultUI: true,\r\n\t\tzoomControl: false,\r\n\t\tscrollwheel: false,\r\n\t\tnavigationControl: false,\r\n\t\tmapTypeControl: false,\r\n\t\tscaleControl: false,\r\n\t\tdraggable: false,\r\n\t\tcenter: {lat: -34.397, lng: 150.644}\r\n\t  });\r\n\t  geocoder = new google.maps.Geocoder();\r\n\t  codeAddress(geocoder, map);\r\n\t}\r\n\r\n\tfunction codeAddress(geocoder, map) {\r\n\t  geocoder.geocode({\'address\': address}, function(results, status) {\r\n\t\tif (status === \'OK\') {\r\n\t\t  map.setCenter(results[0].geometry.location);\r\n\t\t  var marker = new google.maps.Marker({\r\n\t\t\tmap: map,\r\n\t\t\tposition: results[0].geometry.location\r\n\t\t  });\r\n\t\t} else {\r\n\t\t  alert(\'Geocode was not successful for the following reason: \' + status);\r\n\t\t}\r\n\t  });\r\n\t}\r\n\t    ';
 
 	let htmlOne = '<html>\n'+

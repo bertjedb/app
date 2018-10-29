@@ -19,7 +19,13 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import {Header} from 'react-navigation';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
+import usernameImg from '../assets/Username.png';
+import passwordImg from '../assets/Password.png';
+import { FormInput } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TextField } from 'react-native-material-textfield';
+import BottomSheet from 'react-native-js-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
 import {PacmanIndicator} from 'react-native-indicators';
 import FlashMessage, {showMessage} from "react-native-flash-message";
@@ -343,15 +349,6 @@ const styles = StyleSheet.create({
 	    // android (Android +5.0)
 	    elevation: 3,
 	},
-
-  video: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
-  },
-
   loginButton: {
     margin: 5,
     backgroundColor: '#FF6700',

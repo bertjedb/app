@@ -160,7 +160,7 @@ let MyTransition = (index, position) => {
 
   return {
     opacity,
-    transform: [{ scaleX, scaleY }]
+    transform: [{ scaleX }, { scaleY }]
   };
 };
 
@@ -248,7 +248,7 @@ export const MyTabLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/news.png")}
+            source={require("../assets/icons/News.png")}
           />
         )
       }
@@ -290,7 +290,7 @@ export const MyTabLoggedIn = TabNavigator(
         jumpToIndex(scene.index);
       }
     }),
-    initialRouteName: "NewsCard",
+    initialRouteName: "EventStack",
     tabBarOptions: {
       lazy: true,
       bottomNavigationOptions: {
@@ -321,7 +321,7 @@ export const MyTabLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/news.png")}
+                source={require("../assets/icons/News.png")}
               />
             )
           },
@@ -370,7 +370,7 @@ export const MyTabNotLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/news.png")}
+            source={require("../assets/icons/News.png")}
           />
         )
       }
@@ -426,7 +426,7 @@ export const MyTabNotLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/news.png")}
+                source={require("../assets/icons/News.png")}
               />
             )
           },
