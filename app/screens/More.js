@@ -188,53 +188,6 @@ export default class More extends Component {
                     value: "Wachtwoord veranderen",
                     key: "4",
                     onPress: () =>
-                      this.props.navigation.dispatch(
-                        NavigationActions.navigate({
-                          routeName: "LoginStack",
-                          action: NavigationActions.navigate({
-                            routeName: "ChangePassword"
-                          })
-                        })
-                      )
-                  },
-                  {
-                    icon: (
-                      <Icon
-                        size={25}
-                        name={"lock-question"}
-                        style={{ color: "grey" }}
-                      />
-                    ),
-                    value: "E-mail adres verandering opvragen",
-                    key: "12",
-                    onPress: () =>
-                      this.props.navigation.dispatch(
-                        NavigationActions.navigate({
-                          routeName: "LoginStack",
-                          action: NavigationActions.navigate({
-                            routeName: "ChangeEmailRequest"
-                          })
-                        })
-                      )
-                  }
-                ]}
-              />
-            )}
-          {this.state.userId != null &&
-            this.state.clearance == 0 && (
-              <Drawer.Section
-                items={[
-                  {
-                    icon: (
-                      <Icon
-                        size={25}
-                        name={"lock-question"}
-                        style={{ color: "grey" }}
-                      />
-                    ),
-                    value: "Wachtwoord veranderen",
-                    key: "4",
-                    onPress: () =>
                       api.callApi(
                         "logout",
                         "POST",
@@ -345,6 +298,26 @@ export default class More extends Component {
                           routeName: "AdminStack",
                           action: NavigationActions.navigate({
                             routeName: "CreateAdmin"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"account-plus"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Video uploaden",
+                    key: "14",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "AdminStack",
+                          action: NavigationActions.navigate({
+                            routeName: "VideoPicker"
                           })
                         })
                       )

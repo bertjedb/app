@@ -41,6 +41,7 @@ import Events from "../screens/Events";
 import ChangeEmailRequest from "../screens/ChangeEmailRequest";
 import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
+import VideoPicker from "../screens/VideoPicker";
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator(
@@ -107,6 +108,12 @@ export const AdminStack = StackNavigator(
       navigationOptions: {
         title: "Nieuw begeleider account"
       }
+    },
+    VideoPicker: {
+        screen: VideoPicker,
+        navigationOptions: {
+            title: "Video uploaden"
+        }
     }
   },
   {
