@@ -12,10 +12,12 @@ import {
   Linking,
   Platform,
   WebView,
+  Animated,
   ListView,
-  Divider,
-  Animated
+  Easing,
+  Modal
 } from "react-native";
+import ImageViewer from "react-native-image-zoom-viewer";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { DrawerActions, Header } from "react-navigation";
 import ActionButton from "react-native-action-button";
@@ -45,14 +47,18 @@ import {
   Button
 } from "react-native-material-ui";
 
+var capitalize = require("capitalize");
+
+
 const MapHtml = require("../assets/mapHTML.html");
 const HEADER_MAX_HEIGHT = 300;
-const HEADER_MIN_HEIGHT = 125;
+const HEADER_MIN_HEIGHT = Header.HEIGHT;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class EventDetail extends Component {
   constructor() {
     super();
+    this.animatedValue = new Animated.Value(0);
     this.state = {
       map: true,
       title: "",
@@ -67,7 +73,13 @@ class EventDetail extends Component {
       scrollOpacity: "rgba(148, 214, 10, 0)",
       scrollHeight: "40%",
       scrollBlur: 0,
-      scrollY: new Animated.Value(0)
+      scrollY: new Animated.Value(0),
+      x: new Animated.Value(-500),
+      x2: new Animated.Value(-500),
+      x3: new Animated.Value(-500),
+      y: new Animated.Value(-300),
+      imageIndex: 0,
+      imageFullScreen: false
     };
     let days = [
       "Zondag",
@@ -93,6 +105,13 @@ class EventDetail extends Component {
       "December"
     ];
   }
+
+  componentDidMount() {
+    this.animate();
+    this.animate2();
+    this.animateY();
+  }
+
   handleScroll(event) {
     this.setState({
       scrollOpacity: "rgba(148, 214, 10, " + this.state.scrollY / 150 + ")",
@@ -100,6 +119,48 @@ class EventDetail extends Component {
         "" + ((event.nativeEvent.contentOffset.y / 150) * 40 + 40) + "%",
       scrollBlur: event.nativeEvent.contentOffset.y / 450
     });
+  }
+
+  animateY() {
+    this.animatedValue.setValue(0);
+    Animated.timing(this.state.y, {
+      toValue: 1,
+      duration: 250,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start();
+  }
+
+  animate() {
+    this.animatedValue.setValue(0);
+    Animated.timing(this.state.x, {
+      toValue: 1,
+      duration: 250,
+      delay: 125,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start(() => this.animate3());
+  }
+
+  animate2() {
+    this.animatedValue.setValue(0);
+    Animated.timing(this.state.x2, {
+      toValue: 1,
+      delay: 250,
+      duration: 250,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start();
+  }
+
+  animate3() {
+    this.animatedValue.setValue(0);
+    Animated.timing(this.state.x3, {
+      toValue: 1,
+      duration: 250,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start();
   }
 
   render() {
@@ -110,9 +171,15 @@ class EventDetail extends Component {
       extrapolate: "clamp"
     });
 
+    const marginLeft = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["10%", "0%"]
+    });
+
     let map = Maps.getInstance();
     const { navigation } = this.props;
-
+    const subscribed = navigation.getParam("subscribed", "");
+    const eventID = navigation.getParam("id", "");
     const title = navigation.getParam("title", "");
     const content = navigation.getParam("content", "");
     const url = navigation.getParam("url", "");
@@ -124,18 +191,63 @@ class EventDetail extends Component {
     const link = navigation.getParam("link", "");
     const img = navigation.getParam("img", "");
     const location = navigation.getParam("location", "");
-    const participants = navigation.getParam("participants", "");
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    this.state = {
-      dataSource: ds.cloneWithRows(participants)
-    };
 
+    const images = [
+      {
+        props: {
+          // Or you can set source directory.
+          source: require("../assets/klimmen_kids_bslim.jpg")
+        }
+      },
+      {
+        props: {
+          // Or you can set source directory.
+          source: require("../assets/frisbee_kids_bslim.jpg")
+        }
+      },
+      {
+        props: {
+          // Or you can set source directory.
+          source: require("../assets/basketbal_kids_bslim.jpg")
+        }
+      },
+      {
+        props: {
+          // Or you can set source directory.
+          source: require("../assets/sport_kids_bslim.jpg")
+        }
+      }
+    ];
+    /*
+	  const participants = navigation.getParam("participants", "");
+	      const ds = new ListView.DataSource({
+	        rowHasChanged: (r1, r2) => r1 !== r2
+	      });
+	  this.state = {
+	        dataSource: ds.cloneWithRows(participants)
+	      };
+		  */
     return (
       <View
         style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
       >
+        <Modal visible={this.state.imageFullScreen} transparent={true}>
+          <ImageViewer
+            imageUrls={images}
+            enableSwipeDown={true}
+            index={this.state.imageIndex}
+            saveToLocalByLongPress={false}
+            renderHeader={index => (
+              <Icon
+                size={32}
+                name={"close"}
+                style={{ color: "white", padding: 10 }}
+                onPress={() => this.setState({ imageFullScreen: false })}
+              />
+            )}
+            onCancel={() => this.setState({ imageFullScreen: false })}
+          />
+        </Modal>
         <Animated.View
           style={[
             styles.header,
@@ -210,11 +322,17 @@ class EventDetail extends Component {
             }
           )}
         >
-          <Animatable.View
-            delay={0}
-            animation="lightSpeedIn"
-            iterationCount={1}
-            style={styles.cardTop}
+          <Animated.View
+            style={[
+              styles.cardTop,
+              {
+                transform: [
+                  {
+                    translateX: this.state.x
+                  }
+                ]
+              }
+            ]}
             elevation={5}
           >
             <View style={styles.cardTitle} elevation={5}>
@@ -229,11 +347,26 @@ class EventDetail extends Component {
                   width: "100%"
                 }}
               >
-                <Image
-                  source={{ uri: profilePicture }}
-                  resizeMode="cover"
-                  style={{ width: 50, height: 50, borderRadius: 50 }}
-                />
+                <View
+                  style={{
+                    shadowOffset: { width: 0, height: 13 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 6,
+
+                    backgroundColor: "white",
+                    // android (Android +5.0)
+                    elevation: 5,
+                    marginRight: 0,
+                    borderRadius: 10
+                  }}
+                  onPress={() => this.setState({ imageFullScreen: false })}
+                >
+                  <Image
+                    source={{ uri: profilePicture }}
+                    resizeMode="cover"
+                    style={{ width: 50, height: 50, borderRadius: 10 }}
+                  />
+                </View>
                 <View
                   style={{ flex: 1, flexDirection: "column", marginLeft: 10 }}
                 >
@@ -241,14 +374,12 @@ class EventDetail extends Component {
                     style={{
                       fontWeight: "bold",
                       fontSize: 18,
-                      color: "black"
+                      color: "grey"
                     }}
                   >
                     {author}
                   </Text>
-                  <Text style={{ fontSize: 14, color: "black" }}>
-                    {created}
-                  </Text>
+                  <Text style={{ fontSize: 14, color: "grey" }}>{created}</Text>
                 </View>
               </View>
             </View>
@@ -310,27 +441,37 @@ class EventDetail extends Component {
                 style={{
                   width: 50,
                   height: 50,
-                  borderRadius: 10,
+                  shadowOffset: { width: 0, height: 13 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 6,
+
+                  backgroundColor: "white",
+                  // android (Android +5.0)
+                  elevation: 5,
                   margin: 10,
-                  marginRight: 0
+                  marginRight: 0,
+                  borderRadius: 50
                 }}
-                imageStyle={{ borderRadius: 10 }}
-                source={require("../assets/klimmen_kids_bslim.jpg")}
+                imageStyle={{ borderRadius: 50 }}
+                source={require("../assets/sport_kids_bslim.jpg")}
               >
-                <View
+                <TouchableOpacity
                   style={{
                     justifyContent: "center",
                     alignItems: "center",
-                    borderRadius: 10,
+                    borderRadius: 50,
                     with: "100%",
                     height: "100%",
                     backgroundColor: "rgba(0,0,0,.3)"
                   }}
+                  onPress={() =>
+                    this.setState({ imageFullScreen: true, imageIndex: 3 })
+                  }
                 >
                   <Text fontSize="18" style={{ color: "white" }}>
                     +4
                   </Text>
-                </View>
+                </TouchableOpacity>
               </ImageBackground>
             </View>
 
@@ -344,7 +485,15 @@ class EventDetail extends Component {
             />
 
             <View>
-              <Text style={{ color: "black", fontSize: 20, padding: 10 }}>
+              <Text
+                style={{
+                  color: "grey",
+                  fontSize: 20,
+                  padding: 10,
+                  paddingTop: 0,
+                  paddingBottom: 0
+                }}
+              >
                 Kom jij ook?
               </Text>
               <View
@@ -354,34 +503,135 @@ class EventDetail extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                <Button
-                  style={{
-                    container: {
-                      margin: 10,
-                      padding: 5,
-                      borderRadius: 10,
-                      backgroundColor: "#18CE3A"
-                    },
-                    text: {
-                      color: "white"
-                    }
-                  }}
-                  text="Aanmelden"
-                />
+                {!subscribed && (
+                  <Button
+                    onPress={() => {
+                      let api = Api.getInstance();
+                      let localStorage = LocalStorage.getInstance();
+                      localStorage.retrieveItem("userId").then(id => {
+                        if (id != null) {
+                          userData = {
+                            eventId: eventID,
+                            personId: id
+                          };
+                          api.callApi(
+                            "api/subToEvent",
+                            "POST",
+                            userData,
+                            response => {
+                              if (response["responseCode"] == 200) {
+                                alert(
+                                  "Je hebt je aangemeld voor dit evenement"
+                                );
+                                this.refresh();
+                              } else if (response["responseCode"] == 400) {
+                                alert("Je bent al aangemeld");
+                              } else {
+                                alert("Er is wat fout gegaan");
+                              }
+                            }
+                          );
+                        } else {
+                          this.props.navigation.navigate("LoginScreen");
+                        }
+                      });
+                    }}
+                    style={{
+                      container: {
+                        margin: 10,
+                        padding: 5,
+                        borderRadius: 10,
+                        backgroundColor: "#94d60a"
+                      },
+                      text: {
+                        color: "white"
+                      }
+                    }}
+                    text="Aanmelden"
+                  />
+                )}
+                {subscribed && (
+                  <Button
+                    onPress={() => {
+                      let api = Api.getInstance();
+                      let localStorage = LocalStorage.getInstance();
+                      localStorage.retrieveItem("userId").then(id => {
+                        if (id != null) {
+                          userData = {
+                            eventId: eventID,
+                            personId: id
+                          };
+                          api.callApi(
+                            "api/subToEvent",
+                            "POST",
+                            userData,
+                            response => {
+                              if (response["responseCode"] == 200) {
+                                alert(
+                                  "Je hebt je aangemeld voor dit evenement"
+                                );
+                                this.refresh();
+                              } else if (response["responseCode"] == 400) {
+                                alert("Je bent al aangemeld");
+                              } else {
+                                alert("Er is wat fout gegaan");
+                              }
+                            }
+                          );
+                        } else {
+                          this.props.navigation.navigate("LoginScreen");
+                        }
+                      });
+                    }}
+                    style={{
+                      container: {
+                        margin: 10,
+                        padding: 5,
+                        borderRadius: 10,
+                        backgroundColor: "orange"
+                      },
+                      text: {
+                        color: "white"
+                      }
+                    }}
+                    text="Afmelden"
+                  />
+                )}
               </View>
             </View>
-          </Animatable.View>
-          <Animatable.View
-            delay={500}
-            animation="lightSpeedIn"
-            iterationCount={1}
-            style={styles.card}
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.card,
+              {
+                transform: [
+                  {
+                    translateX: this.state.x2
+                  }
+                ]
+              }
+            ]}
             elevation={5}
           >
-            <Text style={{ color: "black", fontSize: 20, padding: 10 }}>
+            <Text style={{ color: "grey", fontSize: 20, padding: 10 }}>
               Info
             </Text>
-
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={20}
+                name={"clock-outline"}
+                style={{ color: "grey", paddingRight: 10, paddingLeft: 10 }}
+              />
+              <Text style={{ fontSize: 16, color: "grey" }}>15:00 uur</Text>
+            </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={20}
+                name={"map-marker-outline"}
+                style={{ color: "grey", paddingRight: 10, paddingLeft: 10 }}
+              />
+              <Text style={{ fontSize: 16, color: "grey" }}>Peizerweg 48</Text>
+            </View>
             <HTML
               onLinkPress={(evt, href) => {
                 Linking.openURL(href);
@@ -391,12 +641,18 @@ class EventDetail extends Component {
               html={content}
               imagesMaxWidth={Dimensions.get("window").width}
             />
-          </Animatable.View>
-          <Animatable.View
-            delay={1000}
-            animation="lightSpeedIn"
-            iterationCount={1}
-            style={styles.cardBottom}
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.cardBottom,
+              {
+                transform: [
+                  {
+                    translateX: this.state.x3
+                  }
+                ]
+              }
+            ]}
             elevation={5}
           >
             <View
@@ -418,7 +674,7 @@ class EventDetail extends Component {
                 }}
               />
             </View>
-          </Animatable.View>
+          </Animated.View>
           <Animatable.View
             delay={500}
             animation="lightSpeedIn"
@@ -426,22 +682,24 @@ class EventDetail extends Component {
             style={styles.card}
             elevation={5}
           >
-            <ListView
-              style={styles.participantContainer}
-              dataSource={this.state.dataSource}
-              renderRow={rowData => (
-                <View>
-                  <View
-                    style={{
-                      borderBottomColor: "black",
-                      borderBottomWidth: 1
-                    }}
-                  >
-                    <Text style={styles.text}>{rowData}</Text>
-                  </View>
-                </View>
-              )}
-            />
+            {/*
+						            <ListView
+						              style={styles.participantContainer}
+						              dataSource={this.state.dataSource}
+						              renderRow={rowData => (
+						                <View>
+						                  <View
+						                    style={{
+						                      borderBottomColor: "black",
+						                      borderBottomWidth: 1
+						                    }}
+						                  >
+						                    <Text style={styles.text}>{rowData}</Text>
+						                  </View>
+						                </View>
+						              )}
+						            />
+									*/}
           </Animatable.View>
         </Animated.ScrollView>
       </View>
@@ -452,16 +710,7 @@ class EventDetail extends Component {
 const styles = StyleSheet.create({
   cardContainer: {
     height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingBottom: 150
-  },
-
-  cardContainer: {
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
-    marginTop: 75
+    width: Dimensions.get("window").width
   },
 
   card: {
@@ -475,13 +724,21 @@ const styles = StyleSheet.create({
     // android (Android +5.0)
     elevation: 3
   },
-
-  header: {
+  headerTitle: {
+    height: Header.HEIGHT,
+    backgroundColor: "#94d60a",
     position: "absolute",
     top: 0,
     left: 0,
+    right: 0
+  },
+
+  header: {
+    position: "absolute",
+    top: -1,
+    left: 0,
     right: 0,
-    backgroundColor: "#03A9F4",
+    backgroundColor: "#DCDCDC",
     overflow: "hidden",
     height: HEADER_MAX_HEIGHT
   },
@@ -490,7 +747,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 175,
+    marginTop: 155,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
@@ -504,7 +761,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: 65,
+    marginBottom: 45,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
