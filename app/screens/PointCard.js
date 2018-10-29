@@ -520,26 +520,10 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5
   },
-
-<<<<<<< HEAD
 	ImageStyle: {
 	    margin: 5,
 	    alignItems: 'center'
 	},
-=======
-  ImageStyle: {
-    margin: 5,
-    alignItems: "center"
-  },
-
-  video: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
-  },
->>>>>>> upstream/master
   logo: {
     height: 250,
     width: 300,

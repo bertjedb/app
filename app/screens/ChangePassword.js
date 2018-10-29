@@ -90,7 +90,8 @@ export default class ChangePassword extends Component {
         .catch(error => {
           //this callback is executed when your Promise is rejected
           console.log("Promise is rejected with error: " + error);
-        });
+        }); 
+      });
     } else {
       this.errorMessage("De ingevulde wachtwoorden zijn niet gelijk.");
     }

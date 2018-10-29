@@ -31,6 +31,8 @@ export default class Api {
 				});
 			}
 		});
+  }
+
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {

@@ -89,9 +89,7 @@ class Events extends Component {
                 data: response["events"].slice(start, end),
                 fullArray: response["events"]
               });
-            });
-          }
-        }
+            }
       } else {
         this.setState({ sleeping: true });
         setTimeout(() => {
@@ -575,7 +573,7 @@ class Events extends Component {
                             >
                               AFMELDEN
                             </Text>
-                          </TouchableHighlight>
+                          </TouchableHighlight> )}
                           <TouchableHighlight
                                 onPress={() =>
                                   this.props.navigation.navigate("EventDetail", {
