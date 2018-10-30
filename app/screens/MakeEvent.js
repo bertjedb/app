@@ -77,7 +77,6 @@ export default class MakeEvent extends Component {
     })
       .then(response => response.text())
       .then(responseText => {
-        alert(responseText);
         console.log(this.state.img);
       })
       .catch(error => {
