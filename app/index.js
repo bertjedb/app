@@ -1,19 +1,13 @@
-import React, { Component } from "react";
-import { MyAppNotLoggedIn, MyAppLoggedIn } from "./config/router";
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  Dimensions,
-  Image,
-  SafeAreaView
-} from "react-native";
-import LocalStorage from "./config/localStorage.js";
-import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
-import LinearGradient from "react-native-linear-gradient";
-import { Header } from "react-navigation";
-import OneSignal from "react-native-onesignal";
-import { PacmanIndicator } from "react-native-indicators";
+import React, { Component } from 'react';
+import { MyAppNotLoggedIn, MyAppLoggedIn } from './config/router';
+import { View, StatusBar, StyleSheet, Dimensions, Image, SafeAreaView } from 'react-native';
+import LocalStorage from './config/localStorage.js';
+import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
+import LinearGradient from 'react-native-linear-gradient';
+import { Header } from 'react-navigation';
+import OneSignal from 'react-native-onesignal';
+import {PacmanIndicator} from 'react-native-indicators';
+import FlashMessage from "react-native-flash-message";
 // you can set your style right here, it'll be propagated to application
 const uiTheme = {
   palette: {
@@ -112,33 +106,27 @@ class App extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar backgroundColor="#76AB00" barStyle="light-content" />
-        {this.update()}
-        {!this.state.loading && (
-          <ThemeContext.Provider value={getTheme(uiTheme)}>
-            {this.state.loggedIn ? <MyAppLoggedIn /> : <MyAppNotLoggedIn />}
-          </ThemeContext.Provider>
-        )}
-        {this.state.loading && (
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: Dimensions.get("window").width,
-              height: Dimensions.get("window").height,
-              backgroundColor: "#94D600"
-            }}
-          >
-            <Image
-              style={{ width: 350, height: 225, marginTop: 100 }}
-              source={require("./assets/logo.png")}
-            />
-            <PacmanIndicator color="white" />
-          </View>
-        )}
-      </SafeAreaView>
-    );
+            <SafeAreaView style={{flex: 1}}>
+                <StatusBar
+                    backgroundColor="#76AB00"
+                    barStyle="light-content"
+                />
+                { this.update() }
+                {!this.state.loading &&
+                    <ThemeContext.Provider value={getTheme(uiTheme)}>
+                        {this.state.loggedIn ? <MyAppLoggedIn/> : <MyAppNotLoggedIn/>}
+                    </ThemeContext.Provider>
+                }
+                {this.state.loading &&
+                    <View style={{justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
+                        <Image  style = {{width: 350, height: 225, marginTop: 100}}
+                                source = {require('./assets/logo.png')}/>
+                        <PacmanIndicator color='white'  />
+                    </View>
+                }
+                <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
+            </SafeAreaView>
+    	);
   }
 }
 

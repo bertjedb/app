@@ -23,7 +23,6 @@ import { TextField } from "react-native-material-textfield";
 import Icon from "react-native-vector-icons/Ionicons";
 import ActionButton from "react-native-action-button";
 import * as mime from "react-native-mime-types";
-import Video from "react-native-af-video-player";
 import QRCodeScanner from "react-native-qrcode-scanner";
 
 import {
@@ -142,11 +141,11 @@ class Upload extends Component {
           {///TODO: Videoplayer height
           this.props.navigation.getParam("mimeType") == "video/mp4" && (
             <View style={styles.videoContainer}>
-              <Video
+{/*              <Video
                 inlineOnly={true}
                 url={this.props.navigation.getParam("filePath")}
                 style={styles.videoPlayer}
-              />
+              />*/}
             </View>
           )}
           <View style={styles.textFieldPadding}>

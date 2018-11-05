@@ -18,8 +18,7 @@ import HTML from "react-native-render-html";
 import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
-import { PacmanIndicator } from "react-native-indicators";
-import FlashMessage from "react-native-flash-message";
+import {PacmanIndicator} from 'react-native-indicators';
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 
@@ -56,21 +55,32 @@ class Events extends Component {
       check: false,
       sleeping: false
     };
-    let api = Api.getInstance();
-    api.callApi("api/getAllEvents", "POST", {}, response => {
-      if (response["responseCode"] != 503) {
-        if (response["responseCode"] == 200) {
-          let array = response["events"];
-          for (let index = 0; index < array.length; index++) {
-            let localStorage = LocalStorage.getInstance();
-            localStorage.retrieveItem("userId").then(id => {
-              if (id != null) {
-                userData = {
-                  eventId: response["events"][index]["id"],
-                  personId: id
-                };
-                api.callApi("api/checkSub", "POST", userData, response => {
-                  array[index]["subscribed"] = response["found"];
+    let api = Api.getInstance()
+    api.callApi('api/getAllEvents', 'POST', {}, response => {
+        if(response['responseCode'] != 503) {
+            if(response['responseCode'] == 200) {
+             let ds = new ListView.DataSource({
+                rowHasChanged: (r1, r2) => r1 !== r2
+            });
+            let array = response['events'];
+            for(let index=0; index < array.length; index++) {
+                array[index]['subscribed'] = false
+                let localStorage = LocalStorage.getInstance();
+                localStorage.retrieveItem('userId').then((id) => {
+                    if(id != null) {
+                        userData = {
+                            "eventId": response['events'][index]['id'],
+                            "personId": id
+                        }
+                        api.callApi('api/checkSub', 'POST', userData, response => {
+                            array[index]['subscribed'] = response['found']
+                        });
+                    }
+                    this.setState({
+                        uploading: false,
+                        loading: false,
+                        dataSource: ds.cloneWithRows(array),
+                    });
                 });
               }
               this.setState({
@@ -79,9 +89,7 @@ class Events extends Component {
                 data: response["events"].slice(start, end),
                 fullArray: response["events"]
               });
-            });
-          }
-        }
+            }
       } else {
         this.setState({ sleeping: true });
         setTimeout(() => {
@@ -141,6 +149,28 @@ class Events extends Component {
                       loading: false,
                       data: array.slice(start, end)
                     });
+                    let array = response['events'];
+                    for(let index=0; index < array.length; index++) {
+                        array[index]['subscribed'] = false
+                        let localStorage = LocalStorage.getInstance();
+                        localStorage.retrieveItem('userId').then((id) => {
+                            if(id != null) {
+                                userData = {
+                                    "eventId": response['events'][index]['id'],
+                                    "personId": id
+                                }
+                                api.callApi('api/checkSub', 'POST', userData, response => {
+                                    array[index]['subscribed'] = response['found'];
+                                    this.setState({
+                                        uploading: false,
+                                        refreshing: false,
+                                        loading: false,
+                                        dataSource: ds.cloneWithRows(array),
+                                    });
+                                });
+                            }
+                        });
+                    }
                   });
                 }
               });
@@ -479,7 +509,7 @@ class Events extends Component {
                               });
                             }}
                             style={{
-                              width: "50%",
+                              width: "33%",
                               borderRightWidth: 1,
                               justifyContent: "center",
                               alignItems: "center",
@@ -531,7 +561,7 @@ class Events extends Component {
                               });
                             }}
                             style={{
-                              width: "50%",
+                              width: "33%",
                               borderRightWidth: 1,
                               justifyContent: "center",
                               alignItems: "center",
@@ -545,9 +575,7 @@ class Events extends Component {
                             >
                               AFMELDEN
                             </Text>
-                          </TouchableHighlight>
-                        )}
-
+                          </TouchableHighlight> )}
                         <TouchableHighlight
                           onPress={() =>
                             Share.share({
@@ -561,31 +589,76 @@ class Events extends Component {
                             })
                           }
                           style={{
-                            width: "50%",
+                            width: "33%",
                             justifyContent: "center",
                             alignItems: "center",
                             padding: 10,
                             backgroundColor: "#93D500",
-                            borderBottomRightRadius: 10
                           }}
                         >
                           <Text style={{ color: "white", fontWeight: "bold" }}>
                             DELEN
                           </Text>
                         </TouchableHighlight>
+                        <TouchableHighlight
+                                onPress={() =>
+                                  this.props.navigation.navigate("EventDetail", {
+                                    id: item.id,
+                                    title: capitalize.words(
+                                      item.name.toString().replace(", ,", " ")
+                                    ),
+                                    profilePicture: item.photo[0],
+                                    content: item.desc,
+                                    start:
+                                      item.begin +
+                                      " " +
+                                      item.beginMonth +
+                                      " " +
+                                      item.beginTime,
+                                    end:
+                                      item.end +
+                                      " " +
+                                      item.endMonth +
+                                      " " +
+                                      item.endTime,
+                                    created: item.created,
+                                    author: capitalize.words(
+                                      item.leader
+                                    ),
+                                    link: item.link,
+                                    img: item.img,
+                                    location: item.location,
+                                    subscribed: item.subscribed
+                                  })
+                                }
+                                style={{
+                                    width: "34%",
+                                    borderLeftWidth: 1,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    padding: 10,
+                                    backgroundColor: "#93D500",
+                                    borderBottomRightRadius: 10
+                                }}
+                            >
+                                <Text
+                                    style={{ color: "white", fontWeight: "bold" }}
+                                >
+                                    LEES MEER...
+                                </Text>
+                            </TouchableHighlight>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
               )}
             />
           </View>
         )}
         {this.state.loading && <PacmanIndicator color="#94D600" />}
-        <FlashMessage position="top" style={{ marginTop: Header.HEIGHT }} />
-      </ImageBackground>
-    );
-  }
+        </ImageBackground>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -613,13 +686,6 @@ const styles = StyleSheet.create({
 
     // android (Android +5.0)
     elevation: 3
-  },
-  video: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
   },
   logo: {
     height: 250,

@@ -15,6 +15,24 @@ export default class Api {
     return Api.instance;
   }
 
+  getPoints() {
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem("userId").then(id => {
+      if (id != null) {
+        userData = {
+          id: id
+        };
+        this.callApi("api/checkPoints", "POST", userData, response => {
+          if (response["responseCode"] != 503) {
+            localStorage.storeItem("points", response["points"][0]);
+          } else {
+            localStorage.storeItem("points", null);
+          }
+        });
+      }
+    });
+  }
+
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {
@@ -46,22 +64,6 @@ export default class Api {
         }
       } else {
         callBack({ responseCode: 503 });
-      }
-    });
-  }
-
-  getPoints() {
-    let localStorage = LocalStorage.getInstance();
-    localStorage.retrieveItem("userId").then(id => {
-      if (id != null) {
-        userData = {
-          id: id
-        };
-        this.callApi("api/checkPoints", "POST", userData, response => {
-          if (response["responseCode"] != 503) {
-            localStorage.storeItem("points", response["points"][0]);
-          }
-        });
       }
     });
   }

@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-  Divider
-} from "react-native";
-import { DrawerActions, NavigationActions, Header } from "react-navigation";
-import usernameImg from "../assets/Username.png";
-import passwordImg from "../assets/Password.png";
-import { FormInput } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Video from "react-native-af-video-player";
-import { TextField } from "react-native-material-textfield";
-import LinearGradient from "react-native-linear-gradient";
+    View,
+    Text,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+	ImageBackground,
+    Image,
+    Divider,
+} from 'react-native';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
+import usernameImg from '../assets/Username.png';
+import passwordImg from '../assets/Password.png';
+import { FormInput } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TextField } from 'react-native-material-textfield';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
   COLOR,
@@ -64,26 +63,29 @@ export default class ChangeEmail extends Component {
   changeEmail() {
     let api = Api.getInstance();
     let userData = {
-      oldEmail: this.state.oldEmail,
-      newEmail: this.state.newEmail,
-      secCode: this.state.secCode
-    };
-    api.callApi("changeUserEmail", "POST", userData, response => {
-      console.log(response);
-      if (response["responseCode"] == 200) {
-        this.setState({
-          oldEmail: "",
-          newEmail: "",
-          secCode: ""
-        });
-        this.successMessage("Je e-mail adres is verandert");
-      } else if (response["responseCode"] == 400) {
-        this.setState({ secCode: "" });
-        this.errorMessage(response["msg"]);
-      } else {
-        this.errorMessage("Er is wat fout gegaan");
-      }
-    });
+        'oldEmail': this.state.oldEmail,
+        'newEmail': this.state.newEmail,
+        'secCode': this.state.secCode
+    }
+    api.callApi('changeUserEmail', 'POST', userData, response => {
+          if(response['responseCode'] != 503) {
+            if(response['responseCode'] == 200) {
+                this.setState({
+                    oldEmail: '',
+                    newEmail: '',
+                    secCode: ''
+                })
+                this.successMessage("Je e-mail adres is verandert")
+            } else if(response['responseCode'] == 400) {
+                this.setState({'secCode': ''})
+                this.errorMessage(response['msg'])
+            } else {
+                this.errorMessage('Er is wat fout gegaan')
+            }
+          } else {
+            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+          } 
+      });
   }
 
   render() {

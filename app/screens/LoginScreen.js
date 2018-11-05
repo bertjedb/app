@@ -1,24 +1,22 @@
 import React, { Component } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-  Divider,
-  AsyncStorage
-} from "react-native";
-import { DrawerActions, Header } from "react-navigation";
-import usernameImg from "../assets/Username.png";
-import passwordImg from "../assets/Password.png";
-import { FormInput } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Video from "react-native-af-video-player";
-import { TextField } from "react-native-material-textfield";
-import { NavigationActions } from "react-navigation";
-import Api from "../config/api.js";
+    View,
+    Text,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+	ImageBackground,
+    Image,
+    Divider,
+		AsyncStorage,
+} from 'react-native';
+import { DrawerActions, Header, NavigationActions } from 'react-navigation';
+import usernameImg from '../assets/Username.png';
+import passwordImg from '../assets/Password.png';
+import { FormInput } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TextField } from 'react-native-material-textfield';
+import Api from '../config/api.js';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { sha256 } from "react-native-sha256";
@@ -74,7 +72,6 @@ class LoginScreen extends Component {
   }
 
   errorMessage(msg) {
-    alert(msg);
     showMessage({
       message: msg,
       type: "danger",
@@ -177,60 +174,44 @@ class LoginScreen extends Component {
             }
           />
         </LinearGradient>
-        <View style={styles.container}>
-          <View style={styles.card} elevation={5}>
-            <Text
-              style={{
-                margin: 15,
-                fontWeight: "bold",
-                fontSize: 14,
-                color: "white"
-              }}
-            >
-              Inloggen
-            </Text>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingLeft: 15,
-                paddingRight: 15,
-                paddingBottom: 15,
-                paddingTop: 0,
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10
-              }}
-            >
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Email adres"
-                value={this.state.email}
-                onChangeText={email => this.setState({ email })}
-              />
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Wachtwoord"
-                secureTextEntry={true}
-                value={this.state.password}
-                onChangeText={password => this.setState({ password })}
-              />
-              <Button
-                style={{
-                  container: stylesCss.defaultBtn,
-                  text: { color: "white" }
-                }}
-                raised
-                text="Doorgaan"
-                onPress={() => this.login()}
-              />
-            </View>
-          </View>
-        </View>
-        <FlashMessage position="top" />
-      </ImageBackground>
+		<View style={styles.container}>
+		  <View style={styles.card} elevation={5}>
+			<Text style={{margin: 15, fontWeight: 'bold', fontSize: 14, color: 'white'}}>
+			Inloggen
+			</Text>
+			<View style={{backgroundColor: 'white', paddingLeft: 15, paddingRight: 15, paddingBottom: 15, paddingTop: 0, borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
+			<TextField
+			  textColor='green'
+			  tintColor='green'
+			  baseColor='green'
+			  label='Email adres'
+              autoCapitalize = 'none'
+			  value={this.state.email}
+			  onChangeText={ (email) => this.setState({ email }) }
+			/>
+			<TextField
+			  textColor='green'
+			  tintColor='green'
+			  baseColor='green'
+			  label='Wachtwoord'
+			  secureTextEntry={true}
+			  value={this.state.password}
+			  onChangeText={ (password) => this.setState({ password }) }
+			/>
+			<Button
+			  style={{container: stylesCss.loginBtn, text: {color: 'white'}}}
+			  raised text="Doorgaan"
+			  onPress={() => this.login()}
+			/>
+            <Button
+              style={{container: stylesCss.defaultBtn, text: {color: 'white'}}}
+              raised text="Nog geen account? Registreer nu!"
+              onPress={() => this.props.navigation.navigate("Registration")}
+            />
+		  </View>
+		</View>
+		</View>
+		</ImageBackground>
     );
   }
 }
@@ -240,12 +221,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
-  card: {
-    backgroundColor: "#93D500",
-    height: 270,
-    margin: 10,
-    borderRadius: 10,
-    shadowOffset: { width: 0, height: 13 },
+	card: {
+	 backgroundColor: '#93D500',
+	 height: 270,
+	 margin: 10,
+	 borderRadius: 10,
+	 shadowOffset: {width: 0, height: 13},
     shadowOpacity: 0.3,
     shadowRadius: 6,
 
@@ -265,30 +246,22 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5
   },
 
-  SectionStyleBottom: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
-    borderColor: "#000",
+SectionStyleBottom: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: .5,
+    borderColor: '#000',
     height: 40,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5
   },
 
-  ImageStyle: {
-    margin: 5,
-    alignItems: "center"
-  },
-
-  video: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
-  },
+	ImageStyle: {
+	    margin: 5,
+	    alignItems: 'center'
+	},
   logo: {
     height: 250,
     width: 300,
