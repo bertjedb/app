@@ -18,6 +18,7 @@ import {
   Modal
 } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
+import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { DrawerActions, Header } from "react-navigation";
@@ -255,18 +256,7 @@ class EventDetail extends Component {
             { transform: [{ translateY: headerTranslate }] }
           ]}
         >
-          <Animated.View
-            style={[
-              styles.header,
-              {
-                transform: [
-                  {
-                    translateY: this.state.y
-                  }
-                ]
-              }
-            ]}
-          >
+          <Transition shared={eventID}>
             <ImageOverlay
               overlayColor="black"
               overlayAlpha={0.3}
@@ -274,31 +264,30 @@ class EventDetail extends Component {
               resizeMode="cover"
               containerStyle={{ width: "100%", height: 200 }}
             />
-            <Animated.View
-              style={{
-                position: "absolute",
-                top: 130,
-                left: 15,
-                opacity: this.state.scrollY.interpolate({
-                  inputRange: [0, 80],
-                  outputRange: [1, 0]
-                })
-              }}
-            >
-              <Text
-                style={{ fontSize: 28, fontWeight: "bold", color: "white" }}
-              >
-                {title}
-              </Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Icon
-                  size={20}
-                  name={"calendar"}
-                  style={{ color: "white", paddingRight: 5 }}
-                />
-                <Text style={{ fontSize: 16, color: "white" }}>{start}</Text>
-              </View>
-            </Animated.View>
+          </Transition>
+
+          <Animated.View
+            style={{
+              position: "absolute",
+              top: 130,
+              left: 15,
+              opacity: this.state.scrollY.interpolate({
+                inputRange: [0, 80],
+                outputRange: [1, 0]
+              })
+            }}
+          >
+            <Text style={{ fontSize: 28, fontWeight: "bold", color: "white" }}>
+              {title}
+            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon
+                size={20}
+                name={"calendar"}
+                style={{ color: "white", paddingRight: 5 }}
+              />
+              <Text style={{ fontSize: 16, color: "white" }}>{start}</Text>
+            </View>
           </Animated.View>
         </Animated.View>
         <Animated.View

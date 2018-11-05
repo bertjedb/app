@@ -176,7 +176,7 @@ let TransitionConfiguration = () => {
   };
 };
 //Stack for all the event screens
-export const EventStack = StackNavigator(
+export const EventStack = FluidNavigator(
   {
     Events: {
       screen: Events,
@@ -192,8 +192,7 @@ export const EventStack = StackNavigator(
     }
   },
   {
-    headerMode: "none",
-    transitionConfig: TransitionConfiguration
+    headerMode: "none"
   }
 );
 

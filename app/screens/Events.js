@@ -349,11 +349,13 @@ class Events extends Component {
                           })
                         }
                       >
-                        <Image
-                          source={{ uri: item.img }}
-                          resizeMode="cover"
-                          style={{ width: "100%", height: 200 }}
-                        />
+                        <Transition shared={item.id}>
+                          <Image
+                            source={{ uri: item.img }}
+                            resizeMode="cover"
+                            style={{ width: "100%", height: 200 }}
+                          />
+                        </Transition>
                       </TouchableHighlight>
                       <View
                         style={{
