@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Text,
     ImageBackground,
-    NetInfo
+    NetInfo,
+    Dimensions
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Toolbar, Button } from 'react-native-material-ui';
@@ -18,6 +19,7 @@ import RNFetchBlob from "rn-fetch-blob";
 import { showMessage } from "react-native-flash-message";
 import LocalStorage from "../config/localStorage.js";
 import Api from "../config/api.js";
+import { PacmanIndicator } from 'react-native-indicators';
 
 export default class VideoPicker extends Component {
 
@@ -25,7 +27,8 @@ export default class VideoPicker extends Component {
         super(props);
         this.state = {
             uri: '',
-            contentUrl: ''
+            contentUrl: '',
+            uploaded: false
         };
     }
 
@@ -41,6 +44,7 @@ export default class VideoPicker extends Component {
         const options = {
             title: 'Video Kiezen',
             mediaType: 'video',
+            cameraType: 'back',
             storageOptions: {
                 skipBackup: true,
                 path: 'image'
@@ -109,7 +113,6 @@ export default class VideoPicker extends Component {
                                     }
                                     let api = Api.getInstance();
                                     api.callApi('api/createNewsItem', 'POST', userData, response => {
-                                        console.log(response);
                                         if(responseCode['responseCode'] != 503) {
                                             if(response['responseCode'] == 200) {
                                                 this.setState({
@@ -164,8 +167,9 @@ export default class VideoPicker extends Component {
                     responseJson = res.json();
                     console.log(responseJson);
                     this.setState({
-                        contentUrl: responseJson['guid']['raw'],
-                        uploading: false
+                        contentUrl: responseJson['source_url'],
+                        uploading: false,
+                        uploaded: true
                     });
                     this.createArticle();
                 }).catch(err => {
@@ -234,13 +238,20 @@ export default class VideoPicker extends Component {
             <View
               style={{
                 backgroundColor: "white",
-                paddingLeft: 15,
-                paddingRight: 15,
-                paddingBottom: 15,
-                paddingTop: 0,
+                padding: 15,
                 borderBottomLeftRadius: 10,
                 borderBottomRightRadius: 10,
+                alignItems: 'center'
               }}>
+              {console.log(this.state.contentUrl)}
+                {this.state.uploaded &&
+                <Video
+                    source={{uri: this.state.contentUrl}}
+                    style={styles.backgroundVideo}
+                    paused={true}
+                >
+                </Video>}
+                {this.state.uploading && <PacmanIndicator style={{padding: 10}}color="#94D600" />}
                 <Button
                     style={{container: styles.defaultBtn, text: {color: 'white'}}}
                     raised text="Video selecteren/opnemen"

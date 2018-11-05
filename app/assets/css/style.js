@@ -218,4 +218,10 @@ export default StyleSheet.create({
         height:100,
     },
 
+    backgroundVideo: {
+        width: 300,
+        height: 300,
+        margin: 30
+    },
+
 });
