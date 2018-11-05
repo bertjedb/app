@@ -61,7 +61,8 @@ constructor() {
 	  author: '',
 	  loading: false,
 	  deelnemer: false,
-	  scroll: true,
+	  scroll: true,,
+	  subscribed: false
   }
   let days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
   let months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
@@ -159,6 +160,94 @@ constructor() {
 				 />
 				</View>
 				<View style={{flexDirection: 'row'}}>
+				{ !this.state.subscribed && 
+						<Button
+								style={{
+									container: {
+										margin: 10,
+											borderRadius: 10,
+											backgroundColor: 'green'
+									},
+									text: {
+										color: 'white'
+									}
+								}}
+                              	onPress={() => {
+                                	let api = Api.getInstance();
+                                	let localStorage = LocalStorage.getInstance();
+                                	localStorage.retrieveItem("userId").then(id => {
+                                	  if (id != null) {
+                                	    userData = {
+                                	      eventId: this.state.eventId,
+                                	      personId: id
+                                	    };
+                                	    api.callApi("api/subToEvent","POST",userData, response => {
+                                	        if (response["responseCode"] == 200) {
+                                	          alert(
+                                	            "Je hebt je aangemeld voor dit evenement"
+                                	          );
+                                	          this.setState({subscribed: true})
+                                	        } else if (response["responseCode"] == 400) {
+                                	          alert("Je bent al aangemeld");
+                                	        } else {
+                                	          alert("Er is wat fout gegaan");
+                                	        }
+                                	      }
+                                	    );
+                                	  } else {
+                                	    this.props.navigation.navigate(
+                                	      "LoginScreen"
+                                	    );
+                                	  }
+                                	});
+                              }	}
+                              text="Aanmelden"
+                           />}
+                        { this.state.subscribed &&
+                            <Button
+								style={{
+									container: {
+										margin: 10,
+											borderRadius: 10,
+											backgroundColor: 'green'
+									},
+									text: {
+										color: 'white'
+									}
+								}}
+                          		onPress={() => {
+                            		let api = Api.getInstance();
+                            		let localStorage = LocalStorage.getInstance();
+                            		localStorage.retrieveItem("userId").then(id => {
+                            		  if (id != null) {
+                            		    userData = {
+                            		      eventId: this.state.eventId,
+                            		      personId: id
+                            		    };
+                            		    api.callApi("api/unSubToEvent","POST",userData,response => {
+                            		        if (response["responseCode"] == 200) {
+                            		          alert(
+                            		            "Je hebt je afgemeld voor dit evenement"
+                            		          );
+                            		          this.setState({subscribed: false})
+                            		        } else if (
+                            		          response["responseCode"] == 400
+                            		        ) {
+                            		          alert("Je bent al afgemeld");
+                            		        } else {
+                            		          alert("Er is wat fout gegaan");
+                            		        }
+                            		      }
+                            		    );
+                            		  } else {
+                            		    this.props.navigation.navigate(
+                            		      "LoginScreen"
+                            		    );
+                            		  }
+                            		});
+                              }	}
+                              text="Afmelden"
+                            /> }
 						<Button
 							style={{
 								container: {

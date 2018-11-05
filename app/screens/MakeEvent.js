@@ -5,10 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  Image
+  Image,
+  NetInfo
 } from "react-native";
 import styles from "../assets/css/style.js";
-import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import { TextField } from "react-native-material-textfield";
 import { Button, Toolbar } from "react-native-material-ui";
@@ -25,17 +25,17 @@ export default class MakeEvent extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      loc: "",
-      begin: "",
-      end: "",
-      desc: "",
-      showBegin: false,
-      showEnd: false,
-      beginText: "",
-      endText: "",
-      pickedImage: { uri: "" },
-      imgPicked: false
+        name: "",
+        loc: "",
+        begin: "",
+        end: "",
+        desc: "",
+        showBegin: false,
+        showEnd: false,
+        beginText: "",
+        endText: "",
+        pickedImage: { uri: "" },
+        imgPicked: false
     };
   }
 
@@ -43,7 +43,7 @@ export default class MakeEvent extends Component {
     showMessage({
       message: msg,
       type: "danger",
-      duration: 2500
+      duration: 3000
     });
   }
 
@@ -86,89 +86,95 @@ export default class MakeEvent extends Component {
   }
 
   createEvent() {
-    let api = Api.getInstance();
-    let localStorage = LocalStorage.getInstance();
-    localStorage
-      .retrieveItem("wordpresskey")
-      .then(goals => {
-        this.setState({ wordpresskey: goals });
-		console.log(this.state.wordpresskey)
-      })
-      .catch(error => {
-        //this callback is executed when your Promise is rejected
-        console.log("Promise is rejected with error: " + error);
-      });
-    if (
-      this.state.name != "" &&
-      this.state.begin != "" &&
-      this.state.end != "" &&
-      this.state.loc != "" &&
-      this.state.desc != "" &&
-      this.state.pickedImage.uri != ""
-    ) {
-      RNFetchBlob.fetch(
-        "POST",
-        "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
-        {
-          //// TODO: Real authorization instead of hardcoded base64 username:password
-          Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
-          "Content-Type": +"image/jpeg",
-          "Content-Disposition": "attachment; filename=hoi.jpg"
-          // here's the body you're going to send, should be a BASE64 encoded string
-          // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-          // The data will be converted to "byte array"(say, blob) before request sent.
-        },
-        RNFetchBlob.wrap(this.state.pickedImage.uri)
-      )
-        .then(res => res.json())
-        .then(responseJson => {
-          this.setState({ img: responseJson["guid"]["raw"] });
-          this.createWPEvent();
-        })
-
-        .catch(error => {
-          callBack(error);
-        });
-      //this.createWPEvent();
-      /*
-  			let localStorage = LocalStorage.getInstance();
-  			let points = localStorage.retrieveItem('userId').then((id) => {
-  			if(id != null) {
-  				let userData = {
-  					name: this.state.name,
-  					begin: this.state.begin,
-  					end: this.state.end,
-  					location: this.state.loc,
-  					description: this.state.desc,
-  					leader: id,
-                    img: this.state.img
-  				}
+    NetInfo.getConnectionInfo().then((connectionInfo) => {
+            if(connectionInfo.type != 'none') {
                 let api = Api.getInstance();
-  				api.callApi('api/createEvent', 'POST', userData, response => {
-        		    if(response['responseCode'] == 200) {
-                        this.setState({
-                            name: '',
-                            loc: '',
-                            begin: '',
-                            end: '',
-                            desc: '',
-                            beginText: '',
-                            endText: '',
-                            pickedImage: { uri: '' },
-                            img: ''
-                        });
-                        this.successMessage("Er is een nieuw evenement aangemaakt!");
-        		    } else {
-                        console.log(response);
-        		    	this.errorMessage("Er is wat fout gegaan");
-        		    }
-        		});
-
-            }});
-			*/
-    } else {
-      this.errorMessage("Vul alle velden in aub");
-    }
+                let localStorage = LocalStorage.getInstance();
+                localStorage
+                  .retrieveItem("wordpresskey")
+                  .then(goals => {
+                    this.setState({ wordpresskey: goals });
+                    console.log(this.state.wordpresskey)
+                  })
+                  .catch(error => {
+                    //this callback is executed when your Promise is rejected
+                    console.log("Promise is rejected with error: " + error);
+                  });
+                if (
+                  this.state.name != "" &&
+                  this.state.begin != "" &&
+                  this.state.end != "" &&
+                  this.state.loc != "" &&
+                  this.state.desc != "" &&
+                  this.state.pickedImage.uri != ""
+                ) {
+                  RNFetchBlob.fetch(
+                    "POST",
+                    "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
+                    {
+                      //// TODO: Real authorization instead of hardcoded base64 username:password
+                      Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
+                      "Content-Type": +"image/jpeg",
+                      "Content-Disposition": "attachment; filename=hoi.jpg"
+                      // here's the body you're going to send, should be a BASE64 encoded string
+                      // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+                      // The data will be converted to "byte array"(say, blob) before request sent.
+                    },
+                    RNFetchBlob.wrap(this.state.pickedImage.uri)
+                  )
+                    .then(res => res.json())
+                    .then(responseJson => {
+                      this.setState({ img: responseJson["guid"]["raw"] });
+                      this.createWPEvent();
+                    })
+            
+                    .catch(error => {
+                      callBack(error);
+                    });
+                  //this.createWPEvent();
+                  /*
+                        let localStorage = LocalStorage.getInstance();
+                        let points = localStorage.retrieveItem('userId').then((id) => {
+                        if(id != null) {
+                            let userData = {
+                                name: this.state.name,
+                                begin: this.state.begin,
+                                end: this.state.end,
+                                location: this.state.loc,
+                                description: this.state.desc,
+                                leader: id,
+                                img: this.state.img
+                            }
+                            let api = Api.getInstance();
+                            api.callApi('api/createEvent', 'POST', userData, response => {
+                                if(response['responseCode'] == 200) {
+                                    this.setState({
+                                        name: '',
+                                        loc: '',
+                                        begin: '',
+                                        end: '',
+                                        desc: '',
+                                        beginText: '',
+                                        endText: '',
+                                        pickedImage: { uri: '' },
+                                        img: ''
+                                    });
+                                    this.successMessage("Er is een nieuw evenement aangemaakt!");
+                                } else {
+                                    console.log(response);
+                                    this.errorMessage("Er is wat fout gegaan");
+                                }
+                            });
+            
+                        }});
+                        */
+                } else {
+                  this.errorMessage("Vul alle velden in aub");
+                }
+            } else {
+                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+            }
+        });
   }
 
   handleBegin(dateTime) {
@@ -402,7 +408,6 @@ export default class MakeEvent extends Component {
             </View>
           </View>
         </View>
-        <FlashMessage position="top" />
       </ImageBackground>
     );
   }

@@ -337,7 +337,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "Beheerder account aanmaken",
+                    value: "Beheerder account koppelen",
                     key: "9",
                     onPress: () =>
                       this.props.navigation.dispatch(

@@ -5,10 +5,9 @@ import { NetInfo } from "react-native";
 export default class Api {
   static instance = null;
 
-  url = "http://gaauwe.nl:5000/";
+  //url = "http://gaauwe.nl:5000/";
   //url= "http://145.37.164.183:5000/"
-  //url = "http://10.0.2.2:5000/";
-  //url = "http://82.73.189.187:5000/";
+  url = "http://10.0.2.2:5000/";
 
   static getInstance() {
     if (Api.instance == null) {
@@ -18,8 +17,28 @@ export default class Api {
     return Api.instance;
   }
 
+  getPoints() {
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem("userId").then(id => {
+      if (id != null) {
+        userData = {
+          id: id
+        };
+        this.callApi("api/checkPoints", "POST", userData, response => {
+          if (response["responseCode"] != 503) {
+            localStorage.storeItem("points", response["points"][0]);
+          } else {
+            localStorage.storeItem("points", null);
+          }
+        });
+      }
+    });
+  }
+
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
+      console.log("CONNECTIONINFOTYPE");
+      console.log(connectionInfo.type);
       if (connectionInfo.type != "none") {
         if (method == "GET") {
           fetch(this.url + action, {
@@ -37,6 +56,7 @@ export default class Api {
           fetch(this.url + action, {
             method: method,
             headers: {
+              Accept: "application/json",
               "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
@@ -47,24 +67,6 @@ export default class Api {
               callBack(error);
             });
         }
-      } else {
-        callBack({ responseCode: 503 });
-      }
-    });
-  }
-
-  getPoints() {
-    let localStorage = LocalStorage.getInstance();
-    localStorage.retrieveItem("userId").then(id => {
-      if (id != null) {
-        userData = {
-          id: id
-        };
-        this.callApi("api/checkPoints", "POST", userData, response => {
-          if (response["responseCode"] != 503) {
-            localStorage.storeItem("points", response["points"][0]);
-          }
-        });
       }
     });
   }

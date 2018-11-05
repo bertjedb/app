@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-  Divider
-} from "react-native";
-import { DrawerActions, NavigationActions, Header } from "react-navigation";
-import usernameImg from "../assets/Username.png";
-import passwordImg from "../assets/Password.png";
-import { FormInput } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Video from "react-native-af-video-player";
-import { TextField } from "react-native-material-textfield";
-import { sha256 } from "react-native-sha256";
-import LinearGradient from "react-native-linear-gradient";
+    View,
+    Text,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+	ImageBackground,
+    Image,
+    Divider,
+} from 'react-native';
+import { DrawerActions, NavigationActions, Header } from 'react-navigation';
+import usernameImg from '../assets/Username.png';
+import passwordImg from '../assets/Password.png';
+import { FormInput } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TextField } from 'react-native-material-textfield';
+import { sha256 } from 'react-native-sha256';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
   COLOR,
@@ -29,10 +28,9 @@ import {
   Button
 } from "react-native-material-ui";
 
-import stylesCss from "../assets/css/style.js";
-import Api from "../config/api.js";
-import LocalStorage from "../config/localStorage.js";
-import FlashMessage from "react-native-flash-message";
+import stylesCss from '../assets/css/style.js';
+import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 import { showMessage } from "react-native-flash-message";
 
 export default class ChangePassword extends Component {
@@ -49,10 +47,10 @@ export default class ChangePassword extends Component {
 
   errorMessage(msg) {
     showMessage({
-      message: msg,
-      type: "danger",
-      duration: 2500
-    });
+        message: msg,
+        type: "danger",
+        duration: 3000,
+      });
   }
 
   successMessage(msg) {
@@ -78,18 +76,22 @@ export default class ChangePassword extends Component {
                 newPassword: newHash
               };
               api.callApi("api/changePassword", "POST", userData, response => {
-                if (response["responseCode"] == 200) {
-                  this.successMessage("Wachtwoord is succesvol veranderd");
-                  this.props.navigation.dispatch(NavigationActions.back());
-                }
-              });
+                if(response['responseCode'] != 503) {
+                        if(response['responseCode'] == 200){
+                            this.successMessage("Wachtwoord is succesvol veranderd")
+                            this.props.navigation.dispatch(NavigationActions.back());
+                        }
+                    } else {
+                        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                    }
             });
           });
         })
         .catch(error => {
           //this callback is executed when your Promise is rejected
           console.log("Promise is rejected with error: " + error);
-        });
+        }); 
+      });
     } else {
       this.errorMessage("De ingevulde wachtwoorden zijn niet gelijk.");
     }
@@ -200,8 +202,8 @@ export default class ChangePassword extends Component {
             </View>
           </View>
         </View>
-        <FlashMessage position="top" />
-      </ImageBackground>
+  </ImageBackground>
+
     );
   }
 }
