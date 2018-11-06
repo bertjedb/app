@@ -466,7 +466,7 @@ class Events extends Component {
                                   imagesMaxWidth={Dimensions.get("window").width}
                                 />
                                 <Text
-                                  style={{marginLeft: 230,color: 'black'}}
+                                  style={{marginLeft: 200,color: 'black'}}
                                 >
                                   Lees verder
                                 </Text>

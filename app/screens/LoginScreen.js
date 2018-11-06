@@ -11,8 +11,7 @@ import {
 		AsyncStorage,
 } from 'react-native';
 import { DrawerActions, Header, NavigationActions } from 'react-navigation';
-import usernameImg from '../assets/Username.png';
-import passwordImg from '../assets/Password.png';
+import FBLoginButton from '../config/FBLoginButton';
 import { FormInput } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextField } from 'react-native-material-textfield';
