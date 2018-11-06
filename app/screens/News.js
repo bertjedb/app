@@ -78,7 +78,7 @@ class News extends Component {
             } else {
                 this.setState({sleeping: true});
                 setTimeout(() => {
-                    this.setState({sleeping: false, loading: false});
+                    this.setState({sleeping: false});
                 }, 3000);
             }
         });
@@ -152,7 +152,8 @@ class News extends Component {
                             data: response['news'].slice(start, end),
                             fullArray: response['news'],
                             uploading: false,
-                            loading: false
+                            loading: false,
+                            refreshing: false
                         });
                     }
                 } else {
@@ -324,7 +325,7 @@ class News extends Component {
                     />
                 </View>}
                 {this.state.loading &&
-                <PacmanIndicator color='#94D600'/>
+                    <PacmanIndicator color='#94D600'/>
                 }
                 <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
             </ImageBackground>
