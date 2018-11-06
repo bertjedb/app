@@ -248,7 +248,7 @@ export const MyTabLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/News.png")}
+            source={require("../assets/icons/news.png")}
           />
         )
       }
@@ -321,7 +321,7 @@ export const MyTabLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/News.png")}
+                source={require("../assets/icons/news.png")}
               />
             )
           },
@@ -370,7 +370,7 @@ export const MyTabNotLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/News.png")}
+            source={require("../assets/icons/news.png")}
           />
         )
       }
@@ -426,7 +426,7 @@ export const MyTabNotLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/News.png")}
+                source={require("../assets/icons/news.png")}
               />
             )
           },

@@ -28,7 +28,7 @@ import ConfettiView from "react-native-confetti-view";
 import CardFlip from "react-native-card-flip";
 import Api from "../config/api.js";
 import Maps from "../config/maps.js";
-
+import QRCode from 'react-native-qrcode';
 import LocalStorage from "../config/localStorage.js";
 import HTML from "react-native-render-html";
 import ImageSlider from "react-native-image-slider";
@@ -204,6 +204,7 @@ class EventDetail extends Component {
     const link = navigation.getParam("link", "");
     const img = navigation.getParam("img", "");
     const location = navigation.getParam("location", "");
+    const qr_code = navigation.getParam("qr_code", "");
 
     const images = [
       {
@@ -809,11 +810,25 @@ const styles = StyleSheet.create({
     elevation: 3
   },
 
+    lastCard: {
+        backgroundColor: "white",
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 45,
+        borderRadius: 10,
+        shadowOffset: {width: 0, height: 13},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+
+        // android (Android +5.0)
+        elevation: 3
+    },
+
   cardBottom: {
     backgroundColor: "white",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: 45,
+    marginBottom: 10,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
