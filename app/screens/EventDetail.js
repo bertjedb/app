@@ -104,6 +104,19 @@ class EventDetail extends Component {
       "November",
       "December"
     ];
+
+      {
+          let localStorage = LocalStorage.getInstance();
+          localStorage.retrieveItem("userId").then(id => {
+              localStorage.retrieveItem("clearance").then(clearance => {
+                  if (id != null & clearance == 1) {
+                      this.setState({
+                          isLoggedIn: true
+                      });
+                  }
+              })
+          })
+      }
   }
 
   componentDidMount() {
@@ -675,7 +688,46 @@ class EventDetail extends Component {
               />
             </View>
           </Animated.View>
-          <Animatable.View
+
+            {this.state.isLoggedIn &&
+            <Animated.View
+
+                style={[
+                    styles.lastCard,
+                    {
+                        transform: [
+                            {
+                                translateX: this.state.x3
+                            }
+                        ]
+                    }
+                ]}
+                elevation={5}
+            >
+
+                <View
+                    style={{
+                        width: "100%",
+                        height: 200,
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        alignItems: 'center',
+                        marginTop: 20
+                    }}
+                >
+                    <QRCode
+                        value={qr_code}
+                        size={180}
+                        bgColor='#000'
+                        fgColor='#fff'/>
+
+                </View>
+
+            </Animated.View>
+            }
+
+
+            <Animatable.View
             delay={500}
             animation="lightSpeedIn"
             iterationCount={1}

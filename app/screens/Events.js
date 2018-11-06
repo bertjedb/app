@@ -374,6 +374,7 @@ class Events extends Component {
                             ),
                             link: item.link,
                             img: item.img,
+                            qr_code: item.qrCode,
                             location: item.location,
                             participants: item.participants
                           })
