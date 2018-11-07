@@ -11,8 +11,7 @@ import {
   Dimensions,
   Share,
   Linking,
-  Platform,
-  WebView
+  Platform
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -38,7 +37,6 @@ import LinearGradient from "react-native-linear-gradient";
 
 import ImageSlider from "react-native-image-slider";
 import { PacmanIndicator } from "react-native-indicators";
-import MyWebView from "react-native-webview-autoheight";
 import Video from 'react-native-video';
 
 import {

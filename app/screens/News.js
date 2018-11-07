@@ -31,6 +31,7 @@ import {PacmanIndicator} from 'react-native-indicators';
 import FlashMessage, {showMessage} from "react-native-flash-message";
 import {Toolbar} from 'react-native-material-ui';
 import Api from '../config/api.js';
+import LocalStorage from '../config/localStorage.js';
 
 var startNum = 0;
 var endNum = 2;
@@ -132,6 +133,10 @@ class News extends Component {
     }
 
   _onRefresh = () => {
+    let localStorage = LocalStorage.getInstance()
+    localStorage.retrieveItem("userId").then((id) => {
+                                console.log(id)
+                            });
     this.setState({ refreshing: true, sleeping: false, loading: true });
     this.refresh();
   };

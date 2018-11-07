@@ -33,7 +33,6 @@ import LocalStorage from "../config/localStorage.js";
 import HTML from "react-native-render-html";
 import ImageSlider from "react-native-image-slider";
 import { PacmanIndicator } from "react-native-indicators";
-import MyWebView from "react-native-webview-autoheight";
 import LinearGradient from "react-native-linear-gradient";
 import ImageOverlay from "react-native-image-overlay";
 import * as Animatable from "react-native-animatable";
@@ -663,7 +662,7 @@ class EventDetail extends Component {
                 overflow: "hidden"
               }}
             >
-              <MyWebView
+              <WebView
                 source={{ html: map.getMap(location) }}
                 style={{
                   flex: 1,

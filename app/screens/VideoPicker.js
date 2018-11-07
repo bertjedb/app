@@ -38,7 +38,15 @@ export default class VideoPicker extends Component {
             type: "danger",
             duration: 3000
         });
-  }
+    }
+
+    errorMessage(msg) {
+        showMessage({
+            message: msg,
+            type: "danger",
+            duration: 3000
+        });
+    }
 
     launchVideo = () => {
         const options = {
@@ -171,6 +179,7 @@ export default class VideoPicker extends Component {
                         uploading: false,
                         uploaded: true
                     });
+
                     this.createArticle();
                 }).catch(err => {
                     console.log(err)

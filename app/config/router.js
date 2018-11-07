@@ -42,6 +42,7 @@ import ChangeEmailRequest from "../screens/ChangeEmailRequest";
 import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
 import VideoPicker from "../screens/VideoPicker";
+import FacebookLogin from '../screens/FacebookLogin';
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator(
@@ -80,6 +81,12 @@ export const LoginStack = StackNavigator(
       screen: ChangeEmail,
       navigationOptions: {
         title: "E-mail adres veranderen"
+      }
+    },
+    FacebookLogin: {
+      screen: FacebookLogin,
+      navigationOptions: {
+        title: "Inloggen met facebook"
       }
     }
   },
