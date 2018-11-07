@@ -77,373 +77,392 @@ export default class More extends Component {
 		//this callback is executed when your Promise is rejected
 		console.log("Promise is rejected with error: " + error);
 	  });
+    return (
+      <View style={{ flex: 1 }}>
+        <LinearGradient
+          colors={[
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201"
+          ]}
+          style={{ height: Header.HEIGHT }}
+        >
+          <Toolbar centerElement="Meer" />
+        </LinearGradient>
+        <Drawer>
+          {this.state.userId == null && (
+            <Drawer.Section
+              divider
+              items={[
+                {
+                  icon: (
+                    <Icon
+                      size={25}
+                      name={"login-variant"}
+                      style={{ color: "grey" }}
+                    />
+                  ),
+                  value: "Inloggen",
+                  key: "1",
+                  onPress: () =>
+                    this.props.navigation.dispatch(
+                      NavigationActions.navigate({
+                        routeName: "LoginStack",
+                        action: NavigationActions.navigate({
+                          routeName: "LoginScreen"
+                        })
+                      })
+                    )
+                },
+                {
+                  icon: (
+                    <Icon
+                      size={25}
+                      name={"account-plus"}
+                      style={{ color: "grey" }}
+                    />
+                  ),
+                  value: "Registreren",
+                  key: "2",
+                  onPress: () =>
+                    this.props.navigation.dispatch(
+                      NavigationActions.navigate({
+                        routeName: "LoginStack",
+                        action: NavigationActions.navigate({
+                          routeName: "Registration"
+                        })
+                      })
+                    )
+                },
+                {
+                  icon: (
+                    <Icon
+                      size={25}
+                      name={"calendar-plus"}
+                      style={{ color: "grey" }}
+                    />
+                  ),
+                  value: "Intro",
+                  key: "13",
+                  onPress: () =>
+                    this.props.navigation.dispatch(
+                      NavigationActions.navigate({
+                        routeName: "IntroStack",
+                        action: NavigationActions.navigate({
+                          routeName: "Intro"
+                        })
+                      })
+                    )
+                }
+              ]}
+            />
+          )}
+          {this.state.userId != null &&
+            this.state.clearance == 0 && (
+              <Drawer.Section
+                items={[
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"lock-question"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Wachtwoord veranderen",
+                    key: "4",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "LoginStack",
+                          action: NavigationActions.navigate({
+                            routeName: "ChangePassword"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"lock-question"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "E-mail adres verandering opvragen",
+                    key: "12",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "LoginStack",
+                          action: NavigationActions.navigate({
+                            routeName: "ChangeEmailRequest"
+                          })
+                        })
+                      )
+                  }
+                ]}
+              />
+            )}
+          {this.state.userId != null &&
+            this.state.clearance == 0 && (
+              <Drawer.Section
+                items={[
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"lock-question"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Wachtwoord veranderen",
+                    key: "4",
+                    onPress: () =>
+                      api.callApi(
+                        "logout",
+                        "POST",
+                        {
+                          id: this.state.userId
+                        },
+                        response => {
+                          if (response["responseCode"] != 503) {
+                            if (response["boolean"] == true) {
+                              localStorage.storeItem("userId", null);
+                              localStorage.storeItem("points", null);
+                              api.getPoints();
+                            }
+                          } else {
+                            this.errorMessage(
+                              "Zorg ervoor dat u een internet verbinding heeft"
+                            );
+                            alert(
+                              "Zorg ervoor dat u een internet verbinding heeft"
+                            );
+                          }
+                        }
+                      )
+                  },
 
-	return (
-	  <View style={{ flex: 1 }}>
-		<LinearGradient
-		  colors={[
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201"
-		  ]}
-		  style={{ height: Header.HEIGHT }}
-		>
-		  <Toolbar centerElement="Meer" />
-		</LinearGradient>
-		<Drawer>
-		  {this.state.userId == null && (
-			<Drawer.Section
-			  divider
-			  items={[
-				{
-				  icon: (
-					<Icon
-					  size={25}
-					  name={"login-variant"}
-					  style={{ color: "grey" }}
-					/>
-				  ),
-				  value: "Inloggen",
-				  key: "1",
-				  onPress: () =>
-					this.props.navigation.dispatch(
-					  NavigationActions.navigate({
-						routeName: "LoginStack",
-						action: NavigationActions.navigate({
-						  routeName: "LoginScreen"
-						})
-					  })
-					)
-				},
-				{
-				  icon: (
-					<Icon
-					  size={25}
-					  name={"account-plus"}
-					  style={{ color: "grey" }}
-					/>
-				  ),
-				  value: "Registreren",
-				  key: "2",
-				  onPress: () =>
-					this.props.navigation.dispatch(
-					  NavigationActions.navigate({
-						routeName: "LoginStack",
-						action: NavigationActions.navigate({
-						  routeName: "Registration"
-						})
-					  })
-					)
-				},
-				{
-					icon: (
-					  <Icon
-						size={25}
-						name={"email"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "E-mail adress verandering opvragen",
-					key: "3",
-					onPress: () =>
-						this.props.navigation.dispatch(
-							NavigationActions.navigate({
-							  routeName: "LoginStack",
-							  action: NavigationActions.navigate({
-								routeName: "ChangeEmailRequest"
-							  })
-							})
-					  	)
-			  	},
-			  	{
-					icon: (
-					  <Icon
-						size={25}
-						name={"lock-question"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Wachtwoord vergeten",
-					key: "4",
-					onPress: () =>
-						this.props.navigation.dispatch(
-							NavigationActions.navigate({
-							  routeName: "LoginStack",
-							  action: NavigationActions.navigate({
-								routeName: "RecoverPassword"
-							  })
-							})
-					  	)
-				  },
-			  ]}
-			/>
-		  )}
-		  {this.state.userId != null &&
-			this.state.clearance == 0 && (
-			  <Drawer.Section
-				items={[
-					{
-					icon: (
-					  <Icon
-						size={25}
-						name={"email"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "E-mail adress verandering opvragen",
-					key: "5",
-					onPress: () =>
-						this.props.navigation.dispatch(
-							NavigationActions.navigate({
-							  routeName: "LoginStack",
-							  action: NavigationActions.navigate({
-								routeName: "ChangeEmailRequest"
-							  })
-							})
-					  	)
-				  },
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"email-alert"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "E-mail adress veranderen",
-					key: "6",
-					onPress: () =>
-						this.props.navigation.dispatch(
-							NavigationActions.navigate({
-							  routeName: "LoginStack",
-							  action: NavigationActions.navigate({
-								routeName: "ChangeEmail"
-							  })
-							})
-					  	)
-				  },
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"lock-reset"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Wachtwoord veranderen",
-					key: "7",
-					onPress: () =>
-						this.props.navigation.dispatch(
-							NavigationActions.navigate({
-							  routeName: "LoginStack",
-							  action: NavigationActions.navigate({
-								routeName: "ChangePassword"
-							  })
-							})
-					  	)
-				  },
-				  {
-					icon: "power-settings-new",
-					value: "Uitloggen",
-					key: "8",
-					onPress: () =>
-					  api.callApi(
-						"logout",
-						"POST",
-						{
-						  id: this.state.userId
-						},
-						response => {
-						  if (response["responseCode"] != 503) {
-						  	console.log(response);
-							if (response["boolean"] == true) {
-							  localStorage.storeItem("userId", null);
-							  localStorage.storeItem("points", null);
-							  api.getPoints();
-							}
-						  } else {
-							this.errorMessage(
-							  "Zorg ervoor dat u een internet verbinding heeft"
-							);
-						  }
-						}
-					  )
-				  }
-				]}
-			  />
-			)}
+                    {
+                        icon: (
+                            <Icon
+                                size={25}
+                                name={"calendar-plus"}
+                                style={{ color: "grey" }}
+                            />
+                        ),
+                        value: "Aanmeldingen",
+                        key: "67",
+                        onPress: () =>
+                            this.props.navigation.dispatch(
+                                NavigationActions.navigate({
+                                    routeName: "signInListStack",
+                                    action: NavigationActions.navigate({
+                                        routeName: "signInView"
+                                    })
+                                })
+                            )
+                    },
 
-		  {this.state.userId != null &&
-			this.state.clearance == 1 && (
-			  <Drawer.Section
-				title="Beheerder"
-				divider
-				items={[
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"calendar-plus"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Nieuw evenement aanmaken",
-					key: "9",
-					onPress: () =>
-					  this.props.navigation.dispatch(
-						NavigationActions.navigate({
-						  routeName: "AdminStack",
-						  action: NavigationActions.navigate({
-							routeName: "MakeEvent"
-						  })
-						})
-					  )
-				  },
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"newspaper"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Nieuw artikel aanmaken",
-					key: "10",
-					onPress: () =>
-					  this.props.navigation.dispatch(
-						NavigationActions.navigate({
-						  routeName: "AdminStack",
-						  action: NavigationActions.navigate({
-							routeName: "MakeNewsItem"
-						  })
-						})
-					  )
-				  },
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"account-plus"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Beheerder account koppelen",
-					key: "11",
-					onPress: () =>
-					  this.props.navigation.dispatch(
-						NavigationActions.navigate({
-						  routeName: "AdminStack",
-						  action: NavigationActions.navigate({
-							routeName: "CreateAdmin"
-						  })
-						})
-					  )
-				  },
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"camera"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Video uploaden",
-					key: "12",
-					onPress: () =>
-					  this.props.navigation.dispatch(
-						NavigationActions.navigate({
-						  routeName: "AdminStack",
-						  action: NavigationActions.navigate({
-							routeName: "VideoPicker"
-						  })
-						})
-					  )
-				  },
-				  {
-					icon: "people",
-					value: "Deelnemers",
-					key: "13",
-					onPress: () =>
-					  this.props.navigation.dispatch(
-						NavigationActions.navigate({
-						  routeName: "ParticipantListStack",
-						  action: NavigationActions.navigate({
-							routeName: "ParticipantList"
-						  })
-						})
-					  )
-				  },
-				  {
-					icon: (
-					  <Icon
-						size={25}
-						name={"lock-question"}
-						style={{ color: "grey" }}
-					  />
-					),
-					value: "Wachtwoord veranderen",
-					key: "14",
-					onPress: () =>
-					  this.props.navigation.dispatch(
-						NavigationActions.navigate({
-						  routeName: "LoginStack",
-						  action: NavigationActions.navigate({
-							routeName: "ChangePassword"
-						  })
-						})
-					  )
-				  },
-				  {
-					icon: "power-settings-new",
-					value: "Uitloggen",
-					key: "15",
-					onPress: () =>
-					  api.callApi(
-						"logout",
-						"POST",
-						{
-						  id: this.state.userId
-						},
-						response => {
-						  if (response["responseCode"] != 503) {
-							if (response["boolean"] == true) {
-							  localStorage.storeItem("userId", null);
-							  localStorage.storeItem("points", null);
-							  api.getPoints();
-							}
-						  } else {
-							this.errorMessage(
-							  "Zorg ervoor dat u een internet verbinding heeft"
-							);
-							alert(
-							  "Zorg ervoor dat u een internet verbinding heeft"
-							);
-						  }
-						}
-					  )
-				  }
-				]}
-			  />
-			)}
-		</Drawer>
-		<FlashMessage position="top" style={{ marginTop: Header.HEIGHT }} />
-	  </View>
-	);
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"calendar-plus"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Intro",
+                    key: "13",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "IntroStack",
+                          action: NavigationActions.navigate({
+                            routeName: "Intro"
+                          })
+                        })
+                      )
+                  }
+                ]}
+              />
+            )}
+
+          {this.state.userId != null &&
+            this.state.clearance == 1 && (
+              <Drawer.Section
+                title="Beheerder"
+                divider
+                items={[
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"calendar-plus"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Nieuw evenement aanmaken",
+                    key: "7",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "AdminStack",
+                          action: NavigationActions.navigate({
+                            routeName: "MakeEvent"
+                          })
+                        })
+                      )
+                  },
+
+
+                   {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"list"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Nieuw artikel aanmaken",
+                    key: "8",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "AdminStack",
+                          action: NavigationActions.navigate({
+                            routeName: "MakeNewsItem"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"account-plus"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Beheerder account koppelen",
+                    key: "9",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "AdminStack",
+                          action: NavigationActions.navigate({
+                            routeName: "CreateAdmin"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: "people",
+                    value: "Deelnemers",
+                    key: "10",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "ParticipantListStack",
+                          action: NavigationActions.navigate({
+                            routeName: "ParticipantList"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"lock-question"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Wachtwoord veranderen",
+                    key: "11",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "LoginStack",
+                          action: NavigationActions.navigate({
+                            routeName: "ChangePassword"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: "power-settings-new",
+                    value: "Uitloggen",
+                    key: "12",
+                    onPress: () =>
+                      api.callApi(
+                        "logout",
+                        "POST",
+                        {
+                          id: this.state.userId
+                        },
+                        response => {
+                          if (response["responseCode"] != 503) {
+                            console.log(response);
+                            if (response["boolean"] == true) {
+                              localStorage.storeItem("userId", null);
+                              localStorage.storeItem("points", null);
+                              api.getPoints();
+                            }
+                          } else {
+                            this.errorMessage(
+                              "Zorg ervoor dat u een internet verbinding heeft"
+                            );
+                            alert(
+                              "Zorg ervoor dat u een internet verbinding heeft"
+                            );
+                          }
+                        }
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
+                        name={"calendar-plus"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Intro",
+                    key: "13",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "IntroStack",
+                          action: NavigationActions.navigate({
+                            routeName: "Intro"
+                          })
+                        })
+                      )
+                  }
+                ]}
+              />
+            )}
+        </Drawer>
+        <FlashMessage position="top" style={{ marginTop: Header.HEIGHT }} />
+      </View>
+    );
   }
 }
 

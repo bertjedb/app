@@ -355,36 +355,43 @@ class Events extends Component {
                       }}
                     >
                       <TouchableHighlight
-                       onPress={() =>
-                                  this.props.navigation.navigate("EventDetail", {
-                                    id: item.id,
-                                    title: capitalize.words(
-                                      item.name.toString().replace(", ,", " ")
-                                    ),
-                                    profilePicture: item.photo[0],
-                                    content: item.desc,
-                                    start:
-                                      item.begin +
-                                      " " +
-                                      item.beginMonth +
-                                      " " +
-                                      item.beginTime,
-                                    end:
-                                      item.end +
-                                      " " +
-                                      item.endMonth +
-                                      " " +
-                                      item.endTime,
-                                    created: item.created,
-                                    author: capitalize.words(
-                                      item.leader
-                                    ),
-                                    link: item.link,
-                                    img: item.img,
-                                    location: item.location,
-                                    subscribed: item.subscribed
-                                  })
-                                }
+                        onPress={() =>
+                          this.props.navigation.navigate("EventDetail", {
+                            title: capitalize.words(
+                              item.name.toString().replace(", ,", " ")
+                            ),
+                            subscribed: item.subscribed,
+                            id: item.id,
+                            profilePicture: item.photo[0],
+                            content: item.desc,
+                            start: item.begin + " " + item.beginMonth + " 2018",
+                            startTime: item.beginTime,
+                            end: item.end + " " + item.endMonth + " 2018",
+                            endTime: item.endTime,
+                            created: item.created,
+                            author: capitalize.words(
+                              item.leader.replace(", ,", " ")
+                            ),
+                            link: item.link,
+                            img: item.img,
+                            qr_code: item.qrCode,
+                            location: item.location,
+                            participants: item.participants
+                          })
+                        }
+                      >
+                        <Image
+                          source={{ uri: item.img }}
+                          resizeMode="cover"
+                          style={{ width: "100%", height: 200 }}
+                        />
+                      </TouchableHighlight>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          width: "80%"
+                        }}
                       >
                         <View>
                             <Image

@@ -43,6 +43,7 @@ import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
 import VideoPicker from "../screens/VideoPicker";
 import FacebookLogin from '../screens/FacebookLogin';
+import signInView from "../screens/signInView";
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator(
@@ -226,6 +227,21 @@ export const ParticipantListStack = StackNavigator(
   }
 );
 
+//Stack for aanmeldingen
+export const signInListStack = StackNavigator(
+    {
+        ParticipantList: {
+            screen: signInView,
+            navigationOptions: {
+                title: "Aanmeldingen"
+            }
+        }
+    },
+    {
+        headerMode: "none"
+    }
+);
+
 export const IntroStack = StackNavigator(
   {
     Intro: {
@@ -262,7 +278,7 @@ export const MyTabLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/News.png")}
+            source={require("../assets/icons/news.png")}
           />
         )
       }
@@ -335,7 +351,7 @@ export const MyTabLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/News.png")}
+                source={require("../assets/icons/news.png")}
               />
             )
           },
@@ -384,7 +400,7 @@ export const MyTabNotLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/News.png")}
+            source={require("../assets/icons/news.png")}
           />
         )
       }
@@ -440,7 +456,7 @@ export const MyTabNotLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/News.png")}
+                source={require("../assets/icons/news.png")}
               />
             )
           },
@@ -504,6 +520,13 @@ export const MyAppLoggedIn = StackNavigator(
         header: null
       }
     },
+      signInListStack: {
+          screen: signInListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+
     ParticipantListStack: {
       screen: ParticipantListStack,
       navigationOptions: {
