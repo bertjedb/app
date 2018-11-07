@@ -259,6 +259,28 @@ export default class More extends Component {
                         }
                       )
                   },
+
+                    {
+                        icon: (
+                            <Icon
+                                size={25}
+                                name={"calendar-plus"}
+                                style={{ color: "grey" }}
+                            />
+                        ),
+                        value: "Aanmeldingen",
+                        key: "67",
+                        onPress: () =>
+                            this.props.navigation.dispatch(
+                                NavigationActions.navigate({
+                                    routeName: "signInListStack",
+                                    action: NavigationActions.navigate({
+                                        routeName: "signInView"
+                                    })
+                                })
+                            )
+                    },
+
                   {
                     icon: (
                       <Icon
@@ -309,11 +331,13 @@ export default class More extends Component {
                         })
                       )
                   },
-                  {
+
+
+                   {
                     icon: (
                       <Icon
                         size={25}
-                        name={"calendar-plus"}
+                        name={"list"}
                         style={{ color: "grey" }}
                       />
                     ),
