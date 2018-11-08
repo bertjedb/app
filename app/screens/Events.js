@@ -293,7 +293,7 @@ class Events extends Component {
 		  <View>
 			<FlatList
 			  data={this.state.data}
-			  keyExtractor={item => item.title}
+			  keyExtractor={item => item.id}
 			  initialNumToRender={2}
 			  // windowSize={2}
 			  // maxToRenderPerBatch={4}
@@ -380,105 +380,94 @@ class Events extends Component {
 						  })
 						}
 					  >
-						<Image
-						  source={{ uri: item.img }}
-						  resizeMode="cover"
-						  style={{ width: "100%", height: 200 }}
-						/>
-					  <View
-						style={{
-						  flex: 1,
-						  flexDirection: "row",
-						  width: "80%"
-						}}
-					  >
-						<View>
-							<Image
-							  source={{ uri: item.img }}
-							  resizeMode="cover"
-							  style={{ width: "100%", height: 200 }}
-							/>
-							<View
-							  style={{
-								flex: 1,
-								flexDirection: "row",
-								width: "80%"
-							  }}
-							>
-							  <View
-								style={{
-								  minWidth: 50,
-								  maxHeight: 50,
-								  backgroundColor: "#F27B13",
-								  marginTop: 10,
-								  borderRadius: 5,
-								  marginLeft: 10,
-								  marginRight: 10
-								}}
-							  >
-								<View style={{ flex: 1, flexDirection: "column" }}>
-								  <Text
-									style={{
-									  fontWeight: "bold",
-									  fontSize: 16,
-									  color: "white",
-									  textAlign: "center",
-									  marginTop: 5
-									}}
-								  >
-									{item.begin}
-								  </Text>
-								  <Text
-									style={{
-									  fontWeight: "bold",
-									  fontSize: 16,
-									  color: "white",
-									  textAlign: "center"
-									}}
-								  >
-									{item.beginMonth}
-								  </Text>
-								</View>
-							  </View>
-							  <View
-								style={{
-								  marginTop: 10,
-								  marginRight: 10,
-								  marginBottom: 30,
-								  fontWeight: "bold"
-								}}
-							  >
-								<Text
-								  style={{
-									fontWeight: "bold",
-									fontSize: 18,
-									color: "black"
-								  }}
-								>
-								  {capitalize.words(
-									item.name.toString().replace(", ,", " ")
-								  )}
-								</Text>
-								<HTML
-								  style={{ height: 55 }}
-								  tagsStyles={{
-									p: { textAlign: "left", color: "grey" }
-								  }}
-								  onLinkPress={(evt, href) => {
-									Linking.openURL(href);
-								  }}
-								  ignoredTags={["img"]}
-								  html={item.desc.substr(0, 165) + "..."}
-								  imagesMaxWidth={Dimensions.get("window").width}
+				  		<View>
+							<View>
+								<Image
+								  source={{ uri: item.img }}
+								  resizeMode="cover"
+								  style={{ width: "100%", height: 200 }}
 								/>
-								<Text
-								  style={{marginLeft: 200,color: 'black'}}
+								<View
+								  style={{
+									flex: 1,
+									flexDirection: "row",
+									width: "80%"
+								  }}
 								>
-								  Lees verder
-								</Text>
-							  </View>
+								  <View
+									style={{
+									  minWidth: 50,
+									  maxHeight: 50,
+									  backgroundColor: "#F27B13",
+									  marginTop: 10,
+									  borderRadius: 5,
+									  marginLeft: 10,
+									  marginRight: 10
+									}}
+								  >
+									<View style={{ flex: 1, flexDirection: "column" }}>
+									  <Text
+										style={{
+										  fontWeight: "bold",
+										  fontSize: 16,
+										  color: "white",
+										  textAlign: "center",
+										  marginTop: 5
+										}}
+									  >
+										{item.begin}
+									  </Text>
+									  <Text
+										style={{
+										  fontWeight: "bold",
+										  fontSize: 16,
+										  color: "white",
+										  textAlign: "center"
+										}}
+									  >
+										{item.beginMonth}
+									  </Text>
+									</View>
+								  </View>
+								  <View
+									style={{
+									  marginTop: 10,
+									  marginRight: 10,
+									  marginBottom: 30,
+									  fontWeight: "bold"
+									}}
+								  >
+									<Text
+									  style={{
+										fontWeight: "bold",
+										fontSize: 18,
+										color: "black"
+									  }}
+									>
+									  {capitalize.words(
+										item.name.toString().replace(", ,", " ")
+									  )}
+									</Text>
+									<HTML
+									  style={{ height: 55 }}
+									  tagsStyles={{
+										p: { textAlign: "left", color: "grey" }
+									  }}
+									  onLinkPress={(evt, href) => {
+										Linking.openURL(href);
+									  }}
+									  ignoredTags={["img"]}
+									  html={item.desc.substr(0, 165) + "..."}
+									  imagesMaxWidth={Dimensions.get("window").width}
+									/>
+									<Text
+									  style={{marginLeft: 200,color: 'black'}}
+									>
+									  Lees verder
+									</Text>
+								  </View>
+								</View>
 							</View>
-						</View>
 						</View>
 					  </TouchableHighlight>
 					  <View
