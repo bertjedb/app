@@ -82,8 +82,7 @@ export const LoginStack = StackNavigator(
       navigationOptions: {
         title: "E-mail adres veranderen"
       }
-    },
-
+    }
   },
   {
     headerMode: "none"
