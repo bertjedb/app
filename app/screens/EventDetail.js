@@ -18,10 +18,10 @@ import {
   Modal
 } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { DrawerActions, Header } from "react-navigation";
+import QRCode from "react-native-qrcode";
 import ActionButton from "react-native-action-button";
 import stylesCss from "../assets/css/style.js";
 import QRCodeScanner from "react-native-qrcode-scanner";
@@ -48,7 +48,6 @@ import {
   Card,
   Button
 } from "react-native-material-ui";
-
 var capitalize = require("capitalize");
 
 const MapHtml = require("../assets/mapHTML.html");
@@ -60,6 +59,7 @@ class EventDetail extends Component {
   constructor() {
     super();
     this.animatedValue = new Animated.Value(0);
+
     this.state = {
       map: true,
       title: "",
@@ -180,6 +180,7 @@ class EventDetail extends Component {
     let map = Maps.getInstance();
     const { navigation } = this.props;
     const subscribed = navigation.getParam("subscribed", "");
+
     const eventID = navigation.getParam("id", "");
     const title = navigation.getParam("title", "");
     const content = navigation.getParam("content", "");
@@ -192,6 +193,7 @@ class EventDetail extends Component {
     const link = navigation.getParam("link", "");
     const img = navigation.getParam("img", "");
     const location = navigation.getParam("location", "");
+    const qr_code = navigation.getParam("qr_code", "");
 
     const images = [
       {
@@ -255,7 +257,18 @@ class EventDetail extends Component {
             { transform: [{ translateY: headerTranslate }] }
           ]}
         >
-          <Transition shared={eventID}>
+          <Animated.View
+            style={[
+              styles.header,
+              {
+                transform: [
+                  {
+                    translateY: this.state.y
+                  }
+                ]
+              }
+            ]}
+          >
             <ImageOverlay
               overlayColor="black"
               overlayAlpha={0.3}
@@ -263,46 +276,85 @@ class EventDetail extends Component {
               resizeMode="cover"
               containerStyle={{ width: "100%", height: 200 }}
             />
-          </Transition>
-
-          <Animated.View
-            style={{
-              position: "absolute",
-              top: 130,
-              left: 15,
-              opacity: this.state.scrollY.interpolate({
-                inputRange: [0, 80],
-                outputRange: [1, 0]
-              })
-            }}
-          >
-            <Text style={{ fontSize: 28, fontWeight: "bold", color: "white" }}>
-              {title}
-            </Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon
-                size={20}
-                name={"calendar"}
-                style={{ color: "white", paddingRight: 5 }}
-              />
-              <Text style={{ fontSize: 16, color: "white" }}>{start}</Text>
-            </View>
+            <Animated.View
+              style={{
+                position: "absolute",
+                top: 130,
+                left: 15,
+                opacity: this.state.scrollY.interpolate({
+                  inputRange: [0, 80],
+                  outputRange: [1, 0]
+                })
+              }}
+            >
+              <Text
+                style={{ fontSize: 28, fontWeight: "bold", color: "white" }}
+              >
+                {title}
+              </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icon
+                  size={20}
+                  name={"calendar"}
+                  style={{ color: "white", paddingRight: 5 }}
+                />
+                <Text style={{ fontSize: 16, color: "white" }}>{start}</Text>
+              </View>
+            </Animated.View>
           </Animated.View>
         </Animated.View>
-        <View
-          style={{
-            backgroundColor: this.state.scrollOpacity,
-            height: Header.HEIGHT
-          }}
+        <Animated.View
+          style={[
+            styles.headerTitle,
+            {
+              opacity: this.state.scrollY.interpolate({
+                inputRange: [0, 150],
+                outputRange: [0, 1]
+              })
+            }
+          ]}
         >
-          <Toolbar
-            iconSet="MaterialCommunityIcons"
-            centerElement=""
-            leftElement={"arrow-left"}
-            rightElement={"share-variant"}
-            onLeftElementPress={() => this.props.navigation.goBack()}
-          />
-        </View>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "white",
+              position: "absolute",
+              top: 8,
+              left: 60
+            }}
+          >
+            Basketbal
+          </Text>
+          <Text
+            style={{
+              fontSize: 14,
+              color: "white",
+              position: "absolute",
+              top: 30,
+              left: 60
+            }}
+          >
+            26 Okt 2018
+          </Text>
+        </Animated.View>
+        <Toolbar
+          style={styles.headerTitle}
+          iconSet="MaterialCommunityIcons"
+          centerElement=""
+          leftElement={"arrow-left"}
+          rightElement={"share-variant"}
+          onRightElementPress={() =>
+            Share.share({
+              message:
+                "Binnenkort organiseert bslim: " +
+                capitalize.words(title.toString().replace(", ,", " ")) +
+                ". Voor meer informatie ga naar: " +
+                link
+            })
+          }
+          onLeftElementPress={() => this.props.navigation.goBack()}
+        />
         <Animated.ScrollView
           style={styles.cardContainer}
           scrollEventThrottle={16}
@@ -392,50 +444,91 @@ class EventDetail extends Component {
               }}
             />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                source={require("../assets/klimmen_kids_bslim.jpg")}
-                resizeMode="cover"
+              <TouchableOpacity
                 style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 10,
+                  shadowOffset: { width: 0, height: 13 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 6,
+
+                  backgroundColor: "white",
+                  // android (Android +5.0)
+                  elevation: 35,
                   margin: 10,
-                  marginRight: 0
+                  marginRight: 0,
+                  borderRadius: 50
                 }}
-              />
-              <Image
-                source={require("../assets/frisbee_kids_bslim.jpg")}
-                resizeMode="cover"
+                onPress={() =>
+                  this.setState({ imageFullScreen: true, imageIndex: 0 })
+                }
+              >
+                <Image
+                  source={require("../assets/klimmen_kids_bslim.jpg")}
+                  resizeMode="cover"
+                  elevation={5}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50
+                  }}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
                 style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 10,
+                  shadowOffset: { width: 0, height: 13 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 6,
+
+                  backgroundColor: "white",
+                  // android (Android +5.0)
+                  elevation: 5,
                   margin: 10,
-                  marginRight: 0
+                  marginRight: 0,
+                  borderRadius: 50
                 }}
-              />
-              <Image
-                source={require("../assets/basketbal_kids_bslim.jpg")}
-                resizeMode="cover"
+                onPress={() =>
+                  this.setState({ imageFullScreen: true, imageIndex: 1 })
+                }
+              >
+                <Image
+                  source={require("../assets/frisbee_kids_bslim.jpg")}
+                  resizeMode="cover"
+                  elevation={5}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50
+                  }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 10,
+                  shadowOffset: { width: 0, height: 13 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 6,
+
+                  backgroundColor: "white",
+                  // android (Android +5.0)
+                  elevation: 5,
                   margin: 10,
-                  marginRight: 0
+                  marginRight: 0,
+                  borderRadius: 50
                 }}
-              />
-              <Image
-                source={require("../assets/sport_kids_bslim.jpg")}
-                resizeMode="cover"
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 10,
-                  margin: 10,
-                  marginRight: 0
-                }}
-              />
+                onPress={() =>
+                  this.setState({ imageFullScreen: true, imageIndex: 2 })
+                }
+              >
+                <Image
+                  source={require("../assets/basketbal_kids_bslim.jpg")}
+                  resizeMode="cover"
+                  elevation={5}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50
+                  }}
+                />
+              </TouchableOpacity>
               <ImageBackground
                 blurRadius={3}
                 style={{
@@ -630,7 +723,7 @@ class EventDetail extends Component {
                 name={"map-marker-outline"}
                 style={{ color: "grey", paddingRight: 10, paddingLeft: 10 }}
               />
-              <Text style={{ fontSize: 16, color: "grey" }}>Peizerweg 48</Text>
+              <Text style={{ fontSize: 16, color: "grey" }}>{location}</Text>
             </View>
             <HTML
               onLinkPress={(evt, href) => {
@@ -663,7 +756,7 @@ class EventDetail extends Component {
                 overflow: "hidden"
               }}
             >
-              <MyWebView
+              <WebView
                 source={{ html: map.getMap(location) }}
                 style={{
                   flex: 1,
@@ -672,6 +765,37 @@ class EventDetail extends Component {
                   borderRadius: 10,
                   overflow: "hidden"
                 }}
+              />
+            </View>
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.cardBottom,
+
+              {
+                transform: [
+                  {
+                    translateX: this.state.x3
+                  }
+                ]
+              }
+            ]}
+            elevation={5}
+          >
+            <View
+              style={{
+                width: "100%",
+                height: 200,
+                borderRadius: 10,
+                overflow: "hidden",
+                alignItems: "center"
+              }}
+            >
+              <QRCode
+                value={qr_code}
+                size={180}
+                bgColor="#000"
+                fgColor="#fff"
               />
             </View>
           </Animated.View>
@@ -724,6 +848,7 @@ const styles = StyleSheet.create({
     // android (Android +5.0)
     elevation: 3
   },
+
   headerTitle: {
     height: Header.HEIGHT,
     backgroundColor: "#94d60a",
@@ -777,6 +902,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0
   },
+
   participantContainer: {
     margin: "5%",
     flex: 1,

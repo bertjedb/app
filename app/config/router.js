@@ -176,7 +176,7 @@ let TransitionConfiguration = () => {
   };
 };
 //Stack for all the event screens
-export const EventStack = FluidNavigator(
+export const EventStack = StackNavigator(
   {
     Events: {
       screen: Events,

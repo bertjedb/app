@@ -20,22 +20,28 @@ import RNFetchBlob from "rn-fetch-blob";
 import ImgToBase64 from "react-native-image-base64";
 import LinearGradient from "react-native-linear-gradient";
 import { DrawerActions, NavigationActions, Header } from "react-navigation";
+import Autocomplete from "react-native-autocomplete-input";
 
 export default class MakeEvent extends Component {
   constructor() {
     super();
     this.state = {
-        name: "",
-        loc: "",
-        begin: "",
-        end: "",
-        desc: "",
-        showBegin: false,
-        showEnd: false,
-        beginText: "",
-        endText: "",
-        pickedImage: { uri: "" },
-        imgPicked: false
+      name: "",
+      loc: "",
+      begin: "",
+      end: "",
+      desc: "",
+      showBegin: false,
+      showEnd: false,
+      beginText: "",
+      endText: "",
+      pickedImage: { uri: "" },
+      imgPicked: false,
+      value: "",
+      isLoading: false,
+      query: "",
+      data: [],
+      query: ""
     };
   }
 
@@ -72,7 +78,8 @@ export default class MakeEvent extends Component {
           '" alt="Image" />',
         start: this.state.begin,
         end: this.state.end,
-		author: this.state.wordpresskey
+        author: this.state.wordpresskey,
+        address: this.state.loc
       }) // <-- Post parameters
     })
       .then(response => response.text())
@@ -86,53 +93,53 @@ export default class MakeEvent extends Component {
   }
 
   createEvent() {
-    NetInfo.getConnectionInfo().then((connectionInfo) => {
-            if(connectionInfo.type != 'none') {
-                let api = Api.getInstance();
-                let localStorage = LocalStorage.getInstance();
-                localStorage
-                  .retrieveItem("wordpresskey")
-                  .then(goals => {
-                    this.setState({ wordpresskey: goals });
-                    console.log(this.state.wordpresskey)
-                  })
-                  .catch(error => {
-                    //this callback is executed when your Promise is rejected
-                    console.log("Promise is rejected with error: " + error);
-                  });
-                if (
-                  this.state.name != "" &&
-                  this.state.begin != "" &&
-                  this.state.end != "" &&
-                  this.state.loc != "" &&
-                  this.state.desc != "" &&
-                  this.state.pickedImage.uri != ""
-                ) {
-                  RNFetchBlob.fetch(
-                    "POST",
-                    "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
-                    {
-                      //// TODO: Real authorization instead of hardcoded base64 username:password
-                      Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
-                      "Content-Type": +"image/jpeg",
-                      "Content-Disposition": "attachment; filename=hoi.jpg"
-                      // here's the body you're going to send, should be a BASE64 encoded string
-                      // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-                      // The data will be converted to "byte array"(say, blob) before request sent.
-                    },
-                    RNFetchBlob.wrap(this.state.pickedImage.uri)
-                  )
-                    .then(res => res.json())
-                    .then(responseJson => {
-                      this.setState({ img: responseJson["guid"]["raw"] });
-                      this.createWPEvent();
-                    })
-            
-                    .catch(error => {
-                      callBack(error);
-                    });
-                  //this.createWPEvent();
-                  /*
+    NetInfo.getConnectionInfo().then(connectionInfo => {
+      if (connectionInfo.type != "none") {
+        let api = Api.getInstance();
+        let localStorage = LocalStorage.getInstance();
+        localStorage
+          .retrieveItem("wordpresskey")
+          .then(goals => {
+            this.setState({ wordpresskey: goals });
+            console.log(this.state.wordpresskey);
+          })
+          .catch(error => {
+            //this callback is executed when your Promise is rejected
+            console.log("Promise is rejected with error: " + error);
+          });
+        if (
+          this.state.name != "" &&
+          this.state.begin != "" &&
+          this.state.end != "" &&
+          this.state.query != "" &&
+          this.state.desc != "" &&
+          this.state.pickedImage.uri != ""
+        ) {
+          RNFetchBlob.fetch(
+            "POST",
+            "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
+            {
+              //// TODO: Real authorization instead of hardcoded base64 username:password
+              Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
+              "Content-Type": +"image/jpeg",
+              "Content-Disposition": "attachment; filename=hoi.jpg"
+              // here's the body you're going to send, should be a BASE64 encoded string
+              // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+              // The data will be converted to "byte array"(say, blob) before request sent.
+            },
+            RNFetchBlob.wrap(this.state.pickedImage.uri)
+          )
+            .then(res => res.json())
+            .then(responseJson => {
+              this.setState({ img: responseJson["guid"]["raw"] });
+              this.createWPEvent();
+            })
+
+            .catch(error => {
+              callBack(error);
+            });
+          //this.createWPEvent();
+          /*
                         let localStorage = LocalStorage.getInstance();
                         let points = localStorage.retrieveItem('userId').then((id) => {
                         if(id != null) {
@@ -165,16 +172,16 @@ export default class MakeEvent extends Component {
                                     this.errorMessage("Er is wat fout gegaan");
                                 }
                             });
-            
+
                         }});
                         */
-                } else {
-                  this.errorMessage("Vul alle velden in aub");
-                }
-            } else {
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-            }
-        });
+        } else {
+          this.errorMessage("Vul alle velden in aub");
+        }
+      } else {
+        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+      }
+    });
   }
 
   handleBegin(dateTime) {
@@ -265,6 +272,29 @@ export default class MakeEvent extends Component {
       }
     );
   };
+
+  componentDidMount() {}
+
+  findFilm(query) {
+    this.setState({ query: query });
+    console.log(this.state.data);
+    if (query == "") {
+      this.setState({ data: [] });
+    } else {
+      fetch(
+        "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" +
+          query +
+          "&language=nl&sensor=false&key=AIzaSyAlHhXzz2tr1rZC0ia_7XgiCSLEDB4Dl5c&components=country:NL"
+      )
+        .then(res => res.json())
+        .then(json => {
+          this.setState({
+            data: json["predictions"]
+          });
+        });
+    }
+  }
+
   render() {
     return (
       <ImageBackground
@@ -366,15 +396,70 @@ export default class MakeEvent extends Component {
                 onCancel={() => this.hidePicker()}
                 mode={"datetime"}
               />
-
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Locatie van evenement"
-                value={this.state.loc}
-                onChangeText={loc => this.setState({ loc })}
-              />
+              <View style={{ height: 55 }}>
+                <View
+                  style={{
+                    left: 0,
+                    position: "absolute",
+                    right: 0,
+                    top: 0,
+                    zIndex: 2,
+                    overflow: "hidden"
+                  }}
+                >
+                  <Autocomplete
+                    data={this.state.data}
+                    inputContainerStyle={{ borderWidth: 0 }}
+                    listStyle={{
+                      margin: 10,
+                      borderWidth: 0,
+                      height: 125
+                    }}
+                    renderSeparator={() => (
+                      <View
+                        style={{
+                          width: "100%",
+                          height: 1,
+                          backgroundColor: "grey"
+                        }}
+                      />
+                    )}
+                    renderTextInput={() => (
+                      <TextField
+                        textColor="green"
+                        tintColor="green"
+                        baseColor="green"
+                        label="Locatie van evenement"
+                        value={this.state.query}
+                        onChangeText={text => this.findFilm(text)}
+                      />
+                    )}
+                    defaultValue={this.state.query}
+                    renderItem={item => (
+                      <TouchableOpacity
+                        style={{
+                          backgroundColor: "white",
+                          padding: 5,
+                          borderRightWidth: 1,
+                          borderLeftWidth: 1,
+                          borderColor: "grey"
+                        }}
+                        onPress={() =>
+                          this.setState({
+                            query: item.description.replace(", Nederland", ""),
+                            loc: item.place_id,
+                            data: []
+                          })
+                        }
+                      >
+                        <Text style={{ fontSize: 14 }}>
+                          {item.description.replace(", Nederland", "")}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                </View>
+              </View>
 
               <TextField
                 textColor="green"
