@@ -57,6 +57,7 @@ class Events extends Component {
 	};
 	let api = Api.getInstance()
 	api.callApi('api/getAllEvents', 'POST', {}, response => {
+		console.log(response)
 		if(response['responseCode'] != 503) {
 			if(response['responseCode'] == 200) {
 			 let ds = new ListView.DataSource({
@@ -76,18 +77,13 @@ class Events extends Component {
 							array[index]['subscribed'] = response['found']
 						});
 					}
-					this.setState({
-						uploading: false,
-						loading: false,
-						dataSource: ds.cloneWithRows(array),
-					});
 				});
 			  }
 			  this.setState({
 				uploading: false,
 				loading: false,
-				data: response["events"].slice(start, end),
-				fullArray: response["events"]
+				data: array.slice(start, end),
+				fullArray: array
 			  });
 			}
 	  } else {
@@ -143,38 +139,15 @@ class Events extends Component {
 				  };
 				  api.callApi("api/checkSub", "POST", userData, response => {
 					array[index]["subscribed"] = response["found"];
-					this.setState({
-					  uploading: false,
-					  refreshing: false,
-					  loading: false,
-					  data: array.slice(start, end)
-					});
-					let array = response['events'];
-					for(let index=0; index < array.length; index++) {
-						array[index]['subscribed'] = false
-						let localStorage = LocalStorage.getInstance();
-						localStorage.retrieveItem('userId').then((id) => {
-							if(id != null) {
-								userData = {
-									"eventId": response['events'][index]['id'],
-									"personId": id
-								}
-								api.callApi('api/checkSub', 'POST', userData, response => {
-									array[index]['subscribed'] = response['found'];
-									this.setState({
-										uploading: false,
-										refreshing: false,
-										loading: false,
-										dataSource: ds.cloneWithRows(array),
-									});
-								});
-							}
-						});
-					}
 				  });
 				}
 			  });
 			}
+			this.setState({
+					  refreshing: false,
+					  loading: false,
+					  data: array.slice(start, end)
+					});
 		  }
 		} else {
 		  this.setState({ sleeping: true });
@@ -188,41 +161,46 @@ class Events extends Component {
   }
 
   handleSearch() {
+  	this.setState({
+		loading: true
+	})
 	let api = Api.getInstance();
 	userData = {
 	  searchString: this.state.search
 	};
 	api.callApi("api/searchEvent", "POST", userData, response => {
-	  if (response["responseCode"] != 503) {
-		if (response["responseCode"] == 200) {
-		  let array = response["events"];
-		  for (let index = 0; index < array.length; index++) {
-			array[index]["subscribed"] = false;
-			let localStorage = LocalStorage.getInstance();
-			localStorage.retrieveItem("userId").then(id => {
-			  if (id != null) {
-				userData = {
-				  eventId: response["events"][index]["id"],
-				  personId: id
-				};
-				api.callApi("api/checkSub", "POST", userData, response => {
-				  array[index]["subscribed"] = response["found"];
-				  this.setState({
-					uploading: false,
-					data: array,
-					loading: false
-				  });
-				});
-			  }
-			});
-		  }
-		}
-	  } else {
-		this.setState({ sleeping: true });
-		setTimeout(() => {
-		  this.setState({ sleeping: false });
-		}, 3000);
-		this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+	  	if (response["responseCode"] != 503) {
+			if (response["responseCode"] == 200) {
+		  		let array = response["events"];
+		  		for (let index = 0; index < array.length; index++) {
+					array[index]["subscribed"] = false;
+					let localStorage = LocalStorage.getInstance();
+					localStorage.retrieveItem("userId").then(id => {
+			  			if (id != null) {
+							userData = {
+							  eventId: response["events"][index]["id"],
+							  personId: id
+							};
+							api.callApi("api/checkSub", "POST", userData, response => {
+							  array[index]["subscribed"] = response["found"];
+							});
+			  			}
+					});
+		  		}
+		  		this.setState({
+					data: array
+			  	});
+			}
+			this.errorMessage("Er is niks gevonden voor \"" + this.state.search + "\"")
+			this.setState({
+				loading: false
+		  	});
+	  	} else {
+			this.setState({ sleeping: true });
+			setTimeout(() => {
+			  this.setState({ sleeping: false });
+			}, 3000);
+			this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
 	  }
 	});
   }
@@ -234,12 +212,15 @@ class Events extends Component {
 	  start += 2;
 	  // alert(end + " " + this.state.data.length);
 	  api.callApi("api/getAllEvents", "POST", {}, response => {
-		console.log(response);
-		if (response["responseCode"] == 200) {
-		  this.setState({
-			data: [...this.state.data, ...response["events"].slice(start, end)]
-		  });
-		}
+	  	if(response["responseCode"] != 503) {
+	  		if (response["responseCode"] == 200) {
+		  		this.setState({
+					data: [...this.state.data, ...response["events"].slice(start, end)]
+		  		});
+		  	}
+	  	} else {
+	  		this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+	  	}
 	  });
 	}
   };
@@ -293,7 +274,7 @@ class Events extends Component {
 		  <View>
 			<FlatList
 			  data={this.state.data}
-			  keyExtractor={item => item.id}
+			  keyExtractor={(item,index) => '' + item.id}
 			  initialNumToRender={2}
 			  // windowSize={2}
 			  // maxToRenderPerBatch={4}

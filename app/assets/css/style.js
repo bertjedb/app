@@ -223,10 +223,12 @@ export default StyleSheet.create({
     }, 
 
     imgSel: {
-        borderWidth:1,
-        borderColor:'rgba(0,0,0,0.2)',
-        width:100,
-        height:100,
+        borderWidth: 1,
+        backgroundColor: "rgba(0,0,0,.6)",
+        borderColor: "rgba(0,0,0,0.2)",
+        width: 100,
+        height: 100,
+        alignSelf: 'center'
     },
 
     backgroundVideo: {

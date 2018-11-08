@@ -99,8 +99,6 @@ export default class CreateAdmin extends Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
-        console.log(JSON.stringify({ data }));
         this.setState({
           firstName: responseJson["data"]["display_name"].substr(
             0,

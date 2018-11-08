@@ -76,7 +76,8 @@
     "react-navigation": "^2.14.2",
     "react-navigation-fluid-transitions": "^0.2.72",
     "react-navigation-material-bottom-tabs": "^0.4.0",
-    "rn-fetch-blob": "^0.10.13"
+    "rn-fetch-blob": "^0.10.13",
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
