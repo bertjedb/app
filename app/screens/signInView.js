@@ -12,13 +12,15 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     View,
-    FlatList
+    FlatList,
 } from "react-native";
 import {Header, NavigationActions} from "react-navigation";
 import {Toolbar} from "react-native-material-ui";
 import LinearGradient from "react-native-linear-gradient";
 import Api from "../config/api";
 import LocalStorage from "../config/localStorage";
+import { ListItem } from 'react-native-elements'
+import * as capitalize from "capitalize";
 
 
 
@@ -104,9 +106,39 @@ export default class signInView extends Component {
                         data={this.state.data}
                         keyExtractor={item => item.title}
 
-                        renderItem={({item}) => (
-                            item.title
-                    )}
+                        renderItem={({item}) =>  (
+                            <ListItem
+
+                            title={<Text>{item.name}</Text>}
+                            onPress={() =>
+                                this.props.navigation.navigate("EventDetail", {
+                                    title: capitalize.words(
+                                        item.name.toString().replace(", ,", " ")
+                                    ),
+                                    subscribed: item.subscribed,
+                                    id: item.id,
+                                    profilePicture: item.photo[0],
+                                    content: item.desc,
+                                    start: item.begin + " " + item.beginMonth + " 2018",
+                                    startTime: item.beginTime,
+                                    end: item.end + " " + item.endMonth + " 2018",
+                                    endTime: item.endTime,
+                                    created: item.created,
+                                    author: capitalize.words(
+                                        item.leader.replace(", ,", " ")
+                                    ),
+                                    link: item.link,
+                                    img: item.img,
+                                    qr_code: item.qrCode,
+                                    location: item.location,
+                                    participants: item.participants
+                                })
+
+                            }
+
+                            />
+
+                        )}
 
                      />
                 </View>
