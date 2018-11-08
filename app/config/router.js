@@ -82,12 +82,6 @@ export const LoginStack = StackNavigator(
       navigationOptions: {
         title: "E-mail adres veranderen"
       }
-    },
-    FacebookLogin: {
-      screen: FacebookLogin,
-      navigationOptions: {
-        title: "Inloggen met facebook"
-      }
     }
   },
   {
