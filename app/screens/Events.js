@@ -226,6 +226,8 @@ class Events extends Component {
   };
 
   render() {
+  	const Entities = require('html-entities').AllHtmlEntities;
+  	const entities = new Entities();
 	return (
 	  <ImageBackground
 		blurRadius={0}
@@ -320,7 +322,7 @@ class Events extends Component {
 							color: "black"
 						  }}
 						>
-						  {capitalize.words(item.leader)}
+						  {capitalize.words(entities.decode(item.leader.replace(", ,", " ")))}
 						</Text>
 						<Text style={{ fontSize: 14, color: "black" }}>
 						  {item.created}
@@ -339,7 +341,7 @@ class Events extends Component {
 						onPress={() =>
 						  this.props.navigation.navigate("EventDetail", {
 							title: capitalize.words(
-							  item.name.toString().replace(", ,", " ")
+							  entities.decode(item.name.toString().replace(", ,", " "))
 							),
 							subscribed: item.subscribed,
 							id: item.id,
@@ -351,7 +353,7 @@ class Events extends Component {
 							endTime: item.endTime,
 							created: item.created,
 							author: capitalize.words(
-							  item.leader.replace(", ,", " ")
+							  entities.decode(item.leader.replace(", ,", " "))
 							),
 							link: item.link,
 							img: item.img,
@@ -426,7 +428,7 @@ class Events extends Component {
 									  }}
 									>
 									  {capitalize.words(
-										item.name.toString().replace(", ,", " ")
+										entities.decode(item.name.toString().replace(", ,", " "))
 									  )}
 									</Text>
 									<HTML

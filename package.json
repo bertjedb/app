@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "capitalize": "^2.0.0",
     "crypto": "^1.0.1",
+    "html-entities": "^1.2.1",
     "moment": "^2.22.2",
     "octokit": "^1.0.0-hello-world",
     "prop-types": "^15.6.2",

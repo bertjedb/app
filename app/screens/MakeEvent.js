@@ -59,6 +59,7 @@ export default class MakeEvent extends Component {
 
   createWPEvent() {
   	console.log(this.state.name)
+  	utf8 = require('utf8')
   	this.setState({
   		name: utf8.encode(this.state.name)
   	})
