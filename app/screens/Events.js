@@ -59,8 +59,6 @@ class Events extends Component {
     api.callApi("api/getAllEvents", "POST", {}, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
-          console.log(response);
-
           let ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
           });
@@ -88,7 +86,7 @@ class Events extends Component {
           this.setState({
             uploading: false,
             loading: false,
-            data: response["events"],
+            data: response["events"].slice(start, end),
             fullArray: response["events"]
           });
         }
@@ -149,7 +147,7 @@ class Events extends Component {
                       uploading: false,
                       refreshing: false,
                       loading: false,
-                      data: array
+                      data: array.slice(start, end)
                     });
                     let array = response["events"];
                     for (let index = 0; index < array.length; index++) {
@@ -378,95 +376,106 @@ class Events extends Component {
                             ),
                             link: item.link,
                             img: item.img,
+                            qr_code: item.qrCode,
                             location: item.location,
                             participants: item.participants
                           })
                         }
                       >
-                        <Transition shared={item.id}>
-                          <Image
-                            source={{ uri: item.img }}
-                            resizeMode="cover"
-                            style={{ width: "100%", height: 200 }}
-                          />
-                        </Transition>
-                      </TouchableHighlight>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: "row",
-                          width: "80%"
-                        }}
-                      >
-                        <View
-                          style={{
-                            minWidth: 50,
-                            maxHeight: 50,
-                            backgroundColor: "#F27B13",
-                            marginTop: 10,
-                            borderRadius: 5,
-                            marginLeft: 10,
-                            marginRight: 10
-                          }}
-                        >
-                          <View style={{ flex: 1, flexDirection: "column" }}>
-                            <Text
+                        <View>
+                          <View>
+                            <Image
+                              source={{ uri: item.img }}
+                              resizeMode="cover"
+                              style={{ width: "100%", height: 200 }}
+                            />
+                            <View
                               style={{
-                                fontWeight: "bold",
-                                fontSize: 16,
-                                color: "white",
-                                textAlign: "center",
-                                marginTop: 5
+                                flex: 1,
+                                flexDirection: "row",
+                                width: "80%"
                               }}
                             >
-                              {item.begin}
-                            </Text>
-                            <Text
-                              style={{
-                                fontWeight: "bold",
-                                fontSize: 16,
-                                color: "white",
-                                textAlign: "center"
-                              }}
-                            >
-                              {item.beginMonth}
-                            </Text>
+                              <View
+                                style={{
+                                  minWidth: 50,
+                                  maxHeight: 50,
+                                  backgroundColor: "#F27B13",
+                                  marginTop: 10,
+                                  borderRadius: 5,
+                                  marginLeft: 10,
+                                  marginRight: 10
+                                }}
+                              >
+                                <View
+                                  style={{ flex: 1, flexDirection: "column" }}
+                                >
+                                  <Text
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: 16,
+                                      color: "white",
+                                      textAlign: "center",
+                                      marginTop: 5
+                                    }}
+                                  >
+                                    {item.begin}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: 16,
+                                      color: "white",
+                                      textAlign: "center"
+                                    }}
+                                  >
+                                    {item.beginMonth}
+                                  </Text>
+                                </View>
+                              </View>
+                              <View
+                                style={{
+                                  marginTop: 10,
+                                  marginRight: 10,
+                                  marginBottom: 30,
+                                  fontWeight: "bold"
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: 18,
+                                    color: "black"
+                                  }}
+                                >
+                                  {capitalize.words(
+                                    item.name.toString().replace(", ,", " ")
+                                  )}
+                                </Text>
+                                <HTML
+                                  style={{ height: 55 }}
+                                  tagsStyles={{
+                                    p: { textAlign: "left", color: "grey" }
+                                  }}
+                                  onLinkPress={(evt, href) => {
+                                    Linking.openURL(href);
+                                  }}
+                                  ignoredTags={["img"]}
+                                  html={item.desc.substr(0, 165) + "..."}
+                                  imagesMaxWidth={
+                                    Dimensions.get("window").width
+                                  }
+                                />
+                                <Text
+                                  style={{ marginLeft: 200, color: "black" }}
+                                >
+                                  Lees verder
+                                </Text>
+                              </View>
+                            </View>
                           </View>
                         </View>
-                        <View
-                          style={{
-                            marginTop: 10,
-                            marginRight: 10,
-                            marginBottom: 30,
-                            fontWeight: "bold"
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontWeight: "bold",
-                              fontSize: 18,
-                              color: "black"
-                            }}
-                          >
-                            {capitalize.words(
-                              item.name.toString().replace(", ,", " ")
-                            )}
-                          </Text>
-                          <HTML
-                            style={{ height: 55 }}
-                            tagsStyles={{
-                              p: { textAlign: "left", color: "grey" }
-                            }}
-                            onLinkPress={(evt, href) => {
-                              Linking.openURL(href);
-                            }}
-                            ignoredTags={["img"]}
-                            html={item.desc.substr(0, 165) + "..."}
-                            imagesMaxWidth={Dimensions.get("window").width}
-                          />
-                        </View>
-                      </View>
-
+                      </TouchableHighlight>
                       <View
                         style={{
                           flex: 1,
@@ -513,7 +522,7 @@ class Events extends Component {
                               });
                             }}
                             style={{
-                              width: "33%",
+                              width: "50%",
                               borderRightWidth: 1,
                               justifyContent: "center",
                               alignItems: "center",
@@ -565,7 +574,7 @@ class Events extends Component {
                               });
                             }}
                             style={{
-                              width: "33%",
+                              width: "50%",
                               borderRightWidth: 1,
                               justifyContent: "center",
                               alignItems: "center",
@@ -594,7 +603,7 @@ class Events extends Component {
                             })
                           }
                           style={{
-                            width: "33%",
+                            width: "50%",
                             justifyContent: "center",
                             alignItems: "center",
                             padding: 10,
@@ -603,49 +612,6 @@ class Events extends Component {
                         >
                           <Text style={{ color: "white", fontWeight: "bold" }}>
                             DELEN
-                          </Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                          onPress={() =>
-                            this.props.navigation.navigate("EventDetail", {
-                              id: item.id,
-                              title: capitalize.words(
-                                item.name.toString().replace(", ,", " ")
-                              ),
-                              profilePicture: item.photo[0],
-                              content: item.desc,
-                              start:
-                                item.begin +
-                                " " +
-                                item.beginMonth +
-                                " " +
-                                item.beginTime,
-                              end:
-                                item.end +
-                                " " +
-                                item.endMonth +
-                                " " +
-                                item.endTime,
-                              created: item.created,
-                              author: capitalize.words(item.leader),
-                              link: item.link,
-                              img: item.img,
-                              location: item.location,
-                              subscribed: item.subscribed
-                            })
-                          }
-                          style={{
-                            width: "34%",
-                            borderLeftWidth: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: 10,
-                            backgroundColor: "#93D500",
-                            borderBottomRightRadius: 10
-                          }}
-                        >
-                          <Text style={{ color: "white", fontWeight: "bold" }}>
-                            LEES MEER...
                           </Text>
                         </TouchableHighlight>
                       </View>

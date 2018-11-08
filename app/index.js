@@ -8,6 +8,7 @@ import { Header } from 'react-navigation';
 import OneSignal from 'react-native-onesignal';
 import {PacmanIndicator} from 'react-native-indicators';
 import FlashMessage from "react-native-flash-message";
+
 // you can set your style right here, it'll be propagated to application
 const uiTheme = {
   palette: {

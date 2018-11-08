@@ -30,12 +30,10 @@ import ConfettiView from "react-native-confetti-view";
 import CardFlip from "react-native-card-flip";
 import Api from "../config/api.js";
 import Maps from "../config/maps.js";
-
 import LocalStorage from "../config/localStorage.js";
 import HTML from "react-native-render-html";
 import ImageSlider from "react-native-image-slider";
 import { PacmanIndicator } from "react-native-indicators";
-import MyWebView from "react-native-webview-autoheight";
 import LinearGradient from "react-native-linear-gradient";
 import ImageOverlay from "react-native-image-overlay";
 import * as Animatable from "react-native-animatable";
@@ -105,6 +103,19 @@ class EventDetail extends Component {
       "November",
       "December"
     ];
+
+    {
+      let localStorage = LocalStorage.getInstance();
+      localStorage.retrieveItem("userId").then(id => {
+        localStorage.retrieveItem("clearance").then(clearance => {
+          if ((id != null) & (clearance == 1)) {
+            this.setState({
+              isLoggedIn: true
+            });
+          }
+        });
+      });
+    }
   }
 
   componentDidMount() {
@@ -768,37 +779,41 @@ class EventDetail extends Component {
               />
             </View>
           </Animated.View>
-          <Animated.View
-            style={[
-              styles.cardBottom,
 
-              {
-                transform: [
-                  {
-                    translateX: this.state.x3
-                  }
-                ]
-              }
-            ]}
-            elevation={5}
-          >
-            <View
-              style={{
-                width: "100%",
-                height: 200,
-                borderRadius: 10,
-                overflow: "hidden",
-                alignItems: "center"
-              }}
+          {this.state.isLoggedIn && (
+            <Animated.View
+              style={[
+                styles.lastCard,
+                {
+                  transform: [
+                    {
+                      translateX: this.state.x3
+                    }
+                  ]
+                }
+              ]}
+              elevation={5}
             >
-              <QRCode
-                value={qr_code}
-                size={180}
-                bgColor="#000"
-                fgColor="#fff"
-              />
-            </View>
-          </Animated.View>
+              <View
+                style={{
+                  width: "100%",
+                  height: 200,
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  alignItems: "center",
+                  marginTop: 20
+                }}
+              >
+                <QRCode
+                  value={qr_code}
+                  size={180}
+                  bgColor="#000"
+                  fgColor="#fff"
+                />
+              </View>
+            </Animated.View>
+          )}
+
           <Animatable.View
             delay={500}
             animation="lightSpeedIn"
@@ -882,11 +897,25 @@ const styles = StyleSheet.create({
     elevation: 3
   },
 
-  cardBottom: {
+  lastCard: {
     backgroundColor: "white",
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 45,
+    borderRadius: 10,
+    shadowOffset: { width: 0, height: 13 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+
+    // android (Android +5.0)
+    elevation: 3
+  },
+
+  cardBottom: {
+    backgroundColor: "white",
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
