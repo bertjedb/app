@@ -144,19 +144,19 @@ export default StyleSheet.create({
     defaultBtn: {
         borderRadius: 10,
         backgroundColor: '#FF6700'
-    },
+      },
 
     facebookBtn: {
         backgroundColor: '#4267B2',
         borderRadius: 10,
-        width: 360,
+        width: "100%",
         height: 35,
         alignSelf: 'center',
         marginTop: 10,
         marginBottom: 10,
         flexDirection: 'row',
         elevation: 2
-    },
+     },
 
     loginBtn: {
         borderRadius: 10,

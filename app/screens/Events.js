@@ -245,380 +245,380 @@ class Events extends Component {
   };
 
   render() {
-	return (
-	  <ImageBackground
-		blurRadius={0}
-		source={require("../assets/Bslim_Background.jpg")}
-		style={{
-		  width: Dimensions.get("window").width,
-		  height: Dimensions.get("window").height
-		}}
-	  >
-		<LinearGradient
-		  colors={[
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201",
-			"#94D600",
-			"#76C201"
-		  ]}
-		  style={{ height: Header.HEIGHT }}
-		>
-		  <Toolbar
-			centerElement={"Evenementen"}
-			searchable={{
-			  autoFocus: true,
-			  placeholder: "Zoeken",
-			  onChangeText: text => this.setState({ search: text }),
-			  onSubmitEditing: () => {
-				this.handleSearch();
-			  }
-			}}
-		  />
-		</LinearGradient>
-		{!this.state.loading && (
-		  <View>
-			<FlatList
-			  data={this.state.data}
-			  keyExtractor={item => item.id}
-			  initialNumToRender={2}
-			  // windowSize={2}
-			  // maxToRenderPerBatch={4}
-			  onEndReachedThreshold={0.6}
-			  onEndReached={() => this.handelEnd()}
-			  contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
-			  refreshControl={
-				<RefreshControl
-				  colors={["#94D600"]}
-				  refreshing={this.state.refreshing}
-				  onRefresh={this._onRefresh}
-				/>
-			  }
-			  style={{ paddingTop: 10, marginBottom: 55 }}
-			  renderItem={({ item }) => (
-				<View style={styles.container}>
-				  <View style={styles.card} elevation={5}>
-					<View
-					  style={{
-						flex: 1,
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "center",
-						margin: 10
-					  }}
-					>
-					  <Image
-						source={{ uri: item.photo[0] }}
-						resizeMode="cover"
-						style={{ width: 50, height: 50, borderRadius: 10 }}
-					  />
-					  <View
-						style={{
-						  flex: 1,
-						  flexDirection: "column",
-						  marginLeft: 10
-						}}
-					  >
-						<Text
-						  style={{
-							fontWeight: "bold",
-							fontSize: 18,
-							color: "black"
-						  }}
-						>
-						  {capitalize.words(item.leader)}
-						</Text>
-						<Text style={{ fontSize: 14, color: "black" }}>
-						  {item.created}
-						</Text>
-					  </View>
-					</View>
-					<View
-					  style={{
-						backgroundColor: "white",
-						paddingBottom: 25,
-						borderBottomLeftRadius: 10,
-						borderBottomRightRadius: 10
-					  }}
-					>
-					  <TouchableHighlight
-						onPress={() =>
-						  this.props.navigation.navigate("EventDetail", {
-							title: capitalize.words(
-							  item.name.toString().replace(", ,", " ")
-							),
-							subscribed: item.subscribed,
-							id: item.id,
-							profilePicture: item.photo[0],
-							content: item.desc,
-							start: item.begin + " " + item.beginMonth + " 2018",
-							startTime: item.beginTime,
-							end: item.end + " " + item.endMonth + " 2018",
-							endTime: item.endTime,
-							created: item.created,
-							author: capitalize.words(
-							  item.leader.replace(", ,", " ")
-							),
-							link: item.link,
-							img: item.img,
-							qr_code: item.qrCode,
-							location: item.location,
-							participants: item.participants
-						  })
-						}
-					  >
-				  		<View>
-							<View>
-								<Image
-								  source={{ uri: item.img }}
-								  resizeMode="cover"
-								  style={{ width: "100%", height: 200 }}
-								/>
-								<View
-								  style={{
-									flex: 1,
-									flexDirection: "row",
-									width: "80%"
-								  }}
-								>
-								  <View
-									style={{
-									  minWidth: 50,
-									  maxHeight: 50,
-									  backgroundColor: "#F27B13",
-									  marginTop: 10,
-									  borderRadius: 5,
-									  marginLeft: 10,
-									  marginRight: 10
-									}}
-								  >
-									<View style={{ flex: 1, flexDirection: "column" }}>
-									  <Text
-										style={{
-										  fontWeight: "bold",
-										  fontSize: 16,
-										  color: "white",
-										  textAlign: "center",
-										  marginTop: 5
-										}}
-									  >
-										{item.begin}
-									  </Text>
-									  <Text
-										style={{
-										  fontWeight: "bold",
-										  fontSize: 16,
-										  color: "white",
-										  textAlign: "center"
-										}}
-									  >
-										{item.beginMonth}
-									  </Text>
-									</View>
-								  </View>
-								  <View
-									style={{
-									  marginTop: 10,
-									  marginRight: 10,
-									  marginBottom: 30,
-									  fontWeight: "bold"
-									}}
-								  >
-									<Text
-									  style={{
-										fontWeight: "bold",
-										fontSize: 18,
-										color: "black"
-									  }}
-									>
-									  {capitalize.words(
-										item.name.toString().replace(", ,", " ")
-									  )}
-									</Text>
-									<HTML
-									  style={{ height: 55 }}
-									  tagsStyles={{
-										p: { textAlign: "left", color: "grey" }
-									  }}
-									  onLinkPress={(evt, href) => {
-										Linking.openURL(href);
-									  }}
-									  ignoredTags={["img"]}
-									  html={item.desc.substr(0, 165) + "..."}
-									  imagesMaxWidth={Dimensions.get("window").width}
-									/>
-									<Text
-									  style={{marginLeft: 200,color: 'black'}}
-									>
-									  Lees verder
-									</Text>
-								  </View>
-								</View>
-							</View>
-						</View>
-					  </TouchableHighlight>
-					  <View
-						style={{
-						  flex: 1,
-						  flexDirection: "row",
-						  position: "absolute",
-						  bottom: 0,
-						  left: 0,
-						  alignItems: "center"
-						}}
-					  >
-						{!item.subscribed && (
-						  <TouchableHighlight
-							onPress={() => {
-							  let api = Api.getInstance();
-							  let localStorage = LocalStorage.getInstance();
-							  localStorage.retrieveItem("userId").then(id => {
-								if (id != null) {
-								  userData = {
-									eventId: item.id,
-									personId: id
-								  };
-								  api.callApi(
-									"api/subToEvent",
-									"POST",
-									userData,
-									response => {
-									  if (response["responseCode"] == 200) {
-										alert(
-										  "Je hebt je aangemeld voor dit evenement"
-										);
-										this.refresh();
-									  } else if (
-										response["responseCode"] == 400
-									  ) {
-										alert("Je bent al aangemeld");
-									  } else {
-										alert("Er is wat fout gegaan");
-									  }
-									}
-								  );
-								} else {
-								  this.props.navigation.navigate("LoginScreen");
-								}
-							  });
-							}}
-							style={{
-							  width: "50%",
-							  borderRightWidth: 1,
-							  justifyContent: "center",
-							  alignItems: "center",
-							  padding: 10,
-							  backgroundColor: "#93D500",
-							  borderBottomLeftRadius: 10
-							}}
-						  >
-							<Text
-							  style={{ color: "white", fontWeight: "bold" }}
-							>
-							  AANMELDEN
-							</Text>
-						  </TouchableHighlight>
-						)}
-						{item.subscribed && (
-						  <TouchableHighlight
-							onPress={() => {
-							  let api = Api.getInstance();
-							  let localStorage = LocalStorage.getInstance();
-							  localStorage.retrieveItem("userId").then(id => {
-								if (id != null) {
-								  userData = {
-									eventId: item.id,
-									personId: id
-								  };
-								  api.callApi(
-									"api/unSubToEvent",
-									"POST",
-									userData,
-									response => {
-									  if (response["responseCode"] == 200) {
-										alert(
-										  "Je hebt je afgemeld voor dit evenement"
-										);
-										this.refresh();
-									  } else if (
-										response["responseCode"] == 400
-									  ) {
-										alert("Je bent al afgemeld");
-									  } else {
-										alert("Er is wat fout gegaan");
-									  }
-									}
-								  );
-								} else {
-								  this.props.navigation.navigate("LoginScreen");
-								}
-							  });
-							}}
-							style={{
-							  width: "50%",
-							  borderRightWidth: 1,
-							  justifyContent: "center",
-							  alignItems: "center",
-							  padding: 10,
-							  backgroundColor: "#93D500",
-							  borderBottomLeftRadius: 10
-							}}
-						  >
-							<Text
-							  style={{ color: "white", fontWeight: "bold" }}
-							>
-							  AFMELDEN
-							</Text>
-						  </TouchableHighlight> )}
-						<TouchableHighlight
-						  onPress={() =>
-							Share.share({
-							  message:
-								"Binnenkort organiseert bslim: " +
-								capitalize.words(
-								  item.name.toString().replace(", ,", " ")
-								) +
-								". Voor meer informatie ga naar: " +
-								item.link
-							})
-						  }
-						  style={{
-							width: "50%",
-							justifyContent: "center",
-							alignItems: "center",
-							padding: 10,
-							backgroundColor: "#93D500",
-						  }}
-						>
-						  <Text style={{ color: "white", fontWeight: "bold" }}>
-							DELEN
-						  </Text>
-						</TouchableHighlight>
-						</View>
-					  </View>
-					</View>
-				  </View>
-			  )}
-			/>
-		  </View>
-		)}
-		{this.state.loading && <PacmanIndicator color="#94D600" />}
-		</ImageBackground>
-		);
-	}
+    return (
+      <ImageBackground
+        blurRadius={0}
+        source={require("../assets/Bslim_Background.jpg")}
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height
+        }}
+      >
+        <LinearGradient
+          colors={[
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201",
+            "#94D600",
+            "#76C201"
+          ]}
+          style={{ height: Header.HEIGHT }}
+        >
+          <Toolbar
+            centerElement={"Evenementen"}
+            searchable={{
+              autoFocus: true,
+              placeholder: "Zoeken",
+              onChangeText: text => this.setState({ search: text }),
+              onSubmitEditing: () => {
+                this.handleSearch();
+              }
+            }}
+          />
+        </LinearGradient>
+        {!this.state.loading && (
+          <View>
+            <FlatList
+              data={this.state.data}
+              keyExtractor={item => item.title}
+              initialNumToRender={2}
+              // windowSize={2}
+              // maxToRenderPerBatch={4}
+              onEndReachedThreshold={0.6}
+              onEndReached={() => this.handelEnd()}
+              contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
+              refreshControl={
+                <RefreshControl
+                  colors={["#94D600"]}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh}
+                />
+              }
+              style={{ paddingTop: 10, marginBottom: 55 }}
+              renderItem={({ item }) => (
+                <View style={styles.container}>
+                  <View style={styles.card} elevation={5}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10
+                      }}
+                    >
+                      <Image
+                        source={{ uri: item.photo[0] }}
+                        resizeMode="cover"
+                        style={{ width: 50, height: 50, borderRadius: 10 }}
+                      />
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "column",
+                          marginLeft: 10
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: 18,
+                            color: "black"
+                          }}
+                        >
+                          {capitalize.words(item.leader)}
+                        </Text>
+                        <Text style={{ fontSize: 14, color: "black" }}>
+                          {item.created}
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "white",
+                        paddingBottom: 25,
+                        borderBottomLeftRadius: 10,
+                        borderBottomRightRadius: 10
+                      }}
+                    >
+                        <TouchableHighlight
+                            onPress={() =>
+                                this.props.navigation.navigate("EventDetail", {
+                                    title: capitalize.words(
+                                        item.name.toString().replace(", ,", " ")
+                                    ),
+                                    subscribed: item.subscribed,
+                                    id: item.id,
+                                    profilePicture: item.photo[0],
+                                    content: item.desc,
+                                    start: item.begin + " " + item.beginMonth + " 2018",
+                                    startTime: item.beginTime,
+                                    end: item.end + " " + item.endMonth + " 2018",
+                                    endTime: item.endTime,
+                                    created: item.created,
+                                    author: capitalize.words(
+                                        item.leader.replace(", ,", " ")
+                                    ),
+                                    link: item.link,
+                                    img: item.img,
+                                    qr_code: item.qrCode,
+                                    location: item.location,
+                                    participants: item.participants
+                                })
+                            }
+                        >
+                            <View>
+                                <View>
+                                    <Image
+                                        source={{ uri: item.img }}
+                                        resizeMode="cover"
+                                        style={{ width: "100%", height: 200 }}
+                                    />
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            flexDirection: "row",
+                                            width: "80%"
+                                        }}
+                                    >
+                                        <View
+                                            style={{
+                                                minWidth: 50,
+                                                maxHeight: 50,
+                                                backgroundColor: "#F27B13",
+                                                marginTop: 10,
+                                                borderRadius: 5,
+                                                marginLeft: 10,
+                                                marginRight: 10
+                                            }}
+                                        >
+                                            <View style={{ flex: 1, flexDirection: "column" }}>
+                                                <Text
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                        fontSize: 16,
+                                                        color: "white",
+                                                        textAlign: "center",
+                                                        marginTop: 5
+                                                    }}
+                                                >
+                                                    {item.begin}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                        fontSize: 16,
+                                                        color: "white",
+                                                        textAlign: "center"
+                                                    }}
+                                                >
+                                                    {item.beginMonth}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <View
+                                            style={{
+                                                marginTop: 10,
+                                                marginRight: 10,
+                                                marginBottom: 30,
+                                                fontWeight: "bold"
+                                            }}
+                                        >
+                                            <Text
+                                                style={{
+                                                    fontWeight: "bold",
+                                                    fontSize: 18,
+                                                    color: "black"
+                                                }}
+                                            >
+                                                {capitalize.words(
+                                                    item.name.toString().replace(", ,", " ")
+                                                )}
+                                            </Text>
+                                            <HTML
+                                                style={{ height: 55 }}
+                                                tagsStyles={{
+                                                    p: { textAlign: "left", color: "grey" }
+                                                }}
+                                                onLinkPress={(evt, href) => {
+                                                    Linking.openURL(href);
+                                                }}
+                                                ignoredTags={["img"]}
+                                                html={item.desc.substr(0, 165) + "..."}
+                                                imagesMaxWidth={Dimensions.get("window").width}
+                                            />
+                                            <Text
+                                                style={{marginLeft: 200,color: 'black'}}
+                                            >
+                                                Lees verder
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </TouchableHighlight>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          alignItems: "center"
+                        }}
+                      >
+                        {!item.subscribed && (
+                          <TouchableHighlight
+                            onPress={() => {
+                              let api = Api.getInstance();
+                              let localStorage = LocalStorage.getInstance();
+                              localStorage.retrieveItem("userId").then(id => {
+                                if (id != null) {
+                                  userData = {
+                                    eventId: item.id,
+                                    personId: id
+                                  };
+                                  api.callApi(
+                                    "api/subToEvent",
+                                    "POST",
+                                    userData,
+                                    response => {
+                                      if (response["responseCode"] == 200) {
+                                        alert(
+                                          "Je hebt je aangemeld voor dit evenement"
+                                        );
+                                        this.refresh();
+                                      } else if (
+                                        response["responseCode"] == 400
+                                      ) {
+                                        alert("Je bent al aangemeld");
+                                      } else {
+                                        alert("Er is wat fout gegaan");
+                                      }
+                                    }
+                                  );
+                                } else {
+                                  this.props.navigation.navigate("LoginScreen");
+                                }
+                              });
+                            }}
+                            style={{
+                              width: "50%",
+                              borderRightWidth: 1,
+                              justifyContent: "center",
+                              alignItems: "center",
+                              padding: 10,
+                              backgroundColor: "#93D500",
+                              borderBottomLeftRadius: 10
+                            }}
+                          >
+                            <Text
+                              style={{ color: "white", fontWeight: "bold" }}
+                            >
+                              AANMELDEN
+                            </Text>
+                          </TouchableHighlight>
+                        )}
+                        {item.subscribed && (
+                          <TouchableHighlight
+                            onPress={() => {
+                              let api = Api.getInstance();
+                              let localStorage = LocalStorage.getInstance();
+                              localStorage.retrieveItem("userId").then(id => {
+                                if (id != null) {
+                                  userData = {
+                                    eventId: item.id,
+                                    personId: id
+                                  };
+                                  api.callApi(
+                                    "api/unSubToEvent",
+                                    "POST",
+                                    userData,
+                                    response => {
+                                      if (response["responseCode"] == 200) {
+                                        alert(
+                                          "Je hebt je afgemeld voor dit evenement"
+                                        );
+                                        this.refresh();
+                                      } else if (
+                                        response["responseCode"] == 400
+                                      ) {
+                                        alert("Je bent al afgemeld");
+                                      } else {
+                                        alert("Er is wat fout gegaan");
+                                      }
+                                    }
+                                  );
+                                } else {
+                                  this.props.navigation.navigate("LoginScreen");
+                                }
+                              });
+                            }}
+                            style={{
+                              width: "50%",
+                              borderRightWidth: 1,
+                              justifyContent: "center",
+                              alignItems: "center",
+                              padding: 10,
+                              backgroundColor: "#93D500",
+                              borderBottomLeftRadius: 10
+                            }}
+                          >
+                            <Text
+                              style={{ color: "white", fontWeight: "bold" }}
+                            >
+                              AFMELDEN
+                            </Text>
+                          </TouchableHighlight> )}
+                        <TouchableHighlight
+                          onPress={() =>
+                            Share.share({
+                              message:
+                                "Binnenkort organiseert bslim: " +
+                                capitalize.words(
+                                  item.name.toString().replace(", ,", " ")
+                                ) +
+                                ". Voor meer informatie ga naar: " +
+                                item.link
+                            })
+                          }
+                          style={{
+                            width: "50%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: 10,
+                            backgroundColor: "#93D500",
+                          }}
+                        >
+                          <Text style={{ color: "white", fontWeight: "bold" }}>
+                            DELEN
+                          </Text>
+                        </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+              )}
+            />
+          </View>
+        )}
+        {this.state.loading && <PacmanIndicator color="#94D600" />}
+        </ImageBackground>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
