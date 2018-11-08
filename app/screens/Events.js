@@ -59,6 +59,8 @@ class Events extends Component {
     api.callApi("api/getAllEvents", "POST", {}, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
+          console.log(response);
+
           let ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
           });
@@ -581,14 +583,14 @@ class Events extends Component {
                         )}
                         <TouchableHighlight
                           onPress={() =>
-                            Share.share({
-                              message:
-                                "Binnenkort organiseert bslim: " +
-                                capitalize.words(
-                                  item.name.toString().replace(", ,", " ")
-                                ) +
-                                ". Voor meer informatie ga naar: " +
-                                item.link
+                            this.props.navigation.navigate("UpdateEvent", {
+                              id: item.id,
+                              title: capitalize.words(
+                                item.name.toString().replace(", ,", " ")
+                              ),
+                              content: item.desc,
+                              img: item.img,
+                              location: item.location
                             })
                           }
                           style={{
