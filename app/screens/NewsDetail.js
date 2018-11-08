@@ -11,8 +11,7 @@ import {
   Dimensions,
   Share,
   Linking,
-  Platform,
-  WebView
+  Platform
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -38,7 +37,7 @@ import LinearGradient from "react-native-linear-gradient";
 
 import ImageSlider from "react-native-image-slider";
 import { PacmanIndicator } from "react-native-indicators";
-import MyWebView from "react-native-webview-autoheight";
+import Video from 'react-native-video';
 
 import {
   COLOR,
@@ -90,6 +89,11 @@ class NewsDetail extends Component {
     const content = navigation.getParam("content", "");
     const link = navigation.getParam("link", "");
     const img = navigation.getParam("img", "");
+    let type = img.substring(img.length - 3);
+    var videoContent = false
+    if(type == "mp4") {
+        videoContent = true
+    }
 
     return (
       <ImageBackground
@@ -144,16 +148,24 @@ class NewsDetail extends Component {
                   marginBottom: 20
                 }}
               >
+                { !videoContent &&
                 <Image
                   source={{ uri: img }}
                   resizeMode="cover"
                   style={{ width: "100%", height: 200, borderRadius: 5 }}
-                />
+                />}
                 {/*{this.state.img &&*/}
                 {/*<ImageSlider*/}
                 {/*autoPlayWithInterval={3000}*/}
                 {/*images={[this.state.img]}/>*/}
                 {/*}*/}
+                { videoContent &&
+                <Video
+                    source={{uri: img}}
+                    style={stylesCss.backgroundVideo}
+                    paused={true}
+                >
+                </Video>}
               </View>
               <View style={{ flex: 1 }}>
                 <Text
@@ -179,8 +191,7 @@ class NewsDetail extends Component {
                   containerStyle={{
                     marginLeft: 20,
                     marginRight: 10,
-                    alignItems: "center",
-                    textAlign: "center"
+                    alignItems: "center"
                   }}
                   ignoredTags={["img"]}
                   html={content}

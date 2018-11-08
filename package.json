@@ -73,8 +73,6 @@
     "react-native-vector-icons": "^5.0.0",
     "react-native-video": "^3.2.1",
     "react-native-video-player": "^0.9.1",
-    "react-native-webview": "git+https://github.com/react-native-community/react-native-webview.git",
-    "react-native-webview-autoheight": "^1.0.5",
     "react-navigation": "^2.14.2",
     "react-navigation-fluid-transitions": "^0.2.72",
     "react-navigation-material-bottom-tabs": "^0.4.0",

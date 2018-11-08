@@ -41,6 +41,7 @@ import Events from "../screens/Events";
 import ChangeEmailRequest from "../screens/ChangeEmailRequest";
 import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
+import VideoPicker from "../screens/VideoPicker";
 import signInView from "../screens/signInView";
 
 //StackNavigator for login related screens like login, register and password reset.
@@ -81,6 +82,12 @@ export const LoginStack = StackNavigator(
       navigationOptions: {
         title: "E-mail adres veranderen"
       }
+    },
+    FacebookLogin: {
+      screen: FacebookLogin,
+      navigationOptions: {
+        title: "Inloggen met facebook"
+      }
     }
   },
   {
@@ -108,6 +115,12 @@ export const AdminStack = StackNavigator(
       navigationOptions: {
         title: "Nieuw begeleider account"
       }
+    },
+    VideoPicker: {
+        screen: VideoPicker,
+        navigationOptions: {
+            title: "Video uploaden"
+        }
     }
   },
   {
@@ -264,7 +277,7 @@ export const MyTabLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/news.png")}
+            source={require("../assets/icons/News.png")}
           />
         )
       }
@@ -337,7 +350,7 @@ export const MyTabLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/news.png")}
+                source={require("../assets/icons/News.png")}
               />
             )
           },
@@ -386,7 +399,7 @@ export const MyTabNotLoggedIn = TabNavigator(
         tabBarIcon: (
           <Image
             style={{ width: 28, height: 24 }}
-            source={require("../assets/icons/news.png")}
+            source={require("../assets/icons/News.png")}
           />
         )
       }
@@ -442,7 +455,7 @@ export const MyTabNotLoggedIn = TabNavigator(
             activeIcon: (
               <Image
                 style={{ width: 28, height: 24 }}
-                source={require("../assets/icons/news.png")}
+                source={require("../assets/icons/News.png")}
               />
             )
           },

@@ -146,8 +146,19 @@ export default StyleSheet.create({
         backgroundColor: '#FF6700'
     },
 
+    facebookBtn: {
+        backgroundColor: '#4267B2',
+        borderRadius: 10,
+        width: 360,
+        height: 35,
+        alignSelf: 'center',
+        marginTop: 10,
+        marginBottom: 10,
+        flexDirection: 'row',
+        elevation: 2
+    },
+
     loginBtn: {
-        marginBottom: 30,
         borderRadius: 10,
         backgroundColor: '#FF6700'
     },
@@ -216,6 +227,12 @@ export default StyleSheet.create({
         borderColor:'rgba(0,0,0,0.2)',
         width:100,
         height:100,
+    },
+
+    backgroundVideo: {
+        width: 300,
+        height: 300,
+        margin: 30
     },
 
 });
