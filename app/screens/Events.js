@@ -18,7 +18,7 @@ import HTML from "react-native-render-html";
 import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
-import {PacmanIndicator} from 'react-native-indicators';
+import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 
@@ -30,12 +30,12 @@ var end = endNum;
 
 const uiTheme = {
   palette: {
-	primaryColor: "#3bb222"
+    primaryColor: "#3bb222"
   },
   toolbar: {
-	container: {
-	  height: 60
-	}
+    container: {
+      height: 60
+    }
   }
 };
 
@@ -96,29 +96,29 @@ class Events extends Component {
   }
 
   hideSplashScreen() {
-	this.setState({
-	  splashScreenVisible: false
-	});
+    this.setState({
+      splashScreenVisible: false
+    });
   }
 
   errorMessage(msg) {
-	showMessage({
-	  message: msg,
-	  type: "danger",
-	  duration: 3000
-	});
+    showMessage({
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
   }
 
   onLoad = () => {
-	this.refresh();
+    this.refresh();
   };
 
   _onRefresh = () => {
-	this.setState({ refreshing: true, sleeping: false, loading: true });
-	this.refresh();
+    this.setState({ refreshing: true, sleeping: false, loading: true });
+    this.refresh();
   };
 
-  refresh() {
+refresh() {
 	startNum = 0;
 	endNum = 2;
 	start = startNum;
@@ -604,48 +604,60 @@ class Events extends Component {
 	}
 }
 
+// onPress={() =>
+//                             this.props.navigation.navigate("UpdateEvent", {
+//                               id: item.id,
+//                               title: capitalize.words(
+//                                 item.name.toString().replace(", ,", " ")
+//                               ),
+//                               content: item.desc,
+//                               img: item.img,
+//                               location: item.location
+//                             })
+//                           }
+
 const styles = StyleSheet.create({
   splashScreen: {
-	backgroundColor: "blue",
-	position: "absolute",
-	width: "100%",
-	height: "100%"
+    backgroundColor: "blue",
+    position: "absolute",
+    width: "100%",
+    height: "100%"
   },
   container: {
-	flex: 1,
-	justifyContent: "center",
-	marginBottom: 20
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 20
   },
   card: {
-	backgroundColor: "white",
-	marginTop: 0,
-	marginBottom: 20,
-	borderRadius: 10,
-	marginLeft: 10,
-	marginRight: 10,
-	shadowOffset: { width: 0, height: 13 },
-	shadowOpacity: 0.3,
-	shadowRadius: 6,
+    backgroundColor: "white",
+    marginTop: 0,
+    marginBottom: 20,
+    borderRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    shadowOffset: { width: 0, height: 13 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
 
-	// android (Android +5.0)
-	elevation: 3
+    // android (Android +5.0)
+    elevation: 3
   },
   logo: {
-	height: 250,
-	width: 300,
-	resizeMode: "contain"
+    height: 250,
+    width: 300,
+    resizeMode: "contain"
   },
   loginButton: {
-	margin: 5,
-	backgroundColor: "#FF6700",
-	padding: 10,
-	borderRadius: 10,
-	overflow: "hidden"
+    margin: 5,
+    backgroundColor: "#FF6700",
+    padding: 10,
+    borderRadius: 10,
+    overflow: "hidden"
   },
   loginButtonText: {
-	textAlign: "center",
-	fontSize: 16,
-	color: "white"
+    textAlign: "center",
+    fontSize: 16,
+    color: "white"
   }
 });
 
