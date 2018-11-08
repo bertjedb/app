@@ -1,40 +1,40 @@
 import React, { Component } from "react";
 import {
-    StyleSheet,
-    View,
-    Text,
-    ScrollView,
-    TouchableOpacity,
-    Image,
-    TextInput,
-    ImageBackground,
-    Dimensions,
-    NetInfo
-} from 'react-native';
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ImageBackground,
+  Dimensions
+} from "react-native";
 import {
-    COLOR,
-    ThemeContext,
-    getTheme,
-    Toolbar,
-    Card,
-    Button
-} from 'react-native-material-ui';
-import { DrawerActions, NavigationActions, Header } from 'react-navigation';
-import Api from '../config/api.js';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Snackbar from 'react-native-snackbar';
+  COLOR,
+  ThemeContext,
+  getTheme,
+  Toolbar,
+  Card,
+  Button
+} from "react-native-material-ui";
+import { DrawerActions, NavigationActions, Header } from "react-navigation";
+import Api from "../config/api.js";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Snackbar from "react-native-snackbar";
+import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { sha256 } from 'react-native-sha256';
-import stylesCss from '../assets/css/style.js';
-import { TextField } from 'react-native-material-textfield';
-import ImagePicker from 'react-native-image-picker';
-import RNFetchBlob from 'rn-fetch-blob'
-import ProgressBarAnimated from 'react-native-progress-bar-animated';
-import ActionButton from 'react-native-action-button';
-import * as mime from 'react-native-mime-types';
-import DefaultUserImage from '../assets/default-user-image.png';
-import LinearGradient from 'react-native-linear-gradient';
-import ImgToBase64 from 'react-native-image-base64';
+import { sha256 } from "react-native-sha256";
+import stylesCss from "../assets/css/style.js";
+import { TextField } from "react-native-material-textfield";
+import ImagePicker from "react-native-image-picker";
+import RNFetchBlob from "rn-fetch-blob";
+import ProgressBarAnimated from "react-native-progress-bar-animated";
+import ActionButton from "react-native-action-button";
+import * as mime from "react-native-mime-types";
+import DefaultUserImage from "../assets/default-user-image.png";
+import LinearGradient from "react-native-linear-gradient";
+import ImgToBase64 from "react-native-image-base64";
 
 const uiTheme = {
   palette: {
@@ -49,81 +49,91 @@ const uiTheme = {
 
 export default class CreateAdmin extends Component {
   constructor() {
-      super();
-      //sets the state for the registration screen, there are 2 passwords fields because we want
-      // the user to type their password twice to avoid typing errors
-      //the 'succesfull' state variable is used to display the snackbar when logged in
-      this.state = {
-        wordpress: true,
-        wpUsername: '',
-        wpPassword: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        firstPassword: '',
-        secondPassword: '',
-        biography: '',
-        succesfull: false,
-        pickedImage: DefaultUserImage,
-	    emailError: '',
-	    emailColor: 'green',
-	    firstPasswordError: '',
-	    firstPasswordColor: 'green',
-	    secondPasswordError: '',
-	    secondPasswordColor: 'green',
-        img: ''
-      };
+    super();
+    //sets the state for the registration screen, there are 2 passwords fields because we want
+    // the user to type their password twice to avoid typing errors
+    //the 'succesfull' state variable is used to display the snackbar when logged in
+    this.state = {
+      wordpress: true,
+      wpUsername: "",
+      wpPassword: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      firstPassword: "",
+      secondPassword: "",
+      biography: "",
+      succesfull: false,
+      pickedImage: DefaultUserImage,
+      emailError: "",
+      emailColor: "green",
+      firstPasswordError: "",
+      firstPasswordColor: "green",
+      secondPasswordError: "",
+      secondPasswordColor: "green",
+      img: ""
+    };
   }
 
-	componentWillUnmount() {
-		if(this.state.succesfull){
-			Snackbar.show({
-			  title: 'Registratie succesvol!',
-			  duration: Snackbar.LENGTH_LONG,
-			  action: {
-			    title: 'OK',
-			    color: 'green',
-			    onPress: () => { /* Do something. */ },
-			  },
-			});
-		}
-	}
+  componentWillUnmount() {
+    if (this.state.succesfull) {
+      Snackbar.show({
+        title: "Registratie succesvol!",
+        duration: Snackbar.LENGTH_LONG,
+        action: {
+          title: "OK",
+          color: "green",
+          onPress: () => {
+            /* Do something. */
+          }
+        }
+      });
+    }
+  }
 
-  wordpressLogin(){
+  wordpressLogin() {
     data = {
-        username:this.state.wpUsername,
-  	    password:this.state.wpPassword
+      username: this.state.wpUsername,
+      password: this.state.wpPassword
     };
-    NetInfo.getConnectionInfo().then((connectionInfo) => {
-                if(connectionInfo.type != 'none') {
-                    fetch('http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate', {method: 'POST',headers: {'Content-Type': 'application/json',},body: JSON.stringify({data})
-                    }).then((response) => response.json()).then(responseJson => {
-                        this.setState({
-                            firstName: responseJson['data']['display_name'].substr(0,responseJson['data']['display_name'].indexOf(' ')),
-                            lastName: responseJson['data']['display_name'].substr(responseJson['data']['display_name'].indexOf(' ')+1),
-                            email: responseJson['data']['user_email'],
-                            idWP: responseJson['data']['ID'],
-                            firstPassword: this.state.wpPassword,
-                            secondPassword: this.state.wpPassword,
-                            biography: '',
-                            wordpress: false
-                        })
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-                } else {
-                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-                }
-            });
+    fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ data })
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        console.log(JSON.stringify({ data }));
+        this.setState({
+          firstName: responseJson["data"]["display_name"].substr(
+            0,
+            responseJson["data"]["display_name"].indexOf(" ")
+          ),
+          lastName: responseJson["data"]["display_name"].substr(
+            responseJson["data"]["display_name"].indexOf(" ") + 1
+          ),
+          email: responseJson["data"]["user_email"],
+          idWP: responseJson["data"]["ID"],
+          firstPassword: this.state.wpPassword,
+          secondPassword: this.state.wpPassword,
+          biography: "",
+          wordpress: false
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   errorMessage(msg) {
     showMessage({
-        message: msg,
-        type: "danger",
-        duration: 3000,
-      });
+      message: msg,
+      type: "danger",
+      duration: 2500
+    });
   }
 
   checkRegistration() {
@@ -163,51 +173,72 @@ export default class CreateAdmin extends Component {
     // if registration is succesfull
     else {
       let api = Api.getInstance();
-      NetInfo.getConnectionInfo().then((connectionInfo) => {
-                if(connectionInfo.type != 'none') {
-                    RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
-                   //// TODO: Real authorization instead of hardcoded base64 username:password
-                   'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
-                   'Content-Type': + 'image/jpeg',
-                   'Content-Disposition': 'attachment; filename=hoi.jpg',
-                   // here's the body you're going to send, should be a BASE64 encoded string
-                   // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-                   // The data will be converted to "byte array"(say, blob) before request sent.
-               }, RNFetchBlob.wrap(this.state.pickedImage.uri))
-               .then((res) => res.json()).then(responseJson => {
-                sha256(this.state.firstPassword).then( hash => {
-                    let userData = {
-                        email: this.state.email,
-                        password: hash,
-                        firstName: this.state.firstName,
-                        lastName: this.state.lastName,
-                        biography: this.state.biography,
-                        img: responseJson['guid']['raw'],
-                        wordpresskey: this.state.idWP,
-                    }
-                    api.callApi('register-admin', 'POST', userData, response => {
-                        if(response['responseCode'] != 503) {
-                            if(response['responseCode'] == 200){
-                            this.setState({
-                                succesfull: true,
-                            })
-                            this.props.navigation.dispatch(NavigationActions.back());
-                            } else {
-                                alert(response['responseCode']['message'])
-                            }
-                        } else {
-                            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-                        }
-                        
-                      })
-                    });
-                }).catch((error) => {
-                     callBack(error);
-                 });
-             } else {
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-             }
+      RNFetchBlob.fetch(
+        "POST",
+        "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
+        {
+          //// TODO: Real authorization instead of hardcoded base64 username:password
+          Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
+          "Content-Type": +"image/jpeg",
+          "Content-Disposition": "attachment; filename=hoi.jpg"
+          // here's the body you're going to send, should be a BASE64 encoded string
+          // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+          // The data will be converted to "byte array"(say, blob) before request sent.
+        },
+        RNFetchBlob.wrap(this.state.pickedImage.uri)
+      )
+        .then(res => res.json())
+        .then(responseJson => {
+          sha256(this.state.firstPassword).then(hash => {
+            console.log(responseJson["guid"]["raw"]);
+            let userData = {
+              email: this.state.email,
+              password: hash,
+              firstName: this.state.firstName,
+              lastName: this.state.lastName,
+              biography: this.state.biography,
+              img: responseJson["guid"]["raw"],
+              wordpresskey: this.state.idWP
+            };
+            api.callApi("register-admin", "POST", userData, response => {
+              console.log(response);
+              if (response["responseCode"] == 200) {
+                this.setState({
+                  succesfull: true
+                });
+                this.props.navigation.dispatch(NavigationActions.back());
+              } else {
+                alert(response["responseCode"]["message"]);
+              }
             });
+          });
+        })
+
+        .catch(error => {
+          callBack(error);
+        });
+      /*
+      sha256(this.state.firstPassword).then( hash => {
+        let userData = {
+          email: this.state.email,
+          password: hash,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          biography: this.state.biography,
+          img: this.state.img
+      }
+      api.callApi('register-admin', 'POST', userData, response => {
+          if(response['responseCode'] == 200){
+            this.setState({
+              succesfull: true,
+            })
+            this.props.navigation.dispatch(NavigationActions.back());
+          } else {
+            alert(response['responseCode']['message'])
+          }
+        })
+      })
+	  */
     }
   }
 
@@ -384,11 +415,182 @@ export default class CreateAdmin extends Component {
                     style={{ padding: 5, color: "white" }}
                   />
 
-          </View>
-        </View>
-        </View> )
-	}
-      </ScrollView>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 18,
+                      color: "white"
+                    }}
+                  >
+                    {"Login op wordpress"}
+                  </Text>
+                </View>
+                <View
+                  style={{ marginLeft: 10, marginRight: 20, marginBottom: 20 }}
+                >
+                  <TextField
+                    multiline={true}
+                    textColor="white"
+                    tintColor="white"
+                    baseColor="white"
+                    label="Gebruikersnaam"
+                    value={this.state.wpUsername}
+                    onChangeText={wpUsername => this.setState({ wpUsername })}
+                  />
+                  <TextField
+                    multiline={true}
+                    textColor="white"
+                    tintColor="white"
+                    baseColor="white"
+                    label="Wachtwoord"
+                    secureTextEntry={true}
+                    value={this.state.wpPassword}
+                    onChangeText={wpPassword => this.setState({ wpPassword })}
+                  />
+                  <Button
+                    style={{
+                      container: { marginTop: 10, backgroundColor: "white" },
+                      text: { color: "#028cb0" }
+                    }}
+                    raised
+                    text="Doorgaan"
+                    onPress={() => this.wordpressLogin()}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+          {!this.state.wordpress && (
+            <View style={styles.card} elevation={5}>
+              <Text
+                style={{
+                  margin: 15,
+                  fontWeight: "bold",
+                  fontSize: 14,
+                  color: "white"
+                }}
+              >
+                Hier kun je een nieuw begeleider account koppelen.
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  paddingBottom: 15,
+                  paddingTop: 0,
+                  borderBottomLeftRadius: 10,
+                  borderBottomRightRadius: 10
+                }}
+              >
+                <View
+                  style={{
+                    widht: "100%",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <TouchableOpacity
+                    style={styles.placeholder}
+                    onPress={this.pickImageHandler}
+                  >
+                    <ImageBackground
+                      blurRadius={3}
+                      style={styles.img}
+                      imageStyle={{ borderRadius: 100 }}
+                      source={this.state.pickedImage}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: 100,
+                          with: "100%",
+                          height: "100%",
+                          backgroundColor: "rgba(0,0,0,.3)"
+                        }}
+                      >
+                        <Icon
+                          size={35}
+                          name={"image-plus"}
+                          style={{ color: "white" }}
+                        />
+                      </View>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                </View>
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Voornaam"
+                  value={this.state.firstName}
+                  onChangeText={firstName => this.setState({ firstName })}
+                />
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Achternaam"
+                  value={this.state.lastName}
+                  onChangeText={lastName => this.setState({ lastName })}
+                />
+                <TextField
+                  textColor={this.state.emailColor}
+                  tintColor="green"
+                  baseColor="green"
+                  error={this.state.emailError}
+                  label="Email adres"
+                  value={this.state.email}
+                  onChangeText={email => this.checkEmail(email)}
+                />
+                <TextField
+                  textColor={this.state.firstPasswordError}
+                  tintColor="green"
+                  baseColor="green"
+                  error={this.state.firstPasswordError}
+                  label="Wachtwoord"
+                  secureTextEntry={true}
+                  value={this.state.firstPassword}
+                  onChangeText={firstPassword =>
+                    this.checkFirstPassword(firstPassword)
+                  }
+                />
+                <TextField
+                  textColor={this.state.secondPasswordError}
+                  tintColor="green"
+                  baseColor="green"
+                  error={this.state.secondPasswordError}
+                  label="Herhaal wachtwoord"
+                  secureTextEntry={true}
+                  value={this.state.secondPassword}
+                  onChangeText={secondPassword =>
+                    this.checkSecondPassword(secondPassword)
+                  }
+                />
+                <TextField
+                  multiline={true}
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Biografie"
+                  value={this.state.biography}
+                  onChangeText={biography => this.setState({ biography })}
+                />
+                <Button
+                  style={{
+                    container: stylesCss.defaultBtn,
+                    text: { color: "white" }
+                  }}
+                  raised
+                  text="Doorgaan"
+                  onPress={() => this.checkRegistration()}
+                />
+              </View>
+            </View>
+          )}
+        </ScrollView>
+        <FlashMessage position="top" />
       </ImageBackground>
     );
   }

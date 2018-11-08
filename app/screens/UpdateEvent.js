@@ -62,13 +62,14 @@ export default class MakeEvent extends Component {
   }
 
   createWPEvent() {
-    fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/create-post", {
+    fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/update-post", {
       method: "POST",
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json"
       }),
       body: JSON.stringify({
+        id: this.state.id,
         title: this.state.name,
         content:
           "<p>" +
@@ -84,6 +85,7 @@ export default class MakeEvent extends Component {
     })
       .then(response => response.text())
       .then(responseText => {
+        alert(responseText);
         console.log(this.state.img);
       })
       .catch(error => {
@@ -272,7 +274,17 @@ export default class MakeEvent extends Component {
     );
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({
+      id: this.props.navigation.getParam("id", ""),
+      name: this.props.navigation.getParam("title", ""),
+      desc: this.props.navigation
+        .getParam("content", "")
+        .replace(/<\/?[^>]+(>|$)/g, ""),
+      pickedImage: this.props.navigation.getParam("img", ""),
+      query: this.props.navigation.getParam("location", "")
+    });
+  }
 
   findFilm(query) {
     this.setState({ query: query });
