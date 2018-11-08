@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "capitalize": "^2.0.0",
     "crypto": "^1.0.1",
+    "html-entities": "^1.2.1",
     "moment": "^2.22.2",
     "octokit": "^1.0.0-hello-world",
     "prop-types": "^15.6.2",
@@ -77,7 +78,8 @@
     "react-navigation": "^2.14.2",
     "react-navigation-fluid-transitions": "^0.2.72",
     "react-navigation-material-bottom-tabs": "^0.4.0",
-    "rn-fetch-blob": "^0.10.13"
+    "rn-fetch-blob": "^0.10.13",
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -221,6 +221,8 @@ class News extends Component {
     };
 
     render() {
+        const Entities = require('html-entities').AllHtmlEntities;
+        const entities = new Entities();
         return (
             <ImageBackground blurRadius={0} source={require('../assets/Bslim_Background.jpg')}
                              style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
@@ -271,7 +273,7 @@ class News extends Component {
                                     }}>
                                         <TouchableHighlight
                                             onPress={() => this.props.navigation.navigate('NewsDetail', {
-                                                title: item.title,
+                                                title: entities.decode(item.title),
                                                 content: item.desc,
                                                 link: item.link,
                                                 img: item.url
@@ -298,7 +300,7 @@ class News extends Component {
                                                     }}>
                                                         <Text
                                                             style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}>
-                                                            {item.title}
+                                                            {entities.decode(item.title)}
                                                         </Text>
                                                     </View>
                                                     <View style={{flex: 1, flexDirection: 'row', marginBottom: 10}}>
