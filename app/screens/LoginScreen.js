@@ -262,18 +262,21 @@ class LoginScreen extends Component {
 			<TouchableOpacity
 				onPress={() => this.fbAuth()}
 				style={stylesCss.facebookBtn}
-			>
-				<Image
-                    source={require('../assets/fbLogo.png') }
-                    resizeMode="cover"
-                    style={{ width: 30, height: 30, borderRadius: 10}}
-                  />
+		 	 >
+
+                    <Image
+                        source={require('../assets/fbLogo.png') }
+                        resizeMode="cover"
+                        style={{ width: 30, height: 30, borderRadius: 10, marginRight:"20%"}}
+                    />
+
+
                   <Text
                   	style={{
                   		fontSize: 15,
                   		color: 'white',
                   		alignSelf: 'center',
-              			marginLeft: 100
+              			justifyContent: 'center'
                   	}}
                   >
                   	Login met Facebook
