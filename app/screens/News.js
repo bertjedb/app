@@ -66,8 +66,6 @@ class News extends Component {
 
     let api = Api.getInstance();
     api.callApi("api/getAllNewsItems", "GET", {}, response => {
-      console.log("RESPONSEOFSERVER");
-      console.log(response);
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
           this.setState({

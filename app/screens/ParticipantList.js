@@ -4,23 +4,20 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   Image,
   StyleSheet,
   ImageBackground,
   Dimensions,
   Share,
   TouchableHighlight,
-  ListView
+  FlatList
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { SwipeListView } from "react-native-swipe-list-view";
 import PropTypes from "prop-types";
 import { DrawerActions, NavigationActions, Header } from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import LinearGradient from "react-native-linear-gradient";
-import Accordion from "@ercpereda/react-native-accordion";
-import Swipeout from "react-native-swipeout";
+import Api from "../config/api.js";
 
 var swipeoutBtns = [
   {
@@ -31,49 +28,22 @@ var swipeoutBtns = [
 class ParticipantList extends Component {
   constructor() {
     super();
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
-    this.state = {
-      map: true,
-      activeSections: [],
-      listViewData: {
-        0: { key: "0", text: "Gaauwe" },
-        1: { key: "1", text: "Jelmer" },
-        2: { key: "2", text: "Bert" },
-        3: { key: "3", text: "Wouter" }
+    this.state = { eventArray: [] };
+    let api = Api.getInstance();
+    api.callApi("api/getAllEvents", "POST", {}, response => {
+      console.log(response);
+      if (response["responseCode"] == 200) {
+        console.log("response code is 200");
+        this.setState({
+          eventArray: response["events"]
+        });
       }
-    };
-    console.log(this.state.listViewData);
-  }
-
-  closeRow(rowMap, rowKey) {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  }
-
-  deleteRow(rowMap, rowKey) {
-    this.closeRow(rowMap, rowKey);
-    const newData = [...this.state.listViewData];
-    const prevIndex = this.state.listViewData.findIndex(
-      item => item.key === rowKey
-    );
-    newData.splice(prevIndex, 1);
-    this.setState({ listViewData: newData });
+    });
+    console.log("EVENTARRAYYYYYYYY");
+    console.log(this.state.eventArray);
   }
 
   render() {
-    const leftContent = <Text>Pull to activate</Text>;
-
-    const rightButtons = [
-      <TouchableHighlight>
-        <Text>Button 1</Text>
-      </TouchableHighlight>,
-      <TouchableHighlight>
-        <Text>Button 2</Text>
-      </TouchableHighlight>
-    ];
-
     return (
       <ImageBackground
         blurRadius={3}
@@ -105,19 +75,65 @@ class ParticipantList extends Component {
         >
           <Toolbar
             iconSet="MaterialCommunityIcons"
-            centerElement={"Deelnemers"}
-            leftElement={"arrow-left"}
-            onLeftElementPress={() =>
-              this.props.navigation.dispatch(NavigationActions.back())
-            }
+            centerElement={"Deelnemers beheren"}
           />
         </LinearGradient>
-        <View style={styles.cardContainer}>
-          <Swipeout right={swipeoutBtns}>
-            <View>
-              <Text>Swipe me left</Text>
-            </View>
-          </Swipeout>
+        <View style={styles.container}>
+          <FlatList
+            data={this.state.eventArray}
+            renderItem={({ item }) => (
+              <TouchableHighlight
+                style={styles.eventCard}
+                onPress={() =>
+                  this.props.navigation.navigate("ParticipantListDetail", {
+                    title: item.name,
+                    participants: item.participants,
+                    eventId: item.id
+                  })
+                }
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    padding: 15
+                  }}
+                >
+                  <View
+                    style={{
+                      height: "100%",
+                      backgroundColor: "#F27B13",
+                      borderRadius: 5
+                    }}
+                  >
+                    <View style={{ flexDirection: "column", padding: 10 }}>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 14,
+                          color: "white",
+                          textAlign: "center",
+                          marginTop: 5
+                        }}
+                      >
+                        {item.begin}
+                      </Text>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 14,
+                          color: "white",
+                          textAlign: "center"
+                        }}
+                      >
+                        {item.beginMonth}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={styles.text}>{item.name}</Text>
+                </View>
+              </TouchableHighlight>
+            )}
+          />
         </View>
       </ImageBackground>
     );
@@ -125,69 +141,24 @@ class ParticipantList extends Component {
 }
 
 const styles = StyleSheet.create({
-  rowFront: {
-    alignItems: "center",
-    backgroundColor: "#b0bec5",
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
-    justifyContent: "center",
-    height: 50
-  },
-  rowBack: {
-    alignItems: "center",
-    backgroundColor: "#fff",
+  container: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between"
+    margin: "5%"
   },
-  backTextWhite: {
-    color: "#FFF"
-  },
-  backRightBtn: {
-    alignItems: "center",
-    bottom: 0,
-    justifyContent: "center",
-    position: "absolute",
-    top: 0,
-    width: 75
-  },
-  backRightBtnLeft: {
-    backgroundColor: "blue",
-    right: 75
-  },
-  backLeftBtn: {
-    backgroundColor: "#FF6700",
-    paddingLeft: 25,
-    justifyContent: "center",
-    width: "100%",
-    height: "100%"
-  },
-  backRightBtnRight: {
-    backgroundColor: "red",
-    right: 0
-  },
-  cardContainer: {
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
-    backgroundColor: "white",
 
-    paddingBottom: 150
-  },
-  listItem: {
+  eventCard: {
+    justifyContent: "center",
+    marginBottom: 10,
+    backgroundColor: "white",
     height: 75,
-    alignItems: "center",
-    justifyContent: "center"
+    width: "100%",
+    borderRadius: 20
   },
-  leftSwipeItem: {
-    flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "center",
-    paddingRight: 10
-  },
-  rightSwipeItem: {
-    flex: 1,
-    justifyContent: "center",
-    paddingLeft: 10
+  text: {
+    marginLeft: 15,
+    fontWeight: "bold",
+    fontSize: 18,
+    color: "black"
   }
 });
 

@@ -76,6 +76,11 @@ class Events extends Component {
                   array[index]["subscribed"] = response["found"];
                 });
               }
+              this.setState({
+                uploading: false,
+                loading: false,
+                dataSource: ds.cloneWithRows(array)
+              });
             });
           }
           this.setState({
@@ -234,7 +239,6 @@ class Events extends Component {
       start += 2;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllEvents", "POST", {}, response => {
-        console.log(response);
         if (response["responseCode"] == 200) {
           this.setState({
             data: [...this.state.data, ...response["events"].slice(start, end)]

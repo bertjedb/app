@@ -217,15 +217,13 @@ class EventDetail extends Component {
         }
       }
     ];
-    /*
-	  const participants = navigation.getParam("participants", "");
-	      const ds = new ListView.DataSource({
-	        rowHasChanged: (r1, r2) => r1 !== r2
-	      });
-	  this.state = {
-	        dataSource: ds.cloneWithRows(participants)
-	      };
-		  */
+
+    const participants = navigation.getParam("participants", "");
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+    const dataSource = ds.cloneWithRows(participants);
+
     return (
       <View
         style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
@@ -641,39 +639,41 @@ class EventDetail extends Component {
               imagesMaxWidth={Dimensions.get("window").width}
             />
           </Animated.View>
-          <Animated.View
-            style={[
-              styles.cardBottom,
-              {
-                transform: [
-                  {
-                    translateX: this.state.x3
-                  }
-                ]
-              }
-            ]}
-            elevation={5}
-          >
-            <View
-              style={{
-                width: "100%",
-                height: 200,
-                borderRadius: 10,
-                overflow: "hidden"
-              }}
-            >
-              <MyWebView
-                source={{ html: map.getMap(location) }}
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  height: 200,
-                  borderRadius: 10,
-                  overflow: "hidden"
-                }}
-              />
-            </View>
-          </Animated.View>
+          {
+            // <Animated.View
+            //   style={[
+            //     styles.cardBottom,
+            //     {
+            //       transform: [
+            //         {
+            //           translateX: this.state.x3
+            //         }
+            //       ]
+            //     }
+            //   ]}
+            //   elevation={5}
+            // >
+            //   <View
+            //     style={{
+            //       width: "100%",
+            //       height: 200,
+            //       borderRadius: 10,
+            //       overflow: "hidden"
+            //     }}
+            //   >
+            //     <MyWebView
+            //       source={{ html: map.getMap(location) }}
+            //       style={{
+            //         flex: 1,
+            //         width: "100%",
+            //         height: 200,
+            //         borderRadius: 10,
+            //         overflow: "hidden"
+            //       }}
+            //     />
+            //   </View>
+            // </Animated.View>
+          }
           <Animatable.View
             delay={500}
             animation="lightSpeedIn"
@@ -682,22 +682,27 @@ class EventDetail extends Component {
             elevation={5}
           >
             {
-              <ListView
-                style={styles.participantContainer}
-                dataSource={this.state.dataSource}
-                renderRow={rowData => (
-                  <View>
-                    <View
-                      style={{
-                        borderBottomColor: "black",
-                        borderBottomWidth: 1
-                      }}
-                    >
-                      <Text style={styles.text}>{rowData}</Text>
+              <View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={{ color: "grey", fontSize: 20, padding: 10 }}>
+                    Deelnemerslijst
+                  </Text>
+                  <Text style={{ color: "black", fontSize: 20, padding: 10 }}>
+                    Aantal: {participants.length}
+                  </Text>
+                </View>
+                <ListView
+                  style={styles.participantContainer}
+                  dataSource={dataSource}
+                  renderRow={participant => (
+                    <View style={{ marginLeft: "2%" }}>
+                      <Text style={styles.text}>
+                        - {capitalize.words(participant.name)}
+                      </Text>
                     </View>
-                  </View>
-                )}
-              />
+                  )}
+                />
+              </View>
             }
           </Animatable.View>
         </Animated.ScrollView>
@@ -777,23 +782,8 @@ const styles = StyleSheet.create({
     padding: 0
   },
   participantContainer: {
-    margin: "5%",
     flex: 1,
-    borderWidth: 1,
-    backgroundColor: "#fcd6e8",
-    height: 500
-  },
-  participantField: {
-    flex: 1,
-    margin: "5%",
-    flexDirection: "row",
-    borderWidth: 1,
-    backgroundColor: "#fff"
-  },
-  participantRow: {
-    flex: 1,
-    padding: 12,
-    flexDirection: "row"
+    height: 200
   },
   text: {
     marginLeft: 12,
