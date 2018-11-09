@@ -83,48 +83,45 @@ export default class MakeNewsItem extends Component {
                        this.state.title.length <= 30 &&
                        this.state.content != '' &&
                        this.state.pickedImage.uri != '') {
-                           RNFetchBlob.fetch('POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
-                                   //// TODO: Real authorization instead of hardcoded base64 username:password
-                                   'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
-                                   'Content-Type': + 'image/jpeg',
-                                   'Content-Disposition': 'attachment; filename=hoi.jpg',
-                                   // here's the body you're going to send, should be a BASE64 encoded string
-                                   // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-                                   // The data will be converted to "byte array"(say, blob) before request sent.
-                               }, RNFetchBlob.wrap(this.state.pickedImage.uri))
-                               .then((res) => res.json())
-                            .then(responseJson => {
-                                this.setState({img: responseJson['guid']['raw']})
-                                //this.createWPArticle();
-                                let localStorage = LocalStorage.getInstance();
-                                let points = localStorage.retrieveItem('userId').then((id) => {
-                                if(id != null) {
-                                    let userData = {
-                                        title: this.state.title,
-                                        content: this.state.content,
-                                        img: this.state.img
-                                    }
-                                    let api = Api.getInstance();
-                                    api.callApi('api/createNewsItem', 'POST', userData, response => {
-                                        if(responseCode['responseCode'] != 503) {
-                                            if(response['responseCode'] == 200) {
-                                                this.setState({
-                                                    title: '',
-                                                    content: '',
-                                                    pickedImage: { uri: '' },
-                                                  img: '',
-                                                });
-                                                this.successMessage("Er is een nieuw artikel aangemaakt!");
-                                            } else {
-                                                this.errorMessage("Er is wat fout gegaan");
+                           RNFetchBlob.fetch(
+                                'POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
+                                    'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
+                                    'Content-Type': + 'image/jpeg',
+                                    'Content-Disposition': 'attachment; filename=hoi.jpg',
+                                }, 
+                                RNFetchBlob.wrap(this.state.pickedImage.uri)).then(
+                                    (res) => res.json()
+                                ).then(responseJson => {
+                                    this.setState({img: responseJson['guid']['raw']})
+                                    //this.createWPArticle();
+                                    let localStorage = LocalStorage.getInstance();
+                                    let points = localStorage.retrieveItem('userId').then((id) => {
+                                        if(id != null) {
+                                            let userData = {
+                                                title: this.state.title,
+                                                content: this.state.content,
+                                                img: this.state.img
                                             }
-                                        } else {
-                                            this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                                            let api = Api.getInstance();
+                                            api.callApi('api/createNewsItem', 'POST', userData, response => {
+                                                if(responseCode['responseCode'] != 503) {
+                                                    if(response['responseCode'] == 200) {
+                                                        this.setState({
+                                                            title: '',
+                                                            content: '',
+                                                            pickedImage: { uri: '' },
+                                                          img: '',
+                                                        });
+                                                        this.successMessage("Er is een nieuw artikel aangemaakt!");
+                                                    } else {
+                                                        this.errorMessage("Er is wat fout gegaan");
+                                                    }
+                                                } else {
+                                                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                                                }  
+                                            });
                                         }
-                                        
                                     });
-                
-                                }});
                             }).catch((error) => {
                                 callBack(error);
                             })

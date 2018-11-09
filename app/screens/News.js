@@ -31,6 +31,7 @@ import { PacmanIndicator } from "react-native-indicators";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import { Toolbar } from "react-native-material-ui";
 import Api from "../config/api.js";
+import LocalStorage from "../config/localStorage.js";
 
 var startNum = 0;
 var endNum = 2;
@@ -77,7 +78,7 @@ class News extends Component {
       } else {
         this.setState({ sleeping: true });
         setTimeout(() => {
-          this.setState({ sleeping: false, loading: false });
+          this.setState({ sleeping: false });
         }, 3000);
       }
     });
@@ -127,6 +128,10 @@ class News extends Component {
   }
 
   _onRefresh = () => {
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem("userId").then(id => {
+      console.log(id);
+    });
     this.setState({ refreshing: true, sleeping: false, loading: true });
     this.refresh();
   };
@@ -146,7 +151,8 @@ class News extends Component {
               data: response["news"].slice(start, end),
               fullArray: response["news"],
               uploading: false,
-              loading: false
+              loading: false,
+              refreshing: false
             });
           }
         } else {
@@ -203,6 +209,8 @@ class News extends Component {
   };
 
   render() {
+    const Entities = require("html-entities").AllHtmlEntities;
+    const entities = new Entities();
     return (
       <ImageBackground
         blurRadius={0}
@@ -280,7 +288,7 @@ class News extends Component {
                       <TouchableHighlight
                         onPress={() =>
                           this.props.navigation.navigate("NewsDetail", {
-                            title: item.title,
+                            title: entities.decode(item.title),
                             content: item.desc,
                             link: item.link,
                             img: item.url
@@ -319,7 +327,7 @@ class News extends Component {
                                   color: "white"
                                 }}
                               >
-                                {item.title}
+                                {entities.decode(item.title)}
                               </Text>
                             </View>
                             <View

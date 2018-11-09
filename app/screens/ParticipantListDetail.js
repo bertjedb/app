@@ -164,13 +164,41 @@ class ParticipantListDetail extends Component {
         >
           <Toolbar
             iconSet="MaterialCommunityIcons"
-            centerElement={title}
+            centerElement={"Deelnemers beheren"}
             leftElement={"arrow-left"}
             onLeftElementPress={() => this.props.navigation.goBack()}
           />
         </LinearGradient>
         <ScrollView style={styles.container}>
-          <Text style={styles.header}>Deelnemers beheren</Text>
+          <View
+            style={{
+              height: "20%",
+              flexDirection: "column",
+              borderRadius: 20,
+              marginBottom: "2%"
+            }}
+          >
+            <View style={styles.legendaItem}>
+              <Icon name="plus-circle-outline" size={30} color="#64dd17" />
+              <Text style={{ marginLeft: 10 }}>
+                Geef de deelnemer een stempel
+              </Text>
+            </View>
+
+            <View style={styles.legendaItem}>
+              <Icon name="minus-circle-outline" size={30} color="#f44336" />
+              <Text style={{ marginLeft: 10 }}>
+                Verwijder een stempel van deelnemer
+              </Text>
+            </View>
+
+            <View style={styles.legendaItem}>
+              <Icon name="gift" size={30} color="#4fc3f7" />
+              <Text style={{ marginLeft: 10 }}>
+                Verzilver de kaart van een deelnemer
+              </Text>
+            </View>
+          </View>
           <FlatList
             data={this.state.participants}
             renderItem={({ item }) => (
@@ -192,7 +220,7 @@ class ParticipantListDetail extends Component {
                         this.resetCard(item.id, item.points, item.name, eventId)
                       }
                     >
-                      <Icon name="gift" color="#white" size={25} />
+                      <Icon name="gift" size={25} />
                     </TouchableOpacity>,
                     <TouchableOpacity
                       style={[
@@ -208,11 +236,7 @@ class ParticipantListDetail extends Component {
                         )
                       }
                     >
-                      <Icon
-                        name="minus-circle-outline"
-                        color="#white"
-                        size={25}
-                      />
+                      <Icon name="minus-circle-outline" size={25} />
                     </TouchableOpacity>,
                     <TouchableOpacity
                       style={[
@@ -223,11 +247,7 @@ class ParticipantListDetail extends Component {
                         this.addPoint(item.id, item.points, item.name, eventId)
                       }
                     >
-                      <Icon
-                        name="plus-circle-outline"
-                        color="#white"
-                        size={25}
-                      />
+                      <Icon name="plus-circle-outline" size={25} />
                     </TouchableOpacity>
                   ]}
                   rightContent={
@@ -262,7 +282,7 @@ class ParticipantListDetail extends Component {
                     <Text style={styles.text}>
                       {capitalize.words(item.name)}
                     </Text>
-                    <Text style={styles.points}> Punten : {item.points}</Text>
+                    <Text style={styles.points}> Stempels : {item.points}</Text>
                   </View>
                   <View style={{ backgroundColor: "#f5f5f5", height: 4 }} />
                 </Swipeable>
@@ -278,7 +298,9 @@ class ParticipantListDetail extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20
+    paddingTop: 10,
+    flexDirection: "column",
+    marginBottom: "10%"
   },
   listItem: {
     flexDirection: "row",
@@ -311,6 +333,11 @@ const styles = StyleSheet.create({
   points: {
     fontSize: 15,
     color: "black"
+  },
+  legendaItem: {
+    padding: 5,
+    flexDirection: "row",
+    alignItems: "center"
   }
 });
 

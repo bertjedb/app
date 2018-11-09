@@ -35,6 +35,7 @@ import Api from "./api.js";
 import LocalStorage from "./localStorage.js";
 import ParticipantList from "../screens/ParticipantList";
 import MakeEvent from "../screens/MakeEvent";
+import UpdateEvent from "../screens/UpdateEvent";
 import MakeNewsItem from "../screens/MakeNewsItem";
 import CreateAdmin from "../screens/CreateAdmin";
 import Events from "../screens/Events";
@@ -42,7 +43,8 @@ import ChangeEmailRequest from "../screens/ChangeEmailRequest";
 import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
 import ParticipantListDetail from "../screens/ParticipantListDetail";
-
+import VideoPicker from "../screens/VideoPicker";
+import signInView from "../screens/signInView";
 //StackNavigator for login related screens like login, register and password reset.
 
 export const LoginStack = StackNavigator(
@@ -108,6 +110,12 @@ export const AdminStack = StackNavigator(
       screen: CreateAdmin,
       navigationOptions: {
         title: "Nieuw begeleider account"
+      }
+    },
+    VideoPicker: {
+      screen: VideoPicker,
+      navigationOptions: {
+        title: "Video uploaden"
       }
     }
   },
@@ -191,11 +199,16 @@ export const EventStack = StackNavigator(
       navigationOptions: {
         title: "Evenementen"
       }
+    },
+    UpdateEvent: {
+      screen: UpdateEvent,
+      navigationOptions: {
+        title: "Update"
+      }
     }
   },
   {
-    headerMode: "none",
-    transitionConfig: TransitionConfiguration
+    headerMode: "none"
   }
 );
 
@@ -212,6 +225,21 @@ export const ParticipantListStack = StackNavigator(
       screen: ParticipantListDetail,
       navigationOptions: {
         title: "Deelnemerslijst"
+      }
+    }
+  },
+  {
+    headerMode: "none"
+  }
+);
+
+//Stack for aanmeldingen
+export const signInListStack = StackNavigator(
+  {
+    ParticipantList: {
+      screen: signInView,
+      navigationOptions: {
+        title: "Aanmeldingen"
       }
     }
   },
@@ -657,6 +685,13 @@ export const MyAppLoggedInAdmin = StackNavigator(
         header: null
       }
     },
+    signInListStack: {
+      screen: signInListStack,
+      navigationOptions: {
+        header: null
+      }
+    },
+
     ParticipantListStack: {
       screen: ParticipantListStack,
       navigationOptions: {

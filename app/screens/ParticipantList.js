@@ -47,7 +47,7 @@ class ParticipantList extends Component {
     return (
       <ImageBackground
         blurRadius={3}
-        source={require("../assets/sport_kids_bslim.jpg")}
+        source={require("../assets/Bslim_Background.jpg")}
         style={{ width: "100%", height: "100%" }}
       >
         <LinearGradient
@@ -143,16 +143,14 @@ class ParticipantList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: "5%"
+    marginTop: "2%"
   },
 
   eventCard: {
     justifyContent: "center",
-    marginBottom: 10,
-    backgroundColor: "white",
+    backgroundColor: "#eeeeee",
     height: 75,
-    width: "100%",
-    borderRadius: 20
+    width: "100%"
   },
   text: {
     marginLeft: 15,
