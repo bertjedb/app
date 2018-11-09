@@ -8,6 +8,7 @@ import {
     Platform,
     ScrollView,
     Share,
+    Button,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -119,6 +120,7 @@ class ProfilePage extends Component {
                                     style={{
                                         flex: 1,
                                         flexDirection: "row",
+                                        alignItems: "center",
                                         margin: 10
                                     }}
                                 >
@@ -134,7 +136,8 @@ class ProfilePage extends Component {
                                         style={{
                                             fontWeight: "bold",
                                             fontSize: 18,
-                                            color: "black"
+                                            color: "black",
+                                            marginLeft: "5%"
                                         }}
                                     >
                                         {capitalize.words(name)}
@@ -148,8 +151,10 @@ class ProfilePage extends Component {
                                         flexDirection: "column",
                                         marginLeft: 10
                                     }}
-                                >
-
+                                 >
+                                    <Text style={{ fontWeight: "bold", color: "black", fontSize: 18, marginBottom: "1%"}}>
+                                        Over mij
+                                    </Text>
                                     <Text style={{ fontSize: 14, color: "black" }}>
                                         {leaderDesc}
 
@@ -158,8 +163,25 @@ class ProfilePage extends Component {
                             </View>
 
 
+
                         </ScrollView>
+                        <View>
+                            <Button
+                                title="BSLIM"
+                                color={'#93D500'}
+                                style={{
+                                    width: "100%",
+
+                                    flex: 1,
+                                    position: "absolute",
+                                    bottom: 0,
+                                    left: 0,
+
+                                }}
+                            />
+                        </View>
                     </View>
+
                 </View>
 
 
