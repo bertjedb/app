@@ -1,14 +1,24 @@
-import React, { Component } from 'react';
-import { MyAppNotLoggedIn, MyAppLoggedIn } from './config/router';
-import { View, StatusBar, StyleSheet, Dimensions, Image, SafeAreaView, AsyncStorage } from 'react-native';
-import LocalStorage from './config/localStorage.js';
-import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
-import LinearGradient from 'react-native-linear-gradient';
-import { Header } from 'react-navigation';
-import OneSignal from 'react-native-onesignal';
-import {PacmanIndicator} from 'react-native-indicators';
+import React, { Component } from "react";
+import {
+  MyAppNotLoggedIn,
+  MyAppLoggedInAdmin,
+  MyAppLoggedInUser
+} from "./config/router";
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  Dimensions,
+  Image,
+  SafeAreaView
+} from "react-native";
+import LocalStorage from "./config/localStorage.js";
+import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
+import LinearGradient from "react-native-linear-gradient";
+import { Header } from "react-navigation";
+import OneSignal from "react-native-onesignal";
+import { PacmanIndicator } from "react-native-indicators";
 import FlashMessage from "react-native-flash-message";
-import Intro from './screens/Intro.js';
 import Onboarding from 'react-native-onboarding-swiper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -30,7 +40,8 @@ class App extends Component {
     this.state = {
       userId: null,
       loading: true,
-      firstLaunch: false
+      firstLaunch: false,
+      clearance: null,
     };
     console.disableYellowBox = true;
   }
@@ -51,7 +62,8 @@ class App extends Component {
   componentDidMount() {
     this.timeoutHandle = setTimeout(() => {
       this.setState({ loading: false });
-    }, 3000);
+    }, 100);
+
     let localStorage = LocalStorage.getInstance();
     localStorage
       .retrieveItem("userId")
@@ -66,6 +78,17 @@ class App extends Component {
             loggedIn: false
           });
         }
+        localStorage
+          .retrieveItem("clearance")
+          .then(clr => {
+            this.setState({
+              clearance: clr
+            });
+          })
+          .catch(error => {
+            //this callback is executed when your Promise is rejected
+            console.log("Promise is rejected with error: OH BOII" + error);
+          });
       })
       .catch(error => {
         //this callback is executed when your Promise is rejected
