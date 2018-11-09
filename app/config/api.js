@@ -5,7 +5,9 @@ import { NetInfo } from "react-native";
 export default class Api {
   static instance = null;
 
-  url = "http://145.37.165.68:5000/";
+  //url = "http://gaauwe.nl:5000/";
+  //url= "http://145.37.164.183:5000/"
+  url = "http://10.0.2.2:5000/";
 
   static getInstance() {
     if (Api.instance == null) {
@@ -35,6 +37,8 @@ export default class Api {
 
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
+      console.log("CONNECTIONINFOTYPE");
+      console.log(connectionInfo.type);
       if (connectionInfo.type != "none") {
         if (method == "GET") {
           fetch(this.url + action, {
@@ -52,6 +56,7 @@ export default class Api {
           fetch(this.url + action, {
             method: method,
             headers: {
+              Accept: "application/json",
               "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
@@ -62,8 +67,6 @@ export default class Api {
               callBack(error);
             });
         }
-      } else {
-        callBack({ responseCode: 503 });
       }
     });
   }
