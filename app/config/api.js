@@ -5,7 +5,7 @@ import { NetInfo } from "react-native";
 export default class Api {
   static instance = null;
 
-	url = "http://145.37.165.68:5000/";
+	url = "http://145.37.164.155:5000/";
 
 	static getInstance() {
 		if(Api.instance == null) {

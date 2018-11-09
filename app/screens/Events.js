@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  ListView,
-  RefreshControl,
-  Share,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  FlatList,
-  View
+    Dimensions,
+    Image,
+    ImageBackground,
+    ListView,
+    RefreshControl,
+    Share,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    FlatList,
+    View, TouchableOpacity
 } from "react-native";
-import { Header } from "react-navigation";
+import {Header, NavigationActions} from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import HTML from "react-native-render-html";
 import Api from "../config/api.js";
@@ -21,6 +21,7 @@ import LocalStorage from "../config/localStorage";
 import {PacmanIndicator} from 'react-native-indicators';
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
+import * as Alert from "react-native";
 
 var capitalize = require("capitalize");
 var startNum = 0;
@@ -53,9 +54,37 @@ class Events extends Component {
 	  search: "",
 	  loading: true,
 	  check: false,
-	  sleeping: false
+	  sleeping: false,
+	  personList: []
 	};
-	let api = Api.getInstance()
+
+      let api = Api.getInstance();
+
+      let localStorage = LocalStorage.getInstance();
+      localStorage.retrieveItem("userId").then(id => {
+
+
+          api.callApi("api/getLeaderDesc", "POST", {'id': id}, response => {
+              if (response["responseCode"] != 503) {
+                  if (response["responseCode"] == 200) {
+
+                      this.setState({
+                          personList: response['personList'],
+                      });
+                  }
+              } else {
+                  this.setState({
+                      personList: response['subs'],
+                  });
+              }
+          });
+
+      })
+          .catch(error => {
+              //this callback is executed when your Promise is rejected
+              console.log("Promise is rejected with error: " + error);
+          });
+
 	api.callApi('api/getAllEvents', 'POST', {}, response => {
 		if(response['responseCode'] != 503) {
 			if(response['responseCode'] == 200) {
@@ -306,46 +335,71 @@ class Events extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-              }
+               }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
                   <View style={styles.card} elevation={5}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10
-                      }}
-                    >
-                      <Image
-                        source={{ uri: item.photo[0] }}
-                        resizeMode="cover"
-                        style={{ width: 50, height: 50, borderRadius: 10 }}
-                      />
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: "column",
-                          marginLeft: 10
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: 18,
-                            color: "black"
-                          }}
-                        >
-                          {capitalize.words(item.leader)}
-                        </Text>
-                        <Text style={{ fontSize: 14, color: "black" }}>
-                          {item.created}
-                        </Text>
-                      </View>
-                    </View>
+
+
+                          <View
+                              style={{
+                                  flex: 1,
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  margin: 10
+                              }}
+                           >
+                              <TouchableOpacity onPress={() =>
+
+                                  this.props.navigation.dispatch(
+                                      NavigationActions.navigate({
+                                          routeName: "ProfilePageStack",
+                                          action: NavigationActions.navigate({
+                                              routeName: "ProfilePage",
+											  params: {
+                                                  leader: item.leader,
+                                                  profilePicture: item.photo[0],
+                                                  leaderDesc: item.leaderDesc
+											    }
+
+                                          })
+                                      })
+
+                                  )}>
+                                  <Image
+
+                                      source={{ uri: item.photo[0] }}
+                                      resizeMode="cover"
+                                      style={{ width: 50, height: 50, borderRadius: 10 }}
+
+                                  />
+                              </TouchableOpacity>
+
+                              <View
+                                  style={{
+                                      flex: 1,
+                                      flexDirection: "column",
+                                      marginLeft: 10
+                                  }}
+                              >
+                                  <Text
+                                      style={{
+                                          fontWeight: "bold",
+                                          fontSize: 18,
+                                          color: "black"
+                                      }}
+                                  >
+                                      {capitalize.words(item.leader)}
+                                  </Text>
+                                  <Text style={{ fontSize: 14, color: "black" }}>
+                                      {item.created}
+                                  </Text>
+                              </View>
+                          </View>
+
+
                     <View
                       style={{
                         backgroundColor: "white",

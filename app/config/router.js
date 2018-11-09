@@ -43,6 +43,7 @@ import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
 import VideoPicker from "../screens/VideoPicker";
 import signInView from "../screens/signInView";
+import ProfilePage from "../screens/ProfilePage";
 
 //StackNavigator for login related screens like login, register and password reset.
 export const LoginStack = StackNavigator(
@@ -235,6 +236,22 @@ export const signInListStack = StackNavigator(
     }
 );
 
+//Stack for Profile
+export const ProfilePageStack = StackNavigator(
+    {
+        ParticipantList: {
+            screen: ProfilePage,
+            navigationOptions: {
+                title: "ProfielPagina"
+            }
+        }
+    },
+    {
+        headerMode: "none"
+    }
+);
+
+
 export const IntroStack = StackNavigator(
   {
     Intro: {
@@ -276,6 +293,7 @@ export const MyTabLoggedIn = TabNavigator(
         )
       }
     },
+
     PointCard: {
       screen: PointCard,
       navigationOptions: {
@@ -483,6 +501,13 @@ export const MyAppNotLoggedIn = StackNavigator(
         header: null
       }
     },
+
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -513,6 +538,12 @@ export const MyAppLoggedIn = StackNavigator(
         header: null
       }
     },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
       signInListStack: {
           screen: signInListStack,
           navigationOptions: {
