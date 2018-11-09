@@ -7,30 +7,30 @@ export default class Api {
 
 	url = "http://145.37.145.0:5000/";
 
-	static getInstance() {
-		if(Api.instance == null) {
-			Api.instance = new Api();
-		 }
+  static getInstance() {
+    if (Api.instance == null) {
+      Api.instance = new Api();
+    }
 
-		return Api.instance;
-    	}
+    return Api.instance;
+  }
 
-	getPoints() {
-		let localStorage = LocalStorage.getInstance();
-		localStorage.retrieveItem('userId').then((id) => {
-			if(id != null) {
-				userData = {
-					id: id
-				}
-				this.callApi('api/checkPoints', 'POST', userData, response => {
-					if(response['responseCode'] != 503) {
-						localStorage.storeItem('points', response['points'][0])
-					} else {
-						localStorage.storeItem('points', null)
-					}
-				});
-			}
-		});
+  getPoints() {
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem("userId").then(id => {
+      if (id != null) {
+        userData = {
+          id: id
+        };
+        this.callApi("api/checkPoints", "POST", userData, response => {
+          if (response["responseCode"] != 503) {
+            localStorage.storeItem("points", response["points"][0]);
+          } else {
+            localStorage.storeItem("points", null);
+          }
+        });
+      }
+    });
   }
 
   callApi(action, method, data, callBack = response => console.log(response)) {
@@ -68,4 +68,3 @@ export default class Api {
     });
   }
 }
-

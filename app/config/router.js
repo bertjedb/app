@@ -35,6 +35,7 @@ import Api from "./api.js";
 import LocalStorage from "./localStorage.js";
 import ParticipantList from "../screens/ParticipantList";
 import MakeEvent from "../screens/MakeEvent";
+import UpdateEvent from "../screens/UpdateEvent";
 import MakeNewsItem from "../screens/MakeNewsItem";
 import CreateAdmin from "../screens/CreateAdmin";
 import Events from "../screens/Events";
@@ -197,11 +198,16 @@ export const EventStack = StackNavigator(
       navigationOptions: {
         title: "Evenementen"
       }
+    },
+    UpdateEvent: {
+      screen: UpdateEvent,
+      navigationOptions: {
+        title: "Update"
+      }
     }
   },
   {
-    headerMode: "none",
-    transitionConfig: TransitionConfiguration
+    headerMode: "none"
   }
 );
 
