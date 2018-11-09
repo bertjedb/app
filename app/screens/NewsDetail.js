@@ -154,11 +154,6 @@ class NewsDetail extends Component {
                   resizeMode="cover"
                   style={{ width: "100%", height: 200, borderRadius: 5 }}
                 />}
-                {/*{this.state.img &&*/}
-                {/*<ImageSlider*/}
-                {/*autoPlayWithInterval={3000}*/}
-                {/*images={[this.state.img]}/>*/}
-                {/*}*/}
                 { videoContent &&
                 <Video
                     source={{uri: img}}
@@ -178,7 +173,7 @@ class NewsDetail extends Component {
                     marginBottom: 5
                   }}
                 >
-                  {title}
+                  {entities.decode(title)}
                 </Text>
               </View>
               <View
