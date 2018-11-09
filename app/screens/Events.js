@@ -18,7 +18,7 @@ import HTML from "react-native-render-html";
 import Api from "../config/api.js";
 import LinearGradient from "react-native-linear-gradient";
 import LocalStorage from "../config/localStorage";
-import {PacmanIndicator} from 'react-native-indicators';
+import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 import * as Alert from "react-native";
@@ -31,12 +31,12 @@ var end = endNum;
 
 const uiTheme = {
   palette: {
-	primaryColor: "#3bb222"
+    primaryColor: "#3bb222"
   },
   toolbar: {
-	container: {
-	  height: 60
-	}
+    container: {
+      height: 60
+    }
   }
 };
 
@@ -51,11 +51,10 @@ class Events extends Component {
 	  checkMap: new Map(),
 	  search: "",
 	  refreshing: false,
-	  search: "",
 	  loading: true,
 	  check: false,
 	  sleeping: false,
-	  personList: []
+      personList: []
 	};
 
       let api = Api.getInstance();
@@ -85,195 +84,185 @@ class Events extends Component {
               console.log("Promise is rejected with error: " + error);
           });
 
-	api.callApi('api/getAllEvents', 'POST', {}, response => {
-		if(response['responseCode'] != 503) {
-			if(response['responseCode'] == 200) {
-			 let ds = new ListView.DataSource({
-				rowHasChanged: (r1, r2) => r1 !== r2
-			});
-			let array = response['events'];
-			for(let index=0; index < array.length; index++) {
-				array[index]['subscribed'] = false
-				let localStorage = LocalStorage.getInstance();
-				localStorage.retrieveItem('userId').then((id) => {
-					if(id != null) {
-						userData = {
-							"eventId": response['events'][index]['id'],
-							"personId": id
-						}
-						api.callApi('api/checkSub', 'POST', userData, response => {
-							array[index]['subscribed'] = response['found']
-						});
-					}
-					this.setState({
-						uploading: false,
-						loading: false,
-						dataSource: ds.cloneWithRows(array),
-					});
-				});
-			  }
-			  this.setState({
-				uploading: false,
-				loading: false,
-				data: response["events"].slice(start, end),
-				fullArray: response["events"]
-			  });
-			}
-	  } else {
-		this.setState({ sleeping: true });
-		setTimeout(() => {
-		  this.setState({ sleeping: false, loading: false });
-		}, 3000);
-	  }
-	});
+
+      api.callApi("api/getAllEvents", "POST", {}, response => {
+          console.log(response);
+          if (response["responseCode"] != 503) {
+              if (response["responseCode"] == 200) {
+                  let ds = new ListView.DataSource({
+                      rowHasChanged: (r1, r2) => r1 !== r2
+                  });
+                  let array = response["events"];
+                  for (let index = 0; index < array.length; index++) {
+                      array[index]["subscribed"] = false;
+                      let localStorage = LocalStorage.getInstance();
+                      localStorage.retrieveItem("userId").then(id => {
+                          if (id != null) {
+                              userData = {
+                                  eventId: response["events"][index]["id"],
+                                  personId: id
+                              };
+                              api.callApi("api/checkSub", "POST", userData, response => {
+                                  array[index]["subscribed"] = response["found"];
+                              });
+                          }
+                      });
+                  }
+                  this.setState({
+                      uploading: false,
+                      loading: false,
+                      data: array.slice(start, end),
+                      fullArray: array
+                  });
+              }
+          } else {
+              this.setState({ sleeping: true });
+              setTimeout(() => {
+                  this.setState({ sleeping: false, loading: false });
+              }, 3000);
+          }
+      });
   }
 
+
   hideSplashScreen() {
-	this.setState({
-	  splashScreenVisible: false
-	});
+    this.setState({
+      splashScreenVisible: false
+    });
   }
 
   errorMessage(msg) {
-	showMessage({
-	  message: msg,
-	  type: "danger",
-	  duration: 3000
-	});
+    showMessage({
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
   }
 
   onLoad = () => {
-	this.refresh();
+    this.refresh();
   };
 
   _onRefresh = () => {
-	this.setState({ refreshing: true, sleeping: false, loading: true });
-	this.refresh();
+    this.setState({ refreshing: true, sleeping: false, loading: true });
+    this.refresh();
   };
 
   refresh() {
-	startNum = 0;
-	endNum = 2;
-	start = startNum;
-	end = endNum;
-	if (!this.state.sleeping) {
-	  let api = Api.getInstance();
-	  api.callApi("api/getAllEvents", "POST", {}, response => {
-		if (response["responseCode"] != 503) {
-		  if (response["responseCode"] == 200) {
-			let array = response["events"];
-			for (let index = 0; index < array.length; index++) {
-			  let localStorage = LocalStorage.getInstance();
-			  localStorage.retrieveItem("userId").then(id => {
-				if (id != null) {
-				  userData = {
-					eventId: response["events"][index]["id"],
-					personId: id
-				  };
-				  api.callApi("api/checkSub", "POST", userData, response => {
-					array[index]["subscribed"] = response["found"];
-					this.setState({
-					  uploading: false,
-					  refreshing: false,
-					  loading: false,
-					  data: array.slice(start, end)
-					});
-					let array = response['events'];
-					for(let index=0; index < array.length; index++) {
-						array[index]['subscribed'] = false
-						let localStorage = LocalStorage.getInstance();
-						localStorage.retrieveItem('userId').then((id) => {
-							if(id != null) {
-								userData = {
-									"eventId": response['events'][index]['id'],
-									"personId": id
-								}
-								api.callApi('api/checkSub', 'POST', userData, response => {
-									array[index]['subscribed'] = response['found'];
-									this.setState({
-										uploading: false,
-										refreshing: false,
-										loading: false,
-										dataSource: ds.cloneWithRows(array),
-									});
-								});
-							}
-						});
-					}
-				  });
-				}
-			  });
-			}
-		  }
-		} else {
-		  this.setState({ sleeping: true });
-		  setTimeout(() => {
-			this.setState({ sleeping: false });
-		  }, 3000);
-		  this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
-		}
-	  });
-	}
+    startNum = 0;
+    endNum = 2;
+    start = startNum;
+    end = endNum;
+    if (!this.state.sleeping) {
+      let api = Api.getInstance();
+      api.callApi("api/getAllEvents", "POST", {}, response => {
+        if (response["responseCode"] != 503) {
+          if (response["responseCode"] == 200) {
+            let array = response["events"];
+            for (let index = 0; index < array.length; index++) {
+              let localStorage = LocalStorage.getInstance();
+              localStorage.retrieveItem("userId").then(id => {
+                if (id != null) {
+                  userData = {
+                    eventId: response["events"][index]["id"],
+                    personId: id
+                  };
+                  api.callApi("api/checkSub", "POST", userData, response => {
+                    array[index]["subscribed"] = response["found"];
+                  });
+                }
+              });
+            }
+            this.setState({
+              refreshing: false,
+              loading: false,
+              data: array.slice(start, end)
+            });
+          }
+        } else {
+          this.setState({ sleeping: true });
+          setTimeout(() => {
+            this.setState({ sleeping: false });
+          }, 3000);
+          this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        }
+      });
+    }
   }
 
   handleSearch() {
-	let api = Api.getInstance();
-	userData = {
-	  searchString: this.state.search
-	};
-	api.callApi("api/searchEvent", "POST", userData, response => {
-	  if (response["responseCode"] != 503) {
-		if (response["responseCode"] == 200) {
-		  let array = response["events"];
-		  for (let index = 0; index < array.length; index++) {
-			array[index]["subscribed"] = false;
-			let localStorage = LocalStorage.getInstance();
-			localStorage.retrieveItem("userId").then(id => {
-			  if (id != null) {
-				userData = {
-				  eventId: response["events"][index]["id"],
-				  personId: id
-				};
-				api.callApi("api/checkSub", "POST", userData, response => {
-				  array[index]["subscribed"] = response["found"];
-				  this.setState({
-					uploading: false,
-					data: array,
-					loading: false
-				  });
-				});
-			  }
-			});
-		  }
-		}
-	  } else {
-		this.setState({ sleeping: true });
-		setTimeout(() => {
-		  this.setState({ sleeping: false });
-		}, 3000);
-		this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
-	  }
-	});
+    this.setState({
+      loading: true
+    });
+    let api = Api.getInstance();
+    userData = {
+      searchString: this.state.search
+    };
+    api.callApi("api/searchEvent", "POST", userData, response => {
+      if (response["responseCode"] != 503) {
+        if (response["responseCode"] == 200) {
+          let array = response["events"];
+          for (let index = 0; index < array.length; index++) {
+            array[index]["subscribed"] = false;
+            let localStorage = LocalStorage.getInstance();
+            localStorage.retrieveItem("userId").then(id => {
+              if (id != null) {
+                userData = {
+                  eventId: response["events"][index]["id"],
+                  personId: id
+                };
+                api.callApi("api/checkSub", "POST", userData, response => {
+                  array[index]["subscribed"] = response["found"];
+                });
+              }
+            });
+          }
+          this.setState({
+            data: array
+          });
+        }
+        this.errorMessage(
+          'Er is niks gevonden voor "' + this.state.search + '"'
+        );
+        this.setState({
+          loading: false
+        });
+      } else {
+        this.setState({ sleeping: true });
+        setTimeout(() => {
+          this.setState({ sleeping: false });
+        }, 3000);
+        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+      }
+    });
   }
 
   handelEnd = () => {
-	api = Api.getInstance();
-	if (end <= this.state.fullArray.length) {
-	  end += 2;
-	  start += 2;
-	  // alert(end + " " + this.state.data.length);
-	  api.callApi("api/getAllEvents", "POST", {}, response => {
-		console.log(response);
-		if (response["responseCode"] == 200) {
-		  this.setState({
-			data: [...this.state.data, ...response["events"].slice(start, end)]
-		  });
-		}
-	  });
-	}
+    api = Api.getInstance();
+    if (end <= this.state.fullArray.length) {
+      end += 2;
+      start += 2;
+      // alert(end + " " + this.state.data.length);
+      api.callApi("api/getAllEvents", "POST", {}, response => {
+        if (response["responseCode"] != 503) {
+          if (response["responseCode"] == 200) {
+            this.setState({
+              data: [
+                ...this.state.data,
+                ...response["events"].slice(start, end)
+              ]
+            });
+          }
+        } else {
+          this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        }
+      });
+    }
   };
 
   render() {
+    const Entities = require("html-entities").AllHtmlEntities;
+    const entities = new Entities();
     return (
       <ImageBackground
         blurRadius={0}
@@ -322,7 +311,7 @@ class Events extends Component {
           <View>
             <FlatList
               data={this.state.data}
-              keyExtractor={item => item.title}
+              keyExtractor={(item, index) => "" + item.id}
               initialNumToRender={2}
               // windowSize={2}
               // maxToRenderPerBatch={4}
@@ -340,66 +329,63 @@ class Events extends Component {
               renderItem={({ item }) => (
                 <View style={styles.container}>
                   <View style={styles.card} elevation={5}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10
+                      }}
+                    >
+                        <TouchableOpacity onPress={() =>
 
+                            this.props.navigation.dispatch(
+                                NavigationActions.navigate({
+                                    routeName: "ProfilePageStack",
+                                    action: NavigationActions.navigate({
+                                        routeName: "ProfilePage",
+                                        params: {
+                                            leader: item.leader,
+                                            profilePicture: item.photo[0],
+                                            leaderDesc: item.leaderDesc
+                                        }
 
-                          <View
-                              style={{
-                                  flex: 1,
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  margin: 10
-                              }}
-                           >
-                              <TouchableOpacity onPress={() =>
+                                    })
+                                })
 
-                                  this.props.navigation.dispatch(
-                                      NavigationActions.navigate({
-                                          routeName: "ProfilePageStack",
-                                          action: NavigationActions.navigate({
-                                              routeName: "ProfilePage",
-											  params: {
-                                                  leader: item.leader,
-                                                  profilePicture: item.photo[0],
-                                                  leaderDesc: item.leaderDesc
-											    }
+                            )}>
+                            <Image
 
-                                          })
-                                      })
+                                source={{ uri: item.photo[0] }}
+                                resizeMode="cover"
+                                style={{ width: 50, height: 50, borderRadius: 10 }}
 
-                                  )}>
-                                  <Image
-
-                                      source={{ uri: item.photo[0] }}
-                                      resizeMode="cover"
-                                      style={{ width: 50, height: 50, borderRadius: 10 }}
-
-                                  />
-                              </TouchableOpacity>
-
-                              <View
-                                  style={{
-                                      flex: 1,
-                                      flexDirection: "column",
-                                      marginLeft: 10
-                                  }}
-                              >
-                                  <Text
-                                      style={{
-                                          fontWeight: "bold",
-                                          fontSize: 18,
-                                          color: "black"
-                                      }}
-                                  >
-                                      {capitalize.words(item.leader)}
-                                  </Text>
-                                  <Text style={{ fontSize: 14, color: "black" }}>
-                                      {item.created}
-                                  </Text>
-                              </View>
-                          </View>
-
-
+                            />
+                        </TouchableOpacity>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "column",
+                          marginLeft: 10
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: 18,
+                            color: "black"
+                          }}
+                        >
+                            {capitalize.words(
+                                entities.decode(item.leader.replace(", ,", " "))
+                            )}
+                        </Text>
+                        <Text style={{ fontSize: 14, color: "black" }}>
+                          {item.created}
+                        </Text>
+                      </View>
+                    </View>
                     <View
                       style={{
                         backgroundColor: "white",
@@ -408,122 +394,130 @@ class Events extends Component {
                         borderBottomRightRadius: 10
                       }}
                     >
-                        <TouchableHighlight
-                            onPress={() =>
-                                this.props.navigation.navigate("EventDetail", {
-                                    title: capitalize.words(
-                                        item.name.toString().replace(", ,", " ")
-                                    ),
-                                    subscribed: item.subscribed,
-                                    id: item.id,
-                                    profilePicture: item.photo[0],
-                                    content: item.desc,
-                                    start: item.begin + " " + item.beginMonth + " 2018",
-                                    startTime: item.beginTime,
-                                    end: item.end + " " + item.endMonth + " 2018",
-                                    endTime: item.endTime,
-                                    created: item.created,
-                                    author: capitalize.words(
-                                        item.leader.replace(", ,", " ")
-                                    ),
-                                    link: item.link,
-                                    img: item.img,
-                                    qr_code: item.qrCode,
-                                    location: item.location,
-                                    participants: item.participants
-                                })
-                            }
-                        >
-                            <View>
-                                <View>
-                                    <Image
-                                        source={{ uri: item.img }}
-                                        resizeMode="cover"
-                                        style={{ width: "100%", height: 200 }}
-                                    />
-                                    <View
-                                        style={{
-                                            flex: 1,
-                                            flexDirection: "row",
-                                            width: "80%"
-                                        }}
-                                    >
-                                        <View
-                                            style={{
-                                                minWidth: 50,
-                                                maxHeight: 50,
-                                                backgroundColor: "#F27B13",
-                                                marginTop: 10,
-                                                borderRadius: 5,
-                                                marginLeft: 10,
-                                                marginRight: 10
-                                            }}
-                                        >
-                                            <View style={{ flex: 1, flexDirection: "column" }}>
-                                                <Text
-                                                    style={{
-                                                        fontWeight: "bold",
-                                                        fontSize: 16,
-                                                        color: "white",
-                                                        textAlign: "center",
-                                                        marginTop: 5
-                                                    }}
-                                                >
-                                                    {item.begin}
-                                                </Text>
-                                                <Text
-                                                    style={{
-                                                        fontWeight: "bold",
-                                                        fontSize: 16,
-                                                        color: "white",
-                                                        textAlign: "center"
-                                                    }}
-                                                >
-                                                    {item.beginMonth}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                        <View
-                                            style={{
-                                                marginTop: 10,
-                                                marginRight: 10,
-                                                marginBottom: 30,
-                                                fontWeight: "bold"
-                                            }}
-                                        >
-                                            <Text
-                                                style={{
-                                                    fontWeight: "bold",
-                                                    fontSize: 18,
-                                                    color: "black"
-                                                }}
-                                            >
-                                                {capitalize.words(
-                                                    item.name.toString().replace(", ,", " ")
-                                                )}
-                                            </Text>
-                                            <HTML
-                                                style={{ height: 55 }}
-                                                tagsStyles={{
-                                                    p: { textAlign: "left", color: "grey" }
-                                                }}
-                                                onLinkPress={(evt, href) => {
-                                                    Linking.openURL(href);
-                                                }}
-                                                ignoredTags={["img"]}
-                                                html={item.desc.substr(0, 165) + "..."}
-                                                imagesMaxWidth={Dimensions.get("window").width}
-                                            />
-                                            <Text
-                                                style={{marginLeft: 200,color: 'black'}}
-                                            >
-                                                Lees verder
-                                            </Text>
-                                        </View>
-                                    </View>
+                      <TouchableHighlight
+                        onPress={() =>
+                          this.props.navigation.navigate("EventDetail", {
+                            title: capitalize.words(
+                              entities.decode(
+                                item.name.toString().replace(", ,", " ")
+                              )
+                            ),
+                            subscribed: item.subscribed,
+                            id: item.id,
+                            profilePicture: item.photo[0],
+                            content: item.desc,
+                            start: item.begin + " " + item.beginMonth + " 2018",
+                            startTime: item.beginTime,
+                            end: item.end + " " + item.endMonth + " 2018",
+                            endTime: item.endTime,
+                            created: item.created,
+                            author: capitalize.words(
+                              entities.decode(item.leader.replace(", ,", " "))
+                            ),
+                            link: item.link,
+                            img: item.img,
+                            qr_code: item.qrCode,
+                            location: item.location,
+                            participants: item.participants
+                          })
+                        }
+                      >
+                        <View>
+                          <View>
+                            <Image
+                              source={{ uri: item.img }}
+                              resizeMode="cover"
+                              style={{ width: "100%", height: 200 }}
+                            />
+                            <View
+                              style={{
+                                flex: 1,
+                                flexDirection: "row",
+                                width: "80%"
+                              }}
+                            >
+                              <View
+                                style={{
+                                  minWidth: 50,
+                                  maxHeight: 50,
+                                  backgroundColor: "#F27B13",
+                                  marginTop: 10,
+                                  borderRadius: 5,
+                                  marginLeft: 10,
+                                  marginRight: 10
+                                }}
+                              >
+                                <View
+                                  style={{ flex: 1, flexDirection: "column" }}
+                                >
+                                  <Text
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: 16,
+                                      color: "white",
+                                      textAlign: "center",
+                                      marginTop: 5
+                                    }}
+                                  >
+                                    {item.begin}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: 16,
+                                      color: "white",
+                                      textAlign: "center"
+                                    }}
+                                  >
+                                    {item.beginMonth}
+                                  </Text>
                                 </View>
+                              </View>
+                              <View
+                                style={{
+                                  marginTop: 10,
+                                  marginRight: 10,
+                                  marginBottom: 30,
+                                  fontWeight: "bold"
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: 18,
+                                    color: "black"
+                                  }}
+                                >
+                                  {capitalize.words(
+                                    entities.decode(
+                                      item.name.toString().replace(", ,", " ")
+                                    )
+                                  )}
+                                </Text>
+                                <HTML
+                                  style={{ height: 55 }}
+                                  tagsStyles={{
+                                    p: { textAlign: "left", color: "grey" }
+                                  }}
+                                  onLinkPress={(evt, href) => {
+                                    Linking.openURL(href);
+                                  }}
+                                  ignoredTags={["img"]}
+                                  html={item.desc.substr(0, 165) + "..."}
+                                  imagesMaxWidth={
+                                    Dimensions.get("window").width
+                                  }
+                                />
+                                <Text
+                                  style={{ marginLeft: 200, color: "black" }}
+                                >
+                                  Lees verder
+                                </Text>
+                              </View>
                             </View>
-                        </TouchableHighlight>
+                          </View>
+                        </View>
+                      </TouchableHighlight>
                       <View
                         style={{
                           flex: 1,
@@ -636,7 +630,8 @@ class Events extends Component {
                             >
                               AFMELDEN
                             </Text>
-                          </TouchableHighlight> )}
+                          </TouchableHighlight>
+                        )}
                         <TouchableHighlight
                           onPress={() =>
                             Share.share({
@@ -654,69 +649,81 @@ class Events extends Component {
                             justifyContent: "center",
                             alignItems: "center",
                             padding: 10,
-                            backgroundColor: "#93D500",
+                            backgroundColor: "#93D500"
                           }}
                         >
                           <Text style={{ color: "white", fontWeight: "bold" }}>
                             DELEN
                           </Text>
                         </TouchableHighlight>
-                        </View>
                       </View>
                     </View>
                   </View>
+                </View>
               )}
             />
           </View>
         )}
         {this.state.loading && <PacmanIndicator color="#94D600" />}
-        </ImageBackground>
-        );
-    }
+      </ImageBackground>
+    );
+  }
 }
+
+// onPress={() =>
+//                             this.props.navigation.navigate("UpdateEvent", {
+//                               id: item.id,
+//                               title: capitalize.words(
+//                                 item.name.toString().replace(", ,", " ")
+//                               ),
+//                               content: item.desc,
+//                               img: item.img,
+//                               location: item.location
+//                             })
+//                           }
 
 const styles = StyleSheet.create({
   splashScreen: {
-	backgroundColor: "blue",
-	position: "absolute",
-	width: "100%",
-	height: "100%"
+    backgroundColor: "blue",
+    position: "absolute",
+    width: "100%",
+    height: "100%"
   },
   container: {
-	flex: 1,
-	justifyContent: "center",
-	marginBottom: 20
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 20
   },
   card: {
-	backgroundColor: "white",
-	marginTop: 0,
-	marginBottom: 20,
-	borderRadius: 10,
-	marginLeft: 10,
-	marginRight: 10,
-	shadowOffset: { width: 0, height: 13 },
-	shadowOpacity: 0.3,
-	shadowRadius: 6,
+    backgroundColor: "white",
+    marginTop: 0,
+    marginBottom: 20,
+    borderRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    shadowOffset: { width: 0, height: 13 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
 
-	// android (Android +5.0)
-	elevation: 3
+    // android (Android +5.0)
+    elevation: 3
   },
   logo: {
-	height: 250,
-	width: 300,
-	resizeMode: "contain"
+    height: 250,
+    width: 300,
+    resizeMode: "contain"
   },
   loginButton: {
-	margin: 5,
-	backgroundColor: "#FF6700",
-	padding: 10,
-	borderRadius: 10,
-	overflow: "hidden"
+    margin: 5,
+    backgroundColor: "#FF6700",
+    padding: 10,
+    borderRadius: 10,
+    overflow: "hidden"
   },
   loginButtonText: {
-	textAlign: "center",
-	fontSize: 16,
-	color: "white"
+    textAlign: "center",
+    fontSize: 16,
+    color: "white"
   }
 });
 
