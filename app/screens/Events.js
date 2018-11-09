@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  ListView,
-  RefreshControl,
-  Share,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  FlatList,
-  View
+    Dimensions,
+    Image,
+    ImageBackground,
+    ListView,
+    RefreshControl,
+    Share,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    FlatList,
+    View, TouchableOpacity
 } from "react-native";
-import { Header } from "react-navigation";
+import {Header, NavigationActions} from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import HTML from "react-native-render-html";
 import Api from "../config/api.js";
@@ -21,6 +21,7 @@ import LocalStorage from "../config/localStorage";
 import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
+import * as Alert from "react-native";
 
 var capitalize = require("capitalize");
 var startNum = 0;
@@ -41,59 +42,88 @@ const uiTheme = {
 
 class Events extends Component {
   constructor() {
-    super();
-    this.state = {
-      dataSource: null,
-      eventArray: [],
-      modalVisible: false,
-      adminArray: [],
-      checkMap: new Map(),
-      search: "",
-      refreshing: false,
-      search: "",
-      loading: true,
-      check: false,
-      sleeping: false
-    };
-    let api = Api.getInstance();
-    api.callApi("api/getAllEvents", "POST", {}, response => {
-      console.log(response);
-      if (response["responseCode"] != 503) {
-        if (response["responseCode"] == 200) {
-          let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-          });
-          let array = response["events"];
-          for (let index = 0; index < array.length; index++) {
-            array[index]["subscribed"] = false;
-            let localStorage = LocalStorage.getInstance();
-            localStorage.retrieveItem("userId").then(id => {
-              if (id != null) {
-                userData = {
-                  eventId: response["events"][index]["id"],
-                  personId: id
-                };
-                api.callApi("api/checkSub", "POST", userData, response => {
-                  array[index]["subscribed"] = response["found"];
-                });
+	super();
+	this.state = {
+	  dataSource: null,
+	  eventArray: [],
+	  modalVisible: false,
+	  adminArray: [],
+	  checkMap: new Map(),
+	  search: "",
+	  refreshing: false,
+	  loading: true,
+	  check: false,
+	  sleeping: false,
+      personList: []
+	};
+
+      let api = Api.getInstance();
+
+      let localStorage = LocalStorage.getInstance();
+      localStorage.retrieveItem("userId").then(id => {
+
+
+          api.callApi("api/getLeaderDesc", "POST", {'id': id}, response => {
+              if (response["responseCode"] != 503) {
+                  if (response["responseCode"] == 200) {
+
+                      this.setState({
+                          personList: response['personList'],
+                      });
+                  }
+              } else {
+                  this.setState({
+                      personList: response['subs'],
+                  });
               }
-            });
-          }
-          this.setState({
-            uploading: false,
-            loading: false,
-            data: array.slice(start, end),
-            fullArray: array
           });
-        }
-      } else {
-        this.setState({ sleeping: true });
-        setTimeout(() => {
-          this.setState({ sleeping: false, loading: false });
-        }, 3000);
-      }
-    });
+
+      })
+          .catch(error => {
+              //this callback is executed when your Promise is rejected
+              console.log("Promise is rejected with error: " + error);
+          });
+
+
+      api.callApi("api/getAllEvents", "POST", {}, response => {
+          console.log(response);
+          if (response["responseCode"] != 503) {
+              if (response["responseCode"] == 200) {
+                  let ds = new ListView.DataSource({
+                      rowHasChanged: (r1, r2) => r1 !== r2
+                  });
+                  let array = response["events"];
+                  for (let index = 0; index < array.length; index++) {
+                      array[index]["subscribed"] = false;
+                      let localStorage = LocalStorage.getInstance();
+                      localStorage.retrieveItem("userId").then(id => {
+                          if (id != null) {
+                              userData = {
+                                  eventId: response["events"][index]["id"],
+                                  personId: id
+                              };
+                              api.callApi("api/checkSub", "POST", userData, response => {
+                                  array[index]["subscribed"] = response["found"];
+                              });
+                          }
+                      });
+                  }
+                  this.setState({
+                      uploading: false,
+                      loading: false,
+                      data: array.slice(start, end),
+                      fullArray: array
+                  });
+              }
+          } else {
+              this.setState({ sleeping: true });
+              setTimeout(() => {
+                  this.setState({ sleeping: false, loading: false });
+              }, 3000);
+          }
+      });
   }
+
 
   hideSplashScreen() {
     this.setState({
@@ -294,7 +324,7 @@ class Events extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-              }
+               }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
@@ -308,11 +338,31 @@ class Events extends Component {
                         margin: 10
                       }}
                     >
-                      <Image
-                        source={{ uri: item.photo[0] }}
-                        resizeMode="cover"
-                        style={{ width: 50, height: 50, borderRadius: 10 }}
-                      />
+                        <TouchableOpacity onPress={() =>
+
+                            this.props.navigation.dispatch(
+                                NavigationActions.navigate({
+                                    routeName: "ProfilePageStack",
+                                    action: NavigationActions.navigate({
+                                        routeName: "ProfilePage",
+                                        params: {
+                                            leader: item.leader,
+                                            profilePicture: item.photo[0],
+                                            leaderDesc: item.leaderDesc
+                                        }
+
+                                    })
+                                })
+
+                            )}>
+                            <Image
+
+                                source={{ uri: item.photo[0] }}
+                                resizeMode="cover"
+                                style={{ width: 50, height: 50, borderRadius: 10 }}
+
+                            />
+                        </TouchableOpacity>
                       <View
                         style={{
                           flex: 1,
@@ -327,9 +377,9 @@ class Events extends Component {
                             color: "black"
                           }}
                         >
-                          {capitalize.words(
-                            entities.decode(item.leader.replace(", ,", " "))
-                          )}
+                            {capitalize.words(
+                                entities.decode(item.leader.replace(", ,", " "))
+                            )}
                         </Text>
                         <Text style={{ fontSize: 14, color: "black" }}>
                           {item.created}

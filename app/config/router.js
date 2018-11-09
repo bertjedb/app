@@ -45,6 +45,7 @@ import Intro from "../screens/Intro";
 import ParticipantListDetail from "../screens/ParticipantListDetail";
 import VideoPicker from "../screens/VideoPicker";
 import signInView from "../screens/signInView";
+import ProfilePage from "../screens/ProfilePage";
 //StackNavigator for login related screens like login, register and password reset.
 
 export const LoginStack = StackNavigator(
@@ -247,6 +248,22 @@ export const signInListStack = StackNavigator(
     headerMode: "none"
   }
 );
+
+//Stack for Profile
+export const ProfilePageStack = StackNavigator(
+    {
+        ParticipantList: {
+            screen: ProfilePage,
+            navigationOptions: {
+                title: "ProfielPagina"
+            }
+        }
+    },
+    {
+        headerMode: "none"
+    }
+);
+
 
 export const IntroStack = StackNavigator(
   {
@@ -619,6 +636,13 @@ export const MyAppNotLoggedIn = StackNavigator(
         header: null
       }
     },
+
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -649,12 +673,24 @@ export const MyAppLoggedInUser = StackNavigator(
         header: null
       }
     },
-    ParticipantListStack: {
-      screen: ParticipantListStack,
+      signInListStack: {
+      screen: signInListStack,
       navigationOptions: {
         header: null
       }
     },
+      ParticipantListStack: {
+          screen: ParticipantListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -685,12 +721,24 @@ export const MyAppLoggedInAdmin = StackNavigator(
         header: null
       }
     },
-    signInListStack: {
-      screen: signInListStack,
-      navigationOptions: {
-        header: null
-      }
-    },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      signInListStack: {
+          screen: signInListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      signInListStack: {
+          screen: signInListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
 
     ParticipantListStack: {
       screen: ParticipantListStack,
