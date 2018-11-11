@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Alert,
   Dimensions,
   Image,
   ImageBackground,
@@ -21,6 +22,7 @@ import LocalStorage from "../config/localStorage";
 import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 var capitalize = require("capitalize");
 var startNum = 0;
@@ -86,7 +88,7 @@ class Events extends Component {
           this.setState({
             uploading: false,
             loading: false,
-            data: response["events"].slice(start, end),
+            data: response["events"],
             fullArray: response["events"]
           });
         }
@@ -347,6 +349,32 @@ class Events extends Component {
                           {item.created}
                         </Text>
                       </View>
+                      <Icon
+                        size={25}
+                        name={"delete-forever"}
+                        style={{ color: "red" }}
+                        onPress={() =>
+                          Alert.alert(
+                            "Verwijderen",
+                            "Weet u zeker dat u dit event wil verwijderen?",
+                            [
+                              {
+                                text: "Annuleren",
+                                onPress: () => console.log("Cancel Pressed!")
+                              },
+                              {
+                                text: "OK",
+                                onPress: () =>
+                                  fetch(
+                                    "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
+                                      item.id
+                                  )
+                              }
+                            ],
+                            { cancelable: false }
+                          )
+                        }
+                      />
                     </View>
                     <View
                       style={{
