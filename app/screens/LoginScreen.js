@@ -57,7 +57,7 @@ class LoginScreen extends Component {
       password: "",
       succesfull: false
     };
-  }
+   }
 
   componentWillUnmount() {
     if (true) {
