@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import * as capitalize from "capitalize";
+import {StyleSheet, Dimensions, ImageBackground, View} from 'react-native';
+import {Header, NavigationActions} from "react-navigation";
+import {Toolbar,} from 'react-native-material-ui';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default class FeedbackForm extends Component {
 
@@ -42,7 +45,7 @@ export default class FeedbackForm extends Component {
                 >
                     <Toolbar
                         iconSet="MaterialCommunityIcons"
-                        centerElement={"Profiel"}
+                        centerElement={"Feedback"}
                         leftElement={"arrow-left"}
                         onLeftElementPress={() =>
                             this.props.navigation.dispatch(NavigationActions.back())
