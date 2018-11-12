@@ -5,17 +5,11 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Image,
-  TextInput,
-  ImageBackground,
-  Dimensions
+  ImageBackground
 } from "react-native";
 import {
   COLOR,
-  ThemeContext,
-  getTheme,
   Toolbar,
-  Card,
   Button
 } from "react-native-material-ui";
 import { DrawerActions, NavigationActions, Header } from "react-navigation";
@@ -95,7 +89,7 @@ export default class CreateAdmin extends Component {
     data = {
       username: this.state.wpUsername,
       password: this.state.wpPassword
-    };
+    }; //change fetch url to bslim wordpress
     fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate", {
       method: "POST",
       headers: {
@@ -105,8 +99,6 @@ export default class CreateAdmin extends Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
-        console.log(JSON.stringify({ data }));
         this.setState({
           firstName: responseJson["data"]["display_name"].substr(
             0,
@@ -217,28 +209,6 @@ export default class CreateAdmin extends Component {
         .catch(error => {
           callBack(error);
         });
-      /*
-      sha256(this.state.firstPassword).then( hash => {
-        let userData = {
-          email: this.state.email,
-          password: hash,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          biography: this.state.biography,
-          img: this.state.img
-      }
-      api.callApi('register-admin', 'POST', userData, response => {
-          if(response['responseCode'] == 200){
-            this.setState({
-              succesfull: true,
-            })
-            this.props.navigation.dispatch(NavigationActions.back());
-          } else {
-            alert(response['responseCode']['message'])
-          }
-        })
-      })
-	  */
     }
   }
 

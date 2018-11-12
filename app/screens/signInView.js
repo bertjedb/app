@@ -20,8 +20,9 @@ import LinearGradient from "react-native-linear-gradient";
 import Api from "../config/api";
 import LocalStorage from "../config/localStorage";
 import { ListItem } from 'react-native-elements'
-import * as capitalize from "capitalize";
+import HTML from "react-native-render-html"
 
+var capitalize = require("capitalize");
 
 
 export default class signInView extends Component {
@@ -51,7 +52,7 @@ export default class signInView extends Component {
                 }
             });
 
-            })
+        })
             .catch(error => {
                 //this callback is executed when your Promise is rejected
                 console.log("Promise is rejected with error: " + error);
@@ -61,7 +62,8 @@ export default class signInView extends Component {
 
     }
     render() {
-
+        const Entities = require("html-entities").AllHtmlEntities;
+        const entities = new Entities();
         return (
             <ImageBackground
                 blurRadius={3}
@@ -109,11 +111,12 @@ export default class signInView extends Component {
                         renderItem={({item}) =>  (
                             <ListItem
 
-                            title={<Text>{item.name}</Text>}
-                            onPress={() =>
-                                this.props.navigation.navigate("EventDetail", {
+                                title={<Text>{item.name}</Text>}
+
+                                    onPress = {() =>
+                                    this.props.navigation.navigate("EventDetail", {
                                     title: capitalize.words(
-                                        item.name.toString().replace(", ,", " ")
+                                    entities.decode(item.name.toString().replace(", ,", " "))
                                     ),
                                     subscribed: item.subscribed,
                                     id: item.id,
@@ -124,8 +127,7 @@ export default class signInView extends Component {
                                     end: item.end + " " + item.endMonth + " 2018",
                                     endTime: item.endTime,
                                     created: item.created,
-                                    author: capitalize.words(
-                                        item.leader.replace(", ,", " ")
+                                    author: capitalize.words(entities.decode(item.leader.replace(", ,", " "))
                                     ),
                                     link: item.link,
                                     img: item.img,
@@ -133,20 +135,19 @@ export default class signInView extends Component {
                                     location: item.location,
                                     participants: item.participants
                                 })
-
-                            }
+                                }
 
                             />
 
                         )}
 
-                     />
+                    />
                 </View>
 
 
             </ImageBackground>
         );
-     }
+    }
 }
 
 const styles = StyleSheet.create({

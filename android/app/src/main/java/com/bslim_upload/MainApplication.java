@@ -5,7 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-// import com.reactnativecommunity.webview.RNCWebViewPackage;
+//import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
@@ -51,10 +51,10 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNFetchBlobPackage(),
-            //new RNCWebViewPackage(),
             new ReactVideoPackage(),
             new VectorIconsPackage(),
             new SvgPackage(),
+//            new RNCWebViewPackage(),
             new SnackbarPackage(),
             new Sha256Package(),
             new OrientationPackage(),

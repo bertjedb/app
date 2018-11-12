@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Alert,
   Dimensions,
   Image,
   ImageBackground,
@@ -11,9 +10,10 @@ import {
   Text,
   TouchableHighlight,
   FlatList,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
-import { Header } from "react-navigation";
+import { Header, NavigationActions } from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import HTML from "react-native-render-html";
 import Api from "../config/api.js";
@@ -23,6 +23,7 @@ import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import * as Alert from "react-native";
 
 var capitalize = require("capitalize");
 var startNum = 0;
@@ -52,12 +53,14 @@ class Events extends Component {
       checkMap: new Map(),
       search: "",
       refreshing: false,
-      search: "",
       loading: true,
       check: false,
-      sleeping: false
+      sleeping: false,
+      personList: []
     };
+
     let api = Api.getInstance();
+
     api.callApi("api/getAllEvents", "POST", {}, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
@@ -78,18 +81,13 @@ class Events extends Component {
                   array[index]["subscribed"] = response["found"];
                 });
               }
-              this.setState({
-                uploading: false,
-                loading: false,
-                dataSource: ds.cloneWithRows(array)
-              });
             });
           }
           this.setState({
             uploading: false,
             loading: false,
-            data: response["events"],
-            fullArray: response["events"]
+            data: array.slice(start, end),
+            fullArray: array
           });
         }
       } else {
@@ -135,53 +133,31 @@ class Events extends Component {
         if (response["responseCode"] != 503) {
           if (response["responseCode"] == 200) {
             let array = response["events"];
-            for (let index = 0; index < array.length; index++) {
-              let localStorage = LocalStorage.getInstance();
-              localStorage.retrieveItem("userId").then(id => {
-                if (id != null) {
-                  userData = {
-                    eventId: response["events"][index]["id"],
-                    personId: id
-                  };
-                  api.callApi("api/checkSub", "POST", userData, response => {
-                    array[index]["subscribed"] = response["found"];
-                    this.setState({
-                      uploading: false,
-                      refreshing: false,
-                      loading: false,
-                      data: array.slice(start, end)
-                    });
-                    let array = response["events"];
-                    for (let index = 0; index < array.length; index++) {
-                      array[index]["subscribed"] = false;
-                      let localStorage = LocalStorage.getInstance();
-                      localStorage.retrieveItem("userId").then(id => {
-                        if (id != null) {
-                          userData = {
-                            eventId: response["events"][index]["id"],
-                            personId: id
-                          };
-                          api.callApi(
-                            "api/checkSub",
-                            "POST",
-                            userData,
-                            response => {
-                              array[index]["subscribed"] = response["found"];
-                              this.setState({
-                                uploading: false,
-                                refreshing: false,
-                                loading: false,
-                                dataSource: ds.cloneWithRows(array)
-                              });
-                            }
-                          );
-                        }
-                      });
+            let localStorage = LocalStorage.getInstance();
+            localStorage.retrieveItem("userId").then(id => {
+              if (id != null) {
+                userData = {
+                  personId: id
+                };
+                api.callApi("api/checkSub", "POST", userData, response => {
+                  let subEvents = response["subEvents"];
+                  for (let index = 0; index < subEvents.length; index++) {
+                    for (event of array) {
+                      if (event.id == subEvents[index].id) {
+                        event.subscribed = true;
+                      } else {
+                        event.subscribed = false;
+                      }
                     }
+                  }
+                  this.setState({
+                    refreshing: false,
+                    loading: false,
+                    data: array.slice(start, end)
                   });
-                }
-              });
-            }
+                });
+              }
+            });
           }
         } else {
           this.setState({ sleeping: true });
@@ -195,6 +171,9 @@ class Events extends Component {
   }
 
   handleSearch() {
+    this.setState({
+      loading: true
+    });
     let api = Api.getInstance();
     userData = {
       searchString: this.state.search
@@ -214,16 +193,20 @@ class Events extends Component {
                 };
                 api.callApi("api/checkSub", "POST", userData, response => {
                   array[index]["subscribed"] = response["found"];
-                  this.setState({
-                    uploading: false,
-                    data: array,
-                    loading: false
-                  });
                 });
               }
             });
           }
+          this.setState({
+            data: array
+          });
         }
+        this.errorMessage(
+          'Er is niks gevonden voor "' + this.state.search + '"'
+        );
+        this.setState({
+          loading: false
+        });
       } else {
         this.setState({ sleeping: true });
         setTimeout(() => {
@@ -241,17 +224,25 @@ class Events extends Component {
       start += 2;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllEvents", "POST", {}, response => {
-        console.log(response);
-        if (response["responseCode"] == 200) {
-          this.setState({
-            data: [...this.state.data, ...response["events"].slice(start, end)]
-          });
+        if (response["responseCode"] != 503) {
+          if (response["responseCode"] == 200) {
+            this.setState({
+              data: [
+                ...this.state.data,
+                ...response["events"].slice(start, end)
+              ]
+            });
+          }
+        } else {
+          this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
         }
       });
     }
   };
 
   render() {
+    const Entities = require("html-entities").AllHtmlEntities;
+    const entities = new Entities();
     return (
       <ImageBackground
         blurRadius={0}
@@ -300,9 +291,12 @@ class Events extends Component {
           <View>
             <FlatList
               data={this.state.data}
-              keyExtractor={item => item.title}
+              keyExtractor={(item, index) => "" + item.id}
+              initialNumToRender={2}
               // windowSize={2}
               // maxToRenderPerBatch={4}
+              onEndReachedThreshold={0.6}
+              onEndReached={() => this.handelEnd()}
               contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
               refreshControl={
                 <RefreshControl
@@ -324,11 +318,29 @@ class Events extends Component {
                         margin: 10
                       }}
                     >
-                      <Image
-                        source={{ uri: item.photo[0] }}
-                        resizeMode="cover"
-                        style={{ width: 50, height: 50, borderRadius: 10 }}
-                      />
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.dispatch(
+                            NavigationActions.navigate({
+                              routeName: "ProfilePageStack",
+                              action: NavigationActions.navigate({
+                                routeName: "ProfilePage",
+                                params: {
+                                  leader: item.leader,
+                                  profilePicture: item.photo[0],
+                                  leaderDesc: item.leaderDesc
+                                }
+                              })
+                            })
+                          )
+                        }
+                      >
+                        <Image
+                          source={{ uri: item.photo["profilePhoto"] }}
+                          resizeMode="cover"
+                          style={{ width: 50, height: 50, borderRadius: 10 }}
+                        />
+                      </TouchableOpacity>
                       <View
                         style={{
                           flex: 1,
@@ -343,7 +355,9 @@ class Events extends Component {
                             color: "black"
                           }}
                         >
-                          {capitalize.words(item.leader)}
+                          {capitalize.words(
+                            entities.decode(item.leader.replace(", ,", " "))
+                          )}
                         </Text>
                         <Text style={{ fontSize: 14, color: "black" }}>
                           {item.created}
@@ -388,7 +402,9 @@ class Events extends Component {
                         onPress={() =>
                           this.props.navigation.navigate("EventDetail", {
                             title: capitalize.words(
-                              item.name.toString().replace(", ,", " ")
+                              entities.decode(
+                                item.name.toString().replace(", ,", " ")
+                              )
                             ),
                             subscribed: item.subscribed,
                             id: item.id,
@@ -400,7 +416,7 @@ class Events extends Component {
                             endTime: item.endTime,
                             created: item.created,
                             author: capitalize.words(
-                              item.leader.replace(", ,", " ")
+                              entities.decode(item.leader.replace(", ,", " "))
                             ),
                             link: item.link,
                             img: item.img,
@@ -477,7 +493,9 @@ class Events extends Component {
                                   }}
                                 >
                                   {capitalize.words(
-                                    item.name.toString().replace(", ,", " ")
+                                    entities.decode(
+                                      item.name.toString().replace(", ,", " ")
+                                    )
                                   )}
                                 </Text>
                                 <HTML
@@ -620,14 +638,14 @@ class Events extends Component {
                         )}
                         <TouchableHighlight
                           onPress={() =>
-                            this.props.navigation.navigate("UpdateEvent", {
-                              id: item.id,
-                              title: capitalize.words(
-                                item.name.toString().replace(", ,", " ")
-                              ),
-                              content: item.desc,
-                              img: item.img,
-                              location: item.location
+                            Share.share({
+                              message:
+                                "Binnenkort organiseert bslim: " +
+                                capitalize.words(
+                                  item.name.toString().replace(", ,", " ")
+                                ) +
+                                ". Voor meer informatie ga naar: " +
+                                item.link
                             })
                           }
                           style={{
@@ -655,6 +673,18 @@ class Events extends Component {
     );
   }
 }
+
+// onPress={() =>
+//                             this.props.navigation.navigate("UpdateEvent", {
+//                               id: item.id,
+//                               title: capitalize.words(
+//                                 item.name.toString().replace(", ,", " ")
+//                               ),
+//                               content: item.desc,
+//                               img: item.img,
+//                               location: item.location
+//                             })
+//                           }
 
 const styles = StyleSheet.create({
   splashScreen: {

@@ -232,15 +232,13 @@ class EventDetail extends Component {
         }
       }
     ];
-    /*
-	  const participants = navigation.getParam("participants", "");
-	      const ds = new ListView.DataSource({
-	        rowHasChanged: (r1, r2) => r1 !== r2
-	      });
-	  this.state = {
-	        dataSource: ds.cloneWithRows(participants)
-	      };
-		  */
+
+    const participants = navigation.getParam("participants", "");
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+    const dataSource = ds.cloneWithRows(participants);
+
     return (
       <View
         style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
@@ -783,7 +781,7 @@ class EventDetail extends Component {
           {this.state.isLoggedIn && (
             <Animated.View
               style={[
-                styles.lastCard,
+                styles.card,
                 {
                   transform: [
                     {
@@ -818,27 +816,32 @@ class EventDetail extends Component {
             delay={500}
             animation="lightSpeedIn"
             iterationCount={1}
-            style={styles.card}
+            style={styles.lastCard}
             elevation={5}
           >
-            {/*
-						            <ListView
-						              style={styles.participantContainer}
-						              dataSource={this.state.dataSource}
-						              renderRow={rowData => (
-						                <View>
-						                  <View
-						                    style={{
-						                      borderBottomColor: "black",
-						                      borderBottomWidth: 1
-						                    }}
-						                  >
-						                    <Text style={styles.text}>{rowData}</Text>
-						                  </View>
-						                </View>
-						              )}
-						            />
-									*/}
+            <ScrollView>
+              <View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={{ color: "grey", fontSize: 20, padding: 10 }}>
+                    Deelnemerslijst
+                  </Text>
+                  <Text style={{ color: "black", fontSize: 20, padding: 10 }}>
+                    Aantal: {participants.length}
+                  </Text>
+                </View>
+                <ListView
+                  style={styles.participantContainer}
+                  dataSource={dataSource}
+                  renderRow={participant => (
+                    <View style={{ marginLeft: "2%", marginBottom: "2%" }}>
+                      <Text style={styles.text}>
+                        - {capitalize.words(participant.name)}
+                      </Text>
+                    </View>
+                  )}
+                />
+              </View>
+            </ScrollView>
           </Animatable.View>
         </Animated.ScrollView>
       </View>
@@ -901,7 +904,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: 45,
+    marginBottom: 75,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
@@ -933,23 +936,7 @@ const styles = StyleSheet.create({
   },
 
   participantContainer: {
-    margin: "5%",
-    flex: 1,
-    borderWidth: 1,
-    backgroundColor: "#fcd6e8",
-    height: 500
-  },
-  participantField: {
-    flex: 1,
-    margin: "5%",
-    flexDirection: "row",
-    borderWidth: 1,
-    backgroundColor: "#fff"
-  },
-  participantRow: {
-    flex: 1,
-    padding: 12,
-    flexDirection: "row"
+    flex: 1
   },
   text: {
     marginLeft: 12,

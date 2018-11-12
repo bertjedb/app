@@ -212,6 +212,8 @@ class News extends Component {
   };
 
   render() {
+    const Entities = require("html-entities").AllHtmlEntities;
+    const entities = new Entities();
     return (
       <ImageBackground
         blurRadius={0}
@@ -280,14 +282,16 @@ class News extends Component {
                   <View style={styles.card} elevation={5}>
                     <View
                       style={{
-                        backgroundColor: "white",
-                        borderRadius: 10
+                        backgroundColor: "rgba(52, 52, 52, 0,8)",
+                        paddingBottom: 0,
+                        borderBottomLeftRadius: 10,
+                        borderBottomRightRadius: 10
                       }}
                     >
                       <TouchableHighlight
                         onPress={() =>
                           this.props.navigation.navigate("NewsDetail", {
-                            title: item.title,
+                            title: entities.decode(item.title),
                             content: item.desc,
                             link: item.link,
                             img: item.url

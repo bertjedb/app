@@ -42,10 +42,12 @@ import Events from "../screens/Events";
 import ChangeEmailRequest from "../screens/ChangeEmailRequest";
 import ChangeEmail from "../screens/ChangeEmail";
 import Intro from "../screens/Intro";
+import ParticipantListDetail from "../screens/ParticipantListDetail";
 import VideoPicker from "../screens/VideoPicker";
 import signInView from "../screens/signInView";
-
+import ProfilePage from "../screens/ProfilePage";
 //StackNavigator for login related screens like login, register and password reset.
+
 export const LoginStack = StackNavigator(
   {
     LoginScreen: {
@@ -112,10 +114,10 @@ export const AdminStack = StackNavigator(
       }
     },
     VideoPicker: {
-        screen: VideoPicker,
-        navigationOptions: {
-            title: "Video uploaden"
-        }
+      screen: VideoPicker,
+      navigationOptions: {
+        title: "Video uploaden"
+      }
     }
   },
   {
@@ -217,7 +219,13 @@ export const ParticipantListStack = StackNavigator(
     ParticipantList: {
       screen: ParticipantList,
       navigationOptions: {
-        title: "Evenementen"
+        title: "Deelnemerslijst"
+      }
+    },
+    ParticipantListDetail: {
+      screen: ParticipantListDetail,
+      navigationOptions: {
+        title: "Deelnemerslijst"
       }
     }
   },
@@ -228,11 +236,26 @@ export const ParticipantListStack = StackNavigator(
 
 //Stack for aanmeldingen
 export const signInListStack = StackNavigator(
+  {
+    ParticipantList: {
+      screen: signInView,
+      navigationOptions: {
+        title: "Aanmeldingen"
+      }
+    }
+  },
+  {
+    headerMode: "none"
+  }
+);
+
+//Stack for Profile
+export const ProfilePageStack = StackNavigator(
     {
         ParticipantList: {
-            screen: signInView,
+            screen: ProfilePage,
             navigationOptions: {
-                title: "Aanmeldingen"
+                title: "ProfielPagina"
             }
         }
     },
@@ -240,6 +263,7 @@ export const signInListStack = StackNavigator(
         headerMode: "none"
     }
 );
+
 
 export const IntroStack = StackNavigator(
   {
@@ -256,7 +280,7 @@ export const IntroStack = StackNavigator(
 );
 
 //TabNavigator for the app when logged in
-export const MyTabLoggedIn = TabNavigator(
+export const MyTabLoggedInUser = TabNavigator(
   {
     EventStack: {
       screen: EventStack,
@@ -282,6 +306,7 @@ export const MyTabLoggedIn = TabNavigator(
         )
       }
     },
+
     PointCard: {
       screen: PointCard,
       navigationOptions: {
@@ -359,6 +384,128 @@ export const MyTabLoggedIn = TabNavigator(
               <Image
                 style={{ width: 24, height: 24 }}
                 source={require("../assets/icons/Stempelkaart.png")}
+              />
+            )
+          },
+          More: {
+            activeIcon: (
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require("../assets/icons/Burgermenu.png")}
+              />
+            )
+          }
+        }
+      }
+    }
+  }
+);
+
+export const MyTabLoggedInAdmin = TabNavigator(
+  {
+    EventStack: {
+      screen: EventStack,
+      navigationOptions: {
+        tabBarLabel: "Evenementen",
+        tabBarIcon: (
+          <Image
+            style={{ width: 25, height: 24 }}
+            source={require("../assets/icons/Event.png")}
+          />
+        )
+      }
+    },
+    NewsCard: {
+      screen: NewsStack,
+      navigationOptions: {
+        tabBarLabel: "Nieuws",
+        tabBarIcon: (
+          <Image
+            style={{ width: 28, height: 24 }}
+            source={require("../assets/icons/News.png")}
+          />
+        )
+      }
+    },
+    ParticipantList: {
+      screen: ParticipantListStack,
+      navigationOptions: {
+        tabBarLabel: "Deelnemers beheren",
+        tabBarIcon: (
+          <Image
+            style={{ width: 28, height: 30 }}
+            source={require("../assets/icons/Deelnemers.png")}
+          />
+        )
+      }
+    },
+
+    More: {
+      screen: More,
+      navigationOptions: {
+        tabBarLabel: "Meer",
+        tabBarIcon: (
+          <Image
+            style={{ width: 24, height: 24 }}
+            source={require("../assets/icons/Burgermenu.png")}
+          />
+        )
+      }
+    }
+  },
+  {
+    tabBarComponent: NavigationComponent,
+    tabBarPosition: "bottom",
+    navigationOptions: ({ naviagtion }) => ({
+      tabBarOnPress: (scene, jumpToIndex) => {
+        if (scene.route.key == "PointCard") {
+          let api = Api.getInstance();
+          api.getPoints();
+        }
+        jumpToIndex(scene.index);
+      }
+    }),
+    swipeEnabled: false,
+    initialRouteName: "EventStack",
+    tabBarOptions: {
+      lazy: true,
+      bottomNavigationOptions: {
+        shifting: false,
+        style: {
+          backgroundColor: "white",
+          elevation: 8,
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10
+        },
+        labelColor: "grey",
+        activeLabelColor: "#3bb222",
+        rippleColor: "#3bb222",
+        tabs: {
+          EventStack: {
+            activeIcon: (
+              <Image
+                style={{ width: 25, height: 24 }}
+                source={require("../assets/icons/Event.png")}
+              />
+            )
+          },
+          NewsCard: {
+            activeIcon: (
+              <Image
+                style={{ width: 28, height: 24 }}
+                source={require("../assets/icons/News.png")}
+              />
+            )
+          },
+          ParticipantList: {
+            activeIcon: (
+              <Image
+                style={{ width: 28, height: 28 }}
+                source={require("../assets/icons/Deelnemers.png")}
               />
             )
           },
@@ -489,6 +636,13 @@ export const MyAppNotLoggedIn = StackNavigator(
         header: null
       }
     },
+
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -499,10 +653,10 @@ export const MyAppNotLoggedIn = StackNavigator(
   {}
 );
 
-export const MyAppLoggedIn = StackNavigator(
+export const MyAppLoggedInUser = StackNavigator(
   {
     MyTab: {
-      screen: MyTabLoggedIn,
+      screen: MyTabLoggedInUser,
       navigationOptions: {
         header: null
       }
@@ -519,6 +673,66 @@ export const MyAppLoggedIn = StackNavigator(
         header: null
       }
     },
+      signInListStack: {
+      screen: signInListStack,
+      navigationOptions: {
+        header: null
+      }
+    },
+      ParticipantListStack: {
+          screen: ParticipantListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+    IntroStack: {
+      screen: IntroStack,
+      navigationOptions: {
+        header: null
+      }
+    }
+  },
+  {}
+);
+
+export const MyAppLoggedInAdmin = StackNavigator(
+  {
+    MyTab: {
+      screen: MyTabLoggedInAdmin,
+      navigationOptions: {
+        header: null
+      }
+    },
+    LoginStack: {
+      screen: LoginStack,
+      navigationOptions: {
+        header: null
+      }
+    },
+    AdminStack: {
+      screen: AdminStack,
+      navigationOptions: {
+        header: null
+      }
+    },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      signInListStack: {
+          screen: signInListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
       signInListStack: {
           screen: signInListStack,
           navigationOptions: {
