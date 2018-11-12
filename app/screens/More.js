@@ -453,7 +453,6 @@ export default class More extends Component {
                             size={25}
                             name={"email"}
                             style={{color: "grey"}}
-
                         />
                     ),
                     value: "E-mail adress verandering opvragen",
