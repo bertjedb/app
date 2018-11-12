@@ -134,7 +134,7 @@ export default class More extends Component {
                                     icon: (
                                         <Icon
                                             size={25}
-                                            name={"calendar-plus"}
+                                            name={"message-alert-outline"}
                                             style={{color: "grey"}}
                                         />
                                     ),
@@ -261,7 +261,7 @@ export default class More extends Component {
                                     icon: (
                                         <Icon
                                             size={25}
-                                            name={"calendar-plus"}
+                                            name={"assistant"}
                                             style={{color: "grey"}}
                                         />
                                     ),
@@ -281,7 +281,7 @@ export default class More extends Component {
                                     icon: (
                                         <Icon
                                             size={25}
-                                            name={"calendar-plus"}
+                                            name={"message-alert-outline"}
                                             style={{color: "grey"}}
                                         />
                                     ),

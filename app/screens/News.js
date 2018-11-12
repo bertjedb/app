@@ -275,18 +275,18 @@ class News extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-              }
+               }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
                   <View style={styles.card} elevation={5}>
                     <View
                       style={{
-                        backgroundColor: "rgba(52, 52, 52, 0,8)",
+                        backgroundColor: "white",
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10
-                      }}
+                       }}
                     >
                       <TouchableHighlight
                         onPress={() =>
