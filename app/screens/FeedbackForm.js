@@ -1,27 +1,76 @@
 import React, {Component} from 'react';
-import {StyleSheet,
-    Dimensions, ImageBackground, View,Text, ScrollView} from 'react-native';
+import {Dimensions, ImageBackground, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Header, NavigationActions} from "react-navigation";
-import {Toolbar,} from 'react-native-material-ui';
+import {Toolbar, Button} from 'react-native-material-ui';
 import LinearGradient from 'react-native-linear-gradient';
 import { TextField } from "react-native-material-textfield";
-import stylesCss from "../assets/css/style";
+import stylesCss from "../assets/css/style.js";
+import { showMessage } from "react-native-flash-message";
+import Api from "../config/api";
+
 
 export default class FeedbackForm extends Component {
 
-    constructor(){
+    constructor() {
         super()
 
-        this.state={
-            subject: 'hallo',
-            problem: ''
+        this.state = {
+            subject: '',
+            problem: '',
+         }
+    }
 
+    errorMessage(msg) {
+        showMessage({
+            message: msg,
+            type: "danger",
+            duration: 2500
+        });
+    }
+
+    sendFeedback() {
+
+        if (this.state.email == "" || this.state.password == "" || this.state.problem == "") {
+            this.errorMessage("Vul alstublieft alle velden in!");
         }
-     }
+         else {
+            let api = Api.getInstance();
+            let feedbackData = {
+                'email': this.state.email,
+                'subject': this.state.subject,
+                'problem': this.state.problem
+            }
+            api.callApi('api/sendFeedbackForm', 'POST', feedbackData, response => {
+                if(response['responseCode'] != 503) {
+                    if(response['responseCode'] == 400){
+                        this.errorMessage('Het ingevulde e-mail adres is niet bij ons bekend.');
+                    }
+                    else {
+                        this.successMessage('Bedankt voor uw feedback');
+                        alert("gfffd")
+                        // this.props.navigation.dispatch(NavigationActions.navigate({
+                        //     routeName: 'LoginStack',
+                        //     action: NavigationActions.navigate({ routeName: 'ChangeEmail' })
+                        // }))
+                    }
+                } else {
+                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
+                }
+            });
+
+            this.setState({
+                email: '',
+                subject: '',
+                problem: ''}
+
+            );
+        }
+    }
 
 
 
-    render(){
+
+    render() {
         return (
             <ImageBackground
                 blurRadius={3}
@@ -59,7 +108,7 @@ export default class FeedbackForm extends Component {
                         onLeftElementPress={() =>
                             this.props.navigation.dispatch(NavigationActions.back())
                         }
-                     />
+                    />
                 </LinearGradient>
 
                 <View style={styles.cardContainer}>
@@ -70,27 +119,60 @@ export default class FeedbackForm extends Component {
                                 borderRadius: 10,
                                 width: Dimensions.get("window").width - 50
                             }}
-                            >
+                         >
+
                             <View style={styles.layoutContent}>
+                                <View style={{width:'100%',alignItems:'center'}}>
                                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>
                                     Feedback formulier
                                 </Text>
-                                <View
-                                    style={{
-                                        height: '100%'
-                                    }}>
-                                    <TextField
-                                        textColor="green"
-                                        tintColor="green"
-                                        baseColor="green"
-                                        label="Onderwerp"
-                                        autoCapitalize="none"
-                                        value={this.state.subject}
-                                        onChangeText={subject => this.setState({ subject })}
-                                    />
-
-
                                 </View>
+                                <TextField
+                                textColor="green"
+                                tintColor="green"
+                                baseColor="green"
+                                label="Email"
+                                multiline={true}
+                                autoCapitalize="none"
+                                value={this.state.email}
+                                onChangeText={email => this.setState({ email })}
+                             />
+
+                                <TextField
+                                    textColor="green"
+                                    tintColor="green"
+                                    baseColor="green"
+                                    label="Onderwerp"
+                                    multiline={true}
+                                    autoCapitalize="none"
+                                    value={this.state.subject}
+                                    onChangeText={subject => this.setState({ subject })}
+                                />
+
+                                <TextField
+                                    textColor="green"
+                                    tintColor="green"
+                                    baseColor="green"
+                                    label="Jouw feedback"
+                                    multiline={true}
+                                    autoCapitalize="none"
+                                    value={this.state.problem}
+                                    onChangeText={problem => this.setState({ problem })}
+                                    containerStyle={{marginBottom:'7%'}}
+                                 />
+
+                                <Button
+                                    style={{
+                                        container: stylesCss.defaultBtn,
+                                        text: { color: "white" }
+                                    }}
+                                    raised
+                                    text="Verstuur"
+                                    onPress={() => this.sendFeedback()}
+                                />
+
+
+
                             </View>
 
                         </View>
@@ -119,7 +201,7 @@ const styles = StyleSheet.create({
         margin: 10,
         marginBottom: 0,
         borderRadius: 10,
-        shadowOffset: { width: 0, height: 13 },
+        shadowOffset: {width: 0, height: 13},
         shadowOpacity: 0.3,
         shadowRadius: 6,
 
@@ -128,9 +210,9 @@ const styles = StyleSheet.create({
     },
 
     layoutContent: {
-        alignItems:'center',
-        justifyContent:'center',
-        marginTop:'10%'
+        marginTop: '10%',
+        marginRight:'10%',
+        marginLeft: '10%'
 
     },
 
