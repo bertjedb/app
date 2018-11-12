@@ -57,7 +57,7 @@ class LoginScreen extends Component {
       password: "",
       succesfull: false
     };
-  }
+   }
 
   componentWillUnmount() {
     if (true) {
@@ -110,7 +110,7 @@ class LoginScreen extends Component {
     if (this.state.email == "" || this.state.password == "") {
       this.errorMessage("Vul alstublieft alle velden in!");
     } else if (/\S+@\S+\.\S+/.test(this.state.email) == false) {
-      this.errorMessage("Het ingevoerde email adres is geen een valide email!");
+      this.errorMessage("Het ingevoerde email adres is geen valide email!");
     } else {
       let api = Api.getInstance();
       sha256(this.state.password).then(hash => {
@@ -275,7 +275,7 @@ class LoginScreen extends Component {
                 autoCapitalize="none"
                 value={this.state.email}
                 onChangeText={email => this.setState({ email })}
-              />
+            />
               <TextField
                 textColor="green"
                 tintColor="green"
