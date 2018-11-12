@@ -328,7 +328,6 @@ export default class More extends Component {
                             ]}
                         />
                     )}
-
                     {this.state.userId != null &&
                     this.state.clearance == 1 && (
                         <Drawer.Section
