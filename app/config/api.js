@@ -35,8 +35,6 @@ export default class Api {
 
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
-      console.log("CONNECTIONINFOTYPE");
-      console.log(connectionInfo.type);
       if (connectionInfo.type != "none") {
         if (method == "GET") {
           fetch(this.url + action, {
