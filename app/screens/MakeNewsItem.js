@@ -79,7 +79,7 @@ export default class MakeNewsItem extends Component {
       if (connectionInfo.type != "none") {
         if (
           this.state.title != "" &&
-          this.state.title.length <= 30 &&
+          this.state.title.length <= 64 &&
           this.state.content != "" &&
           this.state.pickedImage.uri != ""
         ) {
@@ -97,6 +97,7 @@ export default class MakeNewsItem extends Component {
             .then(responseJson => {
               this.setState({ img: responseJson["guid"]["raw"] });
               this.createWPArticle();
+              console.log(responseJson["guid"]["raw"]);
               console.log(this.state.img);
             })
             .catch(error => {
@@ -105,9 +106,9 @@ export default class MakeNewsItem extends Component {
         } else if (
           this.state.content != "" &&
           this.state.pickedImage.uri != "" &&
-          this.state.title.length > 30
+          this.state.title.length > 64
         ) {
-          this.errorMessage("De titel mag maximaal 30 characters lang zijn!");
+          this.errorMessage("De titel mag maximaal 64 characters lang zijn!");
         } else {
           this.errorMessage("Vul alle velden in aub");
         }

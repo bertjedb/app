@@ -288,6 +288,7 @@ class News extends Component {
                         borderBottomRightRadius: 10
                        }}
                     >
+                    {console.log(item.url)}
                       <TouchableHighlight
                         onPress={() =>
                           this.props.navigation.navigate("NewsDetail", {
