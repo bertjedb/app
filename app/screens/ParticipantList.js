@@ -39,7 +39,6 @@ class ParticipantList extends Component {
         });
       }
     });
-    console.log("EVENTARRAYYYYYYYY");
     console.log(this.state.eventArray);
   }
 
