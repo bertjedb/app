@@ -11,7 +11,8 @@ import {
   TouchableHighlight,
   FlatList,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { Header, NavigationActions } from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
@@ -23,7 +24,6 @@ import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import * as Alert from "react-native";
 
 var capitalize = require("capitalize");
 var startNum = 0;
@@ -138,6 +138,7 @@ class Events extends Component {
             let localStorage = LocalStorage.getInstance();
             localStorage.retrieveItem("userId").then(id => {
               if (id != null) {
+              	console.log(id)
                 userData = {
                   personId: id
                 };
@@ -348,7 +349,7 @@ class Events extends Component {
                         }
                       >
                         <Image
-                          source={{ uri: item.photo["profilePhoto"] }}
+                          source={{ uri: item.photo[0] }}
                           resizeMode="cover"
                           style={{ width: 50, height: 50, borderRadius: 10 }}
                         />

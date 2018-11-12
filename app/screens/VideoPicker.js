@@ -68,7 +68,6 @@ export default class VideoPicker extends Component {
             minute = new Date().getMinutes();
             if(minute < 10) { minute = "0" + minute}
             fileName = "NewsVideo|" + date + "-" + month + "-" + year + "|" + hour + ":" + minute
-            console.log("recorded")
             this.uploadContent(fileName, uri, "video/mp4", "mp4");
         });
     };
@@ -173,7 +172,6 @@ export default class VideoPicker extends Component {
                     //indicate upload process here
                 }).then(res => {
                     responseJson = res.json();
-                    console.log(responseJson);
                     this.setState({
                         contentUrl: responseJson['source_url'],
                         uploading: false,
@@ -252,7 +250,6 @@ export default class VideoPicker extends Component {
                 borderBottomRightRadius: 10,
                 alignItems: 'center'
               }}>
-              {console.log(this.state.contentUrl)}
                 {this.state.uploaded &&
                 <Video
                     source={{uri: this.state.contentUrl}}
