@@ -46,6 +46,7 @@ import ParticipantListDetail from "../screens/ParticipantListDetail";
 import VideoPicker from "../screens/VideoPicker";
 import signInView from "../screens/signInView";
 import ProfilePage from "../screens/ProfilePage";
+import FeedbackForm from "../screens/FeedbackForm";
 //StackNavigator for login related screens like login, register and password reset.
 
 export const LoginStack = StackNavigator(
@@ -234,10 +235,10 @@ export const ParticipantListStack = StackNavigator(
   }
 );
 
-//Stack for aanmeldingen
+//Stack for subs
 export const signInListStack = StackNavigator(
   {
-    ParticipantList: {
+    signInList: {
       screen: signInView,
       navigationOptions: {
         title: "Aanmeldingen"
@@ -249,10 +250,26 @@ export const signInListStack = StackNavigator(
   }
 );
 
+
+//Stack for subs
+export const FeedbackFormStack = StackNavigator(
+    {
+        FeedbackForm: {
+            screen: FeedbackForm,
+            navigationOptions: {
+                title: "Feedback"
+            }
+        }
+    },
+    {
+        headerMode: "none"
+    }
+);
+
 //Stack for Profile
 export const ProfilePageStack = StackNavigator(
     {
-        ParticipantList: {
+        ProfilePage: {
             screen: ProfilePage,
             navigationOptions: {
                 title: "ProfielPagina"
@@ -643,6 +660,12 @@ export const MyAppNotLoggedIn = StackNavigator(
               header: null
           }
       },
+      FeedbackFormStack: {
+          screen: FeedbackForm,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -662,11 +685,17 @@ export const MyAppLoggedInUser = StackNavigator(
       }
     },
     LoginStack: {
-      screen: LoginStack,
-      navigationOptions: {
-        header: null
-      }
-    },
+          screen: LoginStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      FeedbackFormStack: {
+          screen: FeedbackForm,
+          navigationOptions: {
+              header: null
+          }
+      },
     AdminStack: {
       screen: AdminStack,
       navigationOptions: {

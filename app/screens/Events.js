@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import {
-    Dimensions,
-    Image,
-    ImageBackground,
-    ListView,
-    RefreshControl,
-    Share,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    FlatList,
-    View, TouchableOpacity
+  Dimensions,
+  Image,
+  ImageBackground,
+  ListView,
+  RefreshControl,
+  Share,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  FlatList,
+  View,
+  TouchableOpacity
 } from "react-native";
-import {Header, NavigationActions} from "react-navigation";
+import { Header, NavigationActions } from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import HTML from "react-native-render-html";
 import Api from "../config/api.js";
@@ -21,6 +22,7 @@ import LocalStorage from "../config/localStorage";
 import { PacmanIndicator } from "react-native-indicators";
 import { showMessage } from "react-native-flash-message";
 import { FluidNavigator, Transition } from "react-navigation-fluid-transitions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Alert from "react-native";
 
 var capitalize = require("capitalize");
@@ -42,49 +44,29 @@ const uiTheme = {
 
 class Events extends Component {
   constructor() {
-	super();
-	this.state = {
-	  dataSource: null,
-	  eventArray: [],
-	  modalVisible: false,
-	  adminArray: [],
-	  checkMap: new Map(),
-	  search: "",
-	  refreshing: false,
-	  loading: true,
-	  check: false,
-	  sleeping: false,
+    super();
+    this.state = {
+      dataSource: null,
+      eventArray: [],
+      modalVisible: false,
+      adminArray: [],
+      checkMap: new Map(),
+      search: "",
+      refreshing: false,
+      loading: true,
+      check: false,
+      sleeping: false,
       personList: []
-	};
+    };
 
-      let api = Api.getInstance();
+    let api = Api.getInstance();
 
-      let localStorage = LocalStorage.getInstance();
-      localStorage.retrieveItem("userId").then(id => {
-
-
-          api.callApi("api/getLeaderDesc", "POST", {'id': id}, response => {
-              if (response["responseCode"] != 503) {
-                  if (response["responseCode"] == 200) {
-
-                      this.setState({
-                          personList: response['personList'],
-                      });
-                  }
-              } else {
-                  this.setState({
-                      personList: response['subs'],
-                  });
-              }
+    api.callApi("api/getAllEvents", "POST", {}, response => {
+      if (response["responseCode"] != 503) {
+        if (response["responseCode"] == 200) {
+          let ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
           });
-
-      })
-          .catch(error => {
-              //this callback is executed when your Promise is rejected
-              console.log("Promise is rejected with error: " + error);
-          });
-
-
       api.callApi("api/getAllEvents", "POST", {}, response => {
         if (response["responseCode"] != 503) {
           if (response["responseCode"] == 200) {
@@ -125,7 +107,6 @@ class Events extends Component {
       });
   }
 
-
   hideSplashScreen() {
     this.setState({
       splashScreenVisible: false
@@ -159,32 +140,32 @@ class Events extends Component {
       api.callApi("api/getAllEvents", "POST", {}, response => {
         if (response["responseCode"] != 503) {
           if (response["responseCode"] == 200) {
-          	let array = response["events"];
-          	let localStorage = LocalStorage.getInstance();
-          	localStorage.retrieveItem("userId").then(id => {
-            	if (id != null) {
-            	  	userData = {
-            	        personId: id
-            	  	};
-          			api.callApi("api/checkSub", "POST", userData, response => {
-          				let subEvents = response['subEvents']
-            			for (let index = 0; index < subEvents.length; index++) {
-        					for(event of array) {
-        						if(event.id == subEvents[index].id) {
-        							event.subscribed = true
-        						} else {
-        							event.subscribed = false
-        						}
-        					}
-            			}
-            			this.setState({
-            			  refreshing: false,
-            			  loading: false,
-            			  data: array.slice(start, end)
-            			});
-				  	});
-				}
-			});
+            let array = response["events"];
+            let localStorage = LocalStorage.getInstance();
+            localStorage.retrieveItem("userId").then(id => {
+              if (id != null) {
+                userData = {
+                  personId: id
+                };
+                api.callApi("api/checkSub", "POST", userData, response => {
+                  let subEvents = response["subEvents"];
+                  for (let index = 0; index < subEvents.length; index++) {
+                    for (event of array) {
+                      if (event.id == subEvents[index].id) {
+                        event.subscribed = true;
+                      } else {
+                        event.subscribed = false;
+                      }
+                    }
+                  }
+                  this.setState({
+                    refreshing: false,
+                    loading: false,
+                    data: array.slice(start, end)
+                  });
+                });
+              }
+            });
           }
         } else {
           this.setState({ sleeping: true });
@@ -342,7 +323,7 @@ class Events extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-               }
+              }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
@@ -356,30 +337,29 @@ class Events extends Component {
                         margin: 10
                       }}
                     >
-                        <TouchableOpacity onPress={() =>
-
-                            this.props.navigation.dispatch(
-                                NavigationActions.navigate({
-                                    routeName: "ProfilePageStack",
-                                    action: NavigationActions.navigate({
-                                        routeName: "ProfilePage",
-                                        params: {
-                                            leader: item.leader,
-                                            profilePicture: item.photo[0],
-                                            leaderDesc: item.leaderDesc
-                                        }
-
-                                    })
-                                })
-
-                            )}>
-                            <Image
-                                source={{ uri: item.photo['profilePhoto'] }}
-                                resizeMode="cover"
-                                style={{ width: 50, height: 50, borderRadius: 10 }}
-
-                            />
-                        </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.dispatch(
+                            NavigationActions.navigate({
+                              routeName: "ProfilePageStack",
+                              action: NavigationActions.navigate({
+                                routeName: "ProfilePage",
+                                params: {
+                                  leader: item.leader,
+                                  profilePicture: item.photo[0],
+                                  leaderDesc: item.leaderDesc
+                                }
+                              })
+                            })
+                          )
+                        }
+                      >
+                        <Image
+                          source={{ uri: item.photo["profilePhoto"] }}
+                          resizeMode="cover"
+                          style={{ width: 50, height: 50, borderRadius: 10 }}
+                        />
+                      </TouchableOpacity>
                       <View
                         style={{
                           flex: 1,
@@ -394,14 +374,40 @@ class Events extends Component {
                             color: "black"
                           }}
                         >
-                            {capitalize.words(
-                                entities.decode(item.leader.replace(", ,", " "))
-                            )}
+                          {capitalize.words(
+                            entities.decode(item.leader.replace(", ,", " "))
+                          )}
                         </Text>
                         <Text style={{ fontSize: 14, color: "black" }}>
                           {item.created}
                         </Text>
                       </View>
+                      <Icon
+                        size={25}
+                        name={"delete-forever"}
+                        style={{ color: "red" }}
+                        onPress={() =>
+                          Alert.alert(
+                            "Verwijderen",
+                            "Weet u zeker dat u dit event wil verwijderen?",
+                            [
+                              {
+                                text: "Annuleren",
+                                onPress: () => console.log("Cancel Pressed!")
+                              },
+                              {
+                                text: "OK",
+                                onPress: () =>
+                                  fetch(
+                                    "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
+                                      item.id
+                                  )
+                              }
+                            ],
+                            { cancelable: false }
+                          )
+                        }
+                      />
                     </View>
                     <View
                       style={{
@@ -524,10 +530,10 @@ class Events extends Component {
                                   imagesMaxWidth={
                                     Dimensions.get("window").width
                                   }
-                                />
+                                 />
                                 <Text
-                                  style={{ marginLeft: 200, color: "black" }}
-                                >
+                                  style={{ marginLeft: '60%', color: "black" }}
+                                 >
                                   Lees verder
                                 </Text>
                               </View>
