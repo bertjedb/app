@@ -194,22 +194,7 @@ class News extends Component {
     }
   };
 
-  handelEnd = () => {
-    let api = Api.getInstance();
-    if (end <= this.state.fullArray.length) {
-      end += 2;
-      start += 2;
-      // alert(end + " " + this.state.data.length);
-      api.callApi("api/getAllNewsItems", "GET", {}, response => {
-        console.log(response);
-        if (response["responseCode"] == 200) {
-          this.setState({
-            data: [...this.state.data, ...response["news"].slice(start, end)]
-          });
-        }
-      });
-    }
-  };
+
 
   render() {
     const Entities = require("html-entities").AllHtmlEntities;
