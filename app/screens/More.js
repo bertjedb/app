@@ -442,6 +442,7 @@ export default class More extends Component {
 						},
 						response => {
 						  if (response["responseCode"] != 503) {
+						  	console.log(response)
 							if (response["boolean"] == true) {
 							  localStorage.storeItem("userId", null);
 							  localStorage.storeItem("points", null);

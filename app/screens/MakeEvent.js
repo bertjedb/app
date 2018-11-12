@@ -21,6 +21,8 @@ import ImgToBase64 from "react-native-image-base64";
 import LinearGradient from "react-native-linear-gradient";
 import { DrawerActions, NavigationActions, Header } from "react-navigation";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Autocomplete from 'react-native-autocomplete-input';
+import { PacmanIndicator } from "react-native-indicators";
 
 export default class MakeEvent extends Component {
   constructor() {
@@ -36,7 +38,8 @@ export default class MakeEvent extends Component {
 		beginText: "dd/MM/yy H:MM",
 		endText: "dd/MM/yy H:MM",
 		pickedImage: { uri: "" },
-		imgPicked: false
+		imgPicked: false,
+		loading: false
 	};
   }
 
@@ -76,19 +79,18 @@ export default class MakeEvent extends Component {
         author: this.state.wordpresskey,
         address: this.state.loc
       }) // <-- Post parameters
-    })
-      .then(response => response.text())
-      .then(responseText => {
-        console.log(this.state.img);
-      })
-      .catch(error => {
+    }).then(response => response.text()).then(responseText => {
+        this.setState({loading: false})
+      }).catch(error => {
         console.error(error);
       });
+    this.setState({loading: false})
   }
 
   createEvent() {
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {
+      	this.setState({loading: true})
         let api = Api.getInstance();
         let localStorage = LocalStorage.getInstance();
         localStorage
@@ -135,6 +137,7 @@ export default class MakeEvent extends Component {
         } else {
           this.errorMessage("Vul alle velden in aub");
         }
+        this.setState({loading: false})
       } else {
         this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
       }
@@ -230,11 +233,8 @@ export default class MakeEvent extends Component {
 	);
   };
 
-  componentDidMount() {}
-
   findFilm(query) {
     this.setState({ query: query });
-    console.log(this.state.data);
     if (query == "") {
       this.setState({ data: [] });
     } else {
@@ -292,61 +292,61 @@ export default class MakeEvent extends Component {
 		  />
 		</LinearGradient>
 		<View style={styles.container}>
-		  <View style={styles.cardGreen} elevation={5}>
-			<Text
-			  style={{
-				margin: 15,
-				fontWeight: "bold",
-				fontSize: 24,
-				color: "white"
-			  }}
-			>
-			  Evenementen aanmaken
-			</Text>
-			<View
-			  style={{
-				backgroundColor: "white",
-				paddingLeft: 15,
-				paddingRight: 15,
-				paddingBottom: 15,
-				paddingTop: 0,
-				borderBottomLeftRadius: 10,
-				borderBottomRightRadius: 10
-			  }}
-			>
-			  <Text style={{ marginTop: 10 }}>
-				Hier kun je nieuwe evenementen aanmaken
-			  </Text>
-			  <TextField
-				textColor="green"
-				tintColor="green"
-				baseColor="green"
-				label="Naam van evenement"
-				value={this.state.name}
-				onChangeText={name => this.setState({ name })}
-			  />
-
-			  <TouchableOpacity
-				style={styles.datePick}
-				onPress={() => this.setState({ showBegin: true })}
-			  >
-			  	<View style={{flexDirection: 'row'}}>
-					<Text
-						style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}
-					>
-						Start: 
-					</Text>
-					<View style={{width: '60%', marginRight: '5%', padding: 5}}>
-						<Text style={{alignSelf: 'flex-start'}}>{this.state.beginText}</Text>
-					</View>
-					<Icon
-          				size={35}
-          				name={"plus"}
-          				style={{ color: "white" }}
-                	/>
-                </View>
-			  </TouchableOpacity>
-
+	   	{ !this.state.loading && (
+   			<View style={styles.cardGreen} elevation={5}>
+				<Text
+				  style={{
+					margin: 15,
+					fontWeight: "bold",
+					fontSize: 24,
+					color: "white",
+				  }}
+				>
+				  Evenementen aanmaken
+				</Text>
+				<View
+				  style={{
+					backgroundColor: "white",
+					paddingLeft: 15,
+					paddingRight: 15,
+					paddingBottom: 15,
+					paddingTop: 0,
+					borderBottomLeftRadius: 10,
+					borderBottomRightRadius: 10
+				  }}
+				>
+			  		<Text style={{ marginTop: 10 }}>
+						Hier kun je nieuwe evenementen aanmaken
+			  		</Text>
+			  		<TextField
+						textColor="green"
+						tintColor="green"
+						baseColor="green"
+						label="Naam van evenement"
+						value={this.state.name}
+						onChangeText={name => this.setState({ name })}
+			  		/>
+		
+			  		<TouchableOpacity
+						style={styles.datePick}
+						onPress={() => this.setState({ showBegin: true })}
+			  		>
+			  			<View style={{flexDirection: 'row'}}>
+							<Text
+								style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}
+							>
+								Start: 
+							</Text>
+							<View style={{width: '60%', marginRight: '5%', padding: 5}}>
+								<Text style={{alignSelf: 'flex-start'}}>{this.state.beginText}</Text>
+							</View>
+							<Icon
+          						size={35}
+          						name={"plus"}
+          						style={{ color: "white" }}
+                			/>
+                		</View>
+			  		</TouchableOpacity>
 			  <DateTimePicker
 				isVisible={this.state.showBegin}
 				onConfirm={dateTime => this.handleBegin(dateTime)}
@@ -482,9 +482,11 @@ export default class MakeEvent extends Component {
 				text="Doorgaan"
 				onPress={() => this.createEvent()}
 			  />
-			</View>
-		  </View>
+			</View> 
+		  </View> )}
+{this.state.loading && <PacmanIndicator color='#94D600' style={{marginTop: '20%'}}/>}
 		</View>
+
 	  </ImageBackground>
 	);
   }

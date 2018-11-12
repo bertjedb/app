@@ -55,7 +55,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     // android (Android +5.0)
-    elevation: 3
+    elevation: 3,
   },
 
   SectionStyleTop: {
