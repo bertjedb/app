@@ -327,7 +327,6 @@ export default class More extends Component {
                             ]}
                         />
                     )}
-<<<<<<< HEAD
 		  {this.state.userId != null &&
 			this.state.clearance == 1 && (
 			  <Drawer.Section
