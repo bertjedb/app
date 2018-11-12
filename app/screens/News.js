@@ -32,6 +32,9 @@ import FlashMessage, { showMessage } from "react-native-flash-message";
 import { Toolbar } from "react-native-material-ui";
 import Api from "../config/api.js";
 import LocalStorage from "../config/localStorage.js";
+import HTML from "react-native-render-html";
+
+var capitalize = require("capitalize");
 
 var startNum = 0;
 var endNum = 2;
@@ -272,18 +275,18 @@ class News extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-              }
+               }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
                   <View style={styles.card} elevation={5}>
                     <View
                       style={{
-                        backgroundColor: "rgba(52, 52, 52, 0,8)",
+                        backgroundColor: "white",
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10
-                      }}
+                       }}
                     >
                       <TouchableHighlight
                         onPress={() =>
@@ -295,72 +298,70 @@ class News extends Component {
                           })
                         }
                       >
-                        <ImageBackground
-                          source={{ uri: item.url }}
-                          resizeMode="cover"
-                          imageStyle={{ borderRadius: 10 }}
-                          style={{ width: "100%", height: 250 }}
-                        >
-                          <View
-                            style={{
-                              height: "38%",
-                              width: "100%",
-                              backgroundColor: "#00000080",
-                              position: "absolute",
-                              bottom: 0,
-                              borderRadius: 10
-                            }}
-                          >
-                            <View
-                              style={{
-                                flex: 1,
-                                flexDirection: "column",
-                                margin: 20,
-                                marginTop: 7,
-                                marginBottom: 40
-                              }}
-                            >
-                              <Text
-                                style={{
-                                  fontWeight: "bold",
-                                  fontSize: 25,
-                                  color: "white"
-                                }}
-                              >
-                                {entities.decode(item.title)}
-                              </Text>
-                            </View>
+                        <View>
+                          <View>
+                            <Image
+                              source={{ uri: item.url }}
+                              resizeMode="cover"
+                              borderTopRightRadius={10}
+                              borderTopLeftRadius={10}
+                              style={{ width: "100%", height: 200 }}
+                            />
                             <View
                               style={{
                                 flex: 1,
                                 flexDirection: "row",
-                                marginBottom: 10
+                                width: "100%"
+                              }}
+                            >
+                              <View
+                                style={{
+                                  margin: 10
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: 18,
+                                    color: "black"
+                                  }}
+                                >
+                                  {capitalize.words(item.title)}
+                                </Text>
+                              </View>
+                            </View>
+                            <TouchableHighlight
+                              onPress={() => {
+                                this.props.navigation.navigate("NewsDetail", {
+                                  title: item.title,
+                                  content: item.desc,
+                                  link: item.link,
+                                  img: item.url
+                                });
+                              }}
+                              style={{
+                                width: "100%",
+                                borderRightWidth: 1,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: 10,
+                                backgroundColor: "#93D500",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10
                               }}
                             >
                               <Text
                                 style={{
-                                  fontWeight: "bold",
-                                  fontSize: 15,
-                                  color: "#BDBDBD",
-                                  position: "absolute",
-                                  right: 10
+                                  color: "white",
+                                  fontWeight: "bold"
                                 }}
                               >
-                                lees verder
+                                LEES MEER
                               </Text>
-                            </View>
+                            </TouchableHighlight>
                           </View>
-                        </ImageBackground>
+                        </View>
                       </TouchableHighlight>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: "row",
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0
-                        }}
-                      />
                     </View>
                   </View>
                 </View>
