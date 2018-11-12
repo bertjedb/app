@@ -84,7 +84,8 @@ class Events extends Component {
   	      			this.setState({
   	      			  refreshing: false,
   	      			  loading: false,
-  	      			  data: array.slice(start, end)
+  	      			  data: array.slice(start, end),
+                		fullArray: array
   	      			});
 				  	});
 				}
