@@ -89,7 +89,7 @@ export default class CreateAdmin extends Component {
     data = {
       username: this.state.wpUsername,
       password: this.state.wpPassword
-    };
+    }; //change fetch url to bslim wordpress
     fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/authenticate", {
       method: "POST",
       headers: {

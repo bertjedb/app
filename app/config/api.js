@@ -5,7 +5,7 @@ import { NetInfo } from "react-native";
 export default class Api {
   static instance = null;
 
-	url = "http://145.37.145.0:5000/";
+	url = "http://145.37.144.255:5000/";
 
   static getInstance() {
     if (Api.instance == null) {
@@ -35,8 +35,6 @@ export default class Api {
 
   callApi(action, method, data, callBack = response => console.log(response)) {
     NetInfo.getConnectionInfo().then(connectionInfo => {
-      console.log("CONNECTIONINFOTYPE");
-      console.log(connectionInfo.type);
       if (connectionInfo.type != "none") {
         if (method == "GET") {
           fetch(this.url + action, {
