@@ -33,7 +33,7 @@ export default class Intro extends Component {
   	           backgroundColor: '#8bc34a',
   	           image: <Image style={{height: '100%'}} resizeMode='contain' source={require('../assets/logo.png')} />,
   	           title: 'Bslim',
-  	           subtitle: 'De meest geweldige app voor de koelste jeugd.',
+  	           subtitle: 'De meest geweldige app voor de sportende jeugd.',
   	         },
 	         {
 	           backgroundColor: '#8bc34a',

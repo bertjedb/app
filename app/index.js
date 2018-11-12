@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  SafeAreaView
+  SafeAreaView,
+  AsyncStorage
 } from "react-native";
 import LocalStorage from "./config/localStorage.js";
 import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
