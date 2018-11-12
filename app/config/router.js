@@ -45,6 +45,8 @@ import Intro from "../screens/Intro";
 import ParticipantListDetail from "../screens/ParticipantListDetail";
 import VideoPicker from "../screens/VideoPicker";
 import signInView from "../screens/signInView";
+import ProfilePage from "../screens/ProfilePage";
+import FeedbackForm from "../screens/FeedbackForm";
 //StackNavigator for login related screens like login, register and password reset.
 
 export const LoginStack = StackNavigator(
@@ -233,10 +235,10 @@ export const ParticipantListStack = StackNavigator(
   }
 );
 
-//Stack for aanmeldingen
+//Stack for subs
 export const signInListStack = StackNavigator(
   {
-    ParticipantList: {
+    signInList: {
       screen: signInView,
       navigationOptions: {
         title: "Aanmeldingen"
@@ -247,6 +249,38 @@ export const signInListStack = StackNavigator(
     headerMode: "none"
   }
 );
+
+
+//Stack for subs
+export const FeedbackFormStack = StackNavigator(
+    {
+        FeedbackForm: {
+            screen: FeedbackForm,
+            navigationOptions: {
+                title: "Feedback"
+            }
+        }
+    },
+    {
+        headerMode: "none"
+    }
+);
+
+//Stack for Profile
+export const ProfilePageStack = StackNavigator(
+    {
+        ProfilePage: {
+            screen: ProfilePage,
+            navigationOptions: {
+                title: "ProfielPagina"
+            }
+        }
+    },
+    {
+        headerMode: "none"
+    }
+);
+
 
 export const IntroStack = StackNavigator(
   {
@@ -619,6 +653,19 @@ export const MyAppNotLoggedIn = StackNavigator(
         header: null
       }
     },
+
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      FeedbackFormStack: {
+          screen: FeedbackForm,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -638,23 +685,41 @@ export const MyAppLoggedInUser = StackNavigator(
       }
     },
     LoginStack: {
-      screen: LoginStack,
-      navigationOptions: {
-        header: null
-      }
-    },
+          screen: LoginStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      FeedbackFormStack: {
+          screen: FeedbackForm,
+          navigationOptions: {
+              header: null
+          }
+      },
     AdminStack: {
       screen: AdminStack,
       navigationOptions: {
         header: null
       }
     },
-    ParticipantListStack: {
-      screen: ParticipantListStack,
+      signInListStack: {
+      screen: signInListStack,
       navigationOptions: {
         header: null
       }
     },
+      ParticipantListStack: {
+          screen: ParticipantListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
     IntroStack: {
       screen: IntroStack,
       navigationOptions: {
@@ -685,12 +750,24 @@ export const MyAppLoggedInAdmin = StackNavigator(
         header: null
       }
     },
-    signInListStack: {
-      screen: signInListStack,
-      navigationOptions: {
-        header: null
-      }
-    },
+      ProfilePageStack: {
+          screen: ProfilePageStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      signInListStack: {
+          screen: signInListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
+      signInListStack: {
+          screen: signInListStack,
+          navigationOptions: {
+              header: null
+          }
+      },
 
     ParticipantListStack: {
       screen: ParticipantListStack,
