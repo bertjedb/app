@@ -31,15 +31,12 @@ class ParticipantList extends Component {
     this.state = { eventArray: [] };
     let api = Api.getInstance();
     api.callApi("api/getAllEvents", "POST", {}, response => {
-      console.log(response);
       if (response["responseCode"] == 200) {
-        console.log("response code is 200");
         this.setState({
           eventArray: response["events"]
         });
       }
     });
-    console.log(this.state.eventArray);
   }
 
   render() {
