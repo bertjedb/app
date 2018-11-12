@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    ImageBackground,
-    Image,
-    NetInfo
-} from 'react-native';
-import styles from '../assets/css/style.js';
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+  Image,
+  NetInfo
+} from "react-native";
+import styles from "../assets/css/style.js";
 import { showMessage } from "react-native-flash-message";
 import { TextField } from "react-native-material-textfield";
 import { Button, Toolbar } from "react-native-material-ui";
@@ -34,10 +34,10 @@ export default class MakeNewsItem extends Component {
 
   errorMessage(msg) {
     showMessage({
-        message: msg,
-        type: "danger",
-        duration: 3000,
-      });
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
   }
 
   successMessage(msg) {
@@ -49,7 +49,7 @@ export default class MakeNewsItem extends Component {
   }
 
   createWPArticle() {
-    fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/create-post", {
+    fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/make-post", {
       method: "POST",
       headers: new Headers({
         Accept: "application/json",
@@ -62,9 +62,7 @@ export default class MakeNewsItem extends Component {
           this.state.content +
           '</p><img src="' +
           this.state.img +
-          '" alt="Image" />',
-        start: this.state.begin,
-        end: this.state.end
+          '" alt="Image" />'
       }) // <-- Post parameters
     })
       .then(response => response.text())
@@ -77,67 +75,46 @@ export default class MakeNewsItem extends Component {
   }
 
   createArticle() {
-    NetInfo.getConnectionInfo().then((connectionInfo) => {
-                if(connectionInfo.type != 'none') {
-                    if(this.state.title != '' &&
-                       this.state.title.length <= 30 &&
-                       this.state.content != '' &&
-                       this.state.pickedImage.uri != '') {
-                           RNFetchBlob.fetch(
-                                'POST', 'http://gromdroid.nl/bslim/wp-json/wp/v2/media', {
-                                    'Authorization': "Basic YWRtaW46YnNsaW1faGFuemUh",
-                                    'Content-Type': + 'image/jpeg',
-                                    'Content-Disposition': 'attachment; filename=hoi.jpg',
-                                }, 
-                                RNFetchBlob.wrap(this.state.pickedImage.uri)).then(
-                                    (res) => res.json()
-                                ).then(responseJson => {
-                                    this.setState({img: responseJson['guid']['raw']})
-                                    //this.createWPArticle();
-                                    let localStorage = LocalStorage.getInstance();
-                                    let points = localStorage.retrieveItem('userId').then((id) => {
-                                        if(id != null) {
-                                            let userData = {
-                                                title: this.state.title,
-                                                content: this.state.content,
-                                                img: this.state.img
-                                            }
-                                            let api = Api.getInstance();
-                                            api.callApi('api/createNewsItem', 'POST', userData, response => {
-                                                if(responseCode['responseCode'] != 503) {
-                                                    if(response['responseCode'] == 200) {
-                                                        this.setState({
-                                                            title: '',
-                                                            content: '',
-                                                            pickedImage: { uri: '' },
-                                                          img: '',
-                                                        });
-                                                        this.successMessage("Er is een nieuw artikel aangemaakt!");
-                                                    } else {
-                                                        this.errorMessage("Er is wat fout gegaan");
-                                                    }
-                                                } else {
-                                                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-                                                }  
-                                            });
-                                        }
-                                    });
-                            }).catch((error) => {
-                                callBack(error);
-                            })
-                    } else if(this.state.content != '' &&
-                       this.state.pickedImage.uri != '' &&
-                       this.state.title.length > 30){
-                         this.errorMessage("De titel mag maximaal 30 characters lang zijn!")
-                       }
-                
-                    else {
-                        this.errorMessage("Vul alle velden in aub")
-                    }
-                } else {
-                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft")
-                }
+    NetInfo.getConnectionInfo().then(connectionInfo => {
+      if (connectionInfo.type != "none") {
+        if (
+          this.state.title != "" &&
+          this.state.title.length <= 30 &&
+          this.state.content != "" &&
+          this.state.pickedImage.uri != ""
+        ) {
+          RNFetchBlob.fetch(
+            "POST",
+            "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
+            {
+              Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
+              "Content-Type": +"image/jpeg",
+              "Content-Disposition": "attachment; filename=hoi.jpg"
+            },
+            RNFetchBlob.wrap(this.state.pickedImage.uri)
+          )
+            .then(res => res.json())
+            .then(responseJson => {
+              this.setState({ img: responseJson["guid"]["raw"] });
+              this.createWPArticle();
+              console.log(this.state.img);
+            })
+            .catch(error => {
+              callBack(error);
             });
+        } else if (
+          this.state.content != "" &&
+          this.state.pickedImage.uri != "" &&
+          this.state.title.length > 30
+        ) {
+          this.errorMessage("De titel mag maximaal 30 characters lang zijn!");
+        } else {
+          this.errorMessage("Vul alle velden in aub");
+        }
+      } else {
+        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+      }
+    });
   }
 
   handleBegin(dateTime) {
@@ -324,14 +301,18 @@ export default class MakeNewsItem extends Component {
               </TouchableOpacity>
 
               <Button
-      					style={{container: styles.defaultBtn, text: {color: 'white'}}}
-      					raised text="Doorgaan"
-      					onPress={() => this.createArticle()}
-  					  />
-						</View>
-					</View>
-				</View>
-			</ImageBackground>
+                style={{
+                  container: styles.defaultBtn,
+                  text: { color: "white" }
+                }}
+                raised
+                text="Doorgaan"
+                onPress={() => this.createArticle()}
+              />
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
     );
   }
 }
