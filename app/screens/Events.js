@@ -220,13 +220,13 @@ class Events extends Component {
     			  		data: array.slice(start, end)
         			});
         	  	}
-        	  	
+
         	});
           } else {
     			this.errorMessage(
         		  'Er is niks gevonden voor "' + this.state.search + '"'
-        		); 
-			} 
+        		);
+			}
             }
         });
     }

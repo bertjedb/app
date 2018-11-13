@@ -28,6 +28,14 @@ export default class FeedbackForm extends Component {
         });
     }
 
+    successMessage(msg) {
+        showMessage({
+            message: msg,
+            type: "success",
+            duration: 5000
+        });
+    }
+
     sendFeedback() {
 
         if (this.state.email == "" || this.state.password == "" || this.state.problem == "") {
@@ -47,7 +55,6 @@ export default class FeedbackForm extends Component {
                     }
                     else {
                         this.successMessage('Bedankt voor uw feedback');
-                        alert("gfffd")
                         // this.props.navigation.dispatch(NavigationActions.navigate({
                         //     routeName: 'LoginStack',
                         //     action: NavigationActions.navigate({ routeName: 'ChangeEmail' })

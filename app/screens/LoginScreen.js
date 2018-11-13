@@ -37,6 +37,7 @@ import FBSDK, {
   GraphRequestManager,
   AccessToken
 } from "react-native-fbsdk";
+import * as Snackbar from "react-native-snackbar";
 
 const uiTheme = {
   palette: {
@@ -61,17 +62,8 @@ class LoginScreen extends Component {
 
   componentWillUnmount() {
     if (true) {
-      Snackbar.show({
-        title: "Login succesvol!",
-        duration: Snackbar.LENGTH_LONG,
-        action: {
-          title: "OK",
-          color: "green",
-          onPress: () => {
-            /* Do something. */
-          }
-        }
-      });
+     // hier kan een succes message komen voor inloggen.
+    // maar je word ook al geredirect.
     }
   }
 
@@ -81,7 +73,15 @@ class LoginScreen extends Component {
       type: "danger",
       duration: 2500
     });
-  }
+   }
+    successMessage(msg) {
+        showMessage({
+            message: msg,
+            type: "success",
+            duration: 5000
+        });
+    }
+
 
   setUser(value, id, clearance, wordpresskey) {
     console.log("hallo");
