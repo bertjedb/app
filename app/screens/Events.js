@@ -59,47 +59,49 @@ class Events extends Component {
             personList: []
         };
 
-        let api = Api.getInstance();
-        api.callApi("api/getAllEvents", "POST", {}, response => {
-            if (response["responseCode"] != 503) {
-                if (response["responseCode"] == 200) {
-                    let array = response["events"];
-                    let localStorage = LocalStorage.getInstance();
-                    localStorage.retrieveItem("userId").then(id => {
-                        if (id != null) {
-                            userData = {
-                                personId: id
-                            };
-                            api.callApi("api/checkSub", "POST", userData, response => {
-                                let subEvents = response['subEvents']
-                                for (let index = 0; index < subEvents.length; index++) {
-                                    for(event of array) {
-                                        if(event.id == subEvents[index].id) {
-                                            event.subscribed = true
-                                        } else {
-                                            event.subscribed = false
-                                        }
-                                    }
-                                }
-                                this.setState({
-                                    refreshing: false,
-                                    loading: false,
-                                    data: array.slice(start, end),
-                                    fullArray: array
-                                });
-                            });
-                        }
-                    });
-                }
-            } else {
-                this.setState({ sleeping: true });
-                setTimeout(() => {
-                    this.setState({ sleeping: false });
-                }, 3000);
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
-            }
-        });
-    }
+
+    let api = Api.getInstance();
+  	api.callApi("api/getAllEvents", "POST", {}, response => {
+  	  if (response["responseCode"] != 503) {
+  	    if (response["responseCode"] == 200) {
+  	    	let array = response["events"];
+  	    	let localStorage = LocalStorage.getInstance();
+  	    	localStorage.retrieveItem("userId").then(id => {
+  	      		if (id != null) {
+  	      		  	userData = {
+  	      		        personId: id
+  	      		  	};
+  	    				api.callApi("api/checkSub", "POST", userData, response => {
+  	    					let subEvents = response['subEvents']
+  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  						for(event of array) {
+  	  							if(event.id == subEvents[index].id) {
+  	  								event.subscribed = true
+  	  							} else {
+  	  								event.subscribed = false
+  	  							}
+  	  						}
+  	      				}
+					  	});
+				}
+				this.setState({
+      			  	refreshing: false,
+      			  	loading: false,
+      			  	data: array.slice(start, end),
+            		fullArray: array
+  	      			});
+			});
+  	    }
+        } else {
+          this.setState({ sleeping: true });
+          setTimeout(() => {
+            this.setState({ sleeping: false });
+          }, 3000);
+          this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        }
+      });
+  }
+
 
     hideSplashScreen() {
         this.setState({
@@ -124,108 +126,93 @@ class Events extends Component {
         this.refresh();
     };
 
-    refresh() {
-        startNum = 0;
-        endNum = 50;
-        start = startNum;
-        end = endNum;
-        if (!this.state.sleeping) {
-            let api = Api.getInstance();
-            api.callApi("api/getAllEvents", "POST", {}, response => {
-                if (response["responseCode"] != 503) {
-                    if (response["responseCode"] == 200) {
-                        let array = response["events"];
-                        let localStorage = LocalStorage.getInstance();
-                        localStorage.retrieveItem("userId").then(id => {
-                            if (id != null) {
-                                console.log(id)
-                                userData = {
-                                    personId: id
-                                };
-                                api.callApi("api/checkSub", "POST", userData, response => {
-                                    let subEvents = response["subEvents"];
-                                    for (let index = 0; index < subEvents.length; index++) {
-                                        for (event of array) {
-                                            if (event.id == subEvents[index].id) {
-                                                event.subscribed = true;
-                                            } else {
-                                                event.subscribed = false;
-                                            }
-                                        }
-                                    }
-                                    this.setState({
-                                        refreshing: false,
-                                        loading: false,
-                                        data: array.slice(start, end)
-                                    });
-                                });
-                            }
-                        });
+
+  refresh() {
+    startNum = 0;
+    endNum = 50;
+    start = startNum;
+    end = endNum;
+    if (!this.state.sleeping) {
+      let api = Api.getInstance();
+      api.callApi("api/getAllEvents", "POST", {}, response => {
+        if (response["responseCode"] != 503) {
+          if (response["responseCode"] == 200) {
+            let array = response["events"];
+            let localStorage = LocalStorage.getInstance();
+            localStorage.retrieveItem("userId").then(id => {
+              if (id != null) {
+                userData = {
+                  personId: id
+                };
+                api.callApi("api/checkSub", "POST", userData, response => {
+                  let subEvents = response["subEvents"];
+                  for (let index = 0; index < subEvents.length; index++) {
+                    for (event of array) {
+                      if (event.id == subEvents[index].id) {
+                        event.subscribed = true;
+                      } else {
+                        event.subscribed = false;
+                      }
                     }
-                } else {
-                    this.setState({ sleeping: true });
-                    setTimeout(() => {
-                        this.setState({ sleeping: false });
-                    }, 3000);
-                    this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
-                }
+                  }
+                });
+              }
+              this.setState({
+                    refreshing: false,
+                    loading: false,
+                    data: array.slice(start, end)
+                  });
+
             });
         }
     }
 
-    handleSearch() {
-        this.setState({
-            loading: true
-        });
-        let api = Api.getInstance();
-        userData = {
-            searchString: this.state.search
-        };
-        api.callApi("api/searchEvent", "POST", userData, response => {
-            if (response["responseCode"] != 503) {
-                if (response["responseCode"] == 200) {
-                    let array = response["events"];
-                    let localStorage = LocalStorage.getInstance();
-                    localStorage.retrieveItem("userId").then(id => {
-                        if (id != null) {
-                            userData = {
-                                personId: id
-                            };
-                            api.callApi("api/checkSub", "POST", userData, response => {
-                                let subEvents = response['subEvents']
-                                for (let index = 0; index < subEvents.length; index++) {
-                                    for(event of array) {
-                                        if(event.id == subEvents[index].id) {
-                                            event.subscribed = true
-                                        } else {
-                                            event.subscribed = false
-                                        }
-                                    }
-                                }
-                                this.setState({
-                                    refreshing: false,
-                                    loading: false,
-                                    data: array.slice(start, end)
-                                });
-                            });
-                        }
-                    });
-                }
-                this.setState({
-                    data: array
-                });
-                this.errorMessage(
-                    'Er is niks gevonden voor "' + this.state.search + '"'
-                );
-                this.setState({
-                    loading: false
-                });
-            } else {
-                this.setState({ sleeping: true });
-                setTimeout(() => {
-                    this.setState({ sleeping: false });
-                }, 3000);
-                this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+
+  handleSearch() {
+    this.setState({
+      loading: true
+    });
+    let api = Api.getInstance();
+    userData = {
+      searchString: this.state.search
+    };
+    api.callApi("api/searchEvent", "POST", userData, response => {
+      if (response["responseCode"] != 503) {
+        if (response["responseCode"] == 200) {
+          	let array = response["events"];
+        	let localStorage = LocalStorage.getInstance();
+        	localStorage.retrieveItem("userId").then(id => {
+    	  		if (id != null) {
+        	    	userData = {
+        	    	  personId: id
+        	    	};
+        	    	api.callApi("api/checkSub", "POST", userData, response => {
+          				let subEvents = response['subEvents']
+            			for (let index = 0; index < subEvents.length; index++) {
+        					for(event of array) {
+        						if(event.id == subEvents[index].id) {
+        							event.subscribed = true
+        						} else {
+        							event.subscribed = false
+        						}
+        					}
+            			}
+				  	});
+        	  	}
+        	  	this.setState({
+            			  refreshing: false,
+            			  loading: false,
+            			  data: array.slice(start, end)
+            			});
+        	});
+          }
+      	this.setState({
+        	data: array
+      	});
+    	this.errorMessage(
+          'Er is niks gevonden voor "' + this.state.search + '"'
+        );
+
             }
         });
     }
