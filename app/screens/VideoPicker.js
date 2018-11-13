@@ -18,6 +18,7 @@ import { showMessage } from "react-native-flash-message";
 import LocalStorage from "../config/localStorage.js";
 import Api from "../config/api.js";
 import { PacmanIndicator } from "react-native-indicators";
+import VideoPlayer from "react-native-video-controls";
 
 export default class VideoPicker extends Component {
   constructor(props) {
@@ -105,24 +106,16 @@ export default class VideoPicker extends Component {
   }
 
   createArticle() {
-    this.setState({
-      title: "Nieuw Bslim filmpje!",
-      content: "Bslim heeft een nieuw filmpje geupload."
-    });
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {
-        if (
-          this.state.title != "" &&
-          this.state.title.length <= 30 &&
-          this.state.content != ""
-        ) {
+        if (true) {
           //this.createWPArticle();
           let localStorage = LocalStorage.getInstance();
           let points = localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
               let userData = {
-                title: this.state.title,
-                content: this.state.content,
+                title: "Nieuw Bslim filmpje!",
+                content: "Bslim heeft een nieuw filmpje geupload.",
                 img: this.state.contentUrl
               };
               let api = Api.getInstance();
@@ -141,6 +134,7 @@ export default class VideoPicker extends Component {
                       this.successMessage(
                         "Er is een nieuw artikel aangemaakt!"
                       );
+                      alert("Er is een nieuw artikel aangemaakt!");
                     } else {
                       this.errorMessage("Er is wat fout gegaan");
                     }
@@ -197,8 +191,6 @@ export default class VideoPicker extends Component {
               uploading: false,
               uploaded: true
             });
-
-            this.createArticle();
           })
           .catch(err => {
             console.log(err);
@@ -241,7 +233,7 @@ export default class VideoPicker extends Component {
         >
           <Toolbar
             iconSet="MaterialCommunityIcons"
-            centerElement="Evenement aanmaken"
+            centerElement="Video uploaden"
             leftElement={"arrow-left"}
             onLeftElementPress={() =>
               this.props.navigation.dispatch(NavigationActions.back())
@@ -269,25 +261,39 @@ export default class VideoPicker extends Component {
                 alignItems: "center"
               }}
             >
+              <View style={{ height: 350, marginBottom: 10 }}>
+                {this.state.uploaded && (
+                  <VideoPlayer
+                    source={{ uri: this.state.contentUrl }}
+                    navigator={this.props.navigator}
+                  />
+                )}
+                {this.state.uploading && (
+                  <PacmanIndicator style={{ padding: 25 }} color="#94D600" />
+                )}
+              </View>
               {this.state.uploaded && (
-                <Video
-                  source={{ uri: this.state.contentUrl }}
-                  style={styles.backgroundVideo}
-                  paused={true}
+                <Button
+                  style={{
+                    container: styles.defaultBtn,
+                    text: { color: "white" }
+                  }}
+                  raised
+                  text="Nieuws artikel aanmaken"
+                  onPress={this.createArticle()}
                 />
               )}
-              {this.state.uploading && (
-                <PacmanIndicator style={{ padding: 10 }} color="#94D600" />
+              {!this.state.uploaded && (
+                <Button
+                  style={{
+                    container: styles.defaultBtn,
+                    text: { color: "white" }
+                  }}
+                  raised
+                  text="Video selecteren/opnemen"
+                  onPress={this.launchVideo}
+                />
               )}
-              <Button
-                style={{
-                  container: styles.defaultBtn,
-                  text: { color: "white" }
-                }}
-                raised
-                text="Video selecteren/opnemen"
-                onPress={this.launchVideo}
-              />
             </View>
           </View>
         </View>
