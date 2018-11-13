@@ -37,12 +37,12 @@ import HTML from "react-native-render-html";
 var capitalize = require("capitalize");
 
 var startNum = 0;
-var endNum = 2;
+var endNum = 50;
 var start = startNum;
 var end = endNum;
 
 var filterOptions = [
-  {
+   {
     icon: (
       <Text style={{ fontWeight: "bold" }}>
         Filter op evenementen met begeleider
@@ -141,7 +141,7 @@ class News extends Component {
 
   refresh() {
     startNum = 0;
-    endNum = 2;
+    endNum = 50;
     start = startNum;
     end = endNum;
     if (!this.state.sleeping) {
@@ -180,8 +180,8 @@ class News extends Component {
   handelEnd = () => {
     let api = Api.getInstance();
     if (end <= this.state.fullArray.length) {
-      end += 2;
-      start += 2;
+      end += 50;
+      start += 50;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
         console.log(response);
