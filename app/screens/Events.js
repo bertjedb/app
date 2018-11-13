@@ -546,8 +546,6 @@ class Events extends Component {
                                                     alignItems: "center"
                                                 }}
                                             >
-                                            {console.log(item.name)}
-                                            {console.log(item.subscribed)}
                                                 {!item.subscribed && (
                                                     <TouchableHighlight
                                                         onPress={() => {

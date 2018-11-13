@@ -122,6 +122,8 @@ class EventDetail extends Component {
     this.animate();
     this.animate2();
     this.animateY();
+    const { navigation } = this.props;
+    this.setState({subscribed: navigation.getParam("subscribed", "")})
   }
 
   handleScroll(event) {
@@ -190,7 +192,7 @@ class EventDetail extends Component {
 
     let map = Maps.getInstance();
     const { navigation } = this.props;
-    const subscribed = navigation.getParam("subscribed", "");
+    var subscribed = navigation.getParam("subscribed", "");
 
     const eventID = navigation.getParam("id", "");
     const title = navigation.getParam("title", "");
@@ -213,6 +215,9 @@ class EventDetail extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     const dataSource = ds.cloneWithRows(participants);
+
+    console.log(subscribed)
+    console.log(eventID)
 
     return (
       <View
@@ -429,7 +434,7 @@ class EventDetail extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                {!subscribed && (
+                {!this.state.subscribed && (
                   <Button
                     onPress={() => {
                       let api = Api.getInstance();
@@ -446,10 +451,10 @@ class EventDetail extends Component {
                             userData,
                             response => {
                               if (response["responseCode"] == 200) {
+                                this.setState({subscribed: true})
                                 alert(
                                   "Je hebt je aangemeld voor dit evenement"
                                 );
-                                this.refresh();
                               } else if (response["responseCode"] == 400) {
                                 alert("Je bent al aangemeld");
                               } else {
@@ -476,7 +481,7 @@ class EventDetail extends Component {
                     text="Aanmelden"
                   />
                 )}
-                {subscribed && (
+                {this.state.subscribed && (
                   <Button
                     onPress={() => {
                       let api = Api.getInstance();
@@ -487,18 +492,20 @@ class EventDetail extends Component {
                             eventId: eventID,
                             personId: id
                           };
+                          console.log(userData);
                           api.callApi(
-                            "api/subToEvent",
+                            "api/unSubToEvent",
                             "POST",
                             userData,
                             response => {
+                                console.log(response)
                               if (response["responseCode"] == 200) {
+                                this.setState({subscribed: false})
                                 alert(
-                                  "Je hebt je aangemeld voor dit evenement"
+                                  "Je hebt je afgemeld voor dit evenement"
                                 );
-                                this.refresh();
                               } else if (response["responseCode"] == 400) {
-                                alert("Je bent al aangemeld");
+                                alert("Je bent al afgemeld");
                               } else {
                                 alert("Er is wat fout gegaan");
                               }
