@@ -171,12 +171,10 @@ class ProfilePage extends Component {
                                 color={'#93D500'}
                                 style={{
                                     width: "100%",
-
                                     flex: 1,
                                     position: "absolute",
                                     bottom: 0,
                                     left: 0,
-
                                 }}
                             />
                         </View>
