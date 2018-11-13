@@ -72,24 +72,30 @@ class Events extends Component {
   	      		        personId: id
   	      		  	};
   	    				api.callApi("api/checkSub", "POST", userData, response => {
-  	    					let subEvents = response['subEvents']
-  	      				for (let index = 0; index < subEvents.length; index++) {
-  	  						for(event of array) {
-  	  							if(event.id == subEvents[index].id) {
-  	  								event.subscribed = true
-  	  							} else {
-  	  								event.subscribed = false
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
   	  							}
   	  						}
   	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
 					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
 				}
-				this.setState({
-      			  	refreshing: false,
-      			  	loading: false,
-      			  	data: array.slice(start, end),
-            		fullArray: array
-  	      			});
 			});
   	    }
         } else {
@@ -117,10 +123,6 @@ class Events extends Component {
         });
     }
 
-    onLoad = () => {
-        this.refresh();
-    };
-
     _onRefresh = () => {
         this.setState({ refreshing: true, sleeping: false, loading: true });
         this.refresh();
@@ -132,6 +134,7 @@ class Events extends Component {
     endNum = 50;
     start = startNum;
     end = endNum;
+    this.setState({loading: true})
     if (!this.state.sleeping) {
       let api = Api.getInstance();
       api.callApi("api/getAllEvents", "POST", {}, response => {
@@ -146,26 +149,34 @@ class Events extends Component {
                 };
                 api.callApi("api/checkSub", "POST", userData, response => {
                   let subEvents = response["subEvents"];
-                  for (let index = 0; index < subEvents.length; index++) {
-                    for (event of array) {
-                      if (event.id == subEvents[index].id) {
-                        event.subscribed = true;
-                      } else {
-                        event.subscribed = false;
-                      }
-                    }
-                  }
+                  	for(event of array) {
+      					for (let index = 0; index < subEvents.length; index++) {
+							event.subscribed = (event.id == subEvents[index].id)
+							if(event.subscribed) {
+								break;
+							}
+						}
+					}
+					this.setState({
+                    	refreshing: false,
+                    	loading: false,
+                    	data: array.slice(start, end)
+                 	});
                 });
-              }
-              this.setState({
+              } else {
+              	this.setState({
                     refreshing: false,
                     loading: false,
                     data: array.slice(start, end)
                   });
+              }
 
             });
         }
-    }})}}
+    }
+	});
+  }
+}
 
 
   handleSearch() {
@@ -188,31 +199,34 @@ class Events extends Component {
         	    	};
         	    	api.callApi("api/checkSub", "POST", userData, response => {
           				let subEvents = response['subEvents']
-            			for (let index = 0; index < subEvents.length; index++) {
-        					for(event of array) {
-        						if(event.id == subEvents[index].id) {
-        							event.subscribed = true
-        						} else {
-        							event.subscribed = false
-        						}
-        					}
-            			}
+            			for(event of array) {
+      						for (let index = 0; index < subEvents.length; index++) {
+								event.subscribed = (event.id == subEvents[index].id)
+								if(event.subscribed) {
+									break;
+								}
+							}
+						}
+						this.setState({
+    			  			refreshing: false,
+    			  			loading: false,
+    			  			data: array.slice(start, end)
+        				});
 				  	});
+        	  	} else {
+        	  		this.setState({
+    			  		refreshing: false,
+    			  		loading: false,
+    			  		data: array.slice(start, end)
+        			});
         	  	}
-        	  	this.setState({
-            			  refreshing: false,
-            			  loading: false,
-            			  data: array.slice(start, end)
-            			});
-        	});
-          }
-      	this.setState({
-        	data: array
-      	});
-    	this.errorMessage(
-          'Er is niks gevonden voor "' + this.state.search + '"'
-        );
 
+        	});
+          } else {
+    			this.errorMessage(
+        		  'Er is niks gevonden voor "' + this.state.search + '"'
+        		);
+			}
             }
         });
     }
@@ -560,6 +574,7 @@ class Events extends Component {
                                                                             } else {
                                                                                 alert("Er is wat fout gegaan");
                                                                             }
+                                                                            this.refresh()
                                                                         }
                                                                     );
                                                                 } else {
@@ -612,6 +627,7 @@ class Events extends Component {
                                                                             } else {
                                                                                 alert("Er is wat fout gegaan");
                                                                             }
+                                                                            this.refresh()
                                                                         }
                                                                     );
                                                                 } else {
