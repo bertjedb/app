@@ -72,16 +72,23 @@ class Events extends Component {
   	      		        personId: id
   	      		  	};
   	    				api.callApi("api/checkSub", "POST", userData, response => {
-  	    					let subEvents = response['subEvents']
-  	      				for (let index = 0; index < subEvents.length; index++) {
-  	  						for(event of array) {
-  	  							if(event.id == subEvents[index].id) {
-  	  								event.subscribed = true
-  	  							} else {
-  	  								event.subscribed = false
+  	    				console.log(response)	
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+  							console.log(event.name);
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							console.log('-------------');
+  	  							console.log(event.id);
+  	  							console.log(subEvents[index].id);
+  	  							console.log(event.id == subEvents[index].id);
+  	  							console.log('-------------');
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
   	  							}
   	  						}
   	      				}
+  	      				console.log(array);
 					  	});
 				}
 				this.setState({
@@ -309,6 +316,7 @@ class Events extends Component {
                             style={{ paddingTop: 10, marginBottom: 55 }}
                             renderItem={({ item }) => (
                                 <View style={styles.container}>
+                                {console.log(item)}
                                     <View style={styles.card} elevation={5}>
                                         <View
                                             style={{
@@ -561,6 +569,7 @@ class Events extends Component {
                                                                             } else {
                                                                                 alert("Er is wat fout gegaan");
                                                                             }
+                                                                            this.refresh()
                                                                         }
                                                                     );
                                                                 } else {
