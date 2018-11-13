@@ -318,6 +318,7 @@ export default class More extends Component {
                             if (response["boolean"] == true) {
                               localStorage.storeItem("userId", null);
                               localStorage.storeItem("points", null);
+                              localStorage.storeItem("clearance", null);
                               api.getPoints();
                             }
                           } else {
@@ -489,11 +490,11 @@ export default class More extends Component {
                           id: this.state.userId
                         },
                         response => {
-                          console.log(response);
                           if (response["responseCode"] != 503) {
                             if (response["boolean"] == true) {
                               localStorage.storeItem("userId", null);
                               localStorage.storeItem("points", null);
+                              localStorage.storeItem("clearance", null);
                               api.getPoints();
                             }
                           } else {

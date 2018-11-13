@@ -7,7 +7,8 @@ import {
     Text,
     ImageBackground,
     NetInfo,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Toolbar, Button } from 'react-native-material-ui';
@@ -152,7 +153,6 @@ export default class VideoPicker extends Component {
     }
 
     uploadContent(fileName, imageSource, mimeType, fileExtension) {
-        console.log("uploading")
         NetInfo.getConnectionInfo().then((connectionInfo) => {
             if(connectionInfo.type != 'none') {
                 this.setState({
@@ -177,7 +177,7 @@ export default class VideoPicker extends Component {
                         uploading: false,
                         uploaded: true
                     });
-
+                    Alert("Video is geupload");
                     this.createArticle();
                 }).catch(err => {
                     console.log(err)
