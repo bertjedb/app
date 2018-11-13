@@ -75,13 +75,7 @@ class Events extends Component {
   	    				console.log(response)	
     					let subEvents = response['subEvents']
   						for(event of array) {
-  							console.log(event.name);
 	  	      				for (let index = 0; index < subEvents.length; index++) {
-  	  							console.log('-------------');
-  	  							console.log(event.id);
-  	  							console.log(subEvents[index].id);
-  	  							console.log(event.id == subEvents[index].id);
-  	  							console.log('-------------');
   	  							event.subscribed = (event.id == subEvents[index].id)
   	  							if(event.subscribed) {
   	  								break;
