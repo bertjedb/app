@@ -66,29 +66,29 @@ class Events extends Component {
   	    	let array = response["events"];
   	    	let localStorage = LocalStorage.getInstance();
   	    	localStorage.retrieveItem("userId").then(id => {
-  	      	if (id != null) {
-  	      	  	userData = {
-  	      	        personId: id
-  	      	  	};
-  	    			api.callApi("api/checkSub", "POST", userData, response => {
-  	    				let subEvents = response['subEvents']
-  	      			for (let index = 0; index < subEvents.length; index++) {
-  	  					for(event of array) {
-  	  						if(event.id == subEvents[index].id) {
-  	  							event.subscribed = true
-  	  						} else {
-  	  							event.subscribed = false
+  	      		if (id != null) {
+  	      		  	userData = {
+  	      		        personId: id
+  	      		  	};
+  	    				api.callApi("api/checkSub", "POST", userData, response => {
+  	    					let subEvents = response['subEvents']
+  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  						for(event of array) {
+  	  							if(event.id == subEvents[index].id) {
+  	  								event.subscribed = true
+  	  							} else {
+  	  								event.subscribed = false
+  	  							}
   	  						}
-  	  					}
-  	      			}
-  	      			this.setState({
-  	      			  refreshing: false,
-  	      			  loading: false,
-  	      			  data: array.slice(start, end),
-                		fullArray: array
-  	      			});
-				  	});
+  	      				}
+					  	});
 				}
+				this.setState({
+      			  	refreshing: false,
+      			  	loading: false,
+      			  	data: array.slice(start, end),
+            		fullArray: array
+  	      			});
 			});
   	    }
         } else {
@@ -138,7 +138,6 @@ class Events extends Component {
             let localStorage = LocalStorage.getInstance();
             localStorage.retrieveItem("userId").then(id => {
               if (id != null) {
-              	console.log(id)
                 userData = {
                   personId: id
                 };
@@ -153,13 +152,13 @@ class Events extends Component {
                       }
                     }
                   }
-                  this.setState({
+                });
+              }
+              this.setState({
                     refreshing: false,
                     loading: false,
                     data: array.slice(start, end)
                   });
-                });
-              }
             });
           }
         } else {
@@ -202,13 +201,13 @@ class Events extends Component {
         						}
         					}
             			}
-            			this.setState({
+				  	});
+        	  	}
+        	  	this.setState({
             			  refreshing: false,
             			  loading: false,
             			  data: array.slice(start, end)
             			});
-				  	});
-        	  	}
         	});
           }
       	this.setState({
