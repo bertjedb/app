@@ -165,7 +165,7 @@ class Events extends Component {
 
             });
         }
-    }
+    }})}}
 
 
   handleSearch() {
