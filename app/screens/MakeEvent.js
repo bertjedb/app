@@ -61,6 +61,20 @@ export default class MakeEvent extends Component {
   }
 
   createWPEvent() {
+    console.log(
+      "Title: " +
+        this.state.name +
+        "\n Desc: " +
+        this.state.desc +
+        "\n Start: " +
+        this.state.begin +
+        "\n End: " +
+        this.state.end +
+        "\n Author: " +
+        this.state.wordpresskey +
+        "\n Adres: " +
+        this.state.loc
+    );
     fetch("http://gromdroid.nl/bslim/wp-json/gaauwe/v1/create-post", {
       method: "POST",
       headers: new Headers({
@@ -133,6 +147,15 @@ export default class MakeEvent extends Component {
             .then(responseJson => {
               this.setState({ img: responseJson["guid"]["raw"] });
               this.createWPEvent();
+              this.setState({
+                loading: false,
+                name: "",
+                begin: "",
+                end: "",
+                query: "",
+                desc: "",
+                pickedImage: { uri: "" }
+              });
             })
 
             .catch(error => {
@@ -141,14 +164,6 @@ export default class MakeEvent extends Component {
         } else {
           this.errorMessage("Vul alle velden in aub");
         }
-        this.setState({ loading: false,
-        				name: '',
-        				begin: '',
-        				end: '',
-        				query: '',
-        				desc: '',
-        				pickedImage: { uri: "" },
-    				 });
       } else {
         this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
       }
@@ -304,197 +319,205 @@ export default class MakeEvent extends Component {
         </LinearGradient>
         <View style={styles.container}>
           {!this.state.loading && (
-          	<ScrollView>
-            <View style={styles.cardGreen} elevation={5}>
-              <Text
-                style={{
-                  margin: 15,
-                  fontWeight: "bold",
-                  fontSize: 24,
-                  color: "white"
-                }}
-              >
-                Evenementen aanmaken
-              </Text>
-              <View
-                style={{
-                  backgroundColor: "white",
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  paddingBottom: 15,
-                  paddingTop: 0,
-                  borderBottomLeftRadius: 10,
-                  borderBottomRightRadius: 10
-                }}
-              >
-                <Text style={{ marginTop: 10 }}>
-                  Hier kun je nieuwe evenementen aanmaken
+            <ScrollView>
+              <View style={styles.cardGreen} elevation={5}>
+                <Text
+                  style={{
+                    margin: 15,
+                    fontWeight: "bold",
+                    fontSize: 24,
+                    color: "white"
+                  }}
+                >
+                  Evenementen aanmaken
                 </Text>
-                <TextField
-                  textColor="green"
-                  tintColor="green"
-                  baseColor="green"
-                  label="Naam van evenement"
-                  value={this.state.name}
-                  onChangeText={name => this.setState({ name })}
-                />
-
-                <TouchableOpacity
-                  style={styles.datePick}
-                  onPress={() => this.setState({ showBegin: true })}
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    paddingBottom: 15,
+                    paddingTop: 0,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10
+                  }}
                 >
-                  <View style={{ flexDirection: "row" }}>
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: 20,
-                        color: "black"
-                      }}
-                    >
-                      Start:
-                    </Text>
-                    <View
-                      style={{ width: "60%", marginRight: "5%", padding: 5 }}
-                    >
-                      <Text style={{ alignSelf: "flex-start" }}>
-                        {this.state.beginText}
-                      </Text>
-                    </View>
-                    <Icon size={35} name={"plus"} style={{ color: "white" }} />
-                  </View>
-                </TouchableOpacity>
-                <DateTimePicker
-                  isVisible={this.state.showBegin}
-                  onConfirm={dateTime => this.handleBegin(dateTime)}
-                  onCancel={() => this.hidePicker()}
-                  mode={"datetime"}
-                />
+                  <Text style={{ marginTop: 10 }}>
+                    Hier kun je nieuwe evenementen aanmaken
+                  </Text>
+                  <TextField
+                    textColor="green"
+                    tintColor="green"
+                    baseColor="green"
+                    label="Naam van evenement"
+                    value={this.state.name}
+                    onChangeText={name => this.setState({ name })}
+                  />
 
-                <TouchableOpacity
-                  style={styles.datePick}
-                  onPress={() => this.setState({ showEnd: true })}
-                >
-                  <View style={{ flexDirection: "row" }}>
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: 20,
-                        color: "black"
-                      }}
-                    >
-                      Eind:
-                    </Text>
-                    <View
-                      style={{
-                        width: "60%",
-                        marginRight: "5%",
-                        marginLeft: "2%",
-                        padding: 5
-                      }}
-                    >
-                      <Text style={{ alignSelf: "flex-start" }}>
-                        {this.state.endText}
-                      </Text>
-                    </View>
-                    <Icon size={35} name={"plus"} style={{ color: "white" }} />
-                  </View>
-                </TouchableOpacity>
-
-                <DateTimePicker
-                  isVisible={this.state.showEnd}
-                  onConfirm={dateTime => this.handleEnd(dateTime)}
-                  onCancel={() => this.hidePicker()}
-                  mode={"datetime"}
-                />
-                <View style={{ height: 55 }}>
-                  <View
-                    style={{
-                      left: 0,
-                      position: "absolute",
-                      right: 0,
-                      top: 0,
-                      zIndex: 2,
-                      overflow: "hidden"
-                    }}
+                  <TouchableOpacity
+                    style={styles.datePick}
+                    onPress={() => this.setState({ showBegin: true })}
                   >
-                    <Autocomplete
-                      data={this.state.data}
-                      inputContainerStyle={{ borderWidth: 0 }}
-                      listStyle={{
-                        margin: 10,
-                        borderWidth: 0,
-                        height: 125,
-                        backgroundColor: "#00000000"
+                    <View style={{ flexDirection: "row" }}>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 20,
+                          color: "black"
+                        }}
+                      >
+                        Start:
+                      </Text>
+                      <View
+                        style={{ width: "60%", marginRight: "5%", padding: 5 }}
+                      >
+                        <Text style={{ alignSelf: "flex-start" }}>
+                          {this.state.beginText}
+                        </Text>
+                      </View>
+                      <Icon
+                        size={35}
+                        name={"plus"}
+                        style={{ color: "white" }}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <DateTimePicker
+                    isVisible={this.state.showBegin}
+                    onConfirm={dateTime => this.handleBegin(dateTime)}
+                    onCancel={() => this.hidePicker()}
+                    mode={"datetime"}
+                  />
+
+                  <TouchableOpacity
+                    style={styles.datePick}
+                    onPress={() => this.setState({ showEnd: true })}
+                  >
+                    <View style={{ flexDirection: "row" }}>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 20,
+                          color: "black"
+                        }}
+                      >
+                        Eind:
+                      </Text>
+                      <View
+                        style={{
+                          width: "60%",
+                          marginRight: "5%",
+                          marginLeft: "2%",
+                          padding: 5
+                        }}
+                      >
+                        <Text style={{ alignSelf: "flex-start" }}>
+                          {this.state.endText}
+                        </Text>
+                      </View>
+                      <Icon
+                        size={35}
+                        name={"plus"}
+                        style={{ color: "white" }}
+                      />
+                    </View>
+                  </TouchableOpacity>
+
+                  <DateTimePicker
+                    isVisible={this.state.showEnd}
+                    onConfirm={dateTime => this.handleEnd(dateTime)}
+                    onCancel={() => this.hidePicker()}
+                    mode={"datetime"}
+                  />
+                  <View style={{ height: 55 }}>
+                    <View
+                      style={{
+                        left: 0,
+                        position: "absolute",
+                        right: 0,
+                        top: 0,
+                        zIndex: 2,
+                        overflow: "hidden"
                       }}
-                      renderSeparator={() => (
-                        <View
-                          style={{
-                            width: "100%",
-                            height: 1,
-                            backgroundColor: "grey"
-                          }}
-                        />
-                      )}
-                      renderTextInput={() => (
-                        <TextField
-                          textColor="green"
-                          tintColor="green"
-                          baseColor="green"
-                          label="Locatie van evenement"
-                          value={this.state.query}
-                          onChangeText={text => this.findFilm(text)}
-                        />
-                      )}
-                      defaultValue={this.state.query}
-                      renderItem={item => (
-                        <TouchableOpacity
-                          style={{
-                            backgroundColor: "white",
-                            padding: 5,
-                            borderRightWidth: 1,
-                            borderLeftWidth: 1,
-                            borderColor: "grey"
-                          }}
-                          onPress={() =>
-                            this.setState({
-                              query: item.description.replace(
-                                ", Nederland",
-                                ""
-                              ),
-                              loc: item.place_id,
-                              data: []
-                            })
-                          }
-                        >
-                          <Text style={{ fontSize: 14 }}>
-                            {item.description.replace(", Nederland", "")}
-                          </Text>
-                        </TouchableOpacity>
-                      )}
-                    />
+                    >
+                      <Autocomplete
+                        data={this.state.data}
+                        inputContainerStyle={{ borderWidth: 0 }}
+                        listStyle={{
+                          margin: 10,
+                          borderWidth: 0,
+                          height: 125,
+                          backgroundColor: "#00000000"
+                        }}
+                        renderSeparator={() => (
+                          <View
+                            style={{
+                              width: "100%",
+                              height: 1,
+                              backgroundColor: "grey"
+                            }}
+                          />
+                        )}
+                        renderTextInput={() => (
+                          <TextField
+                            textColor="green"
+                            tintColor="green"
+                            baseColor="green"
+                            label="Locatie van evenement"
+                            value={this.state.query}
+                            onChangeText={text => this.findFilm(text)}
+                          />
+                        )}
+                        defaultValue={this.state.query}
+                        renderItem={item => (
+                          <TouchableOpacity
+                            style={{
+                              backgroundColor: "white",
+                              padding: 5,
+                              borderRightWidth: 1,
+                              borderLeftWidth: 1,
+                              borderColor: "grey"
+                            }}
+                            onPress={() =>
+                              this.setState({
+                                query: item.description.replace(
+                                  ", Nederland",
+                                  ""
+                                ),
+                                loc: item.place_id,
+                                data: []
+                              })
+                            }
+                          >
+                            <Text style={{ fontSize: 14 }}>
+                              {item.description.replace(", Nederland", "")}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      />
+                    </View>
                   </View>
-                </View>
 
-                <TextField
-                  textColor="green"
-                  tintColor="green"
-                  baseColor="green"
-                  label="Beschrijving van evenement"
-                  value={this.state.desc}
-                  multiline={true}
-                  numberOfLines={30}
-                  onChangeText={desc => this.setState({ desc })}
-                />
+                  <TextField
+                    textColor="green"
+                    tintColor="green"
+                    baseColor="green"
+                    label="Beschrijving van evenement"
+                    value={this.state.desc}
+                    multiline={true}
+                    numberOfLines={30}
+                    onChangeText={desc => this.setState({ desc })}
+                  />
 
-                <TouchableOpacity
-                  style={styles.imgSel}
-                  onPress={this.pickImageHandler}
-                >
-          			<ImageBackground
-          			  style={{width: 100, height: 100}}
-          			  source={this.state.pickedImage}
-          			>
-          			<View
+                  <TouchableOpacity
+                    style={styles.imgSel}
+                    onPress={this.pickImageHandler}
+                  >
+                    <ImageBackground
+                      style={{ width: 100, height: 100 }}
+                      source={this.state.pickedImage}
+                    >
+                      <View
                         style={{
                           justifyContent: "center",
                           alignItems: "center",
@@ -503,29 +526,29 @@ export default class MakeEvent extends Component {
                           backgroundColor: "rgba(0,0,0,.3)"
                         }}
                       >
-          				<Icon
-          				    size={35}
-          				    name={"image-plus"}
-          				    style={{
-          				      color: "white",
-          				      alignSelf: "center",
-          				      marginTop: "30%"
-          				    }}
-  				 	 	/>
-  				 	 </View>
-          			</ImageBackground>
-                </TouchableOpacity>
-                <Button
-                  style={{
-                    container: styles.defaultBtn,
-                    text: { color: "white" }
-                  }}
-                  raised
-                  text="Doorgaan"
-                  onPress={() => this.createEvent()}
-                /> 
+                        <Icon
+                          size={35}
+                          name={"image-plus"}
+                          style={{
+                            color: "white",
+                            alignSelf: "center",
+                            marginTop: "30%"
+                          }}
+                        />
+                      </View>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                  <Button
+                    style={{
+                      container: styles.defaultBtn,
+                      text: { color: "white" }
+                    }}
+                    raised
+                    text="Doorgaan"
+                    onPress={() => this.createEvent()}
+                  />
+                </View>
               </View>
-            </View>
             </ScrollView>
           )}
           {this.state.loading && (
