@@ -205,6 +205,26 @@ export default class More extends Component {
                     icon: (
                       <Icon
                         size={25}
+                        name={"assistant"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Aanmeldingen",
+                    key: "67",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "signInListStack",
+                          action: NavigationActions.navigate({
+                            routeName: "signInView"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
                         name={"email"}
                         style={{ color: "grey" }}
                       />
@@ -265,26 +285,6 @@ export default class More extends Component {
                     icon: (
                       <Icon
                         size={25}
-                        name={"assistant"}
-                        style={{ color: "grey" }}
-                      />
-                    ),
-                    value: "Aanmeldingen",
-                    key: "67",
-                    onPress: () =>
-                      this.props.navigation.dispatch(
-                        NavigationActions.navigate({
-                          routeName: "signInListStack",
-                          action: NavigationActions.navigate({
-                            routeName: "signInView"
-                          })
-                        })
-                      )
-                  },
-                  {
-                    icon: (
-                      <Icon
-                        size={25}
                         name={"message-alert-outline"}
                         style={{ color: "grey" }}
                       />
@@ -318,6 +318,7 @@ export default class More extends Component {
                             if (response["boolean"] == true) {
                               localStorage.storeItem("userId", null);
                               localStorage.storeItem("points", null);
+                              localStorage.storeItem("clearance", null);
                               api.getPoints();
                             }
                           } else {
@@ -489,11 +490,11 @@ export default class More extends Component {
                           id: this.state.userId
                         },
                         response => {
-                          console.log(response);
                           if (response["responseCode"] != 503) {
                             if (response["boolean"] == true) {
                               localStorage.storeItem("userId", null);
                               localStorage.storeItem("points", null);
+                              localStorage.storeItem("clearance", null);
                               api.getPoints();
                             }
                           } else {

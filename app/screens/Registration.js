@@ -193,60 +193,64 @@ export default class Registration extends Component {
                 borderBottomRightRadius: 10
               }}
             >
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Voornaam"
-                value={this.state.firstName}
-                onChangeText={firstName => this.setState({ firstName })}
-              />
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Achternaam"
-                value={this.state.lastName}
-                onChangeText={lastName => this.setState({ lastName })}
-              />
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                autoCapitalize="none"
-                label="Email adres"
-                value={this.state.email}
-                onChangeText={email => this.setState({ email })}
-              />
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Wachtwoord"
-                secureTextEntry={true}
-                value={this.state.firstPassword}
-                onChangeText={firstPassword => this.setState({ firstPassword })}
-              />
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Herhaal wachtwoord"
-                secureTextEntry={true}
-                value={this.state.secondPassword}
-                onChangeText={secondPassword =>
-                  this.setState({ secondPassword })
-                }
-              />
-              <Button
-                style={{
-                  container: stylesCss.defaultBtn,
-                  text: { color: "white" }
-                }}
-                raised
-                text="Doorgaan"
-                onPress={() => this.checkRegistration()}
-              />
+              <ScrollView>
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Voornaam"
+                  value={this.state.firstName}
+                  onChangeText={firstName => this.setState({ firstName })}
+                />
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Achternaam"
+                  value={this.state.lastName}
+                  onChangeText={lastName => this.setState({ lastName })}
+                />
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  autoCapitalize="none"
+                  label="Email adres"
+                  value={this.state.email}
+                  onChangeText={email => this.setState({ email })}
+                />
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Wachtwoord"
+                  secureTextEntry={true}
+                  value={this.state.firstPassword}
+                  onChangeText={firstPassword =>
+                    this.setState({ firstPassword })
+                  }
+                />
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Herhaal wachtwoord"
+                  secureTextEntry={true}
+                  value={this.state.secondPassword}
+                  onChangeText={secondPassword =>
+                    this.setState({ secondPassword })
+                  }
+                />
+                <Button
+                  style={{
+                    container: stylesCss.defaultBtn,
+                    text: { color: "white" }
+                  }}
+                  raised
+                  text="Doorgaan"
+                  onPress={() => this.checkRegistration()}
+                />
+              </ScrollView>
             </View>
           </View>
         </View>
