@@ -33,6 +33,8 @@ import { Toolbar } from "react-native-material-ui";
 import Api from "../config/api.js";
 import LocalStorage from "../config/localStorage.js";
 import HTML from "react-native-render-html";
+import VideoPlayer from "react-native-video-controls";
+import Video from "react-native-video";
 
 var capitalize = require("capitalize");
 
@@ -280,13 +282,27 @@ class News extends Component {
                       >
                         <View>
                           <View>
-                            <Image
-                              source={{ uri: item.url }}
-                              resizeMode="cover"
-                              borderTopRightRadius={10}
-                              borderTopLeftRadius={10}
-                              style={{ width: "100%", height: 200 }}
-                            />
+                            {item.url.substring(item.url.length - 3) !=
+                              "mp4" && (
+                              <Image
+                                source={{ uri: item.url }}
+                                resizeMode="cover"
+                                borderTopRightRadius={10}
+                                borderTopLeftRadius={10}
+                                style={{ width: "100%", height: 200 }}
+                              />
+                            )}
+                            {item.url.substring(item.url.length - 3) ==
+                              "mp4" && (
+                              <Video
+                                paused={true}
+                                source={{ uri: item.url }}
+                                resizeMode="cover"
+                                borderTopRightRadius={10}
+                                borderTopLeftRadius={10}
+                                style={{ width: "100%", height: 200 }}
+                              />
+                            )}
                             <View
                               style={{
                                 flex: 1,
