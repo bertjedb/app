@@ -265,7 +265,9 @@ class News extends Component {
                         backgroundColor: "white",
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10
+                        borderBottomRightRadius: 10,
+                          borderTopRightRadius:10,
+                          borderTopLeftRadius:10,
                        }}
                     >
                       <TouchableHighlight
@@ -360,12 +362,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginBottom: 15
+    marginBottom: 15,
   },
 
   card: {
     color: "rgba(52, 52, 52, 1.0)",
     margin: 10,
+
     marginBottom: 10,
     // android (Android +5.0)
     elevation: 3
