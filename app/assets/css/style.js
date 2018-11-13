@@ -226,7 +226,8 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.2)",
     width: 100,
-    height: 100
+    height: 100,
+    marginLeft: '25%'
   },
 
   backgroundVideo: {

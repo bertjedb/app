@@ -131,10 +131,6 @@ class News extends Component {
   }
 
   _onRefresh = () => {
-    let localStorage = LocalStorage.getInstance();
-    localStorage.retrieveItem("userId").then(id => {
-      console.log(id);
-    });
     this.setState({ refreshing: true, sleeping: false, loading: true });
     this.refresh();
   };
@@ -184,7 +180,6 @@ class News extends Component {
       start += 2;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
-        console.log(response);
         if (response["responseCode"] == 200) {
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
@@ -201,7 +196,6 @@ class News extends Component {
       start += 2;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
-        console.log(response);
         if (response["responseCode"] == 200) {
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
@@ -288,7 +282,6 @@ class News extends Component {
                         borderBottomRightRadius: 10
                        }}
                     >
-                    {console.log(item.url)}
                       <TouchableHighlight
                         onPress={() =>
                           this.props.navigation.navigate("NewsDetail", {
