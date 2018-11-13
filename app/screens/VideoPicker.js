@@ -266,9 +266,10 @@ export default class VideoPicker extends Component {
                 padding: 15,
                 borderBottomLeftRadius: 10,
                 borderBottomRightRadius: 10,
-                alignItems: 'center'
-              }}>
-                {this.state.uploaded &&
+                alignItems: "center"
+              }}
+            >
+              {this.state.uploaded && (
                 <Video
                   source={{ uri: this.state.contentUrl }}
                   style={styles.backgroundVideo}
