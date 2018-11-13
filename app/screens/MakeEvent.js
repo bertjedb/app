@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
-  NetInfo
+  NetInfo,
+  ScrollView
 } from "react-native";
 import styles from "../assets/css/style.js";
 import { showMessage } from "react-native-flash-message";
@@ -496,7 +497,6 @@ export default class MakeEvent extends Component {
                     />
                   </ImageBackground>
                 </TouchableOpacity>
-
                 <Button
                   style={{
                     container: styles.defaultBtn,

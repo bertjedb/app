@@ -499,6 +499,7 @@ export default class More extends Component {
 						  id: this.state.userId
 						},
 						response => {
+                            console.log(response);
 						  if (response["responseCode"] != 503) {
 							if (response["boolean"] == true) {
 							  localStorage.storeItem("userId", null);
