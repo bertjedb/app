@@ -42,7 +42,7 @@ var start = startNum;
 var end = endNum;
 
 var filterOptions = [
-   {
+  {
     icon: (
       <Text style={{ fontWeight: "bold" }}>
         Filter op evenementen met begeleider
@@ -189,8 +189,6 @@ class News extends Component {
     }
   };
 
-
-
   render() {
     const Entities = require("html-entities").AllHtmlEntities;
     const entities = new Entities();
@@ -255,7 +253,7 @@ class News extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-               }
+              }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
@@ -265,8 +263,10 @@ class News extends Component {
                         backgroundColor: "white",
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10
-                       }}
+                        borderBottomRightRadius: 10,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10
+                      }}
                     >
                       <TouchableHighlight
                         onPress={() =>
