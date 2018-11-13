@@ -274,16 +274,7 @@ class ParticipantListDetail extends Component {
             <Text style={styles.participantText}>
               Deelnemers aan dit evenement ({this.state.participants.length})
             </Text>
-            {
-              // <View style={styles.searchSection}>
-              //   <Icon
-              //     style={styles.searchIcon}
-              //     name="account-plus"
-              //     size={20}
-              //     color="#000"
-              //   />
-              // </View>
-            }
+
             <View style={{ flexDirection: "row" }}>
               <View style={{ height: 55, width: "70%" }}>
                 <View
