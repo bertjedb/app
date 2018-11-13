@@ -181,6 +181,7 @@ class Events extends Component {
     };
     api.callApi("api/searchEvent", "POST", userData, response => {
       if (response["responseCode"] != 503) {
+      	console.log(response)
         if (response["responseCode"] == 200) {
           	let array = response["events"];
         	let localStorage = LocalStorage.getInstance();
@@ -208,14 +209,11 @@ class Events extends Component {
             			  data: array.slice(start, end)
             			});
         	});
-          }
-      	this.setState({
-        	data: array
-      	});
-    	this.errorMessage(
-          'Er is niks gevonden voor "' + this.state.search + '"'
-        );
-
+          } else {
+    			this.errorMessage(
+        		  'Er is niks gevonden voor "' + this.state.search + '"'
+        		); 
+			} 
             }
         });
     }

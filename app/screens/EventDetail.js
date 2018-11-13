@@ -198,6 +198,8 @@ class EventDetail extends Component {
     const url = navigation.getParam("url", "");
     const start = navigation.getParam("start", "");
     const end = navigation.getParam("end", "");
+    const startTime = navigation.getParam("startTime", "");
+    const endTime = navigation.getParam("endTime", "");
     const created = navigation.getParam("created", "");
     const author = navigation.getParam("author", "");
     const profilePicture = navigation.getParam("profilePicture", "");
@@ -205,33 +207,6 @@ class EventDetail extends Component {
     const img = navigation.getParam("img", "");
     const location = navigation.getParam("location", "");
     const qr_code = navigation.getParam("qr_code", "");
-
-    const images = [
-      {
-        props: {
-          // Or you can set source directory.
-          source: require("../assets/klimmen_kids_bslim.jpg")
-        }
-      },
-      {
-        props: {
-          // Or you can set source directory.
-          source: require("../assets/frisbee_kids_bslim.jpg")
-        }
-      },
-      {
-        props: {
-          // Or you can set source directory.
-          source: require("../assets/basketbal_kids_bslim.jpg")
-        }
-      },
-      {
-        props: {
-          // Or you can set source directory.
-          source: require("../assets/sport_kids_bslim.jpg")
-        }
-      }
-    ];
 
     const participants = navigation.getParam("participants", "");
     const ds = new ListView.DataSource({
@@ -243,23 +218,6 @@ class EventDetail extends Component {
       <View
         style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
       >
-        <Modal visible={this.state.imageFullScreen} transparent={true}>
-          <ImageViewer
-            imageUrls={images}
-            enableSwipeDown={true}
-            index={this.state.imageIndex}
-            saveToLocalByLongPress={false}
-            renderHeader={index => (
-              <Icon
-                size={32}
-                name={"close"}
-                style={{ color: "white", padding: 10 }}
-                onPress={() => this.setState({ imageFullScreen: false })}
-              />
-            )}
-            onCancel={() => this.setState({ imageFullScreen: false })}
-          />
-        </Modal>
         <Animated.View
           style={[
             styles.header,
@@ -333,7 +291,7 @@ class EventDetail extends Component {
               left: 60
             }}
           >
-            Basketbal
+            {title}
           </Text>
           <Text
             style={{
@@ -344,7 +302,7 @@ class EventDetail extends Component {
               left: 60
             }}
           >
-            26 Okt 2018
+            {start}
           </Text>
         </Animated.View>
         <Toolbar
@@ -452,140 +410,6 @@ class EventDetail extends Component {
                 margin: 10
               }}
             />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TouchableOpacity
-                style={{
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 35,
-                  margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
-                }}
-                onPress={() =>
-                  this.setState({ imageFullScreen: true, imageIndex: 0 })
-                }
-              >
-                <Image
-                  source={require("../assets/klimmen_kids_bslim.jpg")}
-                  resizeMode="cover"
-                  elevation={5}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50
-                  }}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 5,
-                  margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
-                }}
-                onPress={() =>
-                  this.setState({ imageFullScreen: true, imageIndex: 1 })
-                }
-              >
-                <Image
-                  source={require("../assets/frisbee_kids_bslim.jpg")}
-                  resizeMode="cover"
-                  elevation={5}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 5,
-                  margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
-                }}
-                onPress={() =>
-                  this.setState({ imageFullScreen: true, imageIndex: 2 })
-                }
-              >
-                <Image
-                  source={require("../assets/basketbal_kids_bslim.jpg")}
-                  resizeMode="cover"
-                  elevation={5}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50
-                  }}
-                />
-              </TouchableOpacity>
-              <ImageBackground
-                blurRadius={3}
-                style={{
-                  width: 50,
-                  height: 50,
-                  shadowOffset: { width: 0, height: 13 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 6,
-
-                  backgroundColor: "white",
-                  // android (Android +5.0)
-                  elevation: 5,
-                  margin: 10,
-                  marginRight: 0,
-                  borderRadius: 50
-                }}
-                imageStyle={{ borderRadius: 50 }}
-                source={require("../assets/sport_kids_bslim.jpg")}
-              >
-                <TouchableOpacity
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 50,
-                    with: "100%",
-                    height: "100%",
-                    backgroundColor: "rgba(0,0,0,.3)"
-                  }}
-                  onPress={() =>
-                    this.setState({ imageFullScreen: true, imageIndex: 3 })
-                  }
-                >
-                  <Text fontSize="18" style={{ color: "white" }}>
-                    +4
-                  </Text>
-                </TouchableOpacity>
-              </ImageBackground>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: "#DCDCDC",
-                width: "94%",
-                height: 1,
-                margin: 10
-              }}
-            />
-
             <View>
               <Text
                 style={{
@@ -724,7 +548,7 @@ class EventDetail extends Component {
                 name={"clock-outline"}
                 style={{ color: "grey", paddingRight: 10, paddingLeft: 10 }}
               />
-              <Text style={{ fontSize: 16, color: "grey" }}>15:00 uur</Text>
+              <Text style={{ fontSize: 16, color: "grey" }}>{startTime} uur tot {endTime} uur</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Icon
