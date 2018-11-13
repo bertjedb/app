@@ -141,7 +141,14 @@ export default class MakeEvent extends Component {
         } else {
           this.errorMessage("Vul alle velden in aub");
         }
-        this.setState({ loading: false });
+        this.setState({ loading: false,
+        				name: '',
+        				begin: '',
+        				end: '',
+        				query: '',
+        				desc: '',
+        				pickedImage: { uri: "" },
+    				 });
       } else {
         this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
       }
@@ -297,6 +304,7 @@ export default class MakeEvent extends Component {
         </LinearGradient>
         <View style={styles.container}>
           {!this.state.loading && (
+          	<ScrollView>
             <View style={styles.cardGreen} elevation={5}>
               <Text
                 style={{
@@ -477,25 +485,35 @@ export default class MakeEvent extends Component {
                   numberOfLines={30}
                   onChangeText={desc => this.setState({ desc })}
                 />
+
                 <TouchableOpacity
                   style={styles.imgSel}
                   onPress={this.pickImageHandler}
                 >
-                  <ImageBackground
-                    blurRadius={3}
-                    style={styles.imgSel}
-                    source={this.state.pickedImage}
-                  >
-                    <Icon
-                      size={35}
-                      name={"image-plus"}
-                      style={{
-                        color: "white",
-                        alignSelf: "center",
-                        marginTop: "30%"
-                      }}
-                    />
-                  </ImageBackground>
+          			<ImageBackground
+          			  style={{width: 100, height: 100}}
+          			  source={this.state.pickedImage}
+          			>
+          			<View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          with: "100%",
+                          height: "100%",
+                          backgroundColor: "rgba(0,0,0,.3)"
+                        }}
+                      >
+          				<Icon
+          				    size={35}
+          				    name={"image-plus"}
+          				    style={{
+          				      color: "white",
+          				      alignSelf: "center",
+          				      marginTop: "30%"
+          				    }}
+  				 	 	/>
+  				 	 </View>
+          			</ImageBackground>
                 </TouchableOpacity>
                 <Button
                   style={{
@@ -505,9 +523,10 @@ export default class MakeEvent extends Component {
                   raised
                   text="Doorgaan"
                   onPress={() => this.createEvent()}
-                />
+                /> 
               </View>
             </View>
+            </ScrollView>
           )}
           {this.state.loading && (
             <PacmanIndicator color="#94D600" style={{ marginTop: "20%" }} />
