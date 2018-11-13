@@ -198,6 +198,7 @@ class NewsDetail extends Component {
         >
           <Animated.View
             style={[
+
               styles.header,
               {
                 transform: [
@@ -220,6 +221,8 @@ class NewsDetail extends Component {
                 position: "absolute",
                 top: 150,
                 left: 15,
+
+
                 opacity: this.state.scrollY.interpolate({
                   inputRange: [0, 80],
                   outputRange: [1, 0]
@@ -299,7 +302,7 @@ class NewsDetail extends Component {
               styles.card,
               {
                 transform: [
-                  {
+                   {
                     translateX: this.state.x2
                   }
                 ]
@@ -327,11 +330,12 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
     width: Dimensions.get("window").width,
     paddingTop: 150
-  },
+    },
 
   card: {
     backgroundColor: "white",
     margin: 10,
+      height: Dimensions.get("window").height -310,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
@@ -339,7 +343,7 @@ const styles = StyleSheet.create({
 
     // android (Android +5.0)
     elevation: 3
-  },
+    },
 
   headerTitle: {
     height: Header.HEIGHT,
