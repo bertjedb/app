@@ -8,7 +8,9 @@ import {
   StyleSheet,
   ImageBackground,
   FlatList,
-  TouchableHighlight
+  TouchableHighlight,
+  TextInput,
+  Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Api from "../config/api.js";
@@ -16,6 +18,8 @@ import LocalStorage from "../config/localStorage.js";
 import LinearGradient from "react-native-linear-gradient";
 import { DrawerActions, Header } from "react-navigation";
 import Swipeable from "react-native-swipeable-row";
+import Autocomplete from "react-native-autocomplete-input";
+import { TextField } from "react-native-material-textfield";
 
 import {
   COLOR,
@@ -44,7 +48,13 @@ class ParticipantListDetail extends Component {
     super();
     this.state = {
       currentlyOpenSwipeable: null,
-      refreshed: false
+      refreshed: false,
+      participants: [],
+      showInfo: false,
+      users: [],
+      query: "",
+      email: "",
+      userId: ""
     };
   }
 
@@ -59,7 +69,19 @@ class ParticipantListDetail extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     eventId = navigation.getParam("eventId", "");
+    this.getAllUsers();
     this.refresh(eventId);
+  }
+
+  getAllUsers() {
+    let api = Api.getInstance();
+
+    api.callApi("api/getUsers", "POST", {}, response => {
+      if (response["responseCode"] == 200) {
+        this.setState({ users: response["users"] });
+        console.log(this.state.users);
+      }
+    });
   }
 
   addPoint(personId, points, name, eventId) {
@@ -102,6 +124,71 @@ class ParticipantListDetail extends Component {
     });
   }
 
+  removeParticipant(eventId, name, personId) {
+    Alert.alert(
+      "Verwijderen bevestigen",
+      "Weet je zeker dat je " +
+        name +
+        " als deelnemer wilt verwijderen van dit evenement?",
+      [
+        {
+          text: "Bevestigen",
+          onPress: () => {
+            let api = Api.getInstance();
+            api.callApi(
+              "api/unSubToEvent",
+              "POST",
+              { eventId: eventId, personId: personId },
+              response => {
+                if (response["responseCode"] == 200) {
+                  this.refresh(eventId);
+                }
+              }
+            );
+          }
+        },
+        {
+          text: "Annuleren",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        }
+      ]
+    );
+  }
+
+  addParticipant(eventId, personId) {
+    if (personId === "") {
+      alert("Selecteer een deelnemer");
+      return;
+    }
+    let api = Api.getInstance();
+    api.callApi(
+      "api/subToEvent",
+      "POST",
+      { eventId: eventId, personId: personId },
+      response => {
+        if (response["responseCode"] == 200) {
+          alert("Succesvol toegevoegd");
+          this.refresh(eventId);
+        }
+        this.setState({
+          query: "",
+          email: "",
+          userId: ""
+        });
+      }
+    );
+  }
+
+  filterData(query) {
+    if (query === "") {
+      return [];
+    }
+    const { users } = this.state;
+    const regex = new RegExp(`${query.trim()}`, "i");
+    return users.filter(user => user.name.search(regex) >= 0);
+  }
+
   refresh(eventId) {
     let api = Api.getInstance();
     api.callApi(
@@ -134,6 +221,9 @@ class ParticipantListDetail extends Component {
     const { navigation } = this.props;
     const title = navigation.getParam("title", "");
     const eventId = navigation.getParam("eventId", "");
+    const { query } = this.state;
+    const users = this.filterData(query);
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     return (
       <View
@@ -167,40 +257,178 @@ class ParticipantListDetail extends Component {
             centerElement={"Deelnemers beheren"}
             leftElement={"arrow-left"}
             onLeftElementPress={() => this.props.navigation.goBack()}
+            rightElement={"information"}
+            onRightElementPress={() =>
+              this.setState({ showInfo: !this.state.showInfo })
+            }
           />
         </LinearGradient>
         <ScrollView style={styles.container}>
           <View
             style={{
-              height: "20%",
               flexDirection: "column",
               borderRadius: 20,
-              marginBottom: "2%"
+              margin: 15
             }}
           >
-            <View style={styles.legendaItem}>
-              <Icon name="plus-circle-outline" size={30} color="#64dd17" />
-              <Text style={{ marginLeft: 10 }}>
-                Geef de deelnemer een stempel
-              </Text>
-            </View>
+            <Text style={styles.participantText}>
+              Deelnemers aan dit evenement ({this.state.participants.length})
+            </Text>
 
-            <View style={styles.legendaItem}>
-              <Icon name="minus-circle-outline" size={30} color="#f44336" />
-              <Text style={{ marginLeft: 10 }}>
-                Verwijder een stempel van deelnemer
-              </Text>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ height: 55, width: "70%" }}>
+                <View
+                  style={{
+                    left: 0,
+                    position: "absolute",
+                    right: 0,
+                    top: 0,
+                    zIndex: 2,
+                    overflow: "hidden"
+                  }}
+                >
+                  <Autocomplete
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    inputContainerStyle={{ borderWidth: 1 }}
+                    style={{ padding: 5 }}
+                    listStyle={{
+                      borderWidth: 0,
+                      height: 125,
+                      margin: 0,
+                      backgroundColor: "#00000000"
+                    }}
+                    data={
+                      users.length === 1 && comp(query, users[0].name)
+                        ? []
+                        : users
+                    }
+                    defaultValue={query}
+                    onChangeText={text => this.setState({ query: text })}
+                    placeholder="Voeg deelnemer toe"
+                    renderSeparator={() => (
+                      <View
+                        style={{
+                          width: "100%",
+                          height: 1,
+                          backgroundColor: "grey"
+                        }}
+                      />
+                    )}
+                    renderItem={({ name, email, id }) => (
+                      <TouchableOpacity
+                        style={{
+                          backgroundColor: "white",
+                          padding: 5,
+                          borderRightWidth: 1,
+                          borderLeftWidth: 1,
+                          borderColor: "grey"
+                        }}
+                        onPress={() =>
+                          this.setState({
+                            query: name,
+                            email: email,
+                            userId: id
+                          })
+                        }
+                      >
+                        <Text>
+                          {name} ({email})
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                </View>
+              </View>
+              <TouchableHighlight
+                onPress={() => {
+                  this.addParticipant(eventId, this.state.userId);
+                }}
+                style={{
+                  width: "30%",
+                  marginLeft: 5,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: 10,
+                  backgroundColor: "#93D500"
+                }}
+              >
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  Voeg toe
+                </Text>
+              </TouchableHighlight>
             </View>
+            {
+              // <TextInput
+              //   style={styles.input}
+              //   placeholder="Voeg een deelnemer toe"
+              //   onChangeText={searchString => {
+              //     this.setState({ searchString });
+              //   }}
+              //   underlineColorAndroid="transparent"
+              // />
+              // <Button
+              //   style={{ marginLeft: 5 }}
+              //   raised
+              //   text="Doorgaan"
+              //   onPress={() =>
+              //     this.addParticipant(eventId, this.state.searchString)
+              //   }
+              //
+              //
+              // />
+            }
+            {this.state.showInfo == true && (
+              <View>
+                <View style={styles.legendaItem}>
+                  <Icon name="plus-circle-outline" size={30} color="#64dd17" />
+                  <Text style={{ marginLeft: 10 }}>
+                    Geef de deelnemer een stempel
+                  </Text>
+                </View>
 
-            <View style={styles.legendaItem}>
-              <Icon name="gift" size={30} color="#4fc3f7" />
-              <Text style={{ marginLeft: 10 }}>
-                Verzilver de kaart van een deelnemer
-              </Text>
-            </View>
+                <View style={styles.legendaItem}>
+                  <Icon name="minus-circle-outline" size={30} color="#f44336" />
+                  <Text style={{ marginLeft: 10 }}>
+                    Verwijder een stempel van deelnemer
+                  </Text>
+                </View>
+
+                <View style={styles.legendaItem}>
+                  <Icon name="gift" size={30} color="#4fc3f7" />
+                  <Text style={{ marginLeft: 10 }}>
+                    Verzilver de kaart van een deelnemer
+                  </Text>
+                </View>
+
+                <View style={styles.legendaItem}>
+                  <Icon name="account-minus" size={30} color="#f44336" />
+                  <Text style={{ marginLeft: 10 }}>
+                    Verwijder een deelnemer van dit evenement
+                  </Text>
+                </View>
+
+                <View style={styles.legendaItem}>
+                  <Icon name="gesture-swipe-left" size={30} color="#4fc3f7" />
+                  <Icon name="gesture-swipe-right" size={30} color="#4fc3f7" />
+                  <Text style={{ marginLeft: 10 }}>
+                    Swipe deelnemers om acties uit te voeren
+                  </Text>
+                </View>
+              </View>
+            )}
           </View>
+          <View
+            style={{
+              backgroundColor: "black",
+              height: 2,
+              marginTop: "2%",
+              marginBottom: "2%"
+            }}
+          />
           <FlatList
             data={this.state.participants}
+            style={{ marginBottom: "20%" }}
             renderItem={({ item }) => (
               <View
                 style={{
@@ -250,16 +478,19 @@ class ParticipantListDetail extends Component {
                       <Icon name="plus-circle-outline" size={25} />
                     </TouchableOpacity>
                   ]}
-                  rightContent={
-                    <View
+                  rightButtons={[
+                    <TouchableOpacity
                       style={[
                         styles.rightSwipeItem,
-                        { backgroundColor: "#4fc3f7" }
+                        { backgroundColor: "#f44336" }
                       ]}
+                      onPress={() =>
+                        this.removeParticipant(eventId, item.name, item.id)
+                      }
                     >
-                      <Text>Pull action</Text>
-                    </View>
-                  }
+                      <Icon name="account-minus" size={25} />
+                    </TouchableOpacity>
+                  ]}
                   onLeftButtonsOpenRelease={(
                     event,
                     gestureState,
@@ -284,8 +515,8 @@ class ParticipantListDetail extends Component {
                     </Text>
                     <Text style={styles.points}> Stempels : {item.points}</Text>
                   </View>
-                  <View style={{ backgroundColor: "#f5f5f5", height: 4 }} />
                 </Swipeable>
+                <View style={{ backgroundColor: "#f5f5f5", height: 4 }} />
               </View>
             )}
           />
@@ -298,9 +529,7 @@ class ParticipantListDetail extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 10,
-    flexDirection: "column",
-    marginBottom: "10%"
+    flexDirection: "column"
   },
   listItem: {
     flexDirection: "row",
@@ -338,6 +567,23 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: "row",
     alignItems: "center"
+  },
+  participantText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black",
+    marginBottom: "2%"
+  },
+  searchSection: {
+    flex: 1,
+    height: "30%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+  searchIcon: {
+    padding: 10
   }
 });
 

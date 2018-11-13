@@ -55,7 +55,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     // android (Android +5.0)
-    elevation: 3
+    elevation: 3,
   },
 
   SectionStyleTop: {
@@ -226,7 +226,8 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.2)",
     width: 100,
-    height: 100
+    height: 100,
+    marginLeft: '25%'
   },
 
   backgroundVideo: {

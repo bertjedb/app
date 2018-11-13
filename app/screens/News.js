@@ -37,12 +37,12 @@ import HTML from "react-native-render-html";
 var capitalize = require("capitalize");
 
 var startNum = 0;
-var endNum = 2;
+var endNum = 50;
 var start = startNum;
 var end = endNum;
 
 var filterOptions = [
-  {
+   {
     icon: (
       <Text style={{ fontWeight: "bold" }}>
         Filter op evenementen met begeleider
@@ -131,17 +131,13 @@ class News extends Component {
   }
 
   _onRefresh = () => {
-    let localStorage = LocalStorage.getInstance();
-    localStorage.retrieveItem("userId").then(id => {
-      console.log(id);
-    });
     this.setState({ refreshing: true, sleeping: false, loading: true });
     this.refresh();
   };
 
   refresh() {
     startNum = 0;
-    endNum = 2;
+    endNum = 50;
     start = startNum;
     end = endNum;
     if (!this.state.sleeping) {
@@ -180,11 +176,10 @@ class News extends Component {
   handelEnd = () => {
     let api = Api.getInstance();
     if (end <= this.state.fullArray.length) {
-      end += 2;
-      start += 2;
+      end += 50;
+      start += 50;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
-        console.log(response);
         if (response["responseCode"] == 200) {
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
@@ -194,22 +189,7 @@ class News extends Component {
     }
   };
 
-  handelEnd = () => {
-    let api = Api.getInstance();
-    if (end <= this.state.fullArray.length) {
-      end += 2;
-      start += 2;
-      // alert(end + " " + this.state.data.length);
-      api.callApi("api/getAllNewsItems", "GET", {}, response => {
-        console.log(response);
-        if (response["responseCode"] == 200) {
-          this.setState({
-            data: [...this.state.data, ...response["news"].slice(start, end)]
-          });
-        }
-      });
-    }
-  };
+
 
   render() {
     const Entities = require("html-entities").AllHtmlEntities;
@@ -275,18 +255,18 @@ class News extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-              }
+               }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
                   <View style={styles.card} elevation={5}>
                     <View
                       style={{
-                        backgroundColor: "rgba(52, 52, 52, 0,8)",
+                        backgroundColor: "white",
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10
-                      }}
+                       }}
                     >
                       <TouchableHighlight
                         onPress={() =>

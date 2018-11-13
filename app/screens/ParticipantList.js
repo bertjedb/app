@@ -18,6 +18,7 @@ import { DrawerActions, NavigationActions, Header } from "react-navigation";
 import { Toolbar } from "react-native-material-ui";
 import LinearGradient from "react-native-linear-gradient";
 import Api from "../config/api.js";
+import { PacmanIndicator } from "react-native-indicators";
 
 var swipeoutBtns = [
   {
@@ -28,19 +29,29 @@ var swipeoutBtns = [
 class ParticipantList extends Component {
   constructor() {
     super();
-    this.state = { eventArray: [] };
+    this.state = { eventArray: [], loading: true };
     let api = Api.getInstance();
     api.callApi("api/getAllEvents", "POST", {}, response => {
-      console.log(response);
       if (response["responseCode"] == 200) {
-        console.log("response code is 200");
         this.setState({
-          eventArray: response["events"]
+          eventArray: response["events"],
+          loading: false
         });
       }
     });
-    console.log("EVENTARRAYYYYYYYY");
-    console.log(this.state.eventArray);
+  }
+
+  refresh() {
+    this.setState({ loading: true });
+    let api = Api.getInstance();
+    api.callApi("api/getAllEvents", "POST", {}, response => {
+      if (response["responseCode"] == 200) {
+        this.setState({
+          eventArray: response["events"],
+          loading: false
+        });
+      }
+    });
   }
 
   render() {
@@ -76,65 +87,73 @@ class ParticipantList extends Component {
           <Toolbar
             iconSet="MaterialCommunityIcons"
             centerElement={"Deelnemers beheren"}
+            rightElement="reload"
+            onRightElementPress={() => this.refresh()}
           />
         </LinearGradient>
-        <View style={styles.container}>
-          <FlatList
-            data={this.state.eventArray}
-            renderItem={({ item }) => (
-              <TouchableHighlight
-                style={styles.eventCard}
-                onPress={() =>
-                  this.props.navigation.navigate("ParticipantListDetail", {
-                    title: item.name,
-                    participants: item.participants,
-                    eventId: item.id
-                  })
-                }
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    padding: 15
-                  }}
-                >
-                  <View
-                    style={{
-                      height: "100%",
-                      backgroundColor: "#F27B13",
-                      borderRadius: 5
-                    }}
+        {!this.state.loading && (
+          <View style={styles.container}>
+            <FlatList
+              data={this.state.eventArray}
+              renderItem={({ item }) => (
+                <View>
+                  <TouchableHighlight
+                    style={styles.eventCard}
+                    onPress={() =>
+                      this.props.navigation.navigate("ParticipantListDetail", {
+                        title: item.name,
+                        participants: item.participants,
+                        eventId: item.id
+                      })
+                    }
                   >
-                    <View style={{ flexDirection: "column", padding: 10 }}>
-                      <Text
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        padding: 15
+                      }}
+                    >
+                      <View
                         style={{
-                          fontWeight: "bold",
-                          fontSize: 14,
-                          color: "white",
-                          textAlign: "center",
-                          marginTop: 5
+                          height: "100%",
+                          backgroundColor: "#F27B13",
+                          borderRadius: 5
                         }}
                       >
-                        {item.begin}
-                      </Text>
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: 14,
-                          color: "white",
-                          textAlign: "center"
-                        }}
-                      >
-                        {item.beginMonth}
-                      </Text>
+                        <View style={{ flexDirection: "column", padding: 10 }}>
+                          <Text
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: 14,
+                              color: "white",
+                              textAlign: "center",
+                              marginTop: 5
+                            }}
+                          >
+                            {item.begin}
+                          </Text>
+                          <Text
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: 14,
+                              color: "white",
+                              textAlign: "center"
+                            }}
+                          >
+                            {item.beginMonth}
+                          </Text>
+                        </View>
+                      </View>
+                      <Text style={styles.text}>{item.name}</Text>
                     </View>
-                  </View>
-                  <Text style={styles.text}>{item.name}</Text>
+                  </TouchableHighlight>
+                  <View style={{ backgroundColor: "black", height: 1 }} />
                 </View>
-              </TouchableHighlight>
-            )}
-          />
-        </View>
+              )}
+            />
+          </View>
+        )}
+        {this.state.loading && <PacmanIndicator color="#94D600" />}
       </ImageBackground>
     );
   }
@@ -143,7 +162,7 @@ class ParticipantList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: "2%"
+    marginBottom: 56
   },
 
   eventCard: {

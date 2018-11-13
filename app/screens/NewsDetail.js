@@ -55,6 +55,7 @@ import {
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = Header.HEIGHT;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+var capitalize = require("capitalize");
 
 class NewsDetail extends Component {
   constructor() {

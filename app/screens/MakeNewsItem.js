@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
-  NetInfo
+  NetInfo,
+  ScrollView
 } from "react-native";
 import styles from "../assets/css/style.js";
 import { showMessage } from "react-native-flash-message";
@@ -20,6 +21,8 @@ import RNFetchBlob from "rn-fetch-blob";
 import ImgToBase64 from "react-native-image-base64";
 import LinearGradient from "react-native-linear-gradient";
 import { DrawerActions, NavigationActions, Header } from "react-navigation";
+import { PacmanIndicator } from "react-native-indicators";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default class MakeNewsItem extends Component {
   constructor() {
@@ -28,7 +31,8 @@ export default class MakeNewsItem extends Component {
       title: "",
       content: "",
       pickedImage: { uri: "" },
-      imgPicked: false
+      imgPicked: false,
+      loading: false
     };
   }
 
@@ -79,7 +83,7 @@ export default class MakeNewsItem extends Component {
       if (connectionInfo.type != "none") {
         if (
           this.state.title != "" &&
-          this.state.title.length <= 30 &&
+          this.state.title.length <= 64 &&
           this.state.content != "" &&
           this.state.pickedImage.uri != ""
         ) {
@@ -105,9 +109,9 @@ export default class MakeNewsItem extends Component {
         } else if (
           this.state.content != "" &&
           this.state.pickedImage.uri != "" &&
-          this.state.title.length > 30
+          this.state.title.length > 64
         ) {
-          this.errorMessage("De titel mag maximaal 30 characters lang zijn!");
+          this.errorMessage("De titel mag maximaal 64 characters lang zijn!");
         } else {
           this.errorMessage("Vul alle velden in aub");
         }
@@ -245,6 +249,8 @@ export default class MakeNewsItem extends Component {
           />
         </LinearGradient>
         <View style={styles.container}>
+        { !this.state.loading && (
+        <ScrollView>
           <View style={styles.cardGreen} elevation={5}>
             <Text
               style={{
@@ -291,14 +297,34 @@ export default class MakeNewsItem extends Component {
               />
 
               <TouchableOpacity
-                style={styles.imgSel}
-                onPress={this.pickImageHandler}
-              >
-                <Image
-                  style={{ width: 100, height: 100 }}
-                  source={this.state.pickedImage}
-                />
-              </TouchableOpacity>
+                  style={styles.imgSel}
+                  onPress={this.pickImageHandler}
+                >
+                    <ImageBackground
+                      style={{width: 100, height: 100}}
+                      source={this.state.pickedImage}
+                    >
+                    <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          with: "100%",
+                          height: "100%",
+                          backgroundColor: "rgba(0,0,0,.3)"
+                        }}
+                      >
+                        <Icon
+                            size={35}
+                            name={"image-plus"}
+                            style={{
+                              color: "white",
+                              alignSelf: "center",
+                              marginTop: "30%"
+                            }}
+                        />
+                     </View>
+                    </ImageBackground>
+                </TouchableOpacity>
 
               <Button
                 style={{
@@ -310,7 +336,12 @@ export default class MakeNewsItem extends Component {
                 onPress={() => this.createArticle()}
               />
             </View>
-          </View>
+          </View> 
+          </ScrollView>
+          )}
+        {this.state.loading && (
+            <PacmanIndicator color="#94D600" style={{ marginTop: "20%" }} />
+          )}
         </View>
       </ImageBackground>
     );
