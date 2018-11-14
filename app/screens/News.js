@@ -39,7 +39,7 @@ import Video from "react-native-video";
 var capitalize = require("capitalize");
 
 var startNum = 0;
-var endNum = 50;
+var endNum = 10;
 var start = startNum;
 var end = endNum;
 
@@ -65,11 +65,14 @@ class News extends Component {
       loading: true,
       refreshing: false,
       sleeping: false,
-      data: [],
       slicedArray: [],
       fullArray: []
     };
 
+      startNum = 0;
+      endNum = 10;
+      start = startNum;
+      end = endNum;
     let api = Api.getInstance();
     api.callApi("api/getAllNewsItems", "GET", {}, response => {
       if (response["responseCode"] != 503) {
@@ -92,6 +95,7 @@ class News extends Component {
   componentDidMount() {
     // this.onLoad();
     // this.props.navigation.addListener('willFocus', this.onLoad)
+
   }
 
   errorMessage(msg) {
@@ -139,7 +143,7 @@ class News extends Component {
 
   refresh() {
     startNum = 0;
-    endNum = 50;
+    endNum = 10;
     start = startNum;
     end = endNum;
     if (!this.state.sleeping) {
@@ -178,11 +182,12 @@ class News extends Component {
   handelEnd = () => {
     let api = Api.getInstance();
     if (end <= this.state.fullArray.length) {
-      end += 50;
-      start += 50;
+      end += 10;
+      start += 10;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
         if (response["responseCode"] == 200) {
+          console.log(response['news'].slice(start, end));
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
           });
@@ -243,10 +248,10 @@ class News extends Component {
             <FlatList
               data={this.state.data}
               keyExtractor={item => item.title}
-              initialNumToRender={2}
-              // windowSize={2}
-              // maxToRenderPerBatch={4}
-              onEndReachedThreshold={0.6}
+              initialNumToRender={4}
+              windowSize={21}
+              maxToRenderPerBatch={10}
+              onEndReachedThreshold={0.5}
               onEndReached={() => this.handelEnd()}
               contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
               refreshControl={
@@ -254,8 +259,7 @@ class News extends Component {
                   colors={["#94D600"]}
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
-                />
-              }
+                />}
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
