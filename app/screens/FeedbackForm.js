@@ -146,7 +146,7 @@ export default class FeedbackForm extends Component {
                   autoCapitalize="none"
                   value={this.state.email}
                   onChangeText={email => this.setState({ email })}
-                />
+                 />
 
                 <TextField
                   textColor="green"
