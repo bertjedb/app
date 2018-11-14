@@ -20,6 +20,7 @@ import { DrawerActions, Header } from "react-navigation";
 import Swipeable from "react-native-swipeable-row";
 import Autocomplete from "react-native-autocomplete-input";
 import { TextField } from "react-native-material-textfield";
+import { showMessage } from "react-native-flash-message";
 
 import {
   COLOR,
@@ -73,6 +74,22 @@ class ParticipantListDetail extends Component {
     this.refresh(eventId);
   }
 
+  errorMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
+  }
+
+  successMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "success",
+      duration: 4000
+    });
+  }
+
   getAllUsers() {
     let api = Api.getInstance();
 
@@ -89,7 +106,7 @@ class ParticipantListDetail extends Component {
     userData = { id: personId };
     api.callApi("api/addPoint", "POST", userData, response => {
       if (response["responseCode"] == 200) {
-        alert("Punt erbai");
+        this.successMessage(name + " heeft een stempel erbij gekregen");
         this.refresh(eventId);
       }
     });
@@ -99,29 +116,47 @@ class ParticipantListDetail extends Component {
     let api = Api.getInstance();
     api.callApi("api/substractPoint", "POST", { id: personId }, response => {
       if (response["responseCode"] == 200) {
-        alert("Dat is pech, punt weg");
+        this.successMessage(name + " heeft een stempel eraf gekregen");
         this.refresh(eventId);
       }
     });
   }
 
   resetCard(personId, points, name, eventId) {
-    let api = Api.getInstance();
-    api.callApi("api/resetStampCard", "POST", { id: personId }, response => {
-      if (response["responseCode"] == 200) {
-        points -= 15;
-        alert(
-          "Kaart van " +
-            capitalize.words(name) +
-            " is verzilverd! " +
-            name +
-            " heeft nu " +
-            points +
-            " stempels"
-        );
-        this.refresh(eventId);
-      }
-    });
+    Alert.alert(
+      "Kaart verzilveren bevestigen",
+      "Weet je zeker dat je de kaart van " + name + " wilt verzilveren?",
+      [
+        {
+          text: "Annuleren",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Bevestigen",
+          onPress: () => {
+            if (points >= 15) {
+              let api = Api.getInstance();
+              api.callApi(
+                "api/resetStampCard",
+                "POST",
+                { id: personId },
+                response => {
+                  if (response["responseCode"] == 200) {
+                    this.successMessage(
+                      "De kaart van " + name + " is verzilverd!"
+                    );
+                    this.refresh(eventId);
+                  }
+                }
+              );
+            } else {
+              this.errorMessage(name + " heeft nog geen 15 stempels!");
+            }
+          }
+        }
+      ]
+    );
   }
 
   removeParticipant(eventId, name, personId) {
@@ -132,6 +167,11 @@ class ParticipantListDetail extends Component {
         " als deelnemer wilt verwijderen van dit evenement?",
       [
         {
+          text: "Annuleren",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
           text: "Bevestigen",
           onPress: () => {
             let api = Api.getInstance();
@@ -141,16 +181,14 @@ class ParticipantListDetail extends Component {
               { eventId: eventId, personId: personId },
               response => {
                 if (response["responseCode"] == 200) {
+                  this.errorMessage(
+                    name + " is verwijderd als deelnemer van dit evenement"
+                  );
                   this.refresh(eventId);
                 }
               }
             );
           }
-        },
-        {
-          text: "Annuleren",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
         }
       ]
     );
@@ -168,8 +206,12 @@ class ParticipantListDetail extends Component {
       { eventId: eventId, personId: personId },
       response => {
         if (response["responseCode"] == 200) {
-          alert("Succesvol toegevoegd");
+          this.successMessage(
+            "Deelnemer is succesvol toegevoegd aan dit evenement"
+          );
           this.refresh(eventId);
+        } else {
+          this.errorMessage("Deze persoon neemt al deel aan dit evenement");
         }
         this.setState({
           query: "",
