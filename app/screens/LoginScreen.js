@@ -75,6 +75,9 @@ class LoginScreen extends Component {
       duration: 2500
     });
   }
+
+  test() {}
+
   successMessage(msg) {
     showMessage({
       message: msg,
