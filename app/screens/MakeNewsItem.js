@@ -71,7 +71,7 @@ export default class MakeNewsItem extends Component {
     })
       .then(response => response.text())
       .then(responseText => {
-        alert(responseText);
+        alert("Nieuw artikel succesvol aangemaakt");
       })
       .catch(error => {
         console.error(error);
@@ -249,62 +249,62 @@ export default class MakeNewsItem extends Component {
           />
         </LinearGradient>
         <View style={styles.container}>
-        { !this.state.loading && (
-        <ScrollView>
-          <View style={styles.cardGreen} elevation={5}>
-            <Text
-              style={{
-                margin: 15,
-                fontWeight: "bold",
-                fontSize: 24,
-                color: "white"
-              }}
-            >
-              Nieuws artikel aanmaken
-            </Text>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingLeft: 15,
-                paddingRight: 15,
-                paddingBottom: 15,
-                paddingTop: 0,
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10
-              }}
-            >
-              <Text style={{ marginTop: 10 }}>
-                Hier kun je een nieuws artikel aanmaken
-              </Text>
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Titel"
-                value={this.state.title}
-                onChangeText={title => this.setState({ title })}
-              />
-
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Inhoud"
-                multiline={true}
-                numberOfLines={30}
-                value={this.state.content}
-                onChangeText={content => this.setState({ content })}
-              />
-
-              <TouchableOpacity
-                  style={styles.imgSel}
-                  onPress={this.pickImageHandler}
+          {!this.state.loading && (
+            <ScrollView>
+              <View style={styles.cardGreen} elevation={5}>
+                <Text
+                  style={{
+                    margin: 15,
+                    fontWeight: "bold",
+                    fontSize: 24,
+                    color: "white"
+                  }}
                 >
+                  Nieuws artikel aanmaken
+                </Text>
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    paddingBottom: 15,
+                    paddingTop: 0,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10
+                  }}
+                >
+                  <Text style={{ marginTop: 10 }}>
+                    Hier kun je een nieuws artikel aanmaken
+                  </Text>
+                  <TextField
+                    textColor="green"
+                    tintColor="green"
+                    baseColor="green"
+                    label="Titel"
+                    value={this.state.title}
+                    onChangeText={title => this.setState({ title })}
+                  />
+
+                  <TextField
+                    textColor="green"
+                    tintColor="green"
+                    baseColor="green"
+                    label="Inhoud"
+                    multiline={true}
+                    numberOfLines={30}
+                    value={this.state.content}
+                    onChangeText={content => this.setState({ content })}
+                  />
+
+                  <TouchableOpacity
+                    style={styles.imgSel}
+                    onPress={this.pickImageHandler}
+                  >
                     <ImageBackground
-                      style={{width: 100, height: 100}}
+                      style={{ width: 100, height: 100 }}
                       source={this.state.pickedImage}
                     >
-                    <View
+                      <View
                         style={{
                           justifyContent: "center",
                           alignItems: "center",
@@ -314,32 +314,32 @@ export default class MakeNewsItem extends Component {
                         }}
                       >
                         <Icon
-                            size={35}
-                            name={"image-plus"}
-                            style={{
-                              color: "white",
-                              alignSelf: "center",
-                              marginTop: "30%"
-                            }}
+                          size={35}
+                          name={"image-plus"}
+                          style={{
+                            color: "white",
+                            alignSelf: "center",
+                            marginTop: "30%"
+                          }}
                         />
-                     </View>
+                      </View>
                     </ImageBackground>
-                </TouchableOpacity>
+                  </TouchableOpacity>
 
-              <Button
-                style={{
-                  container: styles.defaultBtn,
-                  text: { color: "white" }
-                }}
-                raised
-                text="Doorgaan"
-                onPress={() => this.createArticle()}
-              />
-            </View>
-          </View> 
-          </ScrollView>
+                  <Button
+                    style={{
+                      container: styles.defaultBtn,
+                      text: { color: "white" }
+                    }}
+                    raised
+                    text="Doorgaan"
+                    onPress={() => this.createArticle()}
+                  />
+                </View>
+              </View>
+            </ScrollView>
           )}
-        {this.state.loading && (
+          {this.state.loading && (
             <PacmanIndicator color="#94D600" style={{ marginTop: "20%" }} />
           )}
         </View>
