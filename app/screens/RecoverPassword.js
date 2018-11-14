@@ -136,7 +136,7 @@ export default class RecoverPassword extends Component {
               }}
             >
               Ben je je wachtwoord vergeten? Vul hieronder je e-mail adres in en
-              ontvang een nieuw wachtwoord! (Check ook je spam map van je e-mail
+              ontvang een nieuw wachtwoord! (Controleer ook je spam map van je e-mail
               adres!)
             </Text>
             <View
