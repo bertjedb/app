@@ -383,7 +383,8 @@ class Events extends Component {
                               end: item.endFull,
                               content: item.desc,
                               img: item.img,
-                              location: item.location
+                              location: item.location,
+                              author: item.leaderId
                             })
                           }
                         />
