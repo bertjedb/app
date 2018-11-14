@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
-  NetInfo
+  NetInfo,
+  ScrollView
 } from "react-native";
 import styles from "../assets/css/style.js";
 import { showMessage } from "react-native-flash-message";
@@ -116,29 +117,34 @@ export default class MakeEvent extends Component {
           this.state.desc != "" &&
           this.state.pickedImage.uri != ""
         ) {
-          RNFetchBlob.fetch(
-            "POST",
-            "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
-            {
-              //// TODO: Real authorization instead of hardcoded base64 username:password
-              Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
-              "Content-Type": +"image/jpeg",
-              "Content-Disposition": "attachment; filename=hoi.jpg"
-              // here's the body you're going to send, should be a BASE64 encoded string
-              // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-              // The data will be converted to "byte array"(say, blob) before request sent.
-            },
-            RNFetchBlob.wrap(this.state.pickedImage.uri)
-          )
-            .then(res => res.json())
-            .then(responseJson => {
-              this.setState({ img: responseJson["guid"]["raw"] });
-              this.createWPEvent();
-            })
+          if (this.state.onlineImg) {
+            this.createWPEvent();
+          } else {
+            RNFetchBlob.fetch(
+              "POST",
+              "http://gromdroid.nl/bslim/wp-json/wp/v2/media",
+              {
+                //// TODO: Real authorization instead of hardcoded base64 username:password
+                Authorization: "Basic YWRtaW46YnNsaW1faGFuemUh",
+                "Content-Type": +"image/jpeg",
+                "Content-Disposition": "attachment; filename=hoi.jpg"
+                // here's the body you're going to send, should be a BASE64 encoded string
+                // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+                // The data will be converted to "byte array"(say, blob) before request sent.
+              },
+              RNFetchBlob.wrap(this.state.pickedImage.uri)
+            )
+              .then(res => res.json())
+              .then(responseJson => {
+                this.setState({ img: responseJson["guid"]["raw"] });
+                this.createWPEvent();
+              })
 
-            .catch(error => {
-              callBack(error);
-            });
+              .catch(error => {
+                callBack(error);
+              });
+          }
+
           //this.createWPEvent();
           /*
                         let localStorage = LocalStorage.getInstance();
@@ -260,7 +266,8 @@ export default class MakeEvent extends Component {
         } else {
           this.setState({
             pickedImage: { uri: res.uri },
-            imgPicked: true
+            imgPicked: true,
+            onlineImg: false
           });
           ImgToBase64.getBase64String(this.state.pickedImage.uri).then(
             base64String => {
@@ -278,11 +285,18 @@ export default class MakeEvent extends Component {
     this.setState({
       id: this.props.navigation.getParam("id", ""),
       name: this.props.navigation.getParam("title", ""),
+      begin: this.handleBegin(
+        new Date(this.props.navigation.getParam("begin", ""))
+      ),
+      end: this.handleEnd(new Date(this.props.navigation.getParam("end", ""))),
       desc: this.props.navigation
         .getParam("content", "")
         .replace(/<\/?[^>]+(>|$)/g, ""),
       pickedImage: this.props.navigation.getParam("img", ""),
-      query: this.props.navigation.getParam("location", "")
+      query: this.props.navigation.getParam("location", ""),
+      pickedImage: { uri: this.props.navigation.getParam("img", "") },
+      img: this.props.navigation.getParam("img", ""),
+      onlineImg: true
     });
   }
 
@@ -345,165 +359,170 @@ export default class MakeEvent extends Component {
             }
           />
         </LinearGradient>
-        <View style={styles.container}>
-          <View style={styles.cardGreen} elevation={5}>
-            <Text
-              style={{
-                margin: 15,
-                fontWeight: "bold",
-                fontSize: 24,
-                color: "white"
-              }}
-            >
-              Evenementen aanmaken
-            </Text>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingLeft: 15,
-                paddingRight: 15,
-                paddingBottom: 15,
-                paddingTop: 0,
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10
-              }}
-            >
-              <Text style={{ marginTop: 10 }}>
-                Hier kun je nieuwe evenementen aanmaken
-              </Text>
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Naam van evenement"
-                value={this.state.name}
-                onChangeText={name => this.setState({ name })}
-              />
-
-              <TouchableOpacity
-                style={styles.datePick}
-                onPress={() => this.setState({ showBegin: true })}
-              >
-                <Text>Start: {this.state.beginText}</Text>
-              </TouchableOpacity>
-
-              <DateTimePicker
-                isVisible={this.state.showBegin}
-                onConfirm={dateTime => this.handleBegin(dateTime)}
-                onCancel={() => this.hidePicker()}
-                mode={"datetime"}
-              />
-
-              <TouchableOpacity
-                style={styles.datePick}
-                onPress={() => this.setState({ showEnd: true })}
-              >
-                <Text>Eind: {this.state.endText}</Text>
-              </TouchableOpacity>
-
-              <DateTimePicker
-                isVisible={this.state.showEnd}
-                onConfirm={dateTime => this.handleEnd(dateTime)}
-                onCancel={() => this.hidePicker()}
-                mode={"datetime"}
-              />
-              <View style={{ height: 55 }}>
-                <View
-                  style={{
-                    left: 0,
-                    position: "absolute",
-                    right: 0,
-                    top: 0,
-                    zIndex: 2,
-                    overflow: "hidden"
-                  }}
-                >
-                  <Autocomplete
-                    data={this.state.data}
-                    inputContainerStyle={{ borderWidth: 0 }}
-                    listStyle={{
-                      margin: 10,
-                      borderWidth: 0,
-                      height: 125
-                    }}
-                    renderSeparator={() => (
-                      <View
-                        style={{
-                          width: "100%",
-                          height: 1,
-                          backgroundColor: "grey"
-                        }}
-                      />
-                    )}
-                    renderTextInput={() => (
-                      <TextField
-                        textColor="green"
-                        tintColor="green"
-                        baseColor="green"
-                        label="Locatie van evenement"
-                        value={this.state.query}
-                        onChangeText={text => this.findFilm(text)}
-                      />
-                    )}
-                    defaultValue={this.state.query}
-                    renderItem={item => (
-                      <TouchableOpacity
-                        style={{
-                          backgroundColor: "white",
-                          padding: 5,
-                          borderRightWidth: 1,
-                          borderLeftWidth: 1,
-                          borderColor: "grey"
-                        }}
-                        onPress={() =>
-                          this.setState({
-                            query: item.description.replace(", Nederland", ""),
-                            loc: item.place_id,
-                            data: []
-                          })
-                        }
-                      >
-                        <Text style={{ fontSize: 14 }}>
-                          {item.description.replace(", Nederland", "")}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  />
-                </View>
-              </View>
-
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Beschrijving van evenement"
-                value={this.state.desc}
-                multiline={true}
-                numberOfLines={30}
-                onChangeText={desc => this.setState({ desc })}
-              />
-              <TouchableOpacity
-                style={styles.imgSel}
-                onPress={this.pickImageHandler}
-              >
-                <Image
-                  style={{ width: 100, height: 100 }}
-                  source={this.state.pickedImage}
-                />
-              </TouchableOpacity>
-
-              <Button
+        <ScrollView style={{ marginBottom: 56 }}>
+          <View style={styles.container}>
+            <View style={styles.cardGreen} elevation={5}>
+              <Text
                 style={{
-                  container: styles.defaultBtn,
-                  text: { color: "white" }
+                  margin: 15,
+                  fontWeight: "bold",
+                  fontSize: 24,
+                  color: "white"
                 }}
-                raised
-                text="Doorgaan"
-                onPress={() => this.createEvent()}
-              />
+              >
+                Evenementen aanmaken
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  paddingBottom: 15,
+                  paddingTop: 0,
+                  borderBottomLeftRadius: 10,
+                  borderBottomRightRadius: 10
+                }}
+              >
+                <Text style={{ marginTop: 10 }}>
+                  Hier kun je nieuwe evenementen aanmaken
+                </Text>
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Naam van evenement"
+                  value={this.state.name}
+                  onChangeText={name => this.setState({ name })}
+                />
+
+                <TouchableOpacity
+                  style={styles.datePick}
+                  onPress={() => this.setState({ showBegin: true })}
+                >
+                  <Text>Start: {this.state.beginText}</Text>
+                </TouchableOpacity>
+
+                <DateTimePicker
+                  isVisible={this.state.showBegin}
+                  onConfirm={dateTime => this.handleBegin(dateTime)}
+                  onCancel={() => this.hidePicker()}
+                  mode={"datetime"}
+                />
+
+                <TouchableOpacity
+                  style={styles.datePick}
+                  onPress={() => this.setState({ showEnd: true })}
+                >
+                  <Text>Eind: {this.state.endText}</Text>
+                </TouchableOpacity>
+
+                <DateTimePicker
+                  isVisible={this.state.showEnd}
+                  onConfirm={dateTime => this.handleEnd(dateTime)}
+                  onCancel={() => this.hidePicker()}
+                  mode={"datetime"}
+                />
+                <View style={{ height: 55 }}>
+                  <View
+                    style={{
+                      left: 0,
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      zIndex: 2,
+                      overflow: "hidden"
+                    }}
+                  >
+                    <Autocomplete
+                      data={this.state.data}
+                      inputContainerStyle={{ borderWidth: 0 }}
+                      listStyle={{
+                        margin: 10,
+                        borderWidth: 0,
+                        height: 125
+                      }}
+                      renderSeparator={() => (
+                        <View
+                          style={{
+                            width: "100%",
+                            height: 1,
+                            backgroundColor: "grey"
+                          }}
+                        />
+                      )}
+                      renderTextInput={() => (
+                        <TextField
+                          textColor="green"
+                          tintColor="green"
+                          baseColor="green"
+                          label="Locatie van evenement"
+                          value={this.state.query}
+                          onChangeText={text => this.findFilm(text)}
+                        />
+                      )}
+                      defaultValue={this.state.query}
+                      renderItem={item => (
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: "white",
+                            padding: 5,
+                            borderRightWidth: 1,
+                            borderLeftWidth: 1,
+                            borderColor: "grey"
+                          }}
+                          onPress={() =>
+                            this.setState({
+                              query: item.description.replace(
+                                ", Nederland",
+                                ""
+                              ),
+                              loc: item.place_id,
+                              data: []
+                            })
+                          }
+                        >
+                          <Text style={{ fontSize: 14 }}>
+                            {item.description.replace(", Nederland", "")}
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    />
+                  </View>
+                </View>
+
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Beschrijving van evenement"
+                  value={this.state.desc}
+                  multiline={true}
+                  numberOfLines={30}
+                  onChangeText={desc => this.setState({ desc })}
+                />
+                <TouchableOpacity
+                  style={styles.imgSel}
+                  onPress={this.pickImageHandler}
+                >
+                  <Image
+                    style={{ width: 100, height: 100 }}
+                    source={this.state.pickedImage}
+                  />
+                </TouchableOpacity>
+
+                <Button
+                  style={{
+                    container: styles.defaultBtn,
+                    text: { color: "white" }
+                  }}
+                  raised
+                  text="Doorgaan"
+                  onPress={() => this.createEvent()}
+                />
+              </View>
             </View>
           </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
     );
   }
