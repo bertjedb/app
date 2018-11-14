@@ -33,16 +33,18 @@ import { Toolbar } from "react-native-material-ui";
 import Api from "../config/api.js";
 import LocalStorage from "../config/localStorage.js";
 import HTML from "react-native-render-html";
+import VideoPlayer from "react-native-video-controls";
+import Video from "react-native-video";
 
 var capitalize = require("capitalize");
 
 var startNum = 0;
-var endNum = 50;
+var endNum = 10;
 var start = startNum;
 var end = endNum;
 
 var filterOptions = [
-   {
+  {
     icon: (
       <Text style={{ fontWeight: "bold" }}>
         Filter op evenementen met begeleider
@@ -63,11 +65,14 @@ class News extends Component {
       loading: true,
       refreshing: false,
       sleeping: false,
-      data: [],
       slicedArray: [],
       fullArray: []
     };
 
+      startNum = 0;
+      endNum = 10;
+      start = startNum;
+      end = endNum;
     let api = Api.getInstance();
     api.callApi("api/getAllNewsItems", "GET", {}, response => {
       if (response["responseCode"] != 503) {
@@ -90,6 +95,7 @@ class News extends Component {
   componentDidMount() {
     // this.onLoad();
     // this.props.navigation.addListener('willFocus', this.onLoad)
+
   }
 
   errorMessage(msg) {
@@ -137,7 +143,7 @@ class News extends Component {
 
   refresh() {
     startNum = 0;
-    endNum = 50;
+    endNum = 10;
     start = startNum;
     end = endNum;
     if (!this.state.sleeping) {
@@ -176,11 +182,12 @@ class News extends Component {
   handelEnd = () => {
     let api = Api.getInstance();
     if (end <= this.state.fullArray.length) {
-      end += 50;
-      start += 50;
+      end += 10;
+      start += 10;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
         if (response["responseCode"] == 200) {
+          console.log(response['news'].slice(start, end));
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
           });
@@ -188,8 +195,6 @@ class News extends Component {
       });
     }
   };
-
-
 
   render() {
     const Entities = require("html-entities").AllHtmlEntities;
@@ -243,10 +248,10 @@ class News extends Component {
             <FlatList
               data={this.state.data}
               keyExtractor={item => item.title}
-              initialNumToRender={2}
-              // windowSize={2}
-              // maxToRenderPerBatch={4}
-              onEndReachedThreshold={0.6}
+              initialNumToRender={4}
+              windowSize={21}
+              maxToRenderPerBatch={10}
+              onEndReachedThreshold={0.5}
               onEndReached={() => this.handelEnd()}
               contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
               refreshControl={
@@ -254,8 +259,7 @@ class News extends Component {
                   colors={["#94D600"]}
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
-                />
-               }
+                />}
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
@@ -266,9 +270,9 @@ class News extends Component {
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10,
-                          borderTopRightRadius:10,
-                          borderTopLeftRadius:10,
-                       }}
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10
+                      }}
                     >
                       <TouchableHighlight
                         onPress={() =>
@@ -282,13 +286,27 @@ class News extends Component {
                       >
                         <View>
                           <View>
-                            <Image
-                              source={{ uri: item.url }}
-                              resizeMode="cover"
-                              borderTopRightRadius={10}
-                              borderTopLeftRadius={10}
-                              style={{ width: "100%", height: 200 }}
-                            />
+                            {item.url.substring(item.url.length - 3) !=
+                              "mp4" && (
+                              <Image
+                                source={{ uri: item.url }}
+                                resizeMode="cover"
+                                borderTopRightRadius={10}
+                                borderTopLeftRadius={10}
+                                style={{ width: "100%", height: 200 }}
+                              />
+                            )}
+                            {item.url.substring(item.url.length - 3) ==
+                              "mp4" && (
+                              <Video
+                                paused={true}
+                                source={{ uri: item.url }}
+                                resizeMode="cover"
+                                borderTopRightRadius={10}
+                                borderTopLeftRadius={10}
+                                style={{ width: "100%", height: 200 }}
+                              />
+                            )}
                             <View
                               style={{
                                 flex: 1,
@@ -362,7 +380,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginBottom: 15,
+    marginBottom: 15
   },
 
   card: {

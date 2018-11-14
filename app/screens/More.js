@@ -205,6 +205,26 @@ export default class More extends Component {
                     icon: (
                       <Icon
                         size={25}
+                        name={"assistant"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Aanmeldingen",
+                    key: "67",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "signInListStack",
+                          action: NavigationActions.navigate({
+                            routeName: "signInView"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
                         name={"email"}
                         style={{ color: "grey" }}
                       />
@@ -265,26 +285,6 @@ export default class More extends Component {
                     icon: (
                       <Icon
                         size={25}
-                        name={"assistant"}
-                        style={{ color: "grey" }}
-                      />
-                    ),
-                    value: "Aanmeldingen",
-                    key: "67",
-                    onPress: () =>
-                      this.props.navigation.dispatch(
-                        NavigationActions.navigate({
-                          routeName: "signInListStack",
-                          action: NavigationActions.navigate({
-                            routeName: "signInView"
-                          })
-                        })
-                      )
-                  },
-                  {
-                    icon: (
-                      <Icon
-                        size={25}
                         name={"message-alert-outline"}
                         style={{ color: "grey" }}
                       />
@@ -307,9 +307,7 @@ export default class More extends Component {
                     value: "Uitloggen",
                     key: "8",
                     onPress: () =>
-                      api.callApi(
-                        "logout",
-                        "POST",
+                      api.callApi("logout", "POST",
                         {
                           id: this.state.userId
                         },
@@ -479,6 +477,7 @@ export default class More extends Component {
                       )
                   },
                   {
+                      //admin
                     icon: "power-settings-new",
                     value: "Uitloggen",
                     key: "15",

@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-measure-text')
     compile project(':react-native-fbsdk')
     compile project(':rn-fetch-blob')
     compile project(':react-native-video')
