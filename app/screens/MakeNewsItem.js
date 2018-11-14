@@ -72,7 +72,9 @@ export default class MakeNewsItem extends Component {
       .then(response => response.text())
       .then(responseText => {
         alert("Nieuw artikel succesvol aangemaakt");
+
         this.props.navigation.dispatch(NavigationActions.back());
+        this.setState({ loading: false });
       })
       .catch(error => {
         console.error(error);
@@ -80,6 +82,8 @@ export default class MakeNewsItem extends Component {
   }
 
   createArticle() {
+    this.setState({ loading: true });
+
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {
         if (

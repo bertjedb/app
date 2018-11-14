@@ -97,12 +97,12 @@ export default class MakeEvent extends Component {
     })
       .then(response => response.text())
       .then(responseText => {
+        this.props.navigation.dispatch(NavigationActions.back());
         this.setState({ loading: false });
       })
       .catch(error => {
         console.error(error);
       });
-    this.setState({ loading: false });
   }
 
   createEvent() {
@@ -147,15 +147,6 @@ export default class MakeEvent extends Component {
             .then(responseJson => {
               this.setState({ img: responseJson["guid"]["raw"] });
               this.createWPEvent();
-              this.setState({
-                loading: false,
-                name: "",
-                begin: "",
-                end: "",
-                query: "",
-                desc: "",
-                pickedImage: { uri: "" }
-              });
             })
 
             .catch(error => {

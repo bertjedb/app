@@ -406,11 +406,17 @@ class Events extends Component {
                                 {
                                   text: "OK",
                                   onPress: () => {
+                                    this.setState({ loading: true });
                                     fetch(
                                       "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
-                                        item.id
-                                    );
-                                    this._onRefresh();
+                                        item.id,
+                                      {
+                                        method: "GET"
+                                      }
+                                    ).then(response => {
+                                      this.setState({ loading: false });
+                                      this._onRefresh();
+                                    });
                                   }
                                 }
                               ],
