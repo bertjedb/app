@@ -76,24 +76,30 @@ class Events extends Component {
                 personId: id
               };
               api.callApi("api/checkSub", "POST", userData, response => {
-                let subEvents = response["subEvents"];
-                for (let index = 0; index < subEvents.length; index++) {
-                  for (event of array) {
-                    if (event.id == subEvents[index].id) {
-                      event.subscribed = true;
-                    } else {
-                      event.subscribed = false;
-                    }
-                  }
-                }
-              });
-            }
-            this.setState({
-              refreshing: false,
-              loading: false,
-              data: array.slice(start, end),
-              fullArray: array
-            });
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
+  	  							}
+  	  						}
+  	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
+					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
+				}
           });
         }
       } else {
@@ -147,23 +153,30 @@ class Events extends Component {
                   personId: id
                 };
                 api.callApi("api/checkSub", "POST", userData, response => {
-                  let subEvents = response["subEvents"];
-                  for (let index = 0; index < subEvents.length; index++) {
-                    for (event of array) {
-                      if (event.id == subEvents[index].id) {
-                        event.subscribed = true;
-                      } else {
-                        event.subscribed = false;
-                      }
-                    }
-                  }
-                });
-              }
-              this.setState({
-                refreshing: false,
-                loading: false,
-                data: array.slice(start, end)
-              });
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
+  	  							}
+  	  						}
+  	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
+					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
+				}
             });
           }
         }
@@ -190,23 +203,30 @@ class Events extends Component {
                 personId: id
               };
               api.callApi("api/checkSub", "POST", userData, response => {
-                let subEvents = response["subEvents"];
-                for (let index = 0; index < subEvents.length; index++) {
-                  for (event of array) {
-                    if (event.id == subEvents[index].id) {
-                      event.subscribed = true;
-                    } else {
-                      event.subscribed = false;
-                    }
-                  }
-                }
-              });
-            }
-            this.setState({
-              refreshing: false,
-              loading: false,
-              data: array.slice(start, end)
-            });
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
+  	  							}
+  	  						}
+  	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
+					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
+				}
           });
         }
         this.setState({
@@ -573,8 +593,9 @@ class Events extends Component {
                                     userData,
                                     response => {
                                       if (response["responseCode"] == 200) {
-                                        alert(
-                                          "Je hebt je aangemeld voor dit evenement"
+                                        Alert.alert(
+                                        	"Successvol aangemeld",
+                                          	"Je hebt je aangemeld voor dit evenement"
                                         );
                                         this.refresh();
                                       } else if (
@@ -625,8 +646,9 @@ class Events extends Component {
                                     userData,
                                     response => {
                                       if (response["responseCode"] == 200) {
-                                        alert(
-                                          "Je hebt je afgemeld voor dit evenement"
+                                        Alert.alert(
+                                        	"Successvol afgemeld",
+                                          	"Je hebt je afgemeld voor dit evenement"
                                         );
                                         this.refresh();
                                       } else if (
