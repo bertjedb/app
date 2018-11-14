@@ -27,7 +27,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 var capitalize = require("capitalize");
 var startNum = 0;
-var endNum = 50;
+var endNum = 10;
 var start = startNum;
 var end = endNum;
 
@@ -132,7 +132,7 @@ class Events extends Component {
 
   refresh() {
     startNum = 0;
-    endNum = 50;
+    endNum = 10;
     start = startNum;
     end = endNum;
     if (!this.state.sleeping) {
@@ -223,8 +223,8 @@ class Events extends Component {
   handelEnd = () => {
     api = Api.getInstance();
     if (end <= this.state.fullArray.length) {
-      end += 50;
-      start += 50;
+      end += 10;
+      start += 10;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllEvents", "POST", {}, response => {
         if (response["responseCode"] != 503) {
@@ -297,7 +297,7 @@ class Events extends Component {
               keyExtractor={(item, index) => "" + item.id}
               initialNumToRender={4}
               windowSize={21}
-              // maxToRenderPerBatch={4}
+              maxToRenderPerBatch={10}
               onEndReachedThreshold={0.5}
               onEndReached={() => this.handelEnd()}
               contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
