@@ -42,6 +42,7 @@ import ImageSlider from "react-native-image-slider";
 import { PacmanIndicator } from "react-native-indicators";
 import Video from "react-native-video";
 import ImageOverlay from "react-native-image-overlay";
+import VideoPlayer from "react-native-video-controls";
 
 import {
   COLOR,
@@ -191,13 +192,11 @@ class NewsDetail extends Component {
         style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
       >
         <Animated.View
-          style={[
-            styles.header,
-            { transform: [{ translateY: headerTranslate }] }
-          ]}
+          style={[styles.header, { transform: [{ translateY: 0 }] }]}
         >
           <Animated.View
             style={[
+
               styles.header,
               {
                 transform: [
@@ -208,18 +207,32 @@ class NewsDetail extends Component {
               }
             ]}
           >
-            <ImageOverlay
-              overlayColor="black"
-              overlayAlpha={0.3}
-              source={{ uri: img }}
-              resizeMode="cover"
-              containerStyle={{ width: "100%", height: 200 }}
-            />
+            {img.substring(img.length - 3) == "mp4" && (
+              <View
+                style={{
+                  width: "100%",
+                  height: 200,
+                  backgroundColor: "#94d600"
+                }}
+              />
+            )}
+            {img.substring(img.length - 3) != "mp4" && (
+              <ImageOverlay
+                overlayColor="black"
+                overlayAlpha={0.3}
+                source={{ uri: img }}
+                resizeMode="cover"
+                containerStyle={{ width: "100%", height: 200 }}
+              />
+            )}
+
             <Animated.View
               style={{
                 position: "absolute",
-                top: 150,
+                top: 190 - this.state.height,
                 left: 15,
+
+
                 opacity: this.state.scrollY.interpolate({
                   inputRange: [0, 80],
                   outputRange: [1, 0]
@@ -228,6 +241,9 @@ class NewsDetail extends Component {
             >
               <Text
                 style={{ fontSize: 28, fontWeight: "bold", color: "white" }}
+                onLayout={event => {
+                  this.setState({ height: event.nativeEvent.layout.height });
+                }}
               >
                 {title}
               </Text>
@@ -299,7 +315,7 @@ class NewsDetail extends Component {
               styles.card,
               {
                 transform: [
-                  {
+                   {
                     translateX: this.state.x2
                   }
                 ]
@@ -316,6 +332,13 @@ class NewsDetail extends Component {
               html={content}
               imagesMaxWidth={Dimensions.get("window").width}
             />
+            {img.substring(img.length - 3) == "mp4" && (
+              <VideoPlayer
+                style={{ width: "100%", height: 400 }}
+                source={{ uri: img }}
+                navigator={this.props.navigator}
+              />
+            )}
           </Animated.View>
         </Animated.ScrollView>
       </View>
@@ -327,19 +350,19 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
     width: Dimensions.get("window").width,
     paddingTop: 150
-  },
+    },
 
   card: {
     backgroundColor: "white",
     margin: 10,
+      height: Dimensions.get("window").height -310,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
-
     // android (Android +5.0)
     elevation: 3
-  },
+    },
 
   headerTitle: {
     height: Header.HEIGHT,

@@ -37,6 +37,7 @@ import FBSDK, {
   GraphRequestManager,
   AccessToken
 } from "react-native-fbsdk";
+import * as Snackbar from "react-native-snackbar";
 
 const uiTheme = {
   palette: {
@@ -57,21 +58,12 @@ class LoginScreen extends Component {
       password: "",
       succesfull: false
     };
-   }
+  }
 
   componentWillUnmount() {
     if (true) {
-      Snackbar.show({
-        title: "Login succesvol!",
-        duration: Snackbar.LENGTH_LONG,
-        action: {
-          title: "OK",
-          color: "green",
-          onPress: () => {
-            /* Do something. */
-          }
-        }
-      });
+     // hier kan een succes message komen voor inloggen.
+    // maar je word ook al geredirect.
     }
   }
 
@@ -81,7 +73,15 @@ class LoginScreen extends Component {
       type: "danger",
       duration: 2500
     });
-  }
+   }
+    successMessage(msg) {
+        showMessage({
+            message: msg,
+            type: "success",
+            duration: 5000
+        });
+    }
+
 
   setUser(value, id, clearance, wordpresskey) {
     console.log("hallo");
@@ -254,10 +254,11 @@ class LoginScreen extends Component {
                 color: "white"
               }}
             >
-              Inloggen
+              Inloggen op je account
             </Text>
             <View
               style={{
+                height: "100%",
                 backgroundColor: "white",
                 paddingLeft: 15,
                 paddingRight: 15,
@@ -267,68 +268,88 @@ class LoginScreen extends Component {
                 borderBottomRightRadius: 10
               }}
             >
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Email adres"
-                autoCapitalize="none"
-                value={this.state.email}
-                onChangeText={email => this.setState({ email })}
-            />
-              <TextField
-                textColor="green"
-                tintColor="green"
-                baseColor="green"
-                label="Wachtwoord"
-                secureTextEntry={true}
-                value={this.state.password}
-                onChangeText={password => this.setState({ password })}
-              />
+              <View style={{ marginBottom: 15 }}>
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Email adres"
+                  autoCapitalize="none"
+                  value={this.state.email}
+                  onChangeText={email => this.setState({ email })}
+                />
+                <TextField
+                  textColor="green"
+                  tintColor="green"
+                  baseColor="green"
+                  label="Wachtwoord"
+                  secureTextEntry={true}
+                  value={this.state.password}
+                  onChangeText={password => this.setState({ password })}
+                />
+              </View>
+              <TouchableOpacity
+                style={{ marginBottom: 10, alignSelf: "flex-end" }}
+                onPress={() =>
+                  this.props.navigation.navigate("RecoverPassword")
+                }
+              >
+                <Text>Wachtwoord vergeten?</Text>
+              </TouchableOpacity>
               <Button
                 style={{
                   container: stylesCss.loginBtn,
                   text: { color: "white" }
                 }}
-                raised
-                text="Doorgaan"
+                text="Inloggen"
                 onPress={() => this.login()}
               />
-              <TouchableOpacity
-                onPress={() => this.fbAuth()}
-                style={stylesCss.facebookBtn}
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginTop: 20,
+                  alignItems: "center"
+                }}
               >
-                <Image
-                  source={require("../assets/fbLogo.png")}
-                  resizeMode="cover"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: 10,
-                    marginRight: "20%"
-                  }}
+                <View
+                  style={{ backgroundColor: "black", height: 1, width: "45%" }}
                 />
 
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: "white",
-                    alignSelf: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  Login met Facebook
-                </Text>
+                <Text style={{ width: "10%" }}> Of </Text>
+                <View
+                  style={{ backgroundColor: "black", height: 1, width: "45%" }}
+                />
+              </View>
+              <TouchableOpacity onPress={() => this.fbAuth()}>
+                <View style={stylesCss.facebookBtn}>
+                  <Image
+                    source={require("../assets/fbLogo.png")}
+                    resizeMode="cover"
+                    style={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: 10,
+                      marginRight: "20%"
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "white",
+                      alignSelf: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    Login met Facebook
+                  </Text>
+                </View>
               </TouchableOpacity>
-              <Button
-                style={{
-                  container: stylesCss.defaultBtn,
-                  text: { color: "white" }
-                }}
-                raised
-                text="Nog geen account? Registreer nu!"
+              <TouchableOpacity
+                style={{ marginBottom: 25, marginTop: 10 }}
                 onPress={() => this.props.navigation.navigate("Registration")}
-              />
+              >
+                <Text>Nog geen account? Meld je aan!</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -339,12 +360,12 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center"
+    marginTop: "10%",
+    flex: 1
   },
   card: {
     backgroundColor: "#93D500",
-    height: 270,
+    height: "75%",
     margin: 10,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },

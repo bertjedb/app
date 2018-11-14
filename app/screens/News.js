@@ -33,6 +33,8 @@ import { Toolbar } from "react-native-material-ui";
 import Api from "../config/api.js";
 import LocalStorage from "../config/localStorage.js";
 import HTML from "react-native-render-html";
+import VideoPlayer from "react-native-video-controls";
+import Video from "react-native-video";
 
 var capitalize = require("capitalize");
 
@@ -42,7 +44,7 @@ var start = startNum;
 var end = endNum;
 
 var filterOptions = [
-   {
+  {
     icon: (
       <Text style={{ fontWeight: "bold" }}>
         Filter op evenementen met begeleider
@@ -189,8 +191,6 @@ class News extends Component {
     }
   };
 
-
-
   render() {
     const Entities = require("html-entities").AllHtmlEntities;
     const entities = new Entities();
@@ -255,7 +255,7 @@ class News extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                 />
-               }
+              }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>
@@ -265,8 +265,10 @@ class News extends Component {
                         backgroundColor: "white",
                         paddingBottom: 0,
                         borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10
-                       }}
+                        borderBottomRightRadius: 10,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10
+                      }}
                     >
                       <TouchableHighlight
                         onPress={() =>
@@ -280,13 +282,27 @@ class News extends Component {
                       >
                         <View>
                           <View>
-                            <Image
-                              source={{ uri: item.url }}
-                              resizeMode="cover"
-                              borderTopRightRadius={10}
-                              borderTopLeftRadius={10}
-                              style={{ width: "100%", height: 200 }}
-                            />
+                            {item.url.substring(item.url.length - 3) !=
+                              "mp4" && (
+                              <Image
+                                source={{ uri: item.url }}
+                                resizeMode="cover"
+                                borderTopRightRadius={10}
+                                borderTopLeftRadius={10}
+                                style={{ width: "100%", height: 200 }}
+                              />
+                            )}
+                            {item.url.substring(item.url.length - 3) ==
+                              "mp4" && (
+                              <Video
+                                paused={true}
+                                source={{ uri: item.url }}
+                                resizeMode="cover"
+                                borderTopRightRadius={10}
+                                borderTopLeftRadius={10}
+                                style={{ width: "100%", height: 200 }}
+                              />
+                            )}
                             <View
                               style={{
                                 flex: 1,
@@ -366,6 +382,7 @@ const styles = StyleSheet.create({
   card: {
     color: "rgba(52, 52, 52, 1.0)",
     margin: 10,
+
     marginBottom: 10,
     // android (Android +5.0)
     elevation: 3

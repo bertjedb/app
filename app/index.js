@@ -16,12 +16,12 @@ import {
 import LocalStorage from "./config/localStorage.js";
 import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
 import LinearGradient from "react-native-linear-gradient";
-import { Header,DrawerActions, NavigationActions } from "react-navigation";
+import { Header, DrawerActions, NavigationActions } from "react-navigation";
 import OneSignal from "react-native-onesignal";
 import { PacmanIndicator } from "react-native-indicators";
 import FlashMessage from "react-native-flash-message";
-import Onboarding from 'react-native-onboarding-swiper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Onboarding from "react-native-onboarding-swiper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 // you can set your style right here, it'll be propagated to application
 const uiTheme = {
@@ -42,7 +42,7 @@ class App extends Component {
       userId: null,
       loading: true,
       firstLaunch: false,
-      clearance: null,
+      clearance: null
     };
     console.disableYellowBox = true;
     this.update()
@@ -56,7 +56,7 @@ class App extends Component {
   componentWillUnmount() {
     OneSignal.removeEventListener("ids", this.onIds);
     clearTimeout(this.timeoutHandle);
-    clearInterval(this.interval)
+    clearInterval(this.interval);
   }
 
   onIds(device) {
@@ -67,8 +67,8 @@ class App extends Component {
       this.setState({ loading: false });
     }, 100);
     this.interval = setInterval(() => {
-        this.update()
-    }, 1000)
+      this.update();
+    }, 1000);
   }
 
   update() {
@@ -98,61 +98,106 @@ class App extends Component {
 
   render() {
     return (
-            <SafeAreaView style={{flex: 1}}>
-                <StatusBar
-                    backgroundColor="#76AB00"
-                    barStyle="light-content"
-                />
-                {!this.state.loading && (
-                    <ThemeContext.Provider value={getTheme(uiTheme)}>
-                        {!this.state.loggedIn && !this.state.firstLaunch && <MyAppNotLoggedIn />}
-                        {this.state.loggedIn && this.state.clearance == 1 && !this.state.firstLaunch && <MyAppLoggedInAdmin />}
-                        {this.state.loggedIn && this.state.clearance == 0 && !this.state.firstLaunch && <MyAppLoggedInUser />}
-                        {this.state.firstLaunch && (
-                            <Onboarding
-                                onDone={() => {AsyncStorage.setItem('alreadyLaunched', true); this.setState({firstLaunch: false})}}
-                                onSkip={() => {AsyncStorage.setItem('alreadyLaunched', true); this.setState({firstLaunch: false})}}
-                                transitionAnimationDuration={250}
-                                pages={[
-                                {
-                                   backgroundColor: '#8bc34a',
-                                   image: <Image style={{height: '100%', width: '75%'}} resizeMode='contain' source={require('./assets/logo.png')} />,
-                                   title: 'Bslim',
-                                   subtitle: 'De meest geweldige app voor de sportende jeugd.',
-                                },
-                                {
-                                   backgroundColor: '#8bc34a',
-                                   image: <Icon size={120} name={ 'calendar-range' } style={{ color: 'white' }} />,
-                                   title: 'Evenementen',
-                                   subtitle: 'Op de evenementen pagina zie je alle evenementen die Bslim organiseert.',
-                                },
-                                {
-                                   backgroundColor: '#8bc34a',
-                                   image: <Icon size={120} name={ 'account' } style={{ color: 'white' }} />,
-                                   title: 'Inloggen',
-                                   subtitle: 'Door op onze app in te loggen kun je stempels verzamelen bij elk Bslim evenement.',
-                                },
-                                {
-                                   backgroundColor: '#8bc34a',
-                                   image: <Icon size={120} name={ 'bell' } style={{ color: 'white' }} />,
-                                   title: 'Notificaties',
-                                   subtitle: 'Dankzij de notificaties blijf je altijd op de hoogte.',
-                                }
-                                ]}
-                            />
-                        )}
-                    </ThemeContext.Provider>
-                )}
-                {this.state.loading &&
-                    <View style={{justifyContent: 'center', alignItems: 'center', width: Dimensions.get('window').width, height: Dimensions.get('window').height, backgroundColor: '#94D600'}}>
-                        <Image  style = {{width: 350, height: 225, marginTop: 100}}
-                                source = {require('./assets/logo.png')}/>
-                        <PacmanIndicator color='white'  />
-                    </View>
-                }
-                <FlashMessage position="top" style={{marginTop: Header.HEIGHT}}/>
-            </SafeAreaView>
-    	);
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar backgroundColor="#76AB00" barStyle="light-content" />
+        {!this.state.loading && (
+          <ThemeContext.Provider value={getTheme(uiTheme)}>
+            {!this.state.loggedIn &&
+              !this.state.firstLaunch && <MyAppNotLoggedIn />}
+            {this.state.loggedIn &&
+              this.state.clearance == 1 &&
+              !this.state.firstLaunch && <MyAppLoggedInAdmin />}
+            {this.state.loggedIn &&
+              this.state.clearance == 0 &&
+              !this.state.firstLaunch && <MyAppLoggedInUser />}
+            {this.state.firstLaunch && (
+              <Onboarding
+                onDone={() => {
+                  AsyncStorage.setItem("alreadyLaunched", true);
+                  this.setState({ firstLaunch: false });
+                }}
+                onSkip={() => {
+                  AsyncStorage.setItem("alreadyLaunched", true);
+                  this.setState({ firstLaunch: false });
+                }}
+                transitionAnimationDuration={250}
+                pages={[
+                  {
+                    backgroundColor: "#8bc34a",
+                    image: (
+                      <Image
+                        style={{ height: "100%", width: "75%" }}
+                        resizeMode="contain"
+                        source={require("./assets/logo.png")}
+                      />
+                    ),
+                    title: "Bslim",
+                    subtitle: "De meest geweldige app voor de sportende jeugd."
+                  },
+                  {
+                    backgroundColor: "#8bc34a",
+                    image: (
+                      <Icon
+                        size={120}
+                        name={"calendar-range"}
+                        style={{ color: "white" }}
+                      />
+                    ),
+                    title: "Evenementen",
+                    subtitle:
+                      "Op de evenementen pagina zie je alle evenementen die Bslim organiseert."
+                  },
+                  {
+                    backgroundColor: "#8bc34a",
+                    image: (
+                      <Icon
+                        size={120}
+                        name={"account"}
+                        style={{ color: "white" }}
+                      />
+                    ),
+                    title: "Inloggen",
+                    subtitle:
+                      "Door op onze app in te loggen kun je stempels verzamelen bij elk Bslim evenement."
+                  },
+                  {
+                    backgroundColor: "#8bc34a",
+                    image: (
+                      <Icon
+                        size={120}
+                        name={"bell"}
+                        style={{ color: "white" }}
+                      />
+                    ),
+                    title: "Notificaties",
+                    subtitle:
+                      "Dankzij de notificaties blijf je altijd op de hoogte."
+                  }
+                ]}
+              />
+            )}
+          </ThemeContext.Provider>
+        )}
+        {this.state.loading && (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              width: Dimensions.get("window").width,
+              height: Dimensions.get("window").height,
+              backgroundColor: "#94D600"
+            }}
+          >
+            <Image
+              style={{ width: 350, height: 225, marginTop: 100 }}
+              source={require("./assets/logo.png")}
+            />
+            <PacmanIndicator color="white" />
+          </View>
+        )}
+        <FlashMessage position="top" style={{ marginTop: Header.HEIGHT }} />
+      </SafeAreaView>
+    );
   }
 }
 
