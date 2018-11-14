@@ -127,11 +127,7 @@ class LoginScreen extends Component {
                 response["wordpresskey"]
               );
             } else {
-              if (response != null) {
-                this.errorMessage(response["msg"]);
-              } else {
-                this.errorMessage("Kan geen verbinding maken met server");
-              }
+              this.errorMessage(response["msg"]);
             }
           } else {
             this.errorMessage(
