@@ -45,6 +45,7 @@ class App extends Component {
       clearance: null,
     };
     console.disableYellowBox = true;
+    this.update()
   }
 
   componentWillMount() {
@@ -84,15 +85,15 @@ class App extends Component {
         }
         localStorage.retrieveItem("clearance").then(clearance => {
             this.setState({clearance: clearance})
+            localStorage.retrieveItem("alreadyLaunched").then(value => {
+            if(value == null) {
+                //first time launched
+                this.setState({firstLaunch: true})
+                localStorage.storeItem("alreadyLaunched", true)
+              }
+            })
         })
       })
-    localStorage.retrieveItem("alreadyLaunched").then(value => {
-      if(value == null) {
-          //first time launched
-          this.setState({firstLaunch: true})
-          localStorage.storeItem("alreadyLaunched", true)
-      }
-    })
   }
 
   render() {
