@@ -209,13 +209,14 @@ class Events extends Component {
               data: array.slice(start, end)
             });
           });
+        } else {
+          this.setState({
+            loading: false
+          });
+          this.errorMessage(
+            'Er is niks gevonden voor "' + this.state.search + '"'
+          );
         }
-        this.setState({
-          data: array
-        });
-        this.errorMessage(
-          'Er is niks gevonden voor "' + this.state.search + '"'
-        );
       }
     });
   }
