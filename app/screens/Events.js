@@ -59,6 +59,12 @@ class Events extends Component {
       personList: []
     };
 
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem("clearance").then(clearance => {
+      this.setState({ clearance: clearance });
+      console.log(clearance);
+    });
+
     let api = Api.getInstance();
     api.callApi("api/getAllEvents", "POST", {}, response => {
       if (response["responseCode"] != 503) {
@@ -360,51 +366,55 @@ class Events extends Component {
                           {item.created}
                         </Text>
                       </View>
-                      <Icon
-                        size={25}
-                        name={"pencil"}
-                        style={{ color: "grey" }}
-                        marginRight={10}
-                        onPress={() =>
-                          this.props.navigation.navigate("UpdateEvent", {
-                            id: item.id,
-                            title: capitalize.words(
-                              item.name.toString().replace(", ,", " ")
-                            ),
-                            content: item.desc,
-                            img: item.img,
-                            location: item.location
-                          })
-                        }
-                      />
-                      <Icon
-                        size={25}
-                        name={"delete-forever"}
-                        style={{ color: "red" }}
-                        onPress={() =>
-                          Alert.alert(
-                            "Verwijderen",
-                            "Weet u zeker dat u dit event wil verwijderen?",
-                            [
-                              {
-                                text: "Annuleren",
-                                onPress: () => console.log("Cancel Pressed!")
-                              },
-                              {
-                                text: "OK",
-                                onPress: () => {
-                                  fetch(
-                                    "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
-                                      item.id
-                                  );
-                                  this._onRefresh();
+                      {this.state.clearance == 1 && (
+                        <Icon
+                          size={25}
+                          name={"pencil"}
+                          style={{ color: "grey" }}
+                          marginRight={10}
+                          onPress={() =>
+                            this.props.navigation.navigate("UpdateEvent", {
+                              id: item.id,
+                              title: capitalize.words(
+                                item.name.toString().replace(", ,", " ")
+                              ),
+                              content: item.desc,
+                              img: item.img,
+                              location: item.location
+                            })
+                          }
+                        />
+                      )}
+                      {this.state.clearance == 1 && (
+                        <Icon
+                          size={25}
+                          name={"delete-forever"}
+                          style={{ color: "red" }}
+                          onPress={() =>
+                            Alert.alert(
+                              "Verwijderen",
+                              "Weet u zeker dat u dit event wil verwijderen?",
+                              [
+                                {
+                                  text: "Annuleren",
+                                  onPress: () => console.log("Cancel Pressed!")
+                                },
+                                {
+                                  text: "OK",
+                                  onPress: () => {
+                                    fetch(
+                                      "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
+                                        item.id
+                                    );
+                                    this._onRefresh();
+                                  }
                                 }
-                              }
-                            ],
-                            { cancelable: false }
-                          )
-                        }
-                      />
+                              ],
+                              { cancelable: false }
+                            )
+                          }
+                        />
+                      )}
                     </View>
                     <View
                       style={{

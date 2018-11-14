@@ -5,7 +5,8 @@ import {
   Text,
   ImageBackground,
   NetInfo,
-  Dimensions
+  Dimensions,
+  Alert
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Toolbar, Button } from "react-native-material-ui";

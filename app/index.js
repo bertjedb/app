@@ -16,7 +16,7 @@ import {
 import LocalStorage from "./config/localStorage.js";
 import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
 import LinearGradient from "react-native-linear-gradient";
-import { Header } from "react-navigation";
+import { Header, DrawerActions, NavigationActions } from "react-navigation";
 import OneSignal from "react-native-onesignal";
 import { PacmanIndicator } from "react-native-indicators";
 import FlashMessage from "react-native-flash-message";
@@ -55,6 +55,7 @@ class App extends Component {
   componentWillUnmount() {
     OneSignal.removeEventListener("ids", this.onIds);
     clearTimeout(this.timeoutHandle);
+    clearInterval(this.interval);
   }
 
   onIds(device) {
@@ -64,58 +65,27 @@ class App extends Component {
     this.timeoutHandle = setTimeout(() => {
       this.setState({ loading: false });
     }, 100);
-
-    let localStorage = LocalStorage.getInstance();
-    localStorage
-      .retrieveItem("userId")
-      .then(id => {
-        console.log(id);
-        if (id != null) {
-          this.setState({
-            loggedIn: true
-          });
-        } else {
-          this.setState({
-            loggedIn: false
-          });
-        }
-        localStorage
-          .retrieveItem("clearance")
-          .then(clr => {
-            this.setState({
-              clearance: clr
-            });
-          })
-          .catch(error => {
-            //this callback is executed when your Promise is rejected
-            console.log("Promise is rejected with error: OH BOII" + error);
-          });
-      })
-      .catch(error => {
-        //this callback is executed when your Promise is rejected
-        console.log("Promise is rejected with error: OH BOII" + error);
-      });
+    this.interval = setInterval(() => {
+      this.update();
+    }, 1000);
   }
 
   update() {
     let localStorage = LocalStorage.getInstance();
-    localStorage
-      .retrieveItem("userId")
-      .then(id => {
-        if (id != null) {
-          this.setState({
-            loggedIn: true
-          });
-        } else {
-          this.setState({
-            loggedIn: false
-          });
-        }
-      })
-      .catch(error => {
-        //this callback is executed when your Promise is rejected
-        console.log("Promise is rejected with error: OH BOII" + error);
+    localStorage.retrieveItem("userId").then(id => {
+      if (id != null) {
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        this.setState({
+          loggedIn: false
+        });
+      }
+      localStorage.retrieveItem("clearance").then(clearance => {
+        this.setState({ clearance: clearance });
       });
+    });
     localStorage.retrieveItem("alreadyLaunched").then(value => {
       if (value == null) {
         //first time launched
@@ -129,7 +99,6 @@ class App extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar backgroundColor="#76AB00" barStyle="light-content" />
-        {this.update()}
         {!this.state.loading && (
           <ThemeContext.Provider value={getTheme(uiTheme)}>
             {!this.state.loggedIn &&

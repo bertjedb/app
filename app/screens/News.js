@@ -382,6 +382,7 @@ const styles = StyleSheet.create({
   card: {
     color: "rgba(52, 52, 52, 1.0)",
     margin: 10,
+
     marginBottom: 10,
     // android (Android +5.0)
     elevation: 3
