@@ -205,6 +205,26 @@ export default class More extends Component {
                     icon: (
                       <Icon
                         size={25}
+                        name={"assistant"}
+                        style={{ color: "grey" }}
+                      />
+                    ),
+                    value: "Aanmeldingen",
+                    key: "67",
+                    onPress: () =>
+                      this.props.navigation.dispatch(
+                        NavigationActions.navigate({
+                          routeName: "signInListStack",
+                          action: NavigationActions.navigate({
+                            routeName: "signInView"
+                          })
+                        })
+                      )
+                  },
+                  {
+                    icon: (
+                      <Icon
+                        size={25}
                         name={"email"}
                         style={{ color: "grey" }}
                       />
@@ -257,26 +277,6 @@ export default class More extends Component {
                           routeName: "LoginStack",
                           action: NavigationActions.navigate({
                             routeName: "ChangePassword"
-                          })
-                        })
-                      )
-                  },
-                  {
-                    icon: (
-                      <Icon
-                        size={25}
-                        name={"assistant"}
-                        style={{ color: "grey" }}
-                      />
-                    ),
-                    value: "Aanmeldingen",
-                    key: "67",
-                    onPress: () =>
-                      this.props.navigation.dispatch(
-                        NavigationActions.navigate({
-                          routeName: "signInListStack",
-                          action: NavigationActions.navigate({
-                            routeName: "signInView"
                           })
                         })
                       )
