@@ -34,11 +34,11 @@ export default class Registration extends Component {
     // the user to type their password twice to avoid typing errors
     //the 'succesfull' state variable is used to display the snackbar when logged in
     this.state = {
-      email: "",
-      firstPassword: "",
-      secondPassword: "",
-      firstName: "",
-      lastName: "",
+      email: "bb@bb.nl",
+      firstPassword: "123456",
+      secondPassword: "123456",
+      firstName: "Bërt",
+      lastName: "De Boër",
       succesfull: false
     };
   }
@@ -80,11 +80,15 @@ export default class Registration extends Component {
     }
 
     // special chars check
-    else if (/^[a-zA-Z0-9]*$/.test(this.state.firstName) == false) {
+    else if (
+      /^[A-Za-z\u00C0-\u017F\.\- -]+$/i.test(this.state.firstName) == false
+    ) {
       this.errorMessage(
         "Gebruik alstublieft geen speciale karakters in uw naam!"
       );
-    } else if (/^[a-zA-Z0-9]*$/.test(this.state.lastName) == false) {
+    } else if (
+      /^[A-Za-z\u00C0-\u017F\.\- -]+$/i.test(this.state.lastName) == false
+    ) {
       this.errorMessage(
         "Gebruik alstublieft geen speciale karakters in uw naam!"
       );
