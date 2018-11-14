@@ -511,7 +511,7 @@ class ParticipantListDetail extends Component {
                 >
                   <View style={[styles.listItem]}>
                     <Text style={styles.text}>
-                      {capitalize.words(item.name)}
+                      {capitalize.words(item.name)} |
                     </Text>
                     <Text style={styles.points}> Stempels : {item.points}</Text>
                   </View>
