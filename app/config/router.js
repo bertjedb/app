@@ -449,7 +449,7 @@ export const MyTabLoggedInAdmin = TabNavigator(
         tabBarLabel: "Deelnemers beheren",
         tabBarIcon: (
           <Image
-            style={{ width: 28, height: 30 }}
+            style={{ width: 28, height: 28 }}
             source={require("../assets/icons/Deelnemers.png")}
           />
         )
