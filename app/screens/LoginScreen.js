@@ -62,8 +62,8 @@ class LoginScreen extends Component {
 
   componentWillUnmount() {
     if (true) {
-     // hier kan een succes message komen voor inloggen.
-    // maar je word ook al geredirect.
+      // hier kan een succes message komen voor inloggen.
+      // maar je word ook al geredirect.
     }
   }
 
@@ -73,15 +73,14 @@ class LoginScreen extends Component {
       type: "danger",
       duration: 2500
     });
-   }
-    successMessage(msg) {
-        showMessage({
-            message: msg,
-            type: "success",
-            duration: 5000
-        });
-    }
-
+  }
+  successMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "success",
+      duration: 5000
+    });
+  }
 
   setUser(value, id, clearance, wordpresskey) {
     console.log("hallo");
@@ -365,8 +364,9 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#93D500",
-    height: "75%",
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: "20%",
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
     shadowOpacity: 0.3,
@@ -374,30 +374,6 @@ const styles = StyleSheet.create({
 
     // android (Android +5.0)
     elevation: 3
-  },
-
-  SectionStyleTop: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
-    borderColor: "#000",
-    height: 40,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
-  },
-
-  SectionStyleBottom: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
-    borderColor: "#000",
-    height: 40,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5
   },
 
   ImageStyle: {
