@@ -11,7 +11,7 @@ export default class Api {
   static getInstance() {
     if (Api.instance == null) {
       Api.instance = new Api();
-    }
+      }
 
     return Api.instance;
   }

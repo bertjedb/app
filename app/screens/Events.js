@@ -59,6 +59,10 @@ class Events extends Component {
       personList: []
     };
 
+      startNum = 0;
+      endNum = 10;
+      start = startNum;
+      end = endNum;
     let localStorage = LocalStorage.getInstance();
     localStorage.retrieveItem("clearance").then(clearance => {
       this.setState({ clearance: clearance });

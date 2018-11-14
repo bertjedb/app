@@ -481,12 +481,14 @@ class PointCard extends Component {
 
 const styles = StyleSheet.create({
   cardContainer: {
-	height: Dimensions.get("window").height - 40,
+	height: Dimensions.get("window").height ,
 	width: Dimensions.get("window").width
-  },
+
+   },
   cardUM: {
     width: 320,
     height: 470,
+      marginTop: 50,
     backgroundColor: "#FE474C",
     borderRadius: 5,
     shadowColor: "rgba(0,0,0,0.5)",
