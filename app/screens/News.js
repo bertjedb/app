@@ -69,10 +69,10 @@ class News extends Component {
       fullArray: []
     };
 
-      startNum = 0;
-      endNum = 10;
-      start = startNum;
-      end = endNum;
+    startNum = 0;
+    endNum = 10;
+    start = startNum;
+    end = endNum;
     let api = Api.getInstance();
     api.callApi("api/getAllNewsItems", "GET", {}, response => {
       if (response["responseCode"] != 503) {
@@ -95,7 +95,6 @@ class News extends Component {
   componentDidMount() {
     // this.onLoad();
     // this.props.navigation.addListener('willFocus', this.onLoad)
-
   }
 
   errorMessage(msg) {
@@ -119,19 +118,19 @@ class News extends Component {
     api.callApi("api/searchNews", "POST", userData, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
+          let array = response["news"];
           this.setState({
-            firstLoading: false,
-            data: response["news"],
-            uploading: false,
+            refreshing: false,
+            data: array.slice(start, end),
             loading: false
           });
         }
-      } else {
-        this.setState({ sleeping: true });
-        setTimeout(() => {
-          this.setState({ sleeping: false });
-        }, 3000);
-        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        this.setState({
+          loading: false
+        });
+        this.errorMessage(
+          'Er is niks gevonden voor "' + this.state.search + '"'
+        );
       }
     });
   }
@@ -187,7 +186,7 @@ class News extends Component {
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
         if (response["responseCode"] == 200) {
-          console.log(response['news'].slice(start, end));
+          console.log(response["news"].slice(start, end));
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
           });
@@ -259,7 +258,8 @@ class News extends Component {
                   colors={["#94D600"]}
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
-                />}
+                />
+              }
               style={{ paddingTop: 10, marginBottom: 55 }}
               renderItem={({ item }) => (
                 <View style={styles.container}>

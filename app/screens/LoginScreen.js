@@ -76,8 +76,6 @@ class LoginScreen extends Component {
     });
   }
 
-  test() {}
-
   successMessage(msg) {
     showMessage({
       message: msg,

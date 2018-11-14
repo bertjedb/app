@@ -34,13 +34,13 @@ export default class FeedbackForm extends Component {
     });
   }
 
-    successMessage(msg) {
-        showMessage({
-            message: msg,
-            type: "success",
-            duration: 5000
-        });
-    }
+  successMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "success",
+      duration: 5000
+    });
+  }
 
   sendFeedback() {
     if (
@@ -170,18 +170,17 @@ export default class FeedbackForm extends Component {
                   onChangeText={problem => this.setState({ problem })}
                   containerStyle={{ marginBottom: "7%" }}
                 />
-
-                <Button
-                  style={{
-                    container: stylesCss.defaultBtn,
-                    text: { color: "white" },
-                    marginBottom: 20
-                  }}
-                  raised
-                  text="Verstuur"
-                  onPress={() => this.sendFeedback()}
-                />
               </ScrollView>
+
+              <Button
+                style={{
+                  container: { backgroundColor: "#FF6700" },
+                  text: { color: "white" }
+                }}
+                raised
+                text="Verstuur"
+                onPress={() => this.sendFeedback()}
+              />
             </View>
           </View>
         </View>
