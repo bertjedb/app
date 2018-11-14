@@ -123,7 +123,7 @@ class EventDetail extends Component {
     this.animate2();
     this.animateY();
     const { navigation } = this.props;
-    this.setState({subscribed: navigation.getParam("subscribed", "")})
+    this.setState({ subscribed: navigation.getParam("subscribed", "") });
   }
 
   handleScroll(event) {
@@ -446,7 +446,7 @@ class EventDetail extends Component {
                             userData,
                             response => {
                               if (response["responseCode"] == 200) {
-                                this.setState({subscribed: true})
+                                this.setState({ subscribed: true });
                                 alert(
                                   "Je hebt je aangemeld voor dit evenement"
                                 );
@@ -493,10 +493,8 @@ class EventDetail extends Component {
                             userData,
                             response => {
                               if (response["responseCode"] == 200) {
-                                this.setState({subscribed: false})
-                                alert(
-                                  "Je hebt je afgemeld voor dit evenement"
-                                );
+                                this.setState({ subscribed: false });
+                                alert("Je hebt je afgemeld voor dit evenement");
                               } else if (response["responseCode"] == 400) {
                                 alert("Je bent al afgemeld");
                               } else {
@@ -548,7 +546,9 @@ class EventDetail extends Component {
                 name={"clock-outline"}
                 style={{ color: "grey", paddingRight: 10, paddingLeft: 10 }}
               />
-              <Text style={{ fontSize: 16, color: "grey" }}>{startTime} uur tot {endTime} uur</Text>
+              <Text style={{ fontSize: 16, color: "grey" }}>
+                {startTime} uur tot {endTime} uur
+              </Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Icon

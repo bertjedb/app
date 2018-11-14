@@ -69,6 +69,7 @@ class Events extends Component {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
           let array = response["events"];
+          console.log(response["events"]);
           let localStorage = LocalStorage.getInstance();
           localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -232,13 +233,14 @@ class Events extends Component {
   	      				});
 				}
           });
+        } else {
+          this.setState({
+            loading: false
+          });
+          this.errorMessage(
+            'Er is niks gevonden voor "' + this.state.search + '"'
+          );
         }
-        this.setState({
-          data: array
-        });
-        this.errorMessage(
-          'Er is niks gevonden voor "' + this.state.search + '"'
-        );
       }
     });
   }
@@ -318,7 +320,7 @@ class Events extends Component {
               data={this.state.data}
               keyExtractor={(item, index) => "" + item.id}
               initialNumToRender={4}
-              //windowSize={21}
+              windowSize={21}
               maxToRenderPerBatch={10}
               onEndReachedThreshold={0.5}
               onEndReached={() => this.handelEnd()}
@@ -400,9 +402,12 @@ class Events extends Component {
                               title: capitalize.words(
                                 item.name.toString().replace(", ,", " ")
                               ),
+                              begin: item.beginFull,
+                              end: item.endFull,
                               content: item.desc,
                               img: item.img,
-                              location: item.location
+                              location: item.location,
+                              author: item.leaderId
                             })
                           }
                         />
@@ -424,11 +429,17 @@ class Events extends Component {
                                 {
                                   text: "OK",
                                   onPress: () => {
+                                    this.setState({ loading: true });
                                     fetch(
                                       "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
-                                        item.id
-                                    );
-                                    this._onRefresh();
+                                        item.id,
+                                      {
+                                        method: "GET"
+                                      }
+                                    ).then(response => {
+                                      this.setState({ loading: false });
+                                      this._onRefresh();
+                                    });
                                   }
                                 }
                               ],

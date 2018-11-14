@@ -8,7 +8,8 @@ import {
   ImageBackground,
   Image,
   Divider,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView
 } from "react-native";
 import { DrawerActions, Header, NavigationActions } from "react-navigation";
 import { FormInput } from "react-native-elements";
@@ -62,8 +63,8 @@ class LoginScreen extends Component {
 
   componentWillUnmount() {
     if (true) {
-     // hier kan een succes message komen voor inloggen.
-    // maar je word ook al geredirect.
+      // hier kan een succes message komen voor inloggen.
+      // maar je word ook al geredirect.
     }
   }
 
@@ -73,15 +74,15 @@ class LoginScreen extends Component {
       type: "danger",
       duration: 2500
     });
-   }
-    successMessage(msg) {
-        showMessage({
-            message: msg,
-            type: "success",
-            duration: 5000
-        });
-    }
+  }
 
+  successMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "success",
+      duration: 5000
+    });
+  }
 
   setUser(value, id, clearance, wordpresskey) {
     console.log("hallo");
@@ -268,89 +269,100 @@ class LoginScreen extends Component {
                 borderBottomRightRadius: 10
               }}
             >
-              <View style={{ marginBottom: 15 }}>
-                <TextField
-                  textColor="green"
-                  tintColor="green"
-                  baseColor="green"
-                  label="Email adres"
-                  autoCapitalize="none"
-                  value={this.state.email}
-                  onChangeText={email => this.setState({ email })}
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ marginBottom: 15 }}>
+                  <TextField
+                    textColor="green"
+                    tintColor="green"
+                    baseColor="green"
+                    label="Email adres"
+                    autoCapitalize="none"
+                    value={this.state.email}
+                    onChangeText={email => this.setState({ email })}
+                  />
+                  <TextField
+                    textColor="green"
+                    tintColor="green"
+                    baseColor="green"
+                    label="Wachtwoord"
+                    secureTextEntry={true}
+                    value={this.state.password}
+                    onChangeText={password => this.setState({ password })}
+                    onEndEditing={() => this.login()}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={{ marginBottom: 10, alignSelf: "flex-end" }}
+                  onPress={() =>
+                    this.props.navigation.navigate("RecoverPassword")
+                  }
+                >
+                  <Text>Wachtwoord vergeten?</Text>
+                </TouchableOpacity>
+                <Button
+                  style={{
+                    container: stylesCss.loginBtn,
+                    text: { color: "white" }
+                  }}
+                  text="Inloggen"
+                  onPress={() => this.login()}
                 />
-                <TextField
-                  textColor="green"
-                  tintColor="green"
-                  baseColor="green"
-                  label="Wachtwoord"
-                  secureTextEntry={true}
-                  value={this.state.password}
-                  onChangeText={password => this.setState({ password })}
-                  onEndEditing={() => this.login()}
-                />
-              </View>
-              <TouchableOpacity
-                style={{ marginBottom: 10, alignSelf: "flex-end" }}
-                onPress={() =>
-                  this.props.navigation.navigate("RecoverPassword")
-                }
-              >
-                <Text>Wachtwoord vergeten?</Text>
-              </TouchableOpacity>
-              <Button
-                style={{
-                  container: stylesCss.loginBtn,
-                  text: { color: "white" }
-                }}
-                text="Inloggen"
-                onPress={() => this.login()}
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginTop: 20,
-                  alignItems: "center"
-                }}
-              >
                 <View
-                  style={{ backgroundColor: "black", height: 1, width: "45%" }}
-                />
-
-                <Text style={{ width: "10%" }}> Of </Text>
-                <View
-                  style={{ backgroundColor: "black", height: 1, width: "45%" }}
-                />
-              </View>
-              <TouchableOpacity onPress={() => this.fbAuth()}>
-                <View style={stylesCss.facebookBtn}>
-                  <Image
-                    source={require("../assets/fbLogo.png")}
-                    resizeMode="cover"
+                  style={{
+                    flexDirection: "row",
+                    marginTop: 20,
+                    alignItems: "center"
+                  }}
+                >
+                  <View
                     style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: 10,
-                      marginRight: "20%"
+                      backgroundColor: "black",
+                      height: 1,
+                      width: "45%"
                     }}
                   />
-                  <Text
+
+                  <Text style={{ width: "10%" }}> Of </Text>
+                  <View
                     style={{
-                      fontSize: 15,
-                      color: "white",
-                      alignSelf: "center",
-                      justifyContent: "center"
+                      backgroundColor: "black",
+                      height: 1,
+                      width: "45%"
                     }}
-                  >
-                    Login met Facebook
-                  </Text>
+                  />
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ marginBottom: 25, marginTop: 10 }}
-                onPress={() => this.props.navigation.navigate("Registration")}
-              >
-                <Text>Nog geen account? Meld je aan!</Text>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.fbAuth()}>
+                  <View style={stylesCss.facebookBtn}>
+                    <Image
+                      source={require("../assets/fbLogo.png")}
+                      resizeMode="cover"
+                      style={{
+                        width: 30,
+                        height: 30,
+                        borderRadius: 10,
+                        marginRight: "20%"
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        color: "white",
+                        alignSelf: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      Login met Facebook
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{ marginBottom: 25, marginTop: 10 }}
+                  onPress={() => this.props.navigation.navigate("Registration")}
+                >
+                  <Text>Nog geen account? Meld je aan!</Text>
+                </TouchableOpacity>
+              </ScrollView>
             </View>
           </View>
         </View>
@@ -362,11 +374,12 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: "10%",
+    marginBottom: "20%",
     flex: 1
   },
   card: {
     backgroundColor: "#93D500",
-    height: "75%",
+    height: "100%",
     margin: 10,
     borderRadius: 10,
     shadowOffset: { width: 0, height: 13 },
@@ -375,30 +388,6 @@ const styles = StyleSheet.create({
 
     // android (Android +5.0)
     elevation: 3
-  },
-
-  SectionStyleTop: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
-    borderColor: "#000",
-    height: 40,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
-  },
-
-  SectionStyleBottom: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
-    borderColor: "#000",
-    height: 40,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5
   },
 
   ImageStyle: {

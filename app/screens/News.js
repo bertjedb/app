@@ -65,10 +65,20 @@ class News extends Component {
       loading: true,
       refreshing: false,
       sleeping: false,
-      data: [],
       slicedArray: [],
       fullArray: []
     };
+
+    let localStorage = LocalStorage.getInstance();
+    localStorage.retrieveItem("clearance").then(clearance => {
+      this.setState({ clearance: clearance });
+      console.log(clearance);
+    });
+
+    startNum = 0;
+    endNum = 10;
+    start = startNum;
+    end = endNum;
 
     let api = Api.getInstance();
     api.callApi("api/getAllNewsItems", "GET", {}, response => {
@@ -115,19 +125,19 @@ class News extends Component {
     api.callApi("api/searchNews", "POST", userData, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
+          let array = response["news"];
           this.setState({
-            firstLoading: false,
-            data: response["news"],
-            uploading: false,
+            refreshing: false,
+            data: array.slice(start, end),
             loading: false
           });
         }
-      } else {
-        this.setState({ sleeping: true });
-        setTimeout(() => {
-          this.setState({ sleeping: false });
-        }, 3000);
-        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        this.setState({
+          loading: false
+        });
+        this.errorMessage(
+          'Er is niks gevonden voor "' + this.state.search + '"'
+        );
       }
     });
   }
@@ -183,6 +193,7 @@ class News extends Component {
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
         if (response["responseCode"] == 200) {
+          console.log(response["news"].slice(start, end));
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
           });
@@ -243,10 +254,10 @@ class News extends Component {
             <FlatList
               data={this.state.data}
               keyExtractor={item => item.title}
-              initialNumToRender={2}
-              // windowSize={2}
+              initialNumToRender={4}
+              windowSize={21}
               maxToRenderPerBatch={10}
-              onEndReachedThreshold={0.6}
+              onEndReachedThreshold={0.5}
               onEndReached={() => this.handelEnd()}
               contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
               refreshControl={
@@ -307,6 +318,8 @@ class News extends Component {
                               style={{
                                 flex: 1,
                                 flexDirection: "row",
+                                justifyContent: "space-between",
+
                                 width: "100%"
                               }}
                             >
@@ -325,6 +338,38 @@ class News extends Component {
                                   {capitalize.words(item.title)}
                                 </Text>
                               </View>
+                              {this.state.clearance == 1 && (
+                                <Icon
+                                  alignSelf="flex-end"
+                                  size={25}
+                                  name={"delete-forever"}
+                                  style={{ color: "red", margin: 10 }}
+                                  onPress={() =>
+                                    Alert.alert(
+                                      "Verwijderen",
+                                      "Weet u zeker dat u dit nieuws item wil verwijderen?",
+                                      [
+                                        {
+                                          text: "Annuleren",
+                                          onPress: () =>
+                                            console.log("Cancel Pressed!")
+                                        },
+                                        {
+                                          text: "OK",
+                                          onPress: () => {
+                                            fetch(
+                                              "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-post?id=" +
+                                                item.id
+                                            );
+                                            this._onRefresh();
+                                          }
+                                        }
+                                      ],
+                                      { cancelable: false }
+                                    )
+                                  }
+                                />
+                              )}
                             </View>
                             <TouchableHighlight
                               onPress={() => {

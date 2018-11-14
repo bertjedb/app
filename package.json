@@ -14,6 +14,7 @@
     "crypto": "^1.0.1",
     "html-entities": "^1.2.1",
     "moment": "^2.22.2",
+    "npm": "^6.4.1",
     "octokit": "^1.0.0-hello-world",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",

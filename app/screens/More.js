@@ -307,9 +307,7 @@ export default class More extends Component {
                     value: "Uitloggen",
                     key: "8",
                     onPress: () =>
-                      api.callApi(
-                        "logout",
-                        "POST",
+                      api.callApi("logout", "POST",
                         {
                           id: this.state.userId
                         },
@@ -479,6 +477,7 @@ export default class More extends Component {
                       )
                   },
                   {
+                      //admin
                     icon: "power-settings-new",
                     value: "Uitloggen",
                     key: "15",

@@ -80,11 +80,15 @@ export default class Registration extends Component {
     }
 
     // special chars check
-    else if (/^[a-zA-Z0-9]*$/.test(this.state.firstName) == false) {
+    else if (
+      /^[A-Za-z\u00C0-\u017F\.\- -]+$/i.test(this.state.firstName) == false
+    ) {
       this.errorMessage(
         "Gebruik alstublieft geen speciale karakters in uw naam!"
       );
-    } else if (/^[a-zA-Z0-9]*$/.test(this.state.lastName) == false) {
+    } else if (
+      /^[A-Za-z\u00C0-\u017F\.\- -]+$/i.test(this.state.lastName) == false
+    ) {
       this.errorMessage(
         "Gebruik alstublieft geen speciale karakters in uw naam!"
       );
