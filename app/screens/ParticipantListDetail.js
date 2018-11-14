@@ -59,14 +59,6 @@ class ParticipantListDetail extends Component {
     };
   }
 
-  handleScroll = () => {
-    const { currentlyOpenSwipeable } = this.state;
-
-    if (currentlyOpenSwipeable) {
-      currentlyOpenSwipeable.recenter();
-    }
-  };
-
   componentDidMount() {
     const { navigation } = this.props;
     eventId = navigation.getParam("eventId", "");
@@ -250,16 +242,14 @@ class ParticipantListDetail extends Component {
 
   render() {
     const { currentlyOpenSwipeable } = this.state;
-    const itemProps = {
-      onOpen: (event, gestureState, swipeable) => {
-        if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
-          currentlyOpenSwipeable.recenter();
-        }
+    const onOpen = (event, gestureState, swipeable) => {
+      if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
+        currentlyOpenSwipeable.recenter();
+      }
 
-        this.setState({ currentlyOpenSwipeable: swipeable });
-      },
-      onClose: () => this.setState({ currentlyOpenSwipeable: null })
+      this.setState({ currentlyOpenSwipeable: swipeable });
     };
+    const onClose = () => currentlyOpenSwipeable.recenter();
     const { navigation } = this.props;
     const title = navigation.getParam("title", "");
     const eventId = navigation.getParam("eventId", "");
@@ -388,11 +378,12 @@ class ParticipantListDetail extends Component {
                 }}
                 style={{
                   width: "30%",
+                  height: 40,
                   marginLeft: 5,
                   justifyContent: "center",
                   alignItems: "center",
                   padding: 10,
-                  backgroundColor: "#93D500"
+                  backgroundColor: "#FF6700"
                 }}
               >
                 <Text style={{ color: "white", fontWeight: "bold" }}>
@@ -400,26 +391,7 @@ class ParticipantListDetail extends Component {
                 </Text>
               </TouchableHighlight>
             </View>
-            {
-              // <TextInput
-              //   style={styles.input}
-              //   placeholder="Voeg een deelnemer toe"
-              //   onChangeText={searchString => {
-              //     this.setState({ searchString });
-              //   }}
-              //   underlineColorAndroid="transparent"
-              // />
-              // <Button
-              //   style={{ marginLeft: 5 }}
-              //   raised
-              //   text="Doorgaan"
-              //   onPress={() =>
-              //     this.addParticipant(eventId, this.state.searchString)
-              //   }
-              //
-              //
-              // />
-            }
+
             {this.state.showInfo == true && (
               <View>
                 <View style={styles.legendaItem}>
@@ -486,9 +458,15 @@ class ParticipantListDetail extends Component {
                         styles.leftSwipeItem,
                         { backgroundColor: "#4fc3f7" }
                       ]}
-                      onPress={() =>
-                        this.resetCard(item.id, item.points, item.name, eventId)
-                      }
+                      onPress={() => {
+                        this.resetCard(
+                          item.id,
+                          item.points,
+                          item.name,
+                          eventId
+                        );
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="gift" size={25} />
                     </TouchableOpacity>,
@@ -497,14 +475,15 @@ class ParticipantListDetail extends Component {
                         styles.leftSwipeItem,
                         { backgroundColor: "#f44336" }
                       ]}
-                      onPress={() =>
+                      onPress={() => {
                         this.substractPoint(
                           item.id,
                           item.points,
                           item.name,
                           eventId
-                        )
-                      }
+                        );
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="minus-circle-outline" size={25} />
                     </TouchableOpacity>,
@@ -513,9 +492,10 @@ class ParticipantListDetail extends Component {
                         styles.leftSwipeItem,
                         { backgroundColor: "#64dd17" }
                       ]}
-                      onPress={() =>
-                        this.addPoint(item.id, item.points, item.name, eventId)
-                      }
+                      onPress={() => {
+                        this.addPoint(item.id, item.points, item.name, eventId);
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="plus-circle-outline" size={25} />
                     </TouchableOpacity>
@@ -526,30 +506,16 @@ class ParticipantListDetail extends Component {
                         styles.rightSwipeItem,
                         { backgroundColor: "#f44336" }
                       ]}
-                      onPress={() =>
-                        this.removeParticipant(eventId, item.name, item.id)
-                      }
+                      onPress={() => {
+                        this.removeParticipant(eventId, item.name, item.id);
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="account-minus" size={25} />
                     </TouchableOpacity>
                   ]}
-                  onLeftButtonsOpenRelease={(
-                    event,
-                    gestureState,
-                    swipeable
-                  ) => {
-                    if (
-                      currentlyOpenSwipeable &&
-                      currentlyOpenSwipeable !== swipeable
-                    ) {
-                      currentlyOpenSwipeable.recenter();
-                    }
-
-                    this.setState({ currentlyOpenSwipeable: swipeable });
-                  }}
-                  onLeftButtonsCloseRelease={() =>
-                    this.setState({ currentlyOpenSwipeable: null })
-                  }
+                  onRightButtonsOpenRelease={onOpen}
+                  onRightButtonsCloseRelease={onClose}
                 >
                   <View style={[styles.listItem]}>
                     <Text style={styles.text}>
