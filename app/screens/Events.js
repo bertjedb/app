@@ -70,6 +70,7 @@ class Events extends Component {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
           let array = response["events"];
+          console.log(response["events"]);
           let localStorage = LocalStorage.getInstance();
           localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -379,9 +380,12 @@ class Events extends Component {
                               title: capitalize.words(
                                 item.name.toString().replace(", ,", " ")
                               ),
+                              begin: item.beginFull,
+                              end: item.endFull,
                               content: item.desc,
                               img: item.img,
-                              location: item.location
+                              location: item.location,
+                              author: item.leaderId
                             })
                           }
                         />
@@ -403,11 +407,17 @@ class Events extends Component {
                                 {
                                   text: "OK",
                                   onPress: () => {
+                                    this.setState({ loading: true });
                                     fetch(
                                       "http://gromdroid.nl/bslim/wp-json/gaauwe/v1/delete-event?id=" +
-                                        item.id
-                                    );
-                                    this._onRefresh();
+                                        item.id,
+                                      {
+                                        method: "GET"
+                                      }
+                                    ).then(response => {
+                                      this.setState({ loading: false });
+                                      this._onRefresh();
+                                    });
                                   }
                                 }
                               ],
