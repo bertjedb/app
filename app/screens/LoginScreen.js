@@ -8,7 +8,8 @@ import {
   ImageBackground,
   Image,
   Divider,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView
 } from "react-native";
 import { DrawerActions, Header, NavigationActions } from "react-navigation";
 import { FormInput } from "react-native-elements";
@@ -271,6 +272,7 @@ class LoginScreen extends Component {
                 borderBottomRightRadius: 10
               }}
             >
+                <ScrollView showsVerticalScrollIndicator={false}>
               <View style={{ marginBottom: 15 }}>
                 <TextField
                   textColor="green"
@@ -347,12 +349,14 @@ class LoginScreen extends Component {
                   </Text>
                 </View>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={{ marginBottom: 25, marginTop: 10 }}
                 onPress={() => this.props.navigation.navigate("Registration")}
               >
                 <Text>Nog geen account? Meld je aan!</Text>
               </TouchableOpacity>
+                </ScrollView>
             </View>
           </View>
         </View>
