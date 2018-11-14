@@ -34,6 +34,14 @@ export default class FeedbackForm extends Component {
     });
   }
 
+  successMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "success",
+      duration: 5000
+    });
+  }
+
   sendFeedback() {
     if (
       this.state.email == "" ||
@@ -56,7 +64,6 @@ export default class FeedbackForm extends Component {
             );
           } else {
             this.successMessage("Bedankt voor uw feedback");
-            alert("gfffd");
             // this.props.navigation.dispatch(NavigationActions.navigate({
             //     routeName: 'LoginStack',
             //     action: NavigationActions.navigate({ routeName: 'ChangeEmail' })
@@ -139,7 +146,7 @@ export default class FeedbackForm extends Component {
                   autoCapitalize="none"
                   value={this.state.email}
                   onChangeText={email => this.setState({ email })}
-                />
+                 />
 
                 <TextField
                   textColor="green"
@@ -163,18 +170,17 @@ export default class FeedbackForm extends Component {
                   onChangeText={problem => this.setState({ problem })}
                   containerStyle={{ marginBottom: "7%" }}
                 />
-
-                <Button
-                  style={{
-                    container: stylesCss.defaultBtn,
-                    text: { color: "white" },
-                    marginBottom: 20
-                  }}
-                  raised
-                  text="Verstuur"
-                  onPress={() => this.sendFeedback()}
-                />
               </ScrollView>
+
+              <Button
+                style={{
+                  container: { backgroundColor: "#FF6700" },
+                  text: { color: "white" }
+                }}
+                raised
+                text="Verstuur"
+                onPress={() => this.sendFeedback()}
+              />
             </View>
           </View>
         </View>

@@ -39,7 +39,7 @@ import Video from "react-native-video";
 var capitalize = require("capitalize");
 
 var startNum = 0;
-var endNum = 50;
+var endNum = 10;
 var start = startNum;
 var end = endNum;
 
@@ -65,7 +65,6 @@ class News extends Component {
       loading: true,
       refreshing: false,
       sleeping: false,
-      data: [],
       slicedArray: [],
       fullArray: []
     };
@@ -75,6 +74,11 @@ class News extends Component {
       this.setState({ clearance: clearance });
       console.log(clearance);
     });
+
+    startNum = 0;
+    endNum = 10;
+    start = startNum;
+    end = endNum;
 
     let api = Api.getInstance();
     api.callApi("api/getAllNewsItems", "GET", {}, response => {
@@ -121,19 +125,19 @@ class News extends Component {
     api.callApi("api/searchNews", "POST", userData, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
+          let array = response["news"];
           this.setState({
-            firstLoading: false,
-            data: response["news"],
-            uploading: false,
+            refreshing: false,
+            data: array.slice(start, end),
             loading: false
           });
         }
-      } else {
-        this.setState({ sleeping: true });
-        setTimeout(() => {
-          this.setState({ sleeping: false });
-        }, 3000);
-        this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
+        this.setState({
+          loading: false
+        });
+        this.errorMessage(
+          'Er is niks gevonden voor "' + this.state.search + '"'
+        );
       }
     });
   }
@@ -145,7 +149,7 @@ class News extends Component {
 
   refresh() {
     startNum = 0;
-    endNum = 50;
+    endNum = 10;
     start = startNum;
     end = endNum;
     if (!this.state.sleeping) {
@@ -184,11 +188,12 @@ class News extends Component {
   handelEnd = () => {
     let api = Api.getInstance();
     if (end <= this.state.fullArray.length) {
-      end += 50;
-      start += 50;
+      end += 10;
+      start += 10;
       // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllNewsItems", "GET", {}, response => {
         if (response["responseCode"] == 200) {
+          console.log(response["news"].slice(start, end));
           this.setState({
             data: [...this.state.data, ...response["news"].slice(start, end)]
           });
@@ -249,10 +254,10 @@ class News extends Component {
             <FlatList
               data={this.state.data}
               keyExtractor={item => item.title}
-              initialNumToRender={2}
-              // windowSize={2}
-              // maxToRenderPerBatch={4}
-              onEndReachedThreshold={0.6}
+              initialNumToRender={4}
+              windowSize={21}
+              maxToRenderPerBatch={10}
+              onEndReachedThreshold={0.5}
               onEndReached={() => this.handelEnd()}
               contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
               refreshControl={

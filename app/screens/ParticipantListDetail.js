@@ -20,6 +20,7 @@ import { DrawerActions, Header } from "react-navigation";
 import Swipeable from "react-native-swipeable-row";
 import Autocomplete from "react-native-autocomplete-input";
 import { TextField } from "react-native-material-textfield";
+import { showMessage } from "react-native-flash-message";
 
 import {
   COLOR,
@@ -58,19 +59,27 @@ class ParticipantListDetail extends Component {
     };
   }
 
-  handleScroll = () => {
-    const { currentlyOpenSwipeable } = this.state;
-
-    if (currentlyOpenSwipeable) {
-      currentlyOpenSwipeable.recenter();
-    }
-  };
-
   componentDidMount() {
     const { navigation } = this.props;
     eventId = navigation.getParam("eventId", "");
     this.getAllUsers();
     this.refresh(eventId);
+  }
+
+  errorMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "danger",
+      duration: 3000
+    });
+  }
+
+  successMessage(msg) {
+    showMessage({
+      message: msg,
+      type: "success",
+      duration: 4000
+    });
   }
 
   getAllUsers() {
@@ -89,7 +98,7 @@ class ParticipantListDetail extends Component {
     userData = { id: personId };
     api.callApi("api/addPoint", "POST", userData, response => {
       if (response["responseCode"] == 200) {
-        alert("Punt erbai");
+        this.successMessage(name + " heeft een stempel erbij gekregen");
         this.refresh(eventId);
       }
     });
@@ -99,29 +108,47 @@ class ParticipantListDetail extends Component {
     let api = Api.getInstance();
     api.callApi("api/substractPoint", "POST", { id: personId }, response => {
       if (response["responseCode"] == 200) {
-        alert("Dat is pech, punt weg");
+        this.successMessage(name + " heeft een stempel eraf gekregen");
         this.refresh(eventId);
       }
     });
   }
 
   resetCard(personId, points, name, eventId) {
-    let api = Api.getInstance();
-    api.callApi("api/resetStampCard", "POST", { id: personId }, response => {
-      if (response["responseCode"] == 200) {
-        points -= 15;
-        alert(
-          "Kaart van " +
-            capitalize.words(name) +
-            " is verzilverd! " +
-            name +
-            " heeft nu " +
-            points +
-            " stempels"
-        );
-        this.refresh(eventId);
-      }
-    });
+    Alert.alert(
+      "Kaart verzilveren bevestigen",
+      "Weet je zeker dat je de kaart van " + name + " wilt verzilveren?",
+      [
+        {
+          text: "Annuleren",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Bevestigen",
+          onPress: () => {
+            if (points >= 15) {
+              let api = Api.getInstance();
+              api.callApi(
+                "api/resetStampCard",
+                "POST",
+                { id: personId },
+                response => {
+                  if (response["responseCode"] == 200) {
+                    this.successMessage(
+                      "De kaart van " + name + " is verzilverd!"
+                    );
+                    this.refresh(eventId);
+                  }
+                }
+              );
+            } else {
+              this.errorMessage(name + " heeft nog geen 15 stempels!");
+            }
+          }
+        }
+      ]
+    );
   }
 
   removeParticipant(eventId, name, personId) {
@@ -132,6 +159,11 @@ class ParticipantListDetail extends Component {
         " als deelnemer wilt verwijderen van dit evenement?",
       [
         {
+          text: "Annuleren",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
           text: "Bevestigen",
           onPress: () => {
             let api = Api.getInstance();
@@ -141,16 +173,14 @@ class ParticipantListDetail extends Component {
               { eventId: eventId, personId: personId },
               response => {
                 if (response["responseCode"] == 200) {
+                  this.errorMessage(
+                    name + " is verwijderd als deelnemer van dit evenement"
+                  );
                   this.refresh(eventId);
                 }
               }
             );
           }
-        },
-        {
-          text: "Annuleren",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
         }
       ]
     );
@@ -168,8 +198,12 @@ class ParticipantListDetail extends Component {
       { eventId: eventId, personId: personId },
       response => {
         if (response["responseCode"] == 200) {
-          alert("Succesvol toegevoegd");
+          this.successMessage(
+            "Deelnemer is succesvol toegevoegd aan dit evenement"
+          );
           this.refresh(eventId);
+        } else {
+          this.errorMessage("Deze persoon neemt al deel aan dit evenement");
         }
         this.setState({
           query: "",
@@ -208,16 +242,14 @@ class ParticipantListDetail extends Component {
 
   render() {
     const { currentlyOpenSwipeable } = this.state;
-    const itemProps = {
-      onOpen: (event, gestureState, swipeable) => {
-        if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
-          currentlyOpenSwipeable.recenter();
-        }
+    const onOpen = (event, gestureState, swipeable) => {
+      if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
+        currentlyOpenSwipeable.recenter();
+      }
 
-        this.setState({ currentlyOpenSwipeable: swipeable });
-      },
-      onClose: () => this.setState({ currentlyOpenSwipeable: null })
+      this.setState({ currentlyOpenSwipeable: swipeable });
     };
+    const onClose = () => currentlyOpenSwipeable.recenter();
     const { navigation } = this.props;
     const title = navigation.getParam("title", "");
     const eventId = navigation.getParam("eventId", "");
@@ -346,11 +378,12 @@ class ParticipantListDetail extends Component {
                 }}
                 style={{
                   width: "30%",
+                  height: 40,
                   marginLeft: 5,
                   justifyContent: "center",
                   alignItems: "center",
                   padding: 10,
-                  backgroundColor: "#93D500"
+                  backgroundColor: "#FF6700"
                 }}
               >
                 <Text style={{ color: "white", fontWeight: "bold" }}>
@@ -358,26 +391,7 @@ class ParticipantListDetail extends Component {
                 </Text>
               </TouchableHighlight>
             </View>
-            {
-              // <TextInput
-              //   style={styles.input}
-              //   placeholder="Voeg een deelnemer toe"
-              //   onChangeText={searchString => {
-              //     this.setState({ searchString });
-              //   }}
-              //   underlineColorAndroid="transparent"
-              // />
-              // <Button
-              //   style={{ marginLeft: 5 }}
-              //   raised
-              //   text="Doorgaan"
-              //   onPress={() =>
-              //     this.addParticipant(eventId, this.state.searchString)
-              //   }
-              //
-              //
-              // />
-            }
+
             {this.state.showInfo == true && (
               <View>
                 <View style={styles.legendaItem}>
@@ -444,9 +458,15 @@ class ParticipantListDetail extends Component {
                         styles.leftSwipeItem,
                         { backgroundColor: "#4fc3f7" }
                       ]}
-                      onPress={() =>
-                        this.resetCard(item.id, item.points, item.name, eventId)
-                      }
+                      onPress={() => {
+                        this.resetCard(
+                          item.id,
+                          item.points,
+                          item.name,
+                          eventId
+                        );
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="gift" size={25} />
                     </TouchableOpacity>,
@@ -455,14 +475,15 @@ class ParticipantListDetail extends Component {
                         styles.leftSwipeItem,
                         { backgroundColor: "#f44336" }
                       ]}
-                      onPress={() =>
+                      onPress={() => {
                         this.substractPoint(
                           item.id,
                           item.points,
                           item.name,
                           eventId
-                        )
-                      }
+                        );
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="minus-circle-outline" size={25} />
                     </TouchableOpacity>,
@@ -471,9 +492,10 @@ class ParticipantListDetail extends Component {
                         styles.leftSwipeItem,
                         { backgroundColor: "#64dd17" }
                       ]}
-                      onPress={() =>
-                        this.addPoint(item.id, item.points, item.name, eventId)
-                      }
+                      onPress={() => {
+                        this.addPoint(item.id, item.points, item.name, eventId);
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="plus-circle-outline" size={25} />
                     </TouchableOpacity>
@@ -484,30 +506,16 @@ class ParticipantListDetail extends Component {
                         styles.rightSwipeItem,
                         { backgroundColor: "#f44336" }
                       ]}
-                      onPress={() =>
-                        this.removeParticipant(eventId, item.name, item.id)
-                      }
+                      onPress={() => {
+                        this.removeParticipant(eventId, item.name, item.id);
+                        this.state.currentlyOpenSwipeable.recenter();
+                      }}
                     >
                       <Icon name="account-minus" size={25} />
                     </TouchableOpacity>
                   ]}
-                  onLeftButtonsOpenRelease={(
-                    event,
-                    gestureState,
-                    swipeable
-                  ) => {
-                    if (
-                      currentlyOpenSwipeable &&
-                      currentlyOpenSwipeable !== swipeable
-                    ) {
-                      currentlyOpenSwipeable.recenter();
-                    }
-
-                    this.setState({ currentlyOpenSwipeable: swipeable });
-                  }}
-                  onLeftButtonsCloseRelease={() =>
-                    this.setState({ currentlyOpenSwipeable: null })
-                  }
+                  onRightButtonsOpenRelease={onOpen}
+                  onRightButtonsCloseRelease={onClose}
                 >
                   <View style={[styles.listItem]}>
                     <Text style={styles.text}>
