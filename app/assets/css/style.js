@@ -19,6 +19,28 @@ export default StyleSheet.create({
     flex: 1
   },
 
+  dateSection: {
+    flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    backgroundColor: "#fff"
+  },
+  searchIcon: {
+    padding: 10,
+    paddingTop: 15
+  },
+  input: {
+    width: "90%",
+
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    color: "green"
+  },
+
   ChangeEmailReqcontainer: {
     flex: 1,
     justifyContent: "center"
@@ -55,7 +77,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     // android (Android +5.0)
-    elevation: 3,
+    elevation: 3
   },
 
   SectionStyleTop: {
@@ -227,7 +249,7 @@ export default StyleSheet.create({
     borderColor: "rgba(0,0,0,0.2)",
     width: 100,
     height: 100,
-    marginLeft: '25%'
+    marginLeft: "25%"
   },
 
   backgroundVideo: {
