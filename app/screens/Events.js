@@ -111,6 +111,10 @@ class Events extends Component {
       }
     });
   }
+  componentDidMount() {
+	this.onLoad();
+	this.props.navigation.addListener("willFocus", this.onLoad);
+  }
 
   hideSplashScreen() {
     this.setState({
@@ -583,6 +587,7 @@ class Events extends Component {
                               let localStorage = LocalStorage.getInstance();
                               localStorage.retrieveItem("userId").then(id => {
                                 if (id != null) {
+                                	console.log(item.id)
                                   userData = {
                                     eventId: item.id,
                                     personId: id
@@ -593,11 +598,11 @@ class Events extends Component {
                                     userData,
                                     response => {
                                       if (response["responseCode"] == 200) {
+                                      	this.refresh();
                                         Alert.alert(
                                         	"Successvol aangemeld",
                                           	"Je hebt je aangemeld voor dit evenement"
                                         );
-                                        this.refresh();
                                       } else if (
                                         response["responseCode"] == 400
                                       ) {
@@ -646,11 +651,11 @@ class Events extends Component {
                                     userData,
                                     response => {
                                       if (response["responseCode"] == 200) {
+                                      	this.refresh();
                                         Alert.alert(
                                         	"Successvol afgemeld",
                                           	"Je hebt je afgemeld voor dit evenement"
                                         );
-                                        this.refresh();
                                       } else if (
                                         response["responseCode"] == 400
                                       ) {

@@ -192,7 +192,6 @@ class EventDetail extends Component {
 
     let map = Maps.getInstance();
     const { navigation } = this.props;
-    var subscribed = navigation.getParam("subscribed", "");
 
     const eventID = navigation.getParam("id", "");
     const title = navigation.getParam("title", "");
@@ -215,10 +214,6 @@ class EventDetail extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     const dataSource = ds.cloneWithRows(participants);
-
-    console.log(subscribed)
-    console.log(eventID)
-
     return (
       <View
         style={{ width: "100%", height: "100%", backgroundColor: "#DCDCDC" }}
@@ -492,13 +487,11 @@ class EventDetail extends Component {
                             eventId: eventID,
                             personId: id
                           };
-                          console.log(userData);
                           api.callApi(
                             "api/unSubToEvent",
                             "POST",
                             userData,
                             response => {
-                                console.log(response)
                               if (response["responseCode"] == 200) {
                                 this.setState({subscribed: false})
                                 alert(

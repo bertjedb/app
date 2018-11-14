@@ -20,7 +20,8 @@ import LinearGradient from "react-native-linear-gradient";
 import Api from "../config/api";
 import LocalStorage from "../config/localStorage";
 import { ListItem } from 'react-native-elements'
-import HTML from "react-native-render-html"
+import HTML from "react-native-render-html";
+import { PacmanIndicator } from "react-native-indicators";
 
 var capitalize = require("capitalize");
 
@@ -31,35 +32,33 @@ export default class signInView extends Component {
 
         this.state = {
             data: [],
+            loading: true,
+            empty: true
         }
 
         let localStorage = LocalStorage.getInstance();
         localStorage.retrieveItem("userId").then(id => {
-
             let api = Api.getInstance();
             api.callApi("api/getAllSubs", "POST", {'id': id}, response => {
                 if (response["responseCode"] != 503) {
                     if (response["responseCode"] == 200) {
-
                         this.setState({
                             data: response['subs'],
+                            loading: false
                         });
+                        console.log(response['subs'].length)
                     }
                 } else {
                     this.setState({
                         data: response['subs'],
+                        loading: false
                     });
                 }
             });
-
-        })
-            .catch(error => {
-                //this callback is executed when your Promise is rejected
-                console.log("Promise is rejected with error: " + error);
-            });
-
-
-
+        }).catch(error => {
+            //this callback is executed when your Promise is rejected
+            console.log("Promise is rejected with error: " + error);
+        });
     }
     render() {
         const Entities = require("html-entities").AllHtmlEntities;
@@ -104,36 +103,34 @@ export default class signInView extends Component {
                 </LinearGradient>
 
                 <View style={styles.cardContainer}>
+                    {!this.state.loading && !this.state.empty &&(
                     <FlatList
                         data={this.state.data}
-                        keyExtractor={item => item.title}
-
+                        keyExtractor={(item, index) => "" + item.id}
                         renderItem={({item}) =>  (
                             <ListItem
-
                                 title={<Text>{item.name}</Text>}
-
-                                    onPress = {() =>
+                                onPress = {() =>
                                     this.props.navigation.navigate("EventDetail", {
-                                    title: capitalize.words(
-                                    entities.decode(item.name.toString().replace(", ,", " "))
-                                    ),
-                                    subscribed: item.subscribed,
-                                    id: item.id,
-                                    profilePicture: item.photo[0],
-                                    content: item.desc,
-                                    start: item.begin + " " + item.beginMonth + " 2018",
-                                    startTime: item.beginTime,
-                                    end: item.end + " " + item.endMonth + " 2018",
-                                    endTime: item.endTime,
-                                    created: item.created,
-                                    author: capitalize.words(entities.decode(item.leader.replace(", ,", " "))
-                                    ),
-                                    link: item.link,
-                                    img: item.img,
-                                    qr_code: item.qrCode,
-                                    location: item.location,
-                                    participants: item.participants
+                                        title: capitalize.words(
+                                            entities.decode(item.name.toString().replace(", ,", " "))
+                                            ),
+                                        subscribed: true,
+                                        id: item.id,
+                                        profilePicture: item.photo[0],
+                                        content: item.desc,
+                                        start: item.begin + " " + item.beginMonth + " 2018",
+                                        startTime: item.beginTime,
+                                        end: item.end + " " + item.endMonth + " 2018",
+                                        endTime: item.endTime,
+                                        created: item.created,
+                                        author: capitalize.words(entities.decode(item.leader.replace(", ,", " "))
+                                        ),
+                                        link: item.link,
+                                        img: item.img,
+                                        qr_code: item.qrCode,
+                                        location: item.location,
+                                        participants: item.participants
                                 })
                                 }
 
@@ -141,10 +138,23 @@ export default class signInView extends Component {
 
                         )}
 
-                    />
+                    />)}
+                    {!this.state.loading && this.state.empty && (
+                        <View style={{flex:1, alignItems: 'center'}}>
+                            <Text style={{
+                                margin: 15,
+                                fontWeight: "bold",
+                                fontSize: 14,
+                                color: "black"
+                                }}>
+                                    Je hebt geen aanmeldingen!
+                            </Text>
+                        </View>
+                    )}
+                    {this.state.loading && (
+                        <PacmanIndicator color="#94D600" />
+                    )}
                 </View>
-
-
             </ImageBackground>
         );
     }
