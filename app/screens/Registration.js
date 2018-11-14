@@ -171,6 +171,7 @@ export default class Registration extends Component {
           />
         </LinearGradient>
         <View style={styles.container}>
+        <ScrollView>
           <View style={styles.card} elevation={5}>
             <Text
               style={{
@@ -240,6 +241,7 @@ export default class Registration extends Component {
                   onChangeText={secondPassword =>
                     this.setState({ secondPassword })
                   }
+                  onEndEditing={() => this.checkRegistration()}
                 />
                 <Button
                   style={{
@@ -253,6 +255,7 @@ export default class Registration extends Component {
               </ScrollView>
             </View>
           </View>
+        </ScrollView>
         </View>
       </ImageBackground>
     );
