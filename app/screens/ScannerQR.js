@@ -93,41 +93,43 @@ class ScannerQR extends Component {
             };
             api.callApi("api/qrEvent", "POST", sendData, response => {
               if (response["responseCode"] == "200") {
-                alert("Je hebt een stempel erbij gekregen!");
+                Alert.alert("Je hebt een stempel erbij gekregen!");
                 api.getPoints();
+
               } else {
-                alert("Deze code heb je al gescannend");
-              }
+                Alert.alert("Deze code heb je al gescannend");
+               }
             });
-          })
+           })
           .catch(error => {
             //this callback is executed when your Promise is rejected
             console.log("Promise is rejected with error: " + error);
           });
       } else {
-        alert("Deze stempel is niet geldig");
-      }
+        Alert.alert("Deze stempel is niet geldig");
+       }
     });
-  }
+         }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{alignItems: "center", justifyContent: "center"  }}>
         <QRCodeScanner
           reactivate={this.state.scannerReactivate}
           reactivateTimeout={3000}
           showMarker={true}
           onRead={response => this.checkQR(response)}
           cameraStyle={{
-            height: Dimensions.get("window").height - 410,
-            width: Dimensions.get("window").width - 40,
-            marginLeft: 20,
-            marginTop: 20
-          }}
+
+            height: Dimensions.get("window").height - 450,
+            width: Dimensions.get("window").width - 100,
+            marginLeft: '14%',
+            //marginTop: 20
+               }}
         />
       </View>
-    );
-  }
+     );
+   }
 }
 
 const styles = StyleSheet.create({

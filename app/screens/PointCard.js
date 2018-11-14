@@ -316,12 +316,12 @@ class PointCard extends Component {
 		  		{ !this.state.fullCard && (
 		  			<Text
 						style={{
-						  marginTop: 15,
+						  marginTop: -5,
 						  fontWeight: "bold",
 						  fontSize: 20,
 						  color: "#3bb222"
-						}}
-		  			>
+					  	}}
+		  			  >
 						Stempelkaart
 		  			</Text>)}
 		  		{ this.state.fullCard && (
@@ -342,7 +342,7 @@ class PointCard extends Component {
 					  fontSize: 14,
 					  color: "#3bb222"
 					}}
-		  		>
+			  	>
 					Scan een QR-code voor een stempel
 		  		</Text>
 			  <View
@@ -356,110 +356,121 @@ class PointCard extends Component {
 			  >
 				{this.state.card}
 			  </View>
-			  <View style={{flexDirection: 'row'}}>
-		  		<TouchableOpacity
-					onPress={() => {
-					  this.setState({ cameraActive: true });
-					  this.card.flip();
-					  this.refreshCard();
-					}}
-					style={{
-					  marginBottom: 10,
-					  marginTop: 10,
-					  marginLeft: '0%',
-					  alignSelf: 'center',
-					  height: 65,
-					  width: 65,
-					  backgroundColor: "#3bb222",
-					  borderRadius: 50,
-					  shadowOffset: { width: 0, height: 13 },
-					  shadowOpacity: 0.3,
-					  shadowRadius: 6,
-					  // android (Android +5.0)
-					  elevation: 5
-					}}
-		  		>
-					<Icon
-					  onPress={() => {
-						this.setState({ cameraActive: true });
-						this.card.flip();
-						this.refreshCard();
-					  }}
-					  name="camera"
-					  style={{ margin: 15 }}
-					  size={35}
-					  color="white"
-					/>
-		  		</TouchableOpacity>
-			  </View>
+
 			</View>
+              <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                      onPress={() => {
+                          this.setState({ cameraActive: true });
+                          this.card.flip();
+                          this.refreshCard();
+                      }}
+                      style={{
+                          marginBottom: 13,
+                          //marginTop: 10,
+                          marginLeft: '0%',
+                          alignSelf: 'center',
+                          height: 65,
+                          width: 65,
+                          backgroundColor: "#3bb222",
+                          borderRadius: 50,
+                          shadowOffset: { width: 0, height: 13 },
+                          shadowOpacity: 0.3,
+                          shadowRadius: 6,
+                          // android (Android +5.0)
+                          elevation: 5
+                      }}
+                  >
+                      <Icon
+                          onPress={() => {
+                              this.setState({ cameraActive: true });
+                              this.card.flip();
+                              this.refreshCard();
+                          }}
+                          name="camera"
+                          style={{ margin: 15 }}
+                          size={35}
+                          color="white"
+                      />
+                  </TouchableOpacity>
+              </View>
 		  </TouchableOpacity>
 		  <TouchableOpacity activeOpacity={1} style={styles.container}>
 			<View style={styles.card} elevation={5}>
-			  <Text
-				style={{
-				  marginTop: 15,
-				  fontWeight: "bold",
-				  fontSize: 20,
-				  color: "#3bb222"
-				}}
-			  >
-				Scanner
-			  </Text>
-			  <Text
-				style={{
-				  marginBottom: 10,
-				  fontWeight: "bold",
-				  fontSize: 14,
-				  color: "#3bb222"
-				}}
-			  >
-				Scan een QR-code voor een stempel
-			  </Text>
+				<View style={{height:'25%',marginBottom: -20, marginTop:-35
+				 }}>
+					<Text
+                        style={{
+                            marginTop: 15,
+                            fontWeight: "bold",
+                            fontSize: 20,
+                            color: "#3bb222"
+                        }}
+                     >
+                        Scanner
+                    </Text>
+                    <Text
+                        style={{
+                           // marginBottom: 10,
+                            fontWeight: "bold",
+                            fontSize: 14,
+                            color: "#3bb222"
+                          }}
+                    >
+                        Scan een QR-code voor een stempel
+                    </Text>
+				</View>
+
 			  <View
 				style={{
+				 position: 'relative', zIndex:1,
 				  backgroundColor: "white",
 				  height: Dimensions.get("window").height - 320,
 				  width: Dimensions.get("window").width - 40,
 				  borderRadius: 10,
-				  alignItems: "center"
-				}}
-			  >
+				  alignItems: "center",
+
+			    	}}
+			   >
 				{this.state.cameraActive && <ScannerQR />}
 			  </View>
-			  <TouchableOpacity
-				onPress={() => {
-				  this.setState({ cameraActive: false });
-				  this.card.flip();
-				  this.refreshCard();
-				}}
-				style={{
-				  marginBottom: 10,
-				  marginTop: 10,
-				  height: 65,
-				  width: 65,
-				  backgroundColor: "#FF6700",
-				  borderRadius: 50,
-				  shadowOffset: { width: 0, height: 13 },
-				  shadowOpacity: 0.3,
-				  shadowRadius: 6,
-				  // android (Android +5.0)
-				  elevation: 5
-				}}
-			  >
-				<Icon
-				  onPress={() => {
-					this.setState({ cameraActive: false });
-					this.card.flip();
-					this.refreshCard();
-				  }}
-				  name="close"
-				  style={{ margin: 15 }}
-				  size={35}
-				  color="white"
-				/>
-			  </TouchableOpacity>
+
+
 			</View>
+              <View style={{position: 'relative', zIndex:2,}}>
+                  <TouchableOpacity
+                      onPress={() => {
+                          this.setState({ cameraActive: false });
+                          this.card.flip();
+                          this.refreshCard();
+                      }}
+                      style={{
+
+                          // marginTop: 30,
+                          height: 65,
+                          width: 65,
+                          backgroundColor: "#FF6700",
+                          borderRadius: 50,
+                          shadowOffset: { width: 0, height: 13 },
+                          shadowOpacity: 0.3,
+                          shadowRadius: 6,
+                          // android (Android +5.0)
+                          elevation: 5
+                      }}
+                    >
+                      <Icon
+                          onPress={() => {
+                              this.setState({ cameraActive: false });
+                              this.card.flip();
+                              this.refreshCard();
+                          }}
+                          name="close"
+                          style={{ margin: 15}}
+                          size={35}
+                          color="white"
+                       />
+                  </TouchableOpacity>
+              </View>
 		  </TouchableOpacity>
 		</CardFlip>
 	  </ImageBackground>
@@ -469,7 +480,7 @@ class PointCard extends Component {
 
 const styles = StyleSheet.create({
   cardContainer: {
-	height: Dimensions.get("window").height,
+	height: Dimensions.get("window").height - 40,
 	width: Dimensions.get("window").width
   },
   cardUM: {
@@ -502,21 +513,23 @@ const styles = StyleSheet.create({
   container: {
 	flex: 1,
 	alignItems: "center",
-	justifyContent: "center",
 	paddingBottom: 135
-  },
+     },
   card: {
 	alignItems: "center",
+	  justifyContent: "center",
 	backgroundColor: "#FFFFFF",
-	height: Dimensions.get("window").height - 210,
+	height: Dimensions.get("window").height - 220,
 	width: Dimensions.get("window").width - 40,
-	margin: 10,
-	marginBottom: 40,
+	// margin: 10,
+	  marginTop: 10,
+	  position: 'relative',
+	marginBottom: 5,
 	borderRadius: 10,
 	shadowOffset: { width: 0, height: 13 },
 	shadowOpacity: 0.3,
 	shadowRadius: 6,
-
+      zIndex:-1,
 	// android (Android +5.0)
 	elevation: 3
   },
