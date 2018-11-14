@@ -355,32 +355,23 @@ export default class MakeEvent extends Component {
                   />
 
                   <TouchableOpacity
-                    style={styles.datePick}
                     onPress={() => this.setState({ showBegin: true })}
+                    style={styles.dateSection}
                   >
-                    <View style={{ flexDirection: "row" }}>
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: 20,
-                          color: "black"
-                        }}
-                      >
-                        Start:
-                      </Text>
-                      <View
-                        style={{ width: "60%", marginRight: "5%", padding: 5 }}
-                      >
-                        <Text style={{ alignSelf: "flex-start" }}>
-                          {this.state.beginText}
-                        </Text>
-                      </View>
-                      <Icon
-                        size={35}
-                        name={"plus"}
-                        style={{ color: "white" }}
-                      />
-                    </View>
+                    <Icon
+                      style={styles.searchIcon}
+                      name="calendar"
+                      size={20}
+                      color="green"
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Begin van evenement"
+                      value={"Start: " + this.state.beginText}
+                      underlineColorAndroid="green"
+                      onTouchStart={() => this.setState({ showBegin: true })}
+                      editable={false}
+                    />
                   </TouchableOpacity>
                   <DateTimePicker
                     isVisible={this.state.showBegin}
@@ -390,37 +381,23 @@ export default class MakeEvent extends Component {
                   />
 
                   <TouchableOpacity
-                    style={styles.datePick}
                     onPress={() => this.setState({ showEnd: true })}
+                    style={styles.dateSection}
                   >
-                    <View style={{ flexDirection: "row" }}>
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: 20,
-                          color: "black"
-                        }}
-                      >
-                        Eind:
-                      </Text>
-                      <View
-                        style={{
-                          width: "60%",
-                          marginRight: "5%",
-                          marginLeft: "2%",
-                          padding: 5
-                        }}
-                      >
-                        <Text style={{ alignSelf: "flex-start" }}>
-                          {this.state.endText}
-                        </Text>
-                      </View>
-                      <Icon
-                        size={35}
-                        name={"plus"}
-                        style={{ color: "white" }}
-                      />
-                    </View>
+                    <Icon
+                      style={styles.searchIcon}
+                      name="calendar"
+                      size={20}
+                      color="green"
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Begin van evenement"
+                      value={"Einde: " + this.state.endText}
+                      underlineColorAndroid="green"
+                      onTouchStart={() => this.setState({ showEnd: true })}
+                      editable={false}
+                    />
                   </TouchableOpacity>
 
                   <DateTimePicker
