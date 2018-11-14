@@ -72,6 +72,7 @@ export default class MakeNewsItem extends Component {
       .then(response => response.text())
       .then(responseText => {
         alert("Nieuw artikel succesvol aangemaakt");
+        this.props.navigation.dispatch(NavigationActions.back());
       })
       .catch(error => {
         console.error(error);
