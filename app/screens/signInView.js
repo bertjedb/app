@@ -44,9 +44,9 @@ export default class signInView extends Component {
                     if (response["responseCode"] == 200) {
                         this.setState({
                             data: response['subs'],
-                            loading: false
+                            loading: false,
+                            empty: false
                         });
-                        console.log(response['subs'].length)
                     }
                 } else {
                     this.setState({
