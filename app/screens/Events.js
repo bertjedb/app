@@ -72,8 +72,7 @@ class Events extends Component {
     api.callApi("api/getAllEvents", "POST", {}, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
-          let array = response["events"];
-          console.log(response["events"]);
+          let array = response["events"];;
           let localStorage = LocalStorage.getInstance();
           localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -149,6 +148,7 @@ class Events extends Component {
     endNum = 10;
     start = startNum;
     end = endNum;
+    this.setState({loading: true})
     if (!this.state.sleeping) {
       let api = Api.getInstance();
       api.callApi("api/getAllEvents", "POST", {}, response => {
@@ -602,7 +602,6 @@ class Events extends Component {
                               let localStorage = LocalStorage.getInstance();
                               localStorage.retrieveItem("userId").then(id => {
                                 if (id != null) {
-                                	console.log(item.id)
                                   userData = {
                                     eventId: item.id,
                                     personId: id
