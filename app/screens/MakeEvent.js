@@ -238,13 +238,6 @@ export default class MakeEvent extends Component {
             pickedImage: { uri: res.uri },
             imgPicked: true
           });
-          ImgToBase64.getBase64String(this.state.pickedImage.uri).then(
-            base64String => {
-              this.setState({
-                img: base64String
-              });
-            }
-          );
         }
       }
     );

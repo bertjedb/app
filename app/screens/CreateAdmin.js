@@ -236,13 +236,6 @@ export default class CreateAdmin extends Component {
           this.setState({
             pickedImage: { uri: res.uri }
           });
-          ImgToBase64.getBase64String(this.state.pickedImage.uri).then(
-            base64String => {
-              this.setState({
-                img: base64String
-              });
-            }
-          );
         }
       }
     );

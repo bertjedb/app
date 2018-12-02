@@ -66,15 +66,13 @@ class Events extends Component {
     let localStorage = LocalStorage.getInstance();
     localStorage.retrieveItem("clearance").then(clearance => {
       this.setState({ clearance: clearance });
-      console.log(clearance);
     });
 
     let api = Api.getInstance();
     api.callApi("api/getAllEvents", "POST", {}, response => {
       if (response["responseCode"] != 503) {
         if (response["responseCode"] == 200) {
-          let array = response["events"];
-          console.log(response["events"]);
+          let array = response["events"];;
           let localStorage = LocalStorage.getInstance();
           localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -82,24 +80,30 @@ class Events extends Component {
                 personId: id
               };
               api.callApi("api/checkSub", "POST", userData, response => {
-                let subEvents = response["subEvents"];
-                for (let index = 0; index < subEvents.length; index++) {
-                  for (event of array) {
-                    if (event.id == subEvents[index].id) {
-                      event.subscribed = true;
-                    } else {
-                      event.subscribed = false;
-                    }
-                  }
-                }
-              });
-            }
-            this.setState({
-              refreshing: false,
-              loading: false,
-              data: array.slice(start, end),
-              fullArray: array
-            });
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
+  	  							}
+  	  						}
+  	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
+					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
+				}
           });
         }
       } else {
@@ -110,6 +114,10 @@ class Events extends Component {
         this.errorMessage("Zorg ervoor dat u een internet verbinding heeft");
       }
     });
+  }
+  componentDidMount() {
+	this.onLoad();
+	this.props.navigation.addListener("willFocus", this.onLoad);
   }
 
   hideSplashScreen() {
@@ -140,6 +148,7 @@ class Events extends Component {
     endNum = 10;
     start = startNum;
     end = endNum;
+    this.setState({loading: true})
     if (!this.state.sleeping) {
       let api = Api.getInstance();
       api.callApi("api/getAllEvents", "POST", {}, response => {
@@ -153,23 +162,30 @@ class Events extends Component {
                   personId: id
                 };
                 api.callApi("api/checkSub", "POST", userData, response => {
-                  let subEvents = response["subEvents"];
-                  for (let index = 0; index < subEvents.length; index++) {
-                    for (event of array) {
-                      if (event.id == subEvents[index].id) {
-                        event.subscribed = true;
-                      } else {
-                        event.subscribed = false;
-                      }
-                    }
-                  }
-                });
-              }
-              this.setState({
-                refreshing: false,
-                loading: false,
-                data: array.slice(start, end)
-              });
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
+  	  							}
+  	  						}
+  	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
+					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
+				}
             });
           }
         }
@@ -196,23 +212,30 @@ class Events extends Component {
                 personId: id
               };
               api.callApi("api/checkSub", "POST", userData, response => {
-                let subEvents = response["subEvents"];
-                for (let index = 0; index < subEvents.length; index++) {
-                  for (event of array) {
-                    if (event.id == subEvents[index].id) {
-                      event.subscribed = true;
-                    } else {
-                      event.subscribed = false;
-                    }
-                  }
-                }
-              });
-            }
-            this.setState({
-              refreshing: false,
-              loading: false,
-              data: array.slice(start, end)
-            });
+    					let subEvents = response['subEvents']
+  						for(event of array) {
+	  	      				for (let index = 0; index < subEvents.length; index++) {
+  	  							event.subscribed = (event.id == subEvents[index].id)
+  	  							if(event.subscribed) {
+  	  								break;
+  	  							}
+  	  						}
+  	      				}
+  	      				this.setState({
+      				  		refreshing: false,
+      				  		loading: false,
+      				  		data: array.slice(start, end),
+            				fullArray: array
+  	      					});
+					  	});
+				} else {
+					this.setState({
+      				  	refreshing: false,
+      				  	loading: false,
+      				  	data: array.slice(start, end),
+            			fullArray: array
+  	      				});
+				}
           });
         } else {
           this.setState({
@@ -231,7 +254,6 @@ class Events extends Component {
     if (end <= this.state.fullArray.length) {
       end += 10;
       start += 10;
-      // alert(end + " " + this.state.data.length);
       api.callApi("api/getAllEvents", "POST", {}, response => {
         if (response["responseCode"] != 503) {
           if (response["responseCode"] == 200) {
@@ -590,10 +612,11 @@ class Events extends Component {
                                     userData,
                                     response => {
                                       if (response["responseCode"] == 200) {
-                                        alert(
-                                          "Je hebt je aangemeld voor dit evenement"
+                                      	this.refresh();
+                                        Alert.alert(
+                                        	"Successvol aangemeld",
+                                          	"Je hebt je aangemeld voor dit evenement"
                                         );
-                                        this.refresh();
                                       } else if (
                                         response["responseCode"] == 400
                                       ) {
@@ -642,10 +665,11 @@ class Events extends Component {
                                     userData,
                                     response => {
                                       if (response["responseCode"] == 200) {
-                                        alert(
-                                          "Je hebt je afgemeld voor dit evenement"
+                                      	this.refresh();
+                                        Alert.alert(
+                                        	"Successvol afgemeld",
+                                          	"Je hebt je afgemeld voor dit evenement"
                                         );
-                                        this.refresh();
                                       } else if (
                                         response["responseCode"] == 400
                                       ) {

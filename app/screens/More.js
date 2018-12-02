@@ -209,7 +209,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "Aanmeldingen",
+                    value: "Lijst van aanmeldingen",
                     key: "67",
                     onPress: () =>
                       this.props.navigation.dispatch(

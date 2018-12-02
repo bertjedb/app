@@ -288,6 +288,7 @@ class LoginScreen extends Component {
                     secureTextEntry={true}
                     value={this.state.password}
                     onChangeText={password => this.setState({ password })}
+                    onEndEditing={() => this.login()}
                   />
                 </View>
                 <TouchableOpacity

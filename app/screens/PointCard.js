@@ -402,7 +402,7 @@ class PointCard extends Component {
                           }}>
                               <Text
                                   style={{
-                                      marginTop: 15,
+                                      marginTop: 30,
                                       fontWeight: "bold",
                                       fontSize: 20,
                                       color: "#3bb222"

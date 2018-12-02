@@ -88,7 +88,6 @@ class ParticipantListDetail extends Component {
     api.callApi("api/getUsers", "POST", {}, response => {
       if (response["responseCode"] == 200) {
         this.setState({ users: response["users"] });
-        console.log(this.state.users);
       }
     });
   }
@@ -243,6 +242,7 @@ class ParticipantListDetail extends Component {
   render() {
     const { currentlyOpenSwipeable } = this.state;
     const onOpen = (event, gestureState, swipeable) => {
+      console.log("open")
       if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
         currentlyOpenSwipeable.recenter();
       }
@@ -516,10 +516,12 @@ class ParticipantListDetail extends Component {
                   ]}
                   onRightButtonsOpenRelease={onOpen}
                   onRightButtonsCloseRelease={onClose}
+                  onLeftButtonsOpenRelease={onOpen}
+                  onLeftButtonsCloseRelease={onClose}
                 >
                   <View style={[styles.listItem]}>
                     <Text style={styles.text}>
-                      {capitalize.words(item.name)}
+                      {capitalize.words(item.name)} |
                     </Text>
                     <Text style={styles.points}> Stempels : {item.points}</Text>
                   </View>

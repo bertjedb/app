@@ -39,14 +39,6 @@ export default class VideoPicker extends Component {
     });
   }
 
-  errorMessage(msg) {
-    showMessage({
-      message: msg,
-      type: "danger",
-      duration: 3000
-    });
-  }
-
   launchVideo = () => {
     const options = {
       title: "Video Kiezen",
@@ -110,7 +102,7 @@ export default class VideoPicker extends Component {
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {
         if (true) {
-          //this.createWPArticle();
+          console.log(this.state.contentUrl)
           let localStorage = LocalStorage.getInstance();
           let points = localStorage.retrieveItem("userId").then(id => {
             if (id != null) {
@@ -119,23 +111,21 @@ export default class VideoPicker extends Component {
                 content: "Bslim heeft een nieuw filmpje geupload.",
                 img: this.state.contentUrl
               };
+              console.log(userData)
               let api = Api.getInstance();
               api.callApi(
                 "api/createNewsItemApp",
                 "POST",
                 userData,
                 response => {
-                  if (responseCode["responseCode"] != 503) {
+                  if (response["responseCode"] != 503) {
                     if (response["responseCode"] == 200) {
                       this.setState({
                         title: "",
                         content: "",
-                        img: ""
+                        img: "",
+                        contentUrl: ""
                       });
-                      this.successMessage(
-                        "Er is een nieuw artikel aangemaakt!"
-                      );
-                      alert("Er is een nieuw artikel aangemaakt!");
                     } else {
                       this.errorMessage("Er is wat fout gegaan");
                     }
@@ -164,7 +154,6 @@ export default class VideoPicker extends Component {
   }
 
   uploadContent(fileName, imageSource, mimeType, fileExtension) {
-    console.log("uploading");
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type != "none") {
         this.setState({
@@ -186,7 +175,6 @@ export default class VideoPicker extends Component {
           })
           .then(res => {
             responseJson = res.json();
-            console.log(responseJson);
             this.setState({
               contentUrl: responseJson["source_url"],
               uploading: false,
@@ -281,7 +269,7 @@ export default class VideoPicker extends Component {
                   }}
                   raised
                   text="Nieuws artikel aanmaken"
-                  onPress={this.createArticle()}
+                  onPress={() => this.createArticle()}
                 />
               )}
               {!this.state.uploaded && (
