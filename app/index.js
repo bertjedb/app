@@ -45,6 +45,7 @@ class App extends Component {
       clearance: null
     };
     console.disableYellowBox = true;
+    this.update()
   }
 
   componentWillMount() {
@@ -73,26 +74,26 @@ class App extends Component {
   update() {
     let localStorage = LocalStorage.getInstance();
     localStorage.retrieveItem("userId").then(id => {
-      if (id != null) {
-        this.setState({
-          loggedIn: true
-        });
-      } else {
-        this.setState({
-          loggedIn: false
-        });
-      }
-      localStorage.retrieveItem("clearance").then(clearance => {
-        this.setState({ clearance: clearance });
-      });
-    });
-    localStorage.retrieveItem("alreadyLaunched").then(value => {
-      if (value == null) {
-        //first time launched
-        this.setState({ firstLaunch: true });
-        localStorage.storeItem("alreadyLaunched", true);
-      }
-    });
+        if (id != null) {
+          this.setState({
+            loggedIn: true
+          });
+        } else {
+          this.setState({
+            loggedIn: false
+          });
+        }
+        localStorage.retrieveItem("clearance").then(clearance => {
+            this.setState({clearance: clearance})
+            localStorage.retrieveItem("alreadyLaunched").then(value => {
+            if(value == null) {
+                //first time launched
+                this.setState({firstLaunch: true})
+                localStorage.storeItem("alreadyLaunched", true)
+              }
+            })
+        })
+      })
   }
 
   render() {

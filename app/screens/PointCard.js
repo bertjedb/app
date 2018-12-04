@@ -392,17 +392,17 @@ class PointCard extends Component {
                                   style={{ margin: 15 }}
                                   size={35}
                                   color="white"
-                              />
+                                />
                           </TouchableOpacity>
                       </View>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={1} style={styles.container}>
                       <View style={styles.card} elevation={5}>
-                          <View style={{height:'25%',marginBottom: -20, marginTop:-35
+                          <View style={{height:'25%',marginBottom: -20, marginTop:-35, alignItems: 'center'
                           }}>
                               <Text
                                   style={{
-                                      marginTop: 15,
+                                      marginTop: 30,
                                       fontWeight: "bold",
                                       fontSize: 20,
                                       color: "#3bb222"
@@ -481,12 +481,15 @@ class PointCard extends Component {
 
 const styles = StyleSheet.create({
   cardContainer: {
-	height: Dimensions.get("window").height - 40,
-	width: Dimensions.get("window").width
-  },
+	height: Dimensions.get("window").height ,
+	width: Dimensions.get("window").width,
+
+
+   },
   cardUM: {
     width: 320,
     height: 470,
+      marginTop: 50,
     backgroundColor: "#FE474C",
     borderRadius: 5,
     shadowColor: "rgba(0,0,0,0.5)",

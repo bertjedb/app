@@ -149,7 +149,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-measure-text')
     compile project(':react-native-fbsdk')
     compile project(':rn-fetch-blob')
     compile project(':react-native-video')
@@ -157,16 +156,14 @@ dependencies {
     compile project(':react-native-svg')
     compile project(':react-native-snackbar')
     compile project(':react-native-sha256')
-    compile project(':react-native-orientation')
     compile project(':react-native-onesignal')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-keep-awake')
     compile project(':react-native-image-picker')
-    compile project(':react-native-image-base64')
     compile project(':react-native-camera')
     compile project(':react-native-bottomsheet')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}+"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     implementation 'com.google.android.gms:play-services-ads:15.0.1'

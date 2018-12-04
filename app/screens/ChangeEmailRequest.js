@@ -128,7 +128,7 @@ export default class ChangeEmailRequest extends Component {
             >
               Wil je je e-mail adres veranderen? Vul hieronder je huidige email
               adres in en ontvang een veiligheidscode om je e-mail adres te
-              vervangen! (Check ook je spam map van je e-mail adres!)
+              vervangen! (Controleer ook je spam map van je e-mail adres!)
             </Text>
             <View
               style={{

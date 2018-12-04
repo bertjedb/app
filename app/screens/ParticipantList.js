@@ -57,7 +57,6 @@ class ParticipantList extends Component {
   render() {
     return (
       <ImageBackground
-        blurRadius={3}
         source={require("../assets/Bslim_Background.jpg")}
         style={{ width: "100%", height: "100%" }}
       >

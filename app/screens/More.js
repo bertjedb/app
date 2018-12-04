@@ -162,7 +162,7 @@ export default class More extends Component {
                   icon: (
                     <Icon size={25} name={"email"} style={{ color: "grey" }} />
                   ),
-                  value: "E-mail adress verandering opvragen",
+                  value: "E-mail adres verandering opvragen",
                   key: "3",
                   onPress: () =>
                     this.props.navigation.dispatch(
@@ -209,7 +209,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "Aanmeldingen",
+                    value: "Lijst van aanmeldingen",
                     key: "67",
                     onPress: () =>
                       this.props.navigation.dispatch(
@@ -229,7 +229,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "E-mail adress verandering opvragen",
+                    value: "E-mail adres verandering opvragen",
                     key: "5",
                     onPress: () =>
                       this.props.navigation.dispatch(
@@ -249,7 +249,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "E-mail adress veranderen",
+                    value: "E-mail adres veranderen",
                     key: "6",
                     onPress: () =>
                       this.props.navigation.dispatch(
@@ -444,7 +444,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "E-mail adress verandering opvragen",
+                    value: "E-mail adres verandering opvragen",
                     key: "5",
                     onPress: () =>
                       this.props.navigation.dispatch(
@@ -464,7 +464,7 @@ export default class More extends Component {
                         style={{ color: "grey" }}
                       />
                     ),
-                    value: "E-mail adress veranderen",
+                    value: "E-mail adres veranderen",
                     key: "6",
                     onPress: () =>
                       this.props.navigation.dispatch(
